@@ -1,0 +1,11 @@
+.clientes{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.bg-info{
+    background-color: var(--color-primary-dark);
+}
+.text-white{
+    color: white;
+}

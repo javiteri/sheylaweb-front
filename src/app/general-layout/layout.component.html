@@ -1,0 +1,65 @@
+<mat-toolbar class="mat-elevation-z8">
+
+    <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+      <mat-icon *ngIf="!sidenav.opened">
+          menu
+      </mat-icon>
+      <mat-icon *ngIf="sidenav.opened">
+          close
+      </mat-icon>
+    </button>
+  
+  
+    <a [routerLink]="['/clientes']">
+      <img src="../assets/sheyla-logo.svg" width="153" height="50">
+    </a>
+  <button mat-icon-button>
+    <mat-icon>logout</mat-icon>
+    </button>
+  
+</mat-toolbar>
+  
+<mat-sidenav-container>
+    <mat-sidenav #sidenav="matSidenav" >
+  
+      <img class="avatar mat-elevation-z8" src="https://source.unsplash.com/c_GmwfHBDzk/200x200" />
+  
+      <h4 class="name">Lider Andrade</h4>
+      <p class="designation">Comercial Pepito</p>
+  
+      <mat-divider></mat-divider>
+  
+        <button mat-button class="menu-button" [routerLink]="['/clientes']" routerLinkActive="active">
+          <mat-icon>people</mat-icon>
+          <span>Clientes</span>
+        </button>
+        <button mat-button class="menu-button" [routerLink]="['/inventario']" routerLinkActive="active">
+          <mat-icon>shopping_bag</mat-icon>
+          <span>Inventario</span>
+        </button>
+        <button mat-button class="menu-button" [routerLink]="['/ventas']" routerLinkActive="active">
+          <mat-icon>receipt_long</mat-icon>
+          <span>Ventas</span>
+  
+        </button>
+        <button mat-button class="menu-button" [routerLink]="['/compras']" routerLinkActive="active">
+          <mat-icon>shopping_cart</mat-icon>
+          <span>Compras</span>
+        </button>
+  
+    <mat-divider></mat-divider>
+  
+    <button mat-button class="menu-button" [routerLink]="['/settings']" routerLinkActive="active">
+        <mat-icon>settings</mat-icon>
+        <span>Configurar</span>
+    </button>
+  
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="content mat-elevation-z8">
+        
+        <router-outlet></router-outlet>
+
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
