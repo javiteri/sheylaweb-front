@@ -17,3 +17,62 @@ table{
     display: flex;
     justify-content: center;
 }   
+
+.despejar-derecha{
+    padding-inline-end: 17px !important;
+}
+
+.flex-flow-shrink1_5{
+    flex-grow: 1.5;
+    flex-shrink: 1.5;
+}
+.mat-icon-red{
+    color: var(--red-bold);
+}
+.mat-icon-accent{
+    color: var(--accent-color);
+}
+.mat-card{
+    margin-top: 1rem;
+}
+
+.container-options{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+}
+
+.container-options button:first-child{
+    margin-right: 15px;
+}
+
+.mat-btn-icon-accent{
+    color: white;
+    background-color: var(--accent-color);
+    padding: 0 6px;
+}
+
+.container-search-bar{
+    margin-top: 6rem;
+}
+
+.inner-container-search{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+
+.inner-container-search input{
+    padding: .5rem 1rem;
+    width: 40%;
+    outline: none;
+    font-size: 14px;
+    margin-right: 10px;
+    border: 1px solid var(--grey-300);
+    border-radius: 4px;
+    color: var(--grey-600);
+    
+}

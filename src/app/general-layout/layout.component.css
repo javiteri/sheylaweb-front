@@ -27,7 +27,7 @@ mat-toolbar {
     justify-content: center;
     align-items: center;
     font-size: 2rem;
-    color: lightgray;
+    
   }
   
   @media screen and (max-width: 800px){

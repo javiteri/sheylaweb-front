@@ -5,6 +5,9 @@
   --color-primary:  #24C3FB;
   --color-primary-dark:  #0093c8;
   --accent-color:  #009688;
+  --red-bold: #d93737;
+  --grey-300: #ecf0f3;
+  --grey-600: #687782;
 }
 *, *::before, *::after{
   box-sizing: border-box;
@@ -16,6 +19,12 @@ img{
 }
 
 /*CLIENTES PAGE STYLES MATERIAL*/
+.font-weight-300{
+  font-weight: 300;
+}
+.mat-typography{
+  font-weight: 300;
+}
 .mat-card-header-text{
   width: 100% !important;
 }
@@ -61,6 +70,9 @@ img{
  overflow: hidden;
  word-wrap: break-word;
 }
+.mat-cell, .mat-footer-cell{
+  font-size: 12px;
+}
 
 th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
   border-bottom-width: 0 !important;
@@ -70,5 +82,18 @@ th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
   color: rgba(0,0,0,.54);
   font-weight: 300;
 }
+.mat-button{
+  font-weight: 300;
+}
 
+th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type{
+  padding-left: 12px !important;
+}
+
+.header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+  padding-right: 0 !important;
+}
+th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+  padding-right: 0 !important;
+}
 /*-------------------------------------------------------*/
