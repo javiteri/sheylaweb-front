@@ -9,3 +9,11 @@
 .text-white{
     color: white;
 }
+table{
+    width: 100%;
+}   
+
+.alineado-centro{
+    display: flex;
+    justify-content: center;
+}   

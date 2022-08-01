@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PageClientesComponent implements OnInit {
 
+  displayedColumns: string[] = ['Ci/Ruc', 'Nombre', 'Tipo', 'Email', 'Telefono', 'Nacionalidad'];
+
   constructor() { }
 
   ngOnInit(): void {

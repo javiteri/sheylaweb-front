@@ -7,7 +7,34 @@
         </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        
 
+        <div class="flex-layout-table">
+            <mat-table role="grid">
+                <ng-container matColumnDef="Ci/Ruc">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> CI RUC </th>
+                  </ng-container>
+                  <ng-container matColumnDef="Nombre">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                  </ng-container>
+                  <ng-container matColumnDef="Tipo" >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="alineado-centro"> 
+                        Tipo
+                    </th>
+                  </ng-container>
+                  <ng-container matColumnDef="Email">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+                  </ng-container>
+                  <ng-container matColumnDef="Telefono">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Telefono </th>
+                  </ng-container>
+                  <ng-container matColumnDef="Nacionalidad">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nacionalidad </th>
+                  </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </mat-table>
+        </div>     
     </mat-card-content>
 </mat-card>
