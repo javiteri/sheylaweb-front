@@ -28,7 +28,11 @@
       <p class="designation">Comercial Pepito</p>
   
       <mat-divider></mat-divider>
-  
+
+        <button mat-button class="menu-button" [routerLink]="['/clientes']" routerLinkActive="active">
+          <mat-icon>home</mat-icon>
+          <span>Inicio</span>
+        </button>
         <button mat-button class="menu-button" [routerLink]="['/clientes']" routerLinkActive="active">
           <mat-icon>people</mat-icon>
           <span>Clientes</span>
