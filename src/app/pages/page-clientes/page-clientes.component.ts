@@ -49,7 +49,7 @@ export class PageClientesComponent implements OnInit {
   openDialog(){
 
     const dialogRef = this.dialog.open(ClientesComponentComponent, {
-      width: '250px',
+      width: '50%',
       data: {name: 'Lider', animal: 'Lobo'},
     });
 
