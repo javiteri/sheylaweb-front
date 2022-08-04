@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { HttpClientModule } from '@angular/common/http';
+
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon'
@@ -8,9 +10,11 @@ import {MatDividerModule} from '@angular/material/divider'
 import {MatButtonModule} from '@angular/material/button'
 import {MatCardModule} from '@angular/material/card'
 import {MatTableModule} from '@angular/material/table'
+import { MatPaginatorModule } from '@angular/material/paginator';
 import {MatDialogModule} from '@angular/material/dialog'
-
-import { HttpClientModule } from '@angular/common/http';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { CustomPaginator } from 'src/app/pages/page-clientes/CustomPaginator';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
 
 import { LayoutComponent } from './layout.component';
 import { LayoutRoutingModule } from './layout-routing.module';
@@ -42,10 +46,14 @@ import { EndPointProvider } from 'src/app/providers/endpoint/endpoint';
     MatButtonModule,
     MatCardModule,
     MatTableModule,
+    MatPaginatorModule,
     MatDialogModule,
     LayoutRoutingModule,
+    MatProgressSpinnerModule,
     HttpClientModule
   ],
-  providers: [ApplicationProvider, EndPointProvider]
+  providers: [ApplicationProvider, EndPointProvider, 
+    {provide: MatPaginatorIntl, useValue: CustomPaginator()}
+  ]
 })
 export class LayoutModule { }

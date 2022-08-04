@@ -1,4 +1,4 @@
-<div class="container-options">
+<div class="container-options" #containerTable>
 
   <button mat-raised-button class="font-weight-300 mat-elevation-z1" color="btn-icon-accent" (click)="openDialog()">
     <mat-icon>add</mat-icon>
@@ -24,33 +24,33 @@
     <mat-card-header class="bg-info text-white">
         <mat-card-title class="clientes">
             <label>Lista Clientes</label>
-            <div> <label>Total: 2</label></div>
+            <!--  <div> <label>Total: 2</label></div> -->
         </mat-card-title>
     </mat-card-header>
     <mat-card-content>
 
-        <div class="flex-layout-table">
+        <div class="flex-layout-table" >
             <mat-table [dataSource]="datasource" role="grid" >
 
                 <ng-container matColumnDef="ci" >
                     <th mat-header-cell *matHeaderCellDef mat-sort-header >CI RUC </th>
-                    <td mat-cell *matCellDef="let cliente" data-label="CI RUC"> {{cliente.ci}} </td>
+                    <td mat-cell *matCellDef="let cliente" data-label="CI RUC"> {{cliente.documentoIdentidad}} </td>
                   </ng-container>
                   <ng-container matColumnDef="nombre" >
                     <th mat-header-cell class="flex-grow-1_5" *matHeaderCellDef mat-sort-header > Nombre </th>
-                    <td mat-cell class="flex-grow-1_5" *matCellDef="let cliente" data-label="Nombre"> {{cliente.nombre}} </td>
+                    <td mat-cell class="flex-grow-1_5" *matCellDef="let cliente" data-label="Nombre"> {{cliente.nombresNatural}} </td>
                   </ng-container>
                   <ng-container matColumnDef="email" >
                     <th mat-header-cell *matHeaderCellDef mat-sort-header > Email </th>
                     <td mat-cell  *matCellDef="let cliente" data-label="Email"> {{cliente.email}} </td>
                   </ng-container>
                   <ng-container matColumnDef="tipo" >
-                    <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header  > Tipo</th>
-                    <td mat-cell class="justify-centro" *matCellDef="let cliente" data-label="Tipo"> {{cliente.tipo}} </td>
+                    <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header  > Telefono</th>
+                    <td mat-cell class="justify-centro" *matCellDef="let cliente" data-label="Telefono"> {{cliente.telefono}} </td>
                   </ng-container>
                   <ng-container matColumnDef="telefono">
-                    <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header> Telefono </th>
-                    <td mat-cell class="justify-centro" *matCellDef="let cliente" data-label="Telefono"> {{cliente.telefono}} </td>
+                    <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header> Celular </th>
+                    <td mat-cell class="justify-centro" *matCellDef="let cliente" data-label="Celular"> {{cliente.celular}} </td>
                   </ng-container>
                   <ng-container matColumnDef="nacionalidad" >
                     <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header> Nacionalidad </th>
@@ -75,6 +75,27 @@
                 <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
             </mat-table>
+
+            <mat-paginator *ngIf="showPagination" #paginator [pageSizeOptions]="[5, 15, 30]"
+                 showFirstLastButtons 
+                 aria-label="Seleccione pagina elementos cliente" 
+                 (page)="scrollUp()">
+            </mat-paginator>
+            
+            <div *ngIf="isLoading" 
+                style="display: flex; justify-content: center; align-items: center; background: white; margin-top: 3rem; margin-bottom: 3rem;">
+              <mat-progress-spinner 
+                color="primary" 
+                mode="indeterminate"
+                [diameter]="50">
+              </mat-progress-spinner>
+          </div>
+
+          <div *ngIf="showSinDatos" 
+                style="display: flex; justify-content: center; align-items: center; margin-top: 3rem; margin-bottom: 3rem;">
+              <label> No se Encontraron Datos</label>
+          </div>
+
         </div>
     </mat-card-content>
 </mat-card>

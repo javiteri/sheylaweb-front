@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {MatDialog} from '@angular/material/dialog'
+import { ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog'
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ClientesComponentComponent } from 'src/app/components/clientes-component/clientes-component.component';
 import { ApplicationProvider } from 'src/app/providers/application/application';
@@ -18,12 +19,18 @@ export interface DialogData {
 export class PageClientesComponent implements OnInit {
 
   displayedColumns: string[] = ['ci', 'nombre', 'email', 'tipo', 'telefono', 'nacionalidad', 'actions'];
-
-  listaClientes: Cliente[] = [];
   datasource = new MatTableDataSource<Cliente>();
 
+  showPagination = false;
+  showSinDatos = false;
+  isLoading = true;
+  listaClientes: Cliente[] = [];
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('containerTable', {read: ElementRef}) tableInput!: ElementRef
+
   constructor(private coreService: ApplicationProvider ,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog, private ref: ChangeDetectorRef) { }
 
   ngOnInit(): void {
 
@@ -31,21 +38,32 @@ export class PageClientesComponent implements OnInit {
       {
 
         next: (response:  any) => {
+          
+          this.isLoading = !this.isLoading;
 
           if(response['isSucces']){
 
             this.listaClientes = response['data'];
-
+            
+            if(this.listaClientes.length > 0){
+              this.showPagination = !this.showPagination;
+            }else{
+              this.showSinDatos = !this.showSinDatos;
+            }
+             
             this.datasource.data = this.listaClientes;
+            this.ref.detectChanges();
+            this.datasource.paginator = this.paginator;
+
           }else{
             console.log(' IS SUCCESS IS FALSE')
           }
 
         },
         error: (error) => {
+          this.isLoading = !this.isLoading;
           console.log('ocurrio un error al ejecutar la peticion' + error);
         }
-
 
       });
   }
@@ -66,4 +84,8 @@ export class PageClientesComponent implements OnInit {
 
   }
 
+
+  scrollUp(): void{
+    setTimeout( () => this.tableInput.nativeElement.scrollIntoView({behavior: 'smooth', clock: 'end'}));
+  }
 }

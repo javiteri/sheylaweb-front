@@ -1,0 +1,42 @@
+.login-register {
+    background-image: url('../../assets/logo_sheyla/bluesky.jpg');
+    height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.mat-card {
+    box-shadow: 0 5px 20px rgba(0,0,0,.05) !important;
+}
+
+.header-content{
+    padding: 10px;
+}
+
+.mat-card-content{
+    padding: 0 !important;
+}
+
+.all-content{
+    border-radius: 7px;
+}
+
+.login-register-container{
+    max-width: 400px;
+    min-width: 280px;
+    margin: 0 auto;
+}
+
+.login-register-container .mat-form-field {
+    width: 100%;
+}
+
+.content-login-container{
+    display: flex;
+    flex-flow: row wrap;
+    padding: 0 24px 24px;
+}
+
+.container-form-field{
+    flex: 1 1 100%;
+}

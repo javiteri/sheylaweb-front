@@ -35,7 +35,7 @@ export class EndPointProvider {
       headers: HttpHeaders | { [header: string]: string | string[];}
     }{
         const header = new HttpHeaders({
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjEyMzMxMjMxMjMifSwiZXhwIjoxNjU5NjM1NjE3MzI3LCJpYXQiOjE2NTk1NDkyMTd9.Yk_lw68Zr7BrqSNQeeXdpZgAlb6s6KK1UjTAIlz8oRI',
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjEyMzMxMjMxMjMifSwiZXhwIjoxNjU5NzA2MTk0MDQwLCJpYXQiOjE2NTk2MTk3OTR9.FPxQ3-0u9v7W99c2ugnn-Ty-rORQhkfJ-F2mh1QIeM8',
           'Content-Type': 'application/json'
         });
 
