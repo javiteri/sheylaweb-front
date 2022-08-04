@@ -1,29 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog'
+import { MatTableDataSource } from '@angular/material/table';
 import { ClientesComponentComponent } from 'src/app/components/clientes-component/clientes-component.component';
-
-export interface Cliente{
-  ci: String,
-  nombre: String,
-  tipo: String,
-  email: String,
-  telefono: String,
-  nacionalidad: String
-}
-
-const clientesData : Cliente[] = [
-  {ci: '1316530177', nombre: 'Lider Ignacio Andrade Cevallos', tipo: 'Recurrente', email:'lial2010@hotmail.es', telefono: '0969841775', nacionalidad: 'Ecuador'},
-  {ci: '3434235674', nombre: 'Juan Fernandez', tipo: 'Normal', email:'ljuanfer43@hotmail.com', telefono: '0969841775', nacionalidad: 'Ecuaor'},
-  {ci: '3434235674', nombre: 'Juan Fernandez', tipo: 'Normal', email:'ljuanfer43@hotmail.com', telefono: '0969841775', nacionalidad: 'Ecuaor'},
-  {ci: '3434235674', nombre: 'Juan Fernandez', tipo: 'Normal', email:'ljuanfer43@hotmail.com', telefono: '0969841775', nacionalidad: 'Ecuaor'},
-  {ci: '3434235674', nombre: 'Juan Fernandez', tipo: 'Normal', email:'ljuanfer43@hotmail.com', telefono: '0969841775', nacionalidad: 'Ecuaor'},
-  {ci: '3434235674', nombre: 'Juan Fernandez', tipo: 'Normal', email:'ljuanfer43@hotmail.com', telefono: '0969841775', nacionalidad: 'Ecuaor'},
-  {ci: '3434235674', nombre: 'Juan Fernandez', tipo: 'Normal', email:'ljuanfer43@hotmail.com', telefono: '0969841775', nacionalidad: 'Ecuaor'},
-  {ci: '3434235674', nombre: 'Juan Fernandez', tipo: 'Normal', email:'ljuanfer43@hotmail.com', telefono: '0969841775', nacionalidad: 'Ecuaor'},
-  {ci: '3434235674', nombre: 'Juan Fernandez', tipo: 'Normal', email:'ljuanfer43@hotmail.com', telefono: '0969841775', nacionalidad: 'Ecuaor'},
-  {ci: '3434235674', nombre: 'Juan Fernandez', tipo: 'Normal', email:'ljuanfer43@hotmail.com', telefono: '0969841775', nacionalidad: 'Ecuaor'},
-  {ci: '3434235674', nombre: 'Juan Fernandez', tipo: 'Normal', email:'ljuanfer43@hotmail.com', telefono: '0969841775', nacionalidad: 'Ecuaor'}
-];
+import { ApplicationProvider } from 'src/app/providers/application/application';
+import {Cliente} from '../../interfaces/Cliente'
 
 export interface DialogData {
   animal: string;
@@ -38,11 +18,36 @@ export interface DialogData {
 export class PageClientesComponent implements OnInit {
 
   displayedColumns: string[] = ['ci', 'nombre', 'email', 'tipo', 'telefono', 'nacionalidad', 'actions'];
-  datasource = clientesData;
 
-  constructor(public dialog: MatDialog) { }
+  listaClientes: Cliente[] = [];
+  datasource = new MatTableDataSource<Cliente>();
+
+  constructor(private coreService: ApplicationProvider ,
+              private dialog: MatDialog) { }
 
   ngOnInit(): void {
+
+      this.coreService.listaClientes('').subscribe(
+      {
+
+        next: (response:  any) => {
+
+          if(response['isSucces']){
+
+            this.listaClientes = response['data'];
+
+            this.datasource.data = this.listaClientes;
+          }else{
+            console.log(' IS SUCCESS IS FALSE')
+          }
+
+        },
+        error: (error) => {
+          console.log('ocurrio un error al ejecutar la peticion' + error);
+        }
+
+
+      });
   }
 
 

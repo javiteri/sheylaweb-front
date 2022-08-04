@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { LayoutComponent } from './layout.component';
-import { PageClientesComponent } from '../pages/page-clientes/page-clientes.component'
-import { PageInventarioComponent } from '../pages/page-inventario/page-inventario.component';
-import { PageVentasComponent } from '../pages/page-ventas/page-ventas.component';
-import { PageComprasComponent } from '../pages/page-compras/page-compras.component';
+import { PageClientesComponent } from '../../pages/page-clientes/page-clientes.component'
+import { PageInventarioComponent } from '../../pages/page-inventario/page-inventario.component';
+import { PageVentasComponent } from '../../pages/page-ventas/page-ventas.component';
+import { PageComprasComponent } from '../../pages/page-compras/page-compras.component';
 
 const routes: Routes = [
   {

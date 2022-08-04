@@ -6,18 +6,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {LayoutModule} from '@angular/cdk/layout';
 import { AppRoutingModule } from './app-routing.module';
-import { ClientesComponentComponent } from './components/clientes-component/clientes-component.component';
-import { PageInventarioComponent } from './pages/page-inventario/page-inventario.component';
-import { PageVentasComponent } from './pages/page-ventas/page-ventas.component';
-import { PageComprasComponent } from './pages/page-compras/page-compras.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ClientesComponentComponent,
-    PageInventarioComponent,
-    PageVentasComponent,
-    PageComprasComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
