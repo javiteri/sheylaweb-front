@@ -52,7 +52,7 @@ import { EndPointProvider } from 'src/app/providers/endpoint/endpoint';
     MatProgressSpinnerModule,
     HttpClientModule
   ],
-  providers: [ApplicationProvider, EndPointProvider, 
+  providers: [ApplicationProvider, EndPointProvider,
     {provide: MatPaginatorIntl, useValue: CustomPaginator()}
   ]
 })

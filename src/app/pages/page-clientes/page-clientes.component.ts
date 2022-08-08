@@ -38,19 +38,19 @@ export class PageClientesComponent implements OnInit {
       {
 
         next: (response:  any) => {
-          
+
           this.isLoading = !this.isLoading;
 
           if(response['isSucces']){
 
             this.listaClientes = response['data'];
-            
+
             if(this.listaClientes.length > 0){
               this.showPagination = !this.showPagination;
             }else{
               this.showSinDatos = !this.showSinDatos;
             }
-             
+
             this.datasource.data = this.listaClientes;
             this.ref.detectChanges();
             this.datasource.paginator = this.paginator;
@@ -62,6 +62,7 @@ export class PageClientesComponent implements OnInit {
         },
         error: (error) => {
           this.isLoading = !this.isLoading;
+          this.showSinDatos = !this.showSinDatos;
           console.log('ocurrio un error al ejecutar la peticion' + error);
         }
 

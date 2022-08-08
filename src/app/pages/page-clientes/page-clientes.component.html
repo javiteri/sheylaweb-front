@@ -77,21 +77,21 @@
             </mat-table>
 
             <mat-paginator *ngIf="showPagination" #paginator [pageSizeOptions]="[5, 15, 30]"
-                 showFirstLastButtons 
-                 aria-label="Seleccione pagina elementos cliente" 
+                 showFirstLastButtons
+                 aria-label="Seleccione pagina elementos cliente"
                  (page)="scrollUp()">
             </mat-paginator>
-            
-            <div *ngIf="isLoading" 
+
+            <div *ngIf="isLoading"
                 style="display: flex; justify-content: center; align-items: center; background: white; margin-top: 3rem; margin-bottom: 3rem;">
-              <mat-progress-spinner 
-                color="primary" 
+              <mat-progress-spinner
+                color="primary"
                 mode="indeterminate"
                 [diameter]="50">
               </mat-progress-spinner>
           </div>
 
-          <div *ngIf="showSinDatos" 
+          <div *ngIf="showSinDatos"
                 style="display: flex; justify-content: center; align-items: center; margin-top: 3rem; margin-bottom: 3rem;">
               <label> No se Encontraron Datos</label>
           </div>

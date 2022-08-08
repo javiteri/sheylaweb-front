@@ -1,42 +1,95 @@
-.login-register {
-    background-image: url('../../assets/logo_sheyla/bluesky.jpg');
-    height: 100vh;
-    display: flex;
-    align-items: center;
+
+.container-banner{
+  background-image: url('../../assets/logo_sheyla/blue.jpg');
+}
+.cover{
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  position: relative;
 }
 
-.mat-card {
-    box-shadow: 0 5px 20px rgba(0,0,0,.05) !important;
+.container-logo {
+  display: flex;
+  justify-content: center;
+}
+.img-responsive{
+  width: 40%;
+  margin-top: 10%;
 }
 
-.header-content{
-    padding: 10px;
+.container-login , .container-banner{
+  width: 100%;
+  height: 100%;
+}
+.container-login{
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+.container-banner{
+  display: flex;
+  flex: 2 1 ;
 }
 
-.mat-card-content{
-    padding: 0 !important;
+.container-box-login{
+  flex: 1 1 ;
 }
 
-.all-content{
-    border-radius: 7px;
+@media  (max-width: 991px){
+    .container-banner{
+      display: none !important;
+    }
+
+    .img-responsive{
+      max-width: 30%;
+    }
 }
 
-.login-register-container{
-    max-width: 400px;
-    min-width: 280px;
-    margin: 0 auto;
+h3, .h3{
+  font-size: 24px;
+}
+h1, .h1, h2, .h2, h3, .h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
-.login-register-container .mat-form-field {
-    width: 100%;
+.container-form-login{
+  margin-top: 3%;
+  padding: 10px 50px 10px 50px;
 }
 
-.content-login-container{
-    display: flex;
-    flex-flow: row wrap;
-    padding: 0 24px 24px;
+.container-form-login h4{
+  color: #116eff;
+  text-align: center;
 }
 
-.container-form-field{
-    flex: 1 1 100%;
+.container-form-login h3{
+  color: #606060;
+  text-align: center;
+  font-weight: 500
+}
+
+.container-form-field .mat-form-field{
+  width: 100%;
+}
+.container-form-btn button{
+  margin-top: 8%;
+  width: 100%;
+  font-size: 16px;
+  background-color: #00AAFF;
+  color: #ffffff;
+  padding: 3px 12px;
+  font-weight: normal;
+}
+
+.content-login-container .container-form-field{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.content-login-container .container-form-field .mat-icon{
+  margin-right: 18px;
 }
