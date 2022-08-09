@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="container-form-btn">
-                    <button mat-raised-button >INGRESAR</button>
+                    <button mat-raised-button [class.spinner]="loading" [disabled]="loading">INGRESAR</button>
                 </div>
 
             </div>

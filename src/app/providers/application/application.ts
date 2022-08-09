@@ -11,5 +11,8 @@ export class ApplicationProvider {
   }
 
 
+  login(postData: any){
+      return this.coreEndPoint.loginVerify(postData);
+  }
 
 }

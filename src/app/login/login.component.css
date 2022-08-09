@@ -93,3 +93,10 @@ h1, .h1, h2, .h2, h3, .h3 {
 .content-login-container .container-form-field .mat-icon{
   margin-right: 18px;
 }
+
+
+.spinner{
+  color: rgba(0,0,0,.26);
+  background-color: rgba(0,0,0,.12);
+  box-shadow: 0 0 0 0 rgba(0,0,0,.2),0 0 0 0 rgba(0,0,0,.14),0 0 0 0 rgba(0,0,0,.12);
+}

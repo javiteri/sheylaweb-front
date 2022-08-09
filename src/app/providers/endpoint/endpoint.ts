@@ -28,6 +28,17 @@ export class EndPointProvider {
       return this.http.get<T>(endpointUrl, header);
     }
 
+    //LOGUIN
+    private readonly _loginVerify: string = 'loginverify'
+
+    private get loginVerifyUrl(){
+      return this.apiUrl + this._loginVerify;
+    }
+    loginVerify<T>(postData: any): Observable<T>{
+      const endPointUrl = this.loginVerifyUrl;
+      return this.http.post<T>(endPointUrl, postData);
+    }
+
 
 
     //---------------------------------------------------------------
