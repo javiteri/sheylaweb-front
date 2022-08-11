@@ -13,7 +13,7 @@ const routes: Routes = [
     loadChildren: () => import('./login/login.module').then((m) => m.LoginModule)
   },
   {
-    path: 'registroempresa',
+    path: 'registroempresa/:id/:ruc',
     loadChildren: () => import('./registro-empresa/registroempresa.module').then((m) => m.RegistroEmpresaModule)
   }
 ];

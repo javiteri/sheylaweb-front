@@ -29,30 +29,7 @@ img{
 .mat-typography{
   font-weight: 300;
 }
-.mat-card-header-text{
-  width: 100% !important;
-}
-.mat-card{
-  padding: 0 !important;
-}
-.mat-card .mat-card-header{
-  padding: 6px !important;
-  border-radius: 4px 4px 0 0;
-}
-.mat-card-header{
-  display: flex;
-  flex-direction: row;
-}
-.mat-card .mat-card-header .mat-card-title {
-  margin-bottom: 0 !important;
-  font-size: 16px !important;
-}
-.mat-card .mat-card-content{
-  padding: 6px;
-}
-.mat-table{
-  width: 100%;
-}
+
 
 
 .mat-footer-row, .mat-header-row, .mat-row{

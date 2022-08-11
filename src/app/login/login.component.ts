@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApplicationProvider } from '../providers/provider';
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -21,8 +22,8 @@ export class LoginComponent implements OnInit {
 
     this.sendLoginForm = this.formBuilder.group({
       ruc: ['', Validators.required],
-      usuario: ['', Validators.required],
-      clave: ['', Validators.required]
+      user: ['', Validators.required],
+      password: ['', Validators.required]
     })
 
 
@@ -36,13 +37,7 @@ export class LoginComponent implements OnInit {
 
     this.loading = true;
 
-    console.log('ruc: ' + sendFormData.ruc);
-    console.log('usuario: ' + sendFormData.usuario);
-    console.log('clave: ' + sendFormData.clave);
-
     if (this.sendLoginForm.invalid) {
-
-        console.log('error en los campos del formulario');
         this.loading = false;
         return;
     }
@@ -50,18 +45,42 @@ export class LoginComponent implements OnInit {
 
     this.coreService.login(sendFormData).subscribe({
       next: (response: any) => {
-        console.log('')
-        console.log(response);
+        
+        if(response.error){
+          console.log('api: ' + response.error);
+          this.loading = false;
+          return;
+        }
 
-        this.loading = false;
+        const Expires = new Date(); 
+        Expires.setSeconds(Expires.getSeconds() + response.expire);
+
+        const tokenAndExpire = {
+          token: response.token,
+          expire: Expires
+        }
+
+        localStorage.setItem('DATA_USER', JSON.stringify(tokenAndExpire));
+
+        if(response.redirecRegistroEmp){
+
+          const idEmpresa = response.idEmpresa;
+          const rucEmpresa = response.rucEmpresa;
+          
+          this.router.navigate(['/registroempresa', idEmpresa, rucEmpresa]);
+        }
+
+        if(response.redirectToHome){
+          this.router.navigate(['/clientes'])
+        }
+
+
       },
       error: (error) => {
         console.log(error);
         this.loading = false;
       }
     });
-
-    //this.router.navigate(['/clientes']);
 
   }
 }

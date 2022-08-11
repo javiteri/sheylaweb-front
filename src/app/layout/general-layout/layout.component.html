@@ -13,7 +13,7 @@
     <a [routerLink]="['/clientes']">
       <img src="../../assets/sheyla-logo.svg" width="153" height="50">
     </a>
-  <button mat-icon-button [routerLink]="['/login']">
+  <button mat-icon-button (onClick)="logout()" >
     <mat-icon>logout</mat-icon>
     </button>
 

@@ -1,12 +1,14 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class EndPointProvider {
 
 
-    constructor(private http: HttpClient){}
+    constructor(private http: HttpClient,
+      private router: Router){}
 
     private readonly apiVersion = '1.0.0';
     private readonly appVersion = '1.0.0';
@@ -40,32 +42,36 @@ export class EndPointProvider {
     }
 
 
+    //GET EMPRESA DATA BY RUC AND ID
+    private readonly _empresaDataByRucAndID: string = "getEmpresaByRuc"
+
+    private get empresaByRucAndIdUrl(){
+      return this.apiUrl + this._empresaDataByRucAndID;
+    }
+    empresaByRucAndId<T>(postData: any, accesToken: any): Observable<any>{
+      const endPointUrl = this.empresaByRucAndIdUrl;
+
+      return this.http.post<any>(endPointUrl, postData, this.getRequestHeader(accesToken));
+    }
+
+
 
     //---------------------------------------------------------------
     getRequestHeader(accesToken: any): {
       headers: HttpHeaders | { [header: string]: string | string[];}
-    }{
-        const header = new HttpHeaders({
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjEyMzMxMjMxMjMifSwiZXhwIjoxNjU5NzA2MTk0MDQwLCJpYXQiOjE2NTk2MTk3OTR9.FPxQ3-0u9v7W99c2ugnn-Ty-rORQhkfJ-F2mh1QIeM8',
-          'Content-Type': 'application/json'
-        });
+    } | undefined{
 
-        return { headers: header}
-
-        /*if(new Date(accesToken.expires) > new Date()){
-            const header = new HttpHeaders({
+        if(new Date(accesToken.expire) > new Date()){
+          const header = new HttpHeaders({
               'Authorization': 'Bearer ' + accesToken.token,
               'Content-Type': 'application/json'
-            });
-            return { headers: header };
-        }else{
-          const header = new HttpHeaders({
-            'Authorization': 'Bearer ',
-            'Content-Type': 'application/json'
           });
+          return { headers: header };
+        }else{
 
-          return { headers: header}
-        }*/
+          this.router.navigate(['/login']);
+          return;
+        }
     }
 
 }

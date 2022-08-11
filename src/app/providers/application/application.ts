@@ -15,4 +15,8 @@ export class ApplicationProvider {
       return this.coreEndPoint.loginVerify(postData);
   }
 
+  empresaByRucAndId(postData: any, accesToken: any){
+    return this.coreEndPoint.empresaByRucAndId(postData, accesToken);
+  }
+
 }
