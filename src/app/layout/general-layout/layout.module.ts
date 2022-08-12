@@ -15,6 +15,7 @@ import {MatDialogModule} from '@angular/material/dialog'
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { CustomPaginator } from 'src/app/pages/page-clientes/CustomPaginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
+import { MatListModule } from '@angular/material/list';
 
 import { LayoutComponent } from './layout.component';
 import { LayoutRoutingModule } from './layout-routing.module';
@@ -50,7 +51,8 @@ import { EndPointProvider } from 'src/app/providers/endpoint/endpoint';
     MatDialogModule,
     LayoutRoutingModule,
     MatProgressSpinnerModule,
-    HttpClientModule
+    HttpClientModule,
+    MatListModule
   ],
   providers: [ApplicationProvider, EndPointProvider,
     {provide: MatPaginatorIntl, useValue: CustomPaginator()}

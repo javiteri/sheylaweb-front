@@ -32,6 +32,10 @@ const routes: Routes = [
       {
         path: 'compras',
         component: PageComprasComponent
+      },
+      {
+        path: 'infoempresa/:id/:ruc',
+        loadChildren: () => import('../../pages/registro-empresa/registroempresa.module').then((m) => m.RegistroEmpresaModule)
       }
     ]
   }

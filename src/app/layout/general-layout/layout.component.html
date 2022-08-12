@@ -29,40 +29,23 @@
       <p class="designation">Sheyla Software</p>
 
       <mat-divider></mat-divider>
+      <div class="menu"> 
 
-        <button mat-button class="menu-button" [routerLink]="['/clientes']" routerLinkActive="active">
-          <mat-icon>home</mat-icon>
-          <span>Inicio</span>
-        </button>
-        <button mat-button class="menu-button" [routerLink]="['/clientes']" routerLinkActive="active">
-          <mat-icon>people</mat-icon>
-          <span>Clientes</span>
-        </button>
-        <button mat-button class="menu-button" [routerLink]="['/inventario']" routerLinkActive="active">
-          <mat-icon>shopping_bag</mat-icon>
-          <span>Inventario</span>
-        </button>
-        <button mat-button class="menu-button" [routerLink]="['/ventas']" routerLinkActive="active">
-          <mat-icon>receipt_long</mat-icon>
-          <span>Ventas</span>
+        <li *ngFor="let menu of menus; let i = index"  [class.active]="menu.active" 
+            (click)="selectMenu(menu)"> 
+          <a class="a-btn" >
+            <mat-icon>{{menu.matIcon}}</mat-icon>
+            <span>{{menu.name}}</span>
+            <mat-icon class="chevron-icon" *ngIf="menu.submenu.length > 0">chevron_right</mat-icon>
+          </a>
+          <div #submenu class="menu-item-sub" [ngStyle]="{
+            'max-height': menu.active ? submenu.scrollHeight + 'px' : 0 + 'px'
+          }">
+            <a *ngFor="let submenu of menu.submenu">{{submenu.name}}</a>
+          </div>
+        </li>
 
-        </button>
-        <button mat-button class="menu-button" [routerLink]="['/ventas']" routerLinkActive="active">
-          <mat-icon>local_shipping</mat-icon>
-          <span>Proveedores</span>
-
-        </button>
-        <button mat-button class="menu-button" [routerLink]="['/compras']" routerLinkActive="active">
-          <mat-icon>shopping_cart</mat-icon>
-          <span>Compras</span>
-        </button>
-
-    <mat-divider></mat-divider>
-
-    <button mat-button class="menu-button" [routerLink]="['/settings']" routerLinkActive="active">
-        <mat-icon>settings</mat-icon>
-        <span>Configurar</span>
-    </button>
+      </div>
 
     </mat-sidenav>
     <mat-sidenav-content>

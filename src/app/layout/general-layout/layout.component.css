@@ -1,3 +1,77 @@
+.name{
+  margin-bottom: 8px;
+}
+
+ol{
+  padding-left: 0;
+}
+ul{
+  padding-left: 10px;
+}
+
+ol li{
+  list-style: none;
+  cursor: pointer;
+}
+
+.menu a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.a-btn{
+  display: block;
+  padding: 10px 15px;
+  
+  position: relative;
+}
+
+li .a-btn{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+}
+
+a span{
+  flex: 1 1 auto;
+  text-align: start;
+  margin-left: 10px;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.menu-item-sub{
+  
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  max-height: 0;
+}
+.menu-item-sub a{
+  background: #026f96;
+  color: white;
+  display: block;
+  padding: 8px 10px;
+  position: relative;
+  
+}
+.menu-item-sub a:hover{
+  background: #057da4;
+  color: white;
+}
+
+.chevron-icon{
+  transition: transform 0.3s;
+}
+
+li.active .a-btn{
+  box-shadow: 0 5px 20px rgba(0,0,0,.1) ;
+}
+li.active .chevron-icon{
+  transform: rotate(90deg);
+}
+
 mat-toolbar {
     background: var(--color-primary-dark);;
     color: white;

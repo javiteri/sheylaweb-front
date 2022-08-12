@@ -67,7 +67,7 @@ export class LoginComponent implements OnInit {
           const idEmpresa = response.idEmpresa;
           const rucEmpresa = response.rucEmpresa;
           
-          this.router.navigate(['/registroempresa', idEmpresa, rucEmpresa]);
+          this.router.navigate(['/infoempresa', idEmpresa, rucEmpresa]);
         }
 
         if(response.redirectToHome){

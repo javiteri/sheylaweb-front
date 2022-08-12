@@ -4,8 +4,12 @@
 
         <mat-card>
             <mat-card-content>
-
-                <p>INGRESE LOS DATOS DE SU EMPRESA</p>
+                <mat-card-header class="bg-info text-white">
+                    <mat-card-title class="clientes">
+                        <h3>INGRESE LOS DATOS DE SU EMPRESA</h3>
+                        <!--  <div> <label>Total: 2</label></div> -->
+                    </mat-card-title>
+                </mat-card-header>
 
                 <form [formGroup]="sendDatosEmpresaForm">
                     <div class="all-content">
@@ -15,64 +19,83 @@
                                 <mat-label>Ruc Empresa</mat-label>
                                 <input matInput type="text" formControlName="ruc" >
                             </mat-form-field>
-                        </div>
-                        
-                        <div class="container-form-field">
+
                             <mat-form-field >
                                 <mat-label>Nombre Empresa</mat-label>
                                 <input matInput type="text" formControlName="nombreEmpresa" >
                             </mat-form-field>
-                        </div>
 
+                        </div>
+                        
                         <div class="container-form-field">
-                            <mat-form-field >
+
+                            <mat-form-field class="mat-form-field-date">
                                 <mat-label>Razon Social</mat-label>
                                 <input matInput type="text" formControlName="razonSocial" >
                             </mat-form-field>
-                        </div>
-                        <div class="container-form-field">
-                            <mat-form-field >
+                            
+                            <mat-form-field class="mat-form-field-date">
                                 <mat-label>Fecha Inicio</mat-label>
-                                <input matInput type="text" formControlName="fechaInicio" >
+                                <input matInput readonly [matDatepicker]="picker" formControlName="fechaInicio" >
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
                             </mat-form-field>
+
                         </div>
+
 
                         <div class="container-form-field">
                             <mat-form-field >
                                 <mat-label>Eslogan</mat-label>
                                 <input matInput type="text" formControlName="eslogan" >
                             </mat-form-field>
-                        </div>
-                        <div class="container-form-field">
+
                             <mat-form-field >
                                 <mat-label>Pagina Web</mat-label>
                                 <input matInput type="text" formControlName="web" >
                             </mat-form-field>
+
                         </div>
                         <div class="container-form-field">
                             <mat-form-field >
                                 <mat-label>E-Mail</mat-label>
                                 <input matInput type="text" formControlName="email" >
                             </mat-form-field>
-                        </div>
-                        <div class="container-form-field">
+
                             <mat-form-field >
                                 <mat-label>Telefonos</mat-label>
                                 <input matInput type="text" formControlName="telefonos" >
                             </mat-form-field>
                         </div>
                         <div class="container-form-field">
+                           
+                        </div>
+                        <div class="container-form-field">
                             <mat-form-field >
                                 <mat-label>Direccion Matriz</mat-label>
                                 <input matInput type="text" formControlName="direccionMatriz" >
                             </mat-form-field>
+                            
+                            <mat-form-field >
+                                <mat-label>Sucursal 1</mat-label>
+                                <input matInput type="text" formControlName="sucursal1" >
+                            </mat-form-field>
+
                         </div>
+
                         <div class="container-form-field">
                             <mat-form-field >
-                                <mat-label>Propietario</mat-label>
-                                <input matInput type="text" formControlName="propietario" >
+                                <mat-label>Sucursal 2</mat-label>
+                                <input matInput type="text" formControlName="sucursal2" >
                             </mat-form-field>
+                            
+                            <mat-form-field >
+                                <mat-label>Sucursal 3</mat-label>
+                                <input matInput type="text" formControlName="sucursal3" >
+                            </mat-form-field>
+
                         </div>
+
                         <div class="container-form-field">
                             <mat-form-field >
                                 <mat-label>Comentario</mat-label>
@@ -81,7 +104,7 @@
                         </div>
 
                         <div class="container-form-btn">
-                            <button mat-raised-button >Guardar</button>
+                            <button mat-raised-button color="btn-icon-accent">Guardar</button>
                         </div>
 
                     </div>

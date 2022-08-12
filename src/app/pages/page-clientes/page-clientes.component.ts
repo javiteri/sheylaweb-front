@@ -34,7 +34,8 @@ export class PageClientesComponent implements OnInit {
 
   ngOnInit(): void {
 
-      this.coreService.listaClientes('').subscribe(
+      this.isLoading = !this.isLoading;
+      /*this.coreService.listaClientes('').subscribe(
       {
 
         next: (response:  any) => {
@@ -66,7 +67,7 @@ export class PageClientesComponent implements OnInit {
           console.log('ocurrio un error al ejecutar la peticion' + error);
         }
 
-      });
+      });*/
   }
 
 
