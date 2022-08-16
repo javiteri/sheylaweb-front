@@ -8,5 +8,5 @@ export type Menu = {
     matIcon: string,
     active: boolean,
     routerLink: string,
-    submenu: { name: string, url: string, parametros: any[] }[]
+    submenu: { name: string, url: string }[]
   }

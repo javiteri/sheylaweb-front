@@ -31,15 +31,10 @@ export class LayoutComponent implements OnInit {
       name: 'Clientes',
       matIcon: 'people',
       active: false,
-      routerLink: '/clientes',
-      submenu: [ {name: 'Datos Emprsa', url: '', parametros: []},
-      {name: 'Avanzados', url: '', parametros: []},
-      {name: 'Datos Emprsa', url: '', parametros: []},
-      {name: 'Avanzados', url: '', parametros: []},
-      {name: 'Datos Emprsa', url: '', parametros: []},
-      {name: 'Avanzados', url: '', parametros: []},
-      {name: 'Datos Emprsa', url: '', parametros: []},
-      {name: 'Avanzados', url: '', parametros: []},]
+      routerLink: '',
+      submenu: [ {name: 'Lista Clientes', url: '/clientes'},
+      {name: 'Nuevo Cliente', url: '/clientes/nuevo'},
+      {name: 'Datos Emprsa', url: ''}]
     },
     {
       name: 'Inventario',
@@ -77,8 +72,8 @@ export class LayoutComponent implements OnInit {
       active: false,
       routerLink: '',
       submenu: [
-        {name: 'Datos Emprsa', url: 'infoempresa', parametros: [this.idEmpresa, this.rucEmpresa] },
-        {name: 'Avanzados', url: '', parametros: [this.idEmpresa, this.rucEmpresa]},
+        {name: 'Datos Emprsa', url: 'infoempresa'},
+        {name: 'Avanzados', url: ''},
       ]
     }
 
@@ -97,7 +92,7 @@ export class LayoutComponent implements OnInit {
   ngOnInit(): void {
 
 
-    this.dataStoreService.globalModel$.subscribe((dataStoreGLobalModel: DataStoreGlobalModel) => {
+    /*this.dataStoreService.globalModel$.subscribe((dataStoreGLobalModel: DataStoreGlobalModel) => {
 
       if(dataStoreGLobalModel){
           console.log('idEmpresaDataStore: ' + dataStoreGLobalModel.idEmpresa);
@@ -110,11 +105,11 @@ export class LayoutComponent implements OnInit {
           /*let postData = {
             ruc: this.rucEmpresa,
             idEmpresa: this.idEmpresa
-          }*/
+          }
 
       }
 
-    })
+    })*/
 
   }
 
@@ -142,35 +137,24 @@ export class LayoutComponent implements OnInit {
 
   selectMenu(parentMenu: {name: string, routerLink: string; }): void{
 
-    console.log('inside click menu');
 
     if(parentMenu.routerLink){
       this.router.navigate(['/'+parentMenu.routerLink]);
-      console.log('inside router Link');
     }
 
     this.menus.forEach(menu => {
       if(menu.name !== parentMenu.name){
         menu.active = false;
-        console.log(''+menu.name + ' is false');
       }else{
         menu.active = !menu.active;
-        console.log(''+menu.name + ' is active');
       }
     })
 
   }
 
-  selectSubmenu(menu: any): void {
-    console.log('submenu router to: ' + menu.parametros);
-    //console.log('params: ' + submenu['parametros']);
-  }
-
-
-  routerToDest(routerTo: string){
-    console.log('routerTo: ' + routerTo);
-    if(routerTo){
-      console.log('inside If: ' + routerTo);
+  selectSubmenu(submenu: any): void {
+    if(submenu.url){
+      this.router.navigate(['/'+submenu.url]);
     }
   }
 

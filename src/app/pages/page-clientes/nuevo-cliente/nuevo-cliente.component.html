@@ -1,0 +1,131 @@
+<div class="container-register">
+
+    <div class="container-form">
+
+        <mat-card>
+            <mat-card-content>
+                <mat-card-header class="bg-info text-white">
+                    <mat-card-title class="clientes">
+                        <h3>Nuevo Cliente</h3>
+                        <!--  <div> <label>Total: 2</label></div> -->
+                    </mat-card-title>
+                </mat-card-header>
+
+                <form [formGroup]="sendDatosFormCliente" (ngSubmit)="saveDatosCliente(sendDatosFormCliente.value)">
+                    <div class="all-content">
+
+                        <div class="container-form-field">
+
+                            <div class="container-identificacion mat-form-field"> 
+                                <mat-form-field >
+                                    <mat-select placeholder="Tipo" formControlName="tipoIdentificacion">
+                                        <mat-option *ngFor="let tipo of tiposId" value="tipo.valor">
+                                            {{tipo.valorMostrar}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field >
+                                    <mat-label>Identificacion</mat-label>
+                                    <input matInput type="text" formControlName="documentoIdentidad" >
+                                </mat-form-field>
+
+                                <button (click)="searchDatosClienteSri(sendDatosFormCliente.value.documentoIdentidad);$event.preventDefault();" matTooltip="Buscar datos Cliente" mat-icon-button color="icon-accent" aria-label="boton editar cliente">
+                                    <mat-icon >travel_explore</mat-icon>
+                                </button>
+
+                               <!-- <button mat-icon-button color="icon-accent" aria-label="boton editar cliente">
+                                    <mat-icon>edit</mat-icon>
+                                </button>-->
+
+                            </div>
+
+                            <mat-form-field >
+                                <mat-label>Nacionalidad</mat-label>
+                                <mat-select placeholder="Nacionalidad" formControlName="nacionalidad">
+                                    <mat-option *ngFor="let nacionalidad of nacionalidades " value="nacionalidad">
+                                        {{nacionalidad}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        </div>
+
+                        <div class="container-form-field">
+
+                            <mat-form-field class="mat-form-field-date">
+                                <mat-label>Nombre Natural</mat-label>
+                                <input matInput type="text" formControlName="nombreNatural" >
+                            </mat-form-field>
+
+                            <mat-form-field class="mat-form-field-date">
+                                <mat-label>Razon Social</mat-label>
+                                <input matInput type="text" formControlName="razonSocial" >
+                            </mat-form-field>
+
+
+                        </div>
+
+
+                        <div class="container-form-field">
+                            <mat-form-field >
+                                <mat-label>E-Mail</mat-label>
+                                <input matInput type="text" formControlName="email" >
+                            </mat-form-field>
+
+                            <mat-form-field class="mat-form-field-date">
+                                <mat-label>Fecha Nacimiento</mat-label>
+                                <input matInput readonly [matDatepicker]="picker" formControlName="fechaNacimiento" >
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+
+                        </div>
+                        <div class="container-form-field">
+                            <mat-form-field >
+                                <mat-label>Telefonos</mat-label>
+                                <input matInput type="text" formControlName="telefonos" >
+                            </mat-form-field>
+                            <mat-form-field >
+                                <mat-label>Celular</mat-label>
+                                <input matInput type="text" formControlName="celular" >
+                            </mat-form-field>
+
+                        </div>
+                        <div class="container-form-field">
+
+                        </div>
+                        <div class="container-form-field">
+                            <mat-form-field >
+                                <mat-label>Direccion</mat-label>
+                                <input matInput type="text" formControlName="direccion" >
+                            </mat-form-field>
+
+                            <mat-form-field >
+                                <mat-label>Profesion</mat-label>
+                                <input matInput type="text" formControlName="profesion" >
+                            </mat-form-field>
+
+                        </div>
+
+                        <div class="container-form-field">
+                            <mat-form-field >
+                                <mat-label>Comentario</mat-label>
+                                <input matInput type="text" formControlName="comentario" >
+                            </mat-form-field>
+                        </div>
+
+                        <div class="container-form-btn">
+                            <button  mat-raised-button color="btn-icon-accent">Guardar</button>
+                        </div>
+
+                    </div>
+                </form>
+
+            </mat-card-content>
+        </mat-card>
+
+    </div>
+
+
+</div>

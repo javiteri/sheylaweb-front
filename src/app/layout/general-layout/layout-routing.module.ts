@@ -19,7 +19,7 @@ const routes: Routes = [
       },
       {
         path: 'clientes',
-        component: PageClientesComponent
+        loadChildren: () => import('../../pages/page-clientes/clientes.module').then((m) => m.ClientesModule)
       },
       {
         path: 'inventario',
@@ -34,7 +34,7 @@ const routes: Routes = [
         component: PageComprasComponent
       },
       {
-        path: 'infoempresa/:id/:ruc',
+        path: 'infoempresa',
         loadChildren: () => import('../../pages/registro-empresa/registroempresa.module').then((m) => m.RegistroEmpresaModule)
       }
     ]

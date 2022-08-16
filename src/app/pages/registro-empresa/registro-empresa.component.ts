@@ -6,6 +6,7 @@ import {TokenValidate} from '../../interfaces/IWebData';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataStoreService } from 'src/app/services/DataStore.Service';
 import { DataStoreGlobalModel } from 'src/app/interfaces/DataStoreGlobalModel';
+import { LocalService } from 'src/app/services/local.service';
 
 @Component({
   selector: 'app-registro-empresa',
@@ -32,7 +33,8 @@ export class RegistroEmpresaComponent implements OnInit {
     private route: ActivatedRoute,
     private coreService: ApplicationProvider,
     public router: Router,
-    private dataStoreService: DataStoreService
+    private dataStoreService: DataStoreService,
+    private localService: LocalService
     ) {
 
       this.sendDatosEmpresaForm = this.formBuilder.group({
@@ -57,11 +59,26 @@ export class RegistroEmpresaComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.dataUser = JSON.parse(localStorage.getItem('DATA_USER')!);
+    const localServiceResponseToken = this.localService.storageGetJsonValue('DATA_TOK');
+    const localServiceResponseUsr = this.localService.storageGetJsonValue('DATA_USER');
+
+    this.dataUser = localServiceResponseToken;
     const { token, expire } = this.dataUser;
     this.tokenValidate = { token, expire};
 
-    this.route.paramMap.subscribe((params: any) => {
+    this.idEmpresa = localServiceResponseUsr._bussId;
+    this.rucEmpresa = localServiceResponseUsr._ruc;
+
+    console.log('idEmpresa: ' + localServiceResponseUsr._userId);
+    console.log('rucEmpresa: ' + localServiceResponseUsr._ruc);
+
+    let postData = {
+      ruc: this.rucEmpresa,
+      idEmpresa: this.idEmpresa
+    }
+    this.getDatosEmpresa(postData, this.tokenValidate);
+
+    /*this.route.paramMap.subscribe((params: any) => {
 
         this.idEmpresa = params.get('id');
         this.rucEmpresa = params.get('ruc');
@@ -72,7 +89,7 @@ export class RegistroEmpresaComponent implements OnInit {
         }
 
         this.getDatosEmpresa(postData, this.tokenValidate);
-    });
+    });*/
 
 
     //subscribe to observer dataStoreGlobalState
@@ -100,8 +117,15 @@ export class RegistroEmpresaComponent implements OnInit {
 
   private getDatosEmpresa(postData: any, accesToken: any ){
 
+    this.loading = true;
+
     this.coreService.empresaByRucAndId(postData, accesToken).subscribe({
       next: (result) => {
+
+        if(result.error){
+          console.log(result.error);
+          return;
+        }
 
         this.empresaData = result.data[0];
 
@@ -120,9 +144,11 @@ export class RegistroEmpresaComponent implements OnInit {
         this.sendDatosEmpresaForm.controls['propietario'].setValue(this.empresaData['propietario']);
         this.sendDatosEmpresaForm.controls['comentario'].setValue(this.empresaData['comentarios']);
 
-
+        this.loading = false;
       },
       error: (error) => {
+
+        this.loading = false;
 
         let statusResponse;
         Object.keys(error).forEach(key => {
@@ -161,10 +187,14 @@ export class RegistroEmpresaComponent implements OnInit {
 
     this.coreService.updateDatosEmpresa(sendDatosEmpresaForm, this.tokenValidate).subscribe({
       next: (data: any) =>{
-        console.log('response update: ' + data);
+        console.log('Datos Actualizados');
+
+        this.loading = false;
       },
       error: (error) => {
         console.log('error response update data: ' + error);
+
+        this.loading = false;
       }
 
     });

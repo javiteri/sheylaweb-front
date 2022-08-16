@@ -109,7 +109,7 @@
                         </div>
 
                         <div class="container-form-btn">
-                            <button mat-raised-button color="btn-icon-accent">Guardar</button>
+                            <button [class.spinner]="loading" [disabled]="loading" mat-raised-button color="btn-icon-accent">Guardar</button>
                         </div>
 
                     </div>

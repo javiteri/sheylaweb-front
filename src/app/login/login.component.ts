@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApplicationProvider } from '../providers/provider';
 import { DataStoreService } from '../services/DataStore.Service';
 import { DataStoreGlobalModel } from '../interfaces/DataStoreGlobalModel';
+import { LocalService } from '../services/local.service';
 
 
 @Component({
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit {
     public formBuilder: FormBuilder,
     public router: Router,
     private coreService: ApplicationProvider,
-    private dataStoreService: DataStoreService
+    private dataStoreService: DataStoreService,
+    private localService: LocalService
   ) {
 
     this.sendLoginForm = this.formBuilder.group({
@@ -61,7 +63,18 @@ export class LoginComponent implements OnInit {
           expire: Expires
         }
 
-        localStorage.setItem('DATA_USER', JSON.stringify(tokenAndExpire));
+        this.localService.storageSetJsonValue('DATA_TOK', tokenAndExpire);
+
+        //localStorage.setItem('DATA_TOK', JSON.stringify(tokenAndExpire));
+
+        console.log('ruc empresa: ' + response.rucEmpresa);
+        const dataUserBus = {
+          _userId: response.idUsuario,
+          _bussId: response.idEmpresa,
+          _ruc: '' + response.rucEmpresa
+        }
+
+        this.localService.storageSetJsonValue('DATA_USER', dataUserBus);
 
 
         let dataStoreGlobalModel = new DataStoreGlobalModel()
@@ -69,10 +82,10 @@ export class LoginComponent implements OnInit {
         dataStoreGlobalModel.rucEmpresa = response.rucEmpresa;
         dataStoreGlobalModel.idUser = response.idUsuario;
 
-        this.dataStoreService.setGlobalState(dataStoreGlobalModel);
+        //this.dataStoreService.setGlobalState(dataStoreGlobalModel);
 
         if(response.redirecRegistroEmp){
-          this.router.navigate(['/infoempresa', response.idEmpresa, response.rucEmpresa]);
+          this.router.navigate(['/infoempresa']);
         }
 
         if(response.redirectToHome){

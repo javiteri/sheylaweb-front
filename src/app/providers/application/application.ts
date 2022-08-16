@@ -22,4 +22,8 @@ export class ApplicationProvider {
   updateDatosEmpresa(postData: any, accesToken: any){
     return this.coreEndPoint.updateDatosEmpresa(postData, accesToken);
   }
+
+  searchClienteByCiRuc(ciRuc: any){
+    return; // this.coreEndPoint.searchClientByCiRuc(ciRuc);
+  }
 }

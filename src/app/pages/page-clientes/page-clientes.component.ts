@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog'
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ClientesComponentComponent } from 'src/app/components/clientes-component/clientes-component.component';
@@ -30,7 +29,7 @@ export class PageClientesComponent implements OnInit {
   @ViewChild('containerTable', {read: ElementRef}) tableInput!: ElementRef
 
   constructor(private coreService: ApplicationProvider ,
-              private dialog: MatDialog, private ref: ChangeDetectorRef) { }
+              private ref: ChangeDetectorRef) { }
 
   ngOnInit(): void {
 
@@ -73,7 +72,8 @@ export class PageClientesComponent implements OnInit {
 
   openDialog(){
 
-    const dialogRef = this.dialog.open(ClientesComponentComponent, {
+    console.log('click nuevo cliente button');
+    /*const dialogRef = this.dialog.open(ClientesComponentComponent, {
       width: '50%',
       data: {name: 'Lider', animal: 'Lobo'},
     });
@@ -81,13 +81,13 @@ export class PageClientesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('Dialogo cerrado')
       console.log('result ' + result)
-    });
+    });*/
 
 
   }
 
 
   scrollUp(): void{
-    setTimeout( () => this.tableInput.nativeElement.scrollIntoView({behavior: 'smooth', clock: 'end'}));
+    //setTimeout( () => this.tableInput.nativeElement.scrollIntoView({behavior: 'smooth', clock: 'end'}));
   }
 }

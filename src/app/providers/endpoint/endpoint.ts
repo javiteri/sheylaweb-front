@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams, HttpParamsOptions } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Router } from "@angular/router";
@@ -14,6 +14,19 @@ export class EndPointProvider {
     private readonly appVersion = '1.0.0';
     private readonly apiUrl = 'http://localhost:3000/api/';
 
+    private readonly searchDatosClienteSri = 'http://sheyla2.dyndns.info/SRI/SRI.php';
+
+    //SEARCH CLIENT BY CI OR RUC
+    /*searchClientByCiRuc<T>(ciRuc: any): Observable<T>{
+
+      let header = this.getRequestHeaderSearchCliente();
+
+      let objectParam = {'ruc': ciRuc, 'actualizado': 'Y'};
+      let httpParams: HttpParamsOptions = {fromObject: objectParam} as HttpParamsOptions;
+      const options = { params: new HttpParams(httpParams), headers: header};
+
+      return this.http.get<T>(this.searchDatosClienteSri, options);
+    }*/
 
     //CLIENTES
     private readonly _listClientes: String = 'clientes';
@@ -83,6 +96,18 @@ export class EndPointProvider {
           this.router.navigate(['/login']);
           return;
         }
+    }
+
+    getRequestHeaderSearchCliente(): {
+      headers: HttpHeaders | { [header: string]: string | string[];}
+    } | string[]{
+
+        const header = new HttpHeaders({
+          'Access-Control-Allow-Origin':'*'
+        });
+
+        return {headers: header};
+
     }
 
 }
