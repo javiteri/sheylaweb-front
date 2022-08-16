@@ -2,7 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import {BreakpointObserver} from '@angular/cdk/layout'
 import { Router, RouterLink } from '@angular/router';
-import { Menu } from 'src/app/interfaces/IWebData';
+import { Menu, TokenValidate } from 'src/app/interfaces/IWebData';
+import { DataStoreService } from 'src/app/services/DataStore.Service';
+import { DataStoreGlobalModel } from 'src/app/interfaces/DataStoreGlobalModel';
 
 
 @Component({
@@ -11,6 +13,9 @@ import { Menu } from 'src/app/interfaces/IWebData';
   styleUrls: ['./layout.component.css']
 })
 export class LayoutComponent implements OnInit {
+
+  idEmpresa: number = 0;
+  rucEmpresa: string = '';
 
   @ViewChild(MatSidenav) sidenav!: MatSidenav;
 
@@ -27,14 +32,14 @@ export class LayoutComponent implements OnInit {
       matIcon: 'people',
       active: false,
       routerLink: '/clientes',
-      submenu: [ {name: 'Datos Emprsa', url: ''},
-      {name: 'Avanzados', url: ''},
-      {name: 'Datos Emprsa', url: ''},
-      {name: 'Avanzados', url: ''},
-      {name: 'Datos Emprsa', url: ''},
-      {name: 'Avanzados', url: ''},
-      {name: 'Datos Emprsa', url: ''},
-      {name: 'Avanzados', url: ''},]
+      submenu: [ {name: 'Datos Emprsa', url: '', parametros: []},
+      {name: 'Avanzados', url: '', parametros: []},
+      {name: 'Datos Emprsa', url: '', parametros: []},
+      {name: 'Avanzados', url: '', parametros: []},
+      {name: 'Datos Emprsa', url: '', parametros: []},
+      {name: 'Avanzados', url: '', parametros: []},
+      {name: 'Datos Emprsa', url: '', parametros: []},
+      {name: 'Avanzados', url: '', parametros: []},]
     },
     {
       name: 'Inventario',
@@ -72,20 +77,46 @@ export class LayoutComponent implements OnInit {
       active: false,
       routerLink: '',
       submenu: [
-        {name: 'Datos Emprsa', url: ''},
-        {name: 'Avanzados', url: ''},
+        {name: 'Datos Emprsa', url: 'infoempresa', parametros: [this.idEmpresa, this.rucEmpresa] },
+        {name: 'Avanzados', url: '', parametros: [this.idEmpresa, this.rucEmpresa]},
       ]
     }
 
   ];
 
 
-  ngOnInit(): void {
-  }
+  //dataUser
+  dataUser: any;
+  tokenValidate!: TokenValidate;
 
   constructor(private observer: BreakpointObserver,
-            private router: Router){}
+    private router: Router,
+    private dataStoreService: DataStoreService){}
 
+
+  ngOnInit(): void {
+
+
+    this.dataStoreService.globalModel$.subscribe((dataStoreGLobalModel: DataStoreGlobalModel) => {
+
+      if(dataStoreGLobalModel){
+          console.log('idEmpresaDataStore: ' + dataStoreGLobalModel.idEmpresa);
+          console.log('idUsuarioDataStore: ' + dataStoreGLobalModel.idUser);
+          console.log('rucEmpresaDataStore: ' + dataStoreGLobalModel.rucEmpresa);
+
+          this.rucEmpresa = dataStoreGLobalModel.rucEmpresa;
+          this.idEmpresa = dataStoreGLobalModel.idEmpresa;
+
+          /*let postData = {
+            ruc: this.rucEmpresa,
+            idEmpresa: this.idEmpresa
+          }*/
+
+      }
+
+    })
+
+  }
 
   ngAfterViewInit(){
     this.observer.observe(['(max-width: 800px)']).subscribe((res) => {
@@ -129,8 +160,14 @@ export class LayoutComponent implements OnInit {
     })
 
   }
-  
-  routerToDest(routerTo: string){ 
+
+  selectSubmenu(menu: any): void {
+    console.log('submenu router to: ' + menu.parametros);
+    //console.log('params: ' + submenu['parametros']);
+  }
+
+
+  routerToDest(routerTo: string){
     console.log('routerTo: ' + routerTo);
     if(routerTo){
       console.log('inside If: ' + routerTo);

@@ -11,7 +11,7 @@
                     </mat-card-title>
                 </mat-card-header>
 
-                <form [formGroup]="sendDatosEmpresaForm">
+                <form [formGroup]="sendDatosEmpresaForm" (ngSubmit)="updateDatosEmpresa(sendDatosEmpresaForm.value)">
                     <div class="all-content">
 
                         <div class="container-form-field">
@@ -26,14 +26,14 @@
                             </mat-form-field>
 
                         </div>
-                        
+
                         <div class="container-form-field">
 
                             <mat-form-field class="mat-form-field-date">
                                 <mat-label>Razon Social</mat-label>
                                 <input matInput type="text" formControlName="razonSocial" >
                             </mat-form-field>
-                            
+
                             <mat-form-field class="mat-form-field-date">
                                 <mat-label>Fecha Inicio</mat-label>
                                 <input matInput readonly [matDatepicker]="picker" formControlName="fechaInicio" >
@@ -68,14 +68,14 @@
                             </mat-form-field>
                         </div>
                         <div class="container-form-field">
-                           
+
                         </div>
                         <div class="container-form-field">
                             <mat-form-field >
                                 <mat-label>Direccion Matriz</mat-label>
                                 <input matInput type="text" formControlName="direccionMatriz" >
                             </mat-form-field>
-                            
+
                             <mat-form-field >
                                 <mat-label>Sucursal 1</mat-label>
                                 <input matInput type="text" formControlName="sucursal1" >
@@ -88,7 +88,7 @@
                                 <mat-label>Sucursal 2</mat-label>
                                 <input matInput type="text" formControlName="sucursal2" >
                             </mat-form-field>
-                            
+
                             <mat-form-field >
                                 <mat-label>Sucursal 3</mat-label>
                                 <input matInput type="text" formControlName="sucursal3" >
@@ -98,8 +98,13 @@
 
                         <div class="container-form-field">
                             <mat-form-field >
+                              <mat-label>Propietario</mat-label>
+                              <input matInput type="text" formControlName="propietario" >
+                            </mat-form-field>
+
+                            <mat-form-field >
                                 <mat-label>Comentario</mat-label>
-                                <input matInput type="text" formControlName="Comentario" >
+                                <input matInput type="text" formControlName="comentario" >
                             </mat-form-field>
                         </div>
 

@@ -53,6 +53,17 @@ export class EndPointProvider {
 
       return this.http.post<any>(endPointUrl, postData, this.getRequestHeader(accesToken));
     }
+    //UPDATE DATOS EMPRESA
+    private readonly _updateDatosEmpresa: string = "updateempresa";
+    private get updateDatosEmpresaUrl(){
+      return this.apiUrl + this._updateDatosEmpresa;
+    }
+    updateDatosEmpresa<T>(postData: any, accesToken: any): Observable<T>{
+      const endPointUrl = this.updateDatosEmpresaUrl;
+
+      return this.http.post<any>(endPointUrl, postData, this.getRequestHeader(accesToken));
+    }
+
 
 
 

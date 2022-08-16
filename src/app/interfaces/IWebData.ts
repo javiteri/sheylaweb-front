@@ -4,9 +4,9 @@ export interface TokenValidate {
 }
 
 export type Menu = {
-    name: string, 
-    matIcon: string, 
+    name: string,
+    matIcon: string,
     active: boolean,
     routerLink: string,
-    submenu: { name: string, url: string }[]
+    submenu: { name: string, url: string, parametros: any[] }[]
   }

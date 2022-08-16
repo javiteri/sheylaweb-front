@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApplicationProvider } from '../providers/provider';
+import { DataStoreService } from '../services/DataStore.Service';
+import { DataStoreGlobalModel } from '../interfaces/DataStoreGlobalModel';
 
 
 @Component({
@@ -17,7 +19,8 @@ export class LoginComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     public router: Router,
-    private coreService: ApplicationProvider
+    private coreService: ApplicationProvider,
+    private dataStoreService: DataStoreService
   ) {
 
     this.sendLoginForm = this.formBuilder.group({
@@ -25,8 +28,6 @@ export class LoginComponent implements OnInit {
       user: ['', Validators.required],
       password: ['', Validators.required]
     })
-
-
   }
 
   ngOnInit(): void {
@@ -45,14 +46,14 @@ export class LoginComponent implements OnInit {
 
     this.coreService.login(sendFormData).subscribe({
       next: (response: any) => {
-        
+
         if(response.error){
           console.log('api: ' + response.error);
           this.loading = false;
           return;
         }
 
-        const Expires = new Date(); 
+        const Expires = new Date();
         Expires.setSeconds(Expires.getSeconds() + response.expire);
 
         const tokenAndExpire = {
@@ -62,18 +63,21 @@ export class LoginComponent implements OnInit {
 
         localStorage.setItem('DATA_USER', JSON.stringify(tokenAndExpire));
 
-        if(response.redirecRegistroEmp){
 
-          const idEmpresa = response.idEmpresa;
-          const rucEmpresa = response.rucEmpresa;
-          
-          this.router.navigate(['/infoempresa', idEmpresa, rucEmpresa]);
+        let dataStoreGlobalModel = new DataStoreGlobalModel()
+        dataStoreGlobalModel.idEmpresa = response.idEmpresa;
+        dataStoreGlobalModel.rucEmpresa = response.rucEmpresa;
+        dataStoreGlobalModel.idUser = response.idUsuario;
+
+        this.dataStoreService.setGlobalState(dataStoreGlobalModel);
+
+        if(response.redirecRegistroEmp){
+          this.router.navigate(['/infoempresa', response.idEmpresa, response.rucEmpresa]);
         }
 
         if(response.redirectToHome){
           this.router.navigate(['/clientes'])
         }
-
 
       },
       error: (error) => {

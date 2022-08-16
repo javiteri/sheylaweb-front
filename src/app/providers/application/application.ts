@@ -19,4 +19,7 @@ export class ApplicationProvider {
     return this.coreEndPoint.empresaByRucAndId(postData, accesToken);
   }
 
+  updateDatosEmpresa(postData: any, accesToken: any){
+    return this.coreEndPoint.updateDatosEmpresa(postData, accesToken);
+  }
 }

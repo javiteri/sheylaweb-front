@@ -4,6 +4,8 @@ import { ApplicationProvider } from '../../providers/provider';
 
 import {TokenValidate} from '../../interfaces/IWebData';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DataStoreService } from 'src/app/services/DataStore.Service';
+import { DataStoreGlobalModel } from 'src/app/interfaces/DataStoreGlobalModel';
 
 @Component({
   selector: 'app-registro-empresa',
@@ -23,29 +25,33 @@ export class RegistroEmpresaComponent implements OnInit {
   dataUser: any;
   tokenValidate!: TokenValidate;
 
+  loading = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private coreService: ApplicationProvider,
-    public router: Router
-    ) { 
+    public router: Router,
+    private dataStoreService: DataStoreService
+    ) {
 
       this.sendDatosEmpresaForm = this.formBuilder.group({
         ruc: [{value: '', disabled: true}, Validators.required],
-        nombreEmpresa: ['', [Validators.required, Validators.maxLength(250)]],
-        razonSocial: ['', [Validators.required, Validators.maxLength(250)]],
-        fechaInicio: ['', Validators.required],
-        eslogan: ['', [Validators.required, Validators.maxLength(250)]],
-        web: ['', [Validators.required, Validators.maxLength(250)]],
-        email: ['', [Validators.required, Validators.maxLength(250)]],
-        telefonos: ['', [Validators.required, Validators.maxLength(250)]],
-        direccionMatriz: ['', [Validators.required, Validators.maxLength(250)]],
-        sucursal1: ['', [Validators.required, Validators.maxLength(250)]],
-        sucursal2: ['', [Validators.required, Validators.maxLength(250)]],
-        sucursal3: ['', [Validators.required, Validators.maxLength(250)]],
+        nombreEmpresa: ['', [Validators.required, Validators.maxLength(250), Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]],
+        razonSocial: ['', [Validators.required, Validators.maxLength(250), Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]],
+        fechaInicio: [''],
+        eslogan: ['', [Validators.maxLength(250)]],
+        web: ['', [Validators.maxLength(250)]],
+        email: ['', [Validators.required, Validators.maxLength(250), Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/), Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+        telefonos: ['', [Validators.required, Validators.maxLength(250), Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]],
+        direccionMatriz: ['', [Validators.required, Validators.maxLength(250), Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]],
+        sucursal1: ['', [Validators.maxLength(250)]],
+        sucursal2: ['', [Validators.maxLength(250)]],
+        sucursal3: ['', [Validators.maxLength(250)]],
         propietario: ['', [Validators.required, Validators.maxLength(250)]],
-        Comentario: ['', [Validators.required, Validators.maxLength(250)]]
+        comentario: ['', [Validators.maxLength(250)]]
       });
+
     }
 
 
@@ -63,52 +69,105 @@ export class RegistroEmpresaComponent implements OnInit {
         let postData = {
           ruc: this.rucEmpresa,
           idEmpresa: this.idEmpresa
-        } 
+        }
+
+        this.getDatosEmpresa(postData, this.tokenValidate);
+    });
 
 
-        this.coreService.empresaByRucAndId(postData, this.tokenValidate).subscribe({
-          next: (result) => {
-            
-            this.empresaData = result.data[0];
+    //subscribe to observer dataStoreGlobalState
+    /*this.dataStoreService.globalModel$.subscribe((dataStoreGLobalModel: DataStoreGlobalModel) => {
 
-            this.sendDatosEmpresaForm.controls['ruc'].setValue(this.empresaData['ruc']);
-            this.sendDatosEmpresaForm.controls['nombreEmpresa'].setValue(this.empresaData['nombreEmp']);
-            this.sendDatosEmpresaForm.controls['razonSocial'].setValue(this.empresaData['razonSocial']);
-            this.sendDatosEmpresaForm.controls['fechaInicio'].setValue(this.empresaData['fechaInicio']);
-            this.sendDatosEmpresaForm.controls['eslogan'].setValue(this.empresaData['slogan']);
-            this.sendDatosEmpresaForm.controls['web'].setValue(this.empresaData['web']);
-            this.sendDatosEmpresaForm.controls['email'].setValue(this.empresaData['email']);
-            this.sendDatosEmpresaForm.controls['telefonos'].setValue(this.empresaData['telefono']);
-            this.sendDatosEmpresaForm.controls['direccionMatriz'].setValue(this.empresaData['direccionMatriz']);
-            this.sendDatosEmpresaForm.controls['sucursal1'].setValue(this.empresaData['direccionSucursal1']);
-            this.sendDatosEmpresaForm.controls['sucursal2'].setValue(this.empresaData['direccionSucursal2']);
-            this.sendDatosEmpresaForm.controls['sucursal3'].setValue(this.empresaData['direccionSucursal3']);
-            this.sendDatosEmpresaForm.controls['propietario'].setValue(this.empresaData['propietario']);
-            this.sendDatosEmpresaForm.controls['Comentario'].setValue(this.empresaData['comentarios']);
-            
+      if(dataStoreGLobalModel){
+          console.log('idEmpresaDataStore: ' + dataStoreGLobalModel.idEmpresa);
+          console.log('idUsuarioDataStore: ' + dataStoreGLobalModel.idUser);
+          console.log('rucEmpresaDataStore: ' + dataStoreGLobalModel.rucEmpresa);
 
-          },
-          error: (error) => {
+          this.rucEmpresa = dataStoreGLobalModel.rucEmpresa;
+          this.idEmpresa = dataStoreGLobalModel.idEmpresa;
 
-            let statusResponse;
-            Object.keys(error).forEach(key => {
-              if (key === 'status') {
-                statusResponse = error[key]
-              }
-            });
-            
-
-            if(statusResponse === 401){
-              this.router.navigate(['/login']);
-            }
-
+          let postData = {
+            ruc: this.rucEmpresa,
+            idEmpresa: this.idEmpresa
           }
 
+          this.getDatosEmpresa(postData, this.tokenValidate);
+      }
+
+    });*/
+  }
+
+
+  private getDatosEmpresa(postData: any, accesToken: any ){
+
+    this.coreService.empresaByRucAndId(postData, accesToken).subscribe({
+      next: (result) => {
+
+        this.empresaData = result.data[0];
+
+        this.sendDatosEmpresaForm.controls['ruc'].setValue(this.empresaData['ruc']);
+        this.sendDatosEmpresaForm.controls['nombreEmpresa'].setValue(this.empresaData['nombreEmp']);
+        this.sendDatosEmpresaForm.controls['razonSocial'].setValue(this.empresaData['razonSocial']);
+        this.sendDatosEmpresaForm.controls['fechaInicio'].setValue(this.empresaData['fechaInicio']);
+        this.sendDatosEmpresaForm.controls['eslogan'].setValue(this.empresaData['slogan']);
+        this.sendDatosEmpresaForm.controls['web'].setValue(this.empresaData['web']);
+        this.sendDatosEmpresaForm.controls['email'].setValue(this.empresaData['email']);
+        this.sendDatosEmpresaForm.controls['telefonos'].setValue(this.empresaData['telefono']);
+        this.sendDatosEmpresaForm.controls['direccionMatriz'].setValue(this.empresaData['direccionMatriz']);
+        this.sendDatosEmpresaForm.controls['sucursal1'].setValue(this.empresaData['direccionSucursal1']);
+        this.sendDatosEmpresaForm.controls['sucursal2'].setValue(this.empresaData['direccionSucursal2']);
+        this.sendDatosEmpresaForm.controls['sucursal3'].setValue(this.empresaData['direccionSucursal3']);
+        this.sendDatosEmpresaForm.controls['propietario'].setValue(this.empresaData['propietario']);
+        this.sendDatosEmpresaForm.controls['comentario'].setValue(this.empresaData['comentarios']);
+
+
+      },
+      error: (error) => {
+
+        let statusResponse;
+        Object.keys(error).forEach(key => {
+          if (key === 'status') {
+            statusResponse = error[key]
+          }
         });
 
+
+        if(statusResponse === 401){
+          this.router.navigate(['/login']);
+        }
+
+      }
 
     });
 
   }
 
+
+  // SEND DATA TO SERVER
+  updateDatosEmpresa(sendDatosEmpresaForm: any){
+
+    this.loading = true;
+
+    if(this.sendDatosEmpresaForm.invalid){
+        this.loading = false;
+        return;
+    }
+
+    const selectedDate: Date = new Date(sendDatosEmpresaForm['fechaInicio']);
+    const dateString = '' + selectedDate.getFullYear() + '-' + ('0' + (selectedDate.getMonth()+1)).slice(-2) + '-' + ('0' + selectedDate.getDate()).slice(-2) ;
+
+    sendDatosEmpresaForm['idEmpresa'] = this.idEmpresa;
+    sendDatosEmpresaForm['fechaInicio'] = dateString;
+
+    this.coreService.updateDatosEmpresa(sendDatosEmpresaForm, this.tokenValidate).subscribe({
+      next: (data: any) =>{
+        console.log('response update: ' + data);
+      },
+      error: (error) => {
+        console.log('error response update data: ' + error);
+      }
+
+    });
+
+  }
 }

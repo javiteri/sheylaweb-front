@@ -29,10 +29,10 @@
       <p class="designation">Sheyla Software</p>
 
       <mat-divider></mat-divider>
-      <div class="menu"> 
+      <div class="menu">
 
-        <li *ngFor="let menu of menus; let i = index"  [class.active]="menu.active" 
-            (click)="selectMenu(menu)"> 
+        <li *ngFor="let menu of menus; let i = index"  [class.active]="menu.active"
+            (click)="selectMenu(menu)">
           <a class="a-btn" >
             <mat-icon>{{menu.matIcon}}</mat-icon>
             <span>{{menu.name}}</span>
@@ -41,7 +41,7 @@
           <div #submenu class="menu-item-sub" [ngStyle]="{
             'max-height': menu.active ? submenu.scrollHeight + 'px' : 0 + 'px'
           }">
-            <a *ngFor="let submenu of menu.submenu">{{submenu.name}}</a>
+            <a *ngFor="let submenu of menu.submenu" (click)="selectSubmenu(submenu); $event.stopPropagation();">{{submenu.name}}</a>
           </div>
         </li>
 
