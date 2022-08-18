@@ -10,6 +10,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from "@angular/material/icon";
 
+import { OverlayModule } from "@angular/cdk/overlay";
+import { LoadingService } from "src/app/services/loading.service";
+
 import { LoginRoutingModule } from "./login-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
@@ -20,6 +23,7 @@ import { ApplicationProvider, EndPointProvider } from "../providers/provider";
     LoginComponent
   ],
     imports: [
+      OverlayModule,
         HttpClientModule,
         MatCardModule,
         RouterModule,
@@ -31,6 +35,6 @@ import { ApplicationProvider, EndPointProvider } from "../providers/provider";
         FormsModule,
         ReactiveFormsModule
     ],
-    providers: [ApplicationProvider, EndPointProvider]
+    providers: [LoadingService, ApplicationProvider, EndPointProvider]
 })
 export class LoginModule { }

@@ -10,6 +10,9 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatDatepickerModule} from '@angular/material/datepicker'
 import { MatNativeDateModule } from "@angular/material/core";
 
+import { OverlayModule } from "@angular/cdk/overlay";
+import { LoadingService } from "src/app/services/loading.service";
+
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import {MatCardModule} from '@angular/material/card'
@@ -47,9 +50,10 @@ import { RouterModule } from "@angular/router";
         MatPaginatorModule,
         MatProgressSpinnerModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        OverlayModule
     ],
-    providers: [ApplicationProvider, EndPointProvider,
+    providers: [LoadingService, ApplicationProvider, EndPointProvider,
         {provide: MatPaginatorIntl, useValue: CustomPaginator()}
       ]
 })

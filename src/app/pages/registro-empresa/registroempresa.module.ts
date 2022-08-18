@@ -10,6 +10,9 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatDatepickerModule} from '@angular/material/datepicker'
 import { MatNativeDateModule } from "@angular/material/core";
 
+import { OverlayModule } from "@angular/cdk/overlay";
+import { LoadingService } from "src/app/services/loading.service";
+
 import { RegistroEmpresaRoutingModule } from "./registro-empresa-routing.module";
 import { ApplicationProvider, EndPointProvider } from "../../providers/provider";
 import { RegistroEmpresaComponent } from "./registro-empresa.component";
@@ -30,9 +33,10 @@ import { RegistroEmpresaComponent } from "./registro-empresa.component";
     MatInputModule,
     MatButtonModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    OverlayModule
   ],
   exports: [],
-  providers: [ApplicationProvider, EndPointProvider]
+  providers: [LoadingService, ApplicationProvider, EndPointProvider]
 })
 export class RegistroEmpresaModule {}

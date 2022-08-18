@@ -130,6 +130,7 @@ export class LayoutComponent implements OnInit {
 
   logout(){
 
+    console.log('logout');
     localStorage.clear();
     this.router.navigate(['/login']);
   }

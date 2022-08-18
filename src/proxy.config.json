@@ -1,0 +1,10 @@
+{
+    "/SRI": {
+      "target": "http://sheyla2.dyndns.info/SRI/SRI.php",
+      "secure": false,
+      "changeOrigin": true,
+      "pathRewrite": {
+        "^/SRI": ""
+      }
+    }
+}

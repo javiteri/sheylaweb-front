@@ -24,6 +24,6 @@ export class ApplicationProvider {
   }
 
   searchClienteByCiRuc(ciRuc: any){
-    return; // this.coreEndPoint.searchClientByCiRuc(ciRuc);
+    return this.coreEndPoint.searchClientByCiRuc(ciRuc);
   }
 }

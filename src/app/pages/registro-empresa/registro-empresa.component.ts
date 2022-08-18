@@ -7,6 +7,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataStoreService } from 'src/app/services/DataStore.Service';
 import { DataStoreGlobalModel } from 'src/app/interfaces/DataStoreGlobalModel';
 import { LocalService } from 'src/app/services/local.service';
+import { LoadingService } from 'src/app/services/loading.service';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-registro-empresa',
@@ -34,7 +36,9 @@ export class RegistroEmpresaComponent implements OnInit {
     private coreService: ApplicationProvider,
     public router: Router,
     private dataStoreService: DataStoreService,
-    private localService: LocalService
+    private localService: LocalService,
+    private loadingService: LoadingService,
+    private toastr: ToastrService
     ) {
 
       this.sendDatosEmpresaForm = this.formBuilder.group({
@@ -69,7 +73,7 @@ export class RegistroEmpresaComponent implements OnInit {
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
 
-    console.log('idEmpresa: ' + localServiceResponseUsr._userId);
+    console.log('idEmpresa: ' + localServiceResponseUsr._bussId);
     console.log('rucEmpresa: ' + localServiceResponseUsr._ruc);
 
     let postData = {
@@ -117,10 +121,14 @@ export class RegistroEmpresaComponent implements OnInit {
 
   private getDatosEmpresa(postData: any, accesToken: any ){
 
+    let dialogRef = this.loadingService.open();
+
     this.loading = true;
 
     this.coreService.empresaByRucAndId(postData, accesToken).subscribe({
       next: (result) => {
+
+        dialogRef.close();
 
         if(result.error){
           console.log(result.error);
@@ -148,6 +156,8 @@ export class RegistroEmpresaComponent implements OnInit {
       },
       error: (error) => {
 
+        dialogRef.close();
+
         this.loading = false;
 
         let statusResponse;
@@ -172,12 +182,15 @@ export class RegistroEmpresaComponent implements OnInit {
   // SEND DATA TO SERVER
   updateDatosEmpresa(sendDatosEmpresaForm: any){
 
+    
     this.loading = true;
 
     if(this.sendDatosEmpresaForm.invalid){
         this.loading = false;
         return;
     }
+
+    let dialogRef = this.loadingService.open();
 
     const selectedDate: Date = new Date(sendDatosEmpresaForm['fechaInicio']);
     const dateString = '' + selectedDate.getFullYear() + '-' + ('0' + (selectedDate.getMonth()+1)).slice(-2) + '-' + ('0' + selectedDate.getDate()).slice(-2) ;
@@ -187,6 +200,13 @@ export class RegistroEmpresaComponent implements OnInit {
 
     this.coreService.updateDatosEmpresa(sendDatosEmpresaForm, this.tokenValidate).subscribe({
       next: (data: any) =>{
+        dialogRef.close();
+
+        this.toastr.success('Datos Actualizados', '', {
+          timeOut: 3000,
+          closeButton: true
+        });
+
         console.log('Datos Actualizados');
 
         this.loading = false;
@@ -194,6 +214,12 @@ export class RegistroEmpresaComponent implements OnInit {
       error: (error) => {
         console.log('error response update data: ' + error);
 
+        this.toastr.error('error al actualizar', '', {
+          timeOut: 3000,
+          closeButton: true
+        });
+
+        dialogRef.close();
         this.loading = false;
       }
 

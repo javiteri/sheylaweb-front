@@ -19,7 +19,7 @@
                             <div class="container-identificacion mat-form-field"> 
                                 <mat-form-field >
                                     <mat-select placeholder="Tipo" formControlName="tipoIdentificacion">
-                                        <mat-option *ngFor="let tipo of tiposId" value="tipo.valor">
+                                        <mat-option *ngFor="let tipo of tiposId" [value]="tipo.valor">
                                             {{tipo.valorMostrar}}
                                         </mat-option>
                                     </mat-select>
@@ -27,7 +27,7 @@
 
                                 <mat-form-field >
                                     <mat-label>Identificacion</mat-label>
-                                    <input matInput type="text" formControlName="documentoIdentidad" >
+                                    <input matInput type="text" formControlName="documentoIdentidad" (blur)="onLostFocus(sendDatosFormCliente.value.documentoIdentidad);">
                                 </mat-form-field>
 
                                 <button (click)="searchDatosClienteSri(sendDatosFormCliente.value.documentoIdentidad);$event.preventDefault();" matTooltip="Buscar datos Cliente" mat-icon-button color="icon-accent" aria-label="boton editar cliente">
@@ -43,7 +43,7 @@
                             <mat-form-field >
                                 <mat-label>Nacionalidad</mat-label>
                                 <mat-select placeholder="Nacionalidad" formControlName="nacionalidad">
-                                    <mat-option *ngFor="let nacionalidad of nacionalidades " value="nacionalidad">
+                                    <mat-option *ngFor="let nacionalidad of nacionalidades " [value]="nacionalidad">
                                         {{nacionalidad}}
                                     </mat-option>
                                 </mat-select>

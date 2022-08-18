@@ -15,18 +15,21 @@ export class EndPointProvider {
     private readonly apiUrl = 'http://localhost:3000/api/';
 
     private readonly searchDatosClienteSri = 'http://sheyla2.dyndns.info/SRI/SRI.php';
+    private readonly searchDatosClienteSriLocal = 'http://localhost:4200/SRI';
 
     //SEARCH CLIENT BY CI OR RUC
-    /*searchClientByCiRuc<T>(ciRuc: any): Observable<T>{
+    searchClientByCiRuc(ciRuc: any): Observable<string>{
 
-      let header = this.getRequestHeaderSearchCliente();
+      const header = this.getRequestHeaderSearchCliente();
 
-      let objectParam = {'ruc': ciRuc, 'actualizado': 'Y'};
-      let httpParams: HttpParamsOptions = {fromObject: objectParam} as HttpParamsOptions;
-      const options = { params: new HttpParams(httpParams), headers: header};
-
-      return this.http.get<T>(this.searchDatosClienteSri, options);
-    }*/
+      let paramsRequest = new HttpParams().set('ruc', ciRuc).set('actualizado', 'Y');
+      const httpOptions = {
+        headers: header,
+        params: ciRuc ? paramsRequest : {}
+      }
+      
+      return this.http.get(this.searchDatosClienteSriLocal, {params: paramsRequest, responseType: 'text'});
+    }
 
     //CLIENTES
     private readonly _listClientes: String = 'clientes';
@@ -98,15 +101,13 @@ export class EndPointProvider {
         }
     }
 
-    getRequestHeaderSearchCliente(): {
-      headers: HttpHeaders | { [header: string]: string | string[];}
-    } | string[]{
+    getRequestHeaderSearchCliente(): HttpHeaders {
 
         const header = new HttpHeaders({
-          'Access-Control-Allow-Origin':'*'
+          'Content-Type': 'text/html'
         });
 
-        return {headers: header};
+        return header;
 
     }
 

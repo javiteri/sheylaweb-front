@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApplicationProvider } from 'src/app/providers/provider';
+import { LoadingService } from 'src/app/services/loading.service';
 import nacionalidad from '../../../assets/nacionalidad.json'
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-nuevo-cliente',
@@ -20,7 +22,9 @@ export class NuevoClienteComponent implements OnInit {
   sendDatosFormCliente : FormGroup;
 
   constructor(private formBuilder: FormBuilder,
-    private coreService: ApplicationProvider) { 
+              private coreService: ApplicationProvider,
+              private loadingService: LoadingService,
+              private toastr: ToastrService) { 
 
     this.sendDatosFormCliente = this.formBuilder.group({
       tipoIdentificacion: ['', Validators.required],
@@ -41,7 +45,10 @@ export class NuevoClienteComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.sendDatosFormCliente.controls['tipoIdentificacion'].setValue(this.tiposId[0].valor);
 
+    const indexDefaultCountry = this.nacionalidades.indexOf('Ecuador');
+    this.sendDatosFormCliente.controls['nacionalidad'].setValue(this.nacionalidades[indexDefaultCountry]);
   }
 
 
@@ -51,17 +58,44 @@ export class NuevoClienteComponent implements OnInit {
   }
 
   searchDatosClienteSri(identificacion: any){
-    if(identificacion){
-     /*this.coreService.searchClienteByCiRuc(identificacion).subscribe({
-        next: (res) => {
-          console.log('response service client: ' + res);
-        },
-        error: (err) => {
-          console.log('errror service client: ' + err);
+    this.searchDatosCliente(identificacion);
+  }
+
+
+  onLostFocus(documentoIdentidad: string){
+
+    if(documentoIdentidad.length == 10 || documentoIdentidad.length == 13){
+      console.log('inside lost focus: ' + documentoIdentidad);
+      this.searchDatosCliente(documentoIdentidad);
+    }
+
+  }
+
+  private searchDatosCliente(identificacion: any){
+
+    let dialogRef = this.loadingService.open();
+
+    this.coreService.searchClienteByCiRuc(identificacion).subscribe({
+      next: (res) => {
+        const dataArray = res.split(/\*+|\$+/);
+
+        if(dataArray.length >= 12){
+          this.sendDatosFormCliente.controls['nombreNatural'].setValue(dataArray[1]);
+          this.sendDatosFormCliente.controls['direccion'].setValue(dataArray[dataArray.length - 2]);
+        }else{
+          this.sendDatosFormCliente.controls['nombreNatural'].setValue(dataArray[1]);
+          this.sendDatosFormCliente.controls['direccion'].setValue(dataArray[dataArray.length - 2]);
+          this.sendDatosFormCliente.controls['comentario'].setValue(dataArray[dataArray.length - 3]);
         }
 
-     });*/
-    }
-    console.log('inside search datos Cliente: ' + identificacion['documentoIdentidad'] );
+        dialogRef.close();
+      },
+      error: (err) => {
+        console.log('errror service client: ' + err.message);
+        dialogRef.close();
+      }
+
+   });
+
   }
 }

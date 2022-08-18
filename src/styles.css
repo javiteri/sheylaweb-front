@@ -76,3 +76,8 @@ th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:la
   padding-right: 0 !important;
 }
 /*-------------------------------------------------------*/
+
+.toast-top-right{
+  top: 70px !important;
+  right: 12px !important;
+}

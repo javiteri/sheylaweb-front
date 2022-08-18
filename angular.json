@@ -24,7 +24,8 @@
             ],
             "styles": [
               "src/custom-theme.scss",
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           },
@@ -71,7 +72,12 @@
               "browserTarget": "angular-sheylaweb:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "browserTarget": "angular-sheylaweb:build",
+            "proxyConfig": "src/proxy.config.json",
+            "port": 4200
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",

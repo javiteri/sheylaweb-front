@@ -9,7 +9,7 @@ ul{
   padding-left: 10px;
 }
 
-ol li{
+ol, li{
   list-style: none;
   cursor: pointer;
 }

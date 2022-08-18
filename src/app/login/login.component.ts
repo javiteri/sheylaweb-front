@@ -5,7 +5,8 @@ import { ApplicationProvider } from '../providers/provider';
 import { DataStoreService } from '../services/DataStore.Service';
 import { DataStoreGlobalModel } from '../interfaces/DataStoreGlobalModel';
 import { LocalService } from '../services/local.service';
-
+import { LoadingService } from '../services/loading.service';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,9 @@ export class LoginComponent implements OnInit {
     public router: Router,
     private coreService: ApplicationProvider,
     private dataStoreService: DataStoreService,
-    private localService: LocalService
+    private localService: LocalService,
+    private loadingService: LoadingService,
+    private toastr: ToastrService
   ) {
 
     this.sendLoginForm = this.formBuilder.group({
@@ -42,16 +45,30 @@ export class LoginComponent implements OnInit {
 
     if (this.sendLoginForm.invalid) {
         this.loading = false;
+
+        this.toastr.error('verifique que los datos esten llenos', '', {
+            timeOut: 3000,
+            closeButton: true
+        });
+
         return;
     }
 
+    let overlayRef = this.loadingService.open();
 
     this.coreService.login(sendFormData).subscribe({
       next: (response: any) => {
+        
+        overlayRef.close();
 
         if(response.error){
-          console.log('api: ' + response.error);
           this.loading = false;
+
+          this.toastr.error(response.error, '', {
+            timeOut: 3000,
+            closeButton: true
+          });
+
           return;
         }
 
@@ -94,8 +111,13 @@ export class LoginComponent implements OnInit {
 
       },
       error: (error) => {
-        console.log(error);
         this.loading = false;
+
+        overlayRef.close();
+        this.toastr.error('error al conectar', '', {
+          timeOut: 3000,
+          closeButton: true
+        });
       }
     });
 
