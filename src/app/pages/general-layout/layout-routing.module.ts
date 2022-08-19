@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { LayoutComponent } from './layout.component';
-import { PageClientesComponent } from '../../pages/page-clientes/page-clientes.component'
-import { PageInventarioComponent } from '../../pages/page-inventario/page-inventario.component';
-import { PageVentasComponent } from '../../pages/page-ventas/page-ventas.component';
-import { PageComprasComponent } from '../../pages/page-compras/page-compras.component';
+import { PageClientesComponent } from '../page-clientes/page-clientes.component'
+import { PageInventarioComponent } from '../page-inventario/page-inventario.component';
+import { PageVentasComponent } from '../page-ventas/page-ventas.component';
+import { PageComprasComponent } from '../page-compras/page-compras.component';
 
 const routes: Routes = [
   {
@@ -19,7 +19,7 @@ const routes: Routes = [
       },
       {
         path: 'clientes',
-        loadChildren: () => import('../../pages/page-clientes/clientes.module').then((m) => m.ClientesModule)
+        loadChildren: () => import('../page-clientes/clientes.module').then((m) => m.ClientesModule)
       },
       {
         path: 'inventario',
@@ -35,7 +35,11 @@ const routes: Routes = [
       },
       {
         path: 'infoempresa',
-        loadChildren: () => import('../../pages/registro-empresa/registroempresa.module').then((m) => m.RegistroEmpresaModule)
+        loadChildren: () => import('../registro-empresa/registroempresa.module').then((m) => m.RegistroEmpresaModule)
+      },
+      {
+        path: 'usuarios',
+        loadChildren: () => import('../page-usuarios/usuarios.module').then((m) => m.UsuariosModule)
       }
     ]
   }

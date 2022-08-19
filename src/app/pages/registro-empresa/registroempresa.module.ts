@@ -11,7 +11,7 @@ import { MatDatepickerModule} from '@angular/material/datepicker'
 import { MatNativeDateModule } from "@angular/material/core";
 
 import { OverlayModule } from "@angular/cdk/overlay";
-import { LoadingService } from "src/app/services/loading.service";
+import { LoadingService } from "src/app/services/Loading.service";
 
 import { RegistroEmpresaRoutingModule } from "./registro-empresa-routing.module";
 import { ApplicationProvider, EndPointProvider } from "../../providers/provider";

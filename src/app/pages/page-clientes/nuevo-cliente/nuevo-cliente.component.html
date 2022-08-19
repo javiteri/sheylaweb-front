@@ -6,7 +6,7 @@
             <mat-card-content>
                 <mat-card-header class="bg-info text-white">
                     <mat-card-title class="clientes">
-                        <h3>Nuevo Cliente</h3>
+                        <h3>{{titlePage}}</h3>
                         <!--  <div> <label>Total: 2</label></div> -->
                     </mat-card-title>
                 </mat-card-header>
@@ -116,7 +116,7 @@
                         </div>
 
                         <div class="container-form-btn">
-                            <button  mat-raised-button color="btn-icon-accent">Guardar</button>
+                            <button  [class.spinner]="loading" [disabled]="loading" mat-raised-button color="btn-icon-accent">Guardar</button>
                         </div>
 
                     </div>

@@ -1,0 +1,73 @@
+<div class="container-register">
+
+    <div class="container-form">
+
+        <mat-card>
+            <mat-card-content>
+
+                <mat-card-header class="bg-info text-white">
+                    <mat-card-title class="clientes">
+                        <h3>Titulo</h3>
+                        <!--  <div> <label>Total: 2</label></div> -->
+                    </mat-card-title>
+                </mat-card-header>
+
+                <form [formGroup]="sendDatosFormUsuario">
+                    <div class="all-content">
+                        <div class="container-form-field">
+                            <mat-form-field class="mat-form-field-date">
+                                <mat-label>Nombre Natural</mat-label>
+                                <input matInput type="text" formControlName="nombreNatural" >
+                            </mat-form-field>
+                        </div>
+    
+                        <div class="container-form-field">
+                            <mat-form-field class="mat-form-field-date">
+                                <mat-label>Telefono</mat-label>
+                                <input matInput type="text" formControlName="telefono" >
+                            </mat-form-field>
+    
+                            <mat-form-field class="mat-form-field-date">
+                                <mat-label>Direccion</mat-label>
+                                <input matInput type="text" formControlName="direccion" >
+                            </mat-form-field>
+                        </div>
+    
+                        <div class="container-form-field">
+                            <mat-form-field class="mat-form-field-date">
+                                <mat-label>Email</mat-label>
+                                <input matInput type="text" formControlName="email" >
+                            </mat-form-field>
+    
+                            <mat-form-field class="mat-form-field-date">
+                                <mat-label>Fecha Nacimiento</mat-label>
+                                <input matInput readonly [matDatepicker]="picker" formControlName="fechaNacimiento" >
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+    
+                        <div class="container-form-field">
+                            <mat-form-field class="mat-form-field-date">
+                                <mat-label>Nombre Usuario</mat-label>
+                                <input matInput type="text" formControlName="nombreUsuario" >
+                            </mat-form-field>
+    
+                            <mat-form-field class="mat-form-field-date">
+                                <mat-label>Password</mat-label>
+                                <input matInput type="password" formControlName="password">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    
+                    <div class="container-form-btn">
+                        <button   mat-raised-button color="btn-icon-accent">Guardar</button>
+                    </div>
+
+                </form>
+
+            </mat-card-content>    
+        </mat-card>
+
+    </div>    
+</div>

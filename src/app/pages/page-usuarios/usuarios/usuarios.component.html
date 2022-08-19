@@ -1,0 +1,93 @@
+<div class="container-options" #containerTable>
+
+    <button mat-raised-button class="font-weight-300 mat-elevation-z1" color="btn-icon-accent" (click)="nuevoUsuario()">
+      <mat-icon>add</mat-icon>
+      Nuevo
+    </button>
+  
+    <button class="font-weight-300 mat-elevation-z1" mat-raised-button>
+      <mat-icon>file_download</mat-icon>
+      Exportar
+    </button>
+  </div>
+  
+  <div class="container-search-bar">
+    <div class="inner-container-search">
+      <input type="text" placeholder="Nombre o Identificacion"/>
+      <button class="font-weight-300" color="icon-accent" mat-icon-button>
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+  </div>
+  
+  <mat-card>
+      <mat-card-header class="bg-info text-white">
+          <mat-card-title class="clientes">
+              <label>Lista Usuarios</label>
+              <!--  <div> <label>Total: 2</label></div> -->
+          </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+  
+          <div class="flex-layout-table" >
+              <mat-table [dataSource]="datasource" role="grid" >
+  
+                  <ng-container matColumnDef="nombre" >
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header >Nombre </th>
+                      <td mat-cell *matCellDef="let usuario" data-label="Nombre"> {{usuario.nombre}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="telefono" >
+                      <th mat-header-cell class="flex-grow-1_5" *matHeaderCellDef mat-sort-header > Telefono </th>
+                      <td mat-cell class="flex-grow-1_5" *matCellDef="let usuario" data-label="Telefono"> {{usuario.telefono}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="email" >
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header > Email </th>
+                      <td mat-cell  *matCellDef="let usuario" data-label="Email"> {{usuario.email}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="username" >
+                      <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header  > Username </th>
+                      <td mat-cell class="justify-centro" *matCellDef="let usuario" data-label="Usernam"> {{usuario.username}} </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="actions">
+                      <th mat-header-cell *matHeaderCellDef>Opciones</th>
+                      <td mat-cell   *matCellDef="let row" data-label="Opciones">
+                        <div>
+                          <button mat-icon-button color="icon-accent" aria-label="boton editar Usuario" >
+                            <mat-icon>edit</mat-icon>
+                          </button>
+                          <button mat-icon-button color="icon-red" aria-label="boton eliminar Usuario" >
+                            <mat-icon >delete</mat-icon>
+                          </button>
+                        </div>
+  
+                      </td>
+                    </ng-container>
+  
+                  <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+              </mat-table>
+  
+            <!--  <mat-paginator *ngIf="showPagination" #paginator [pageSizeOptions]="[5, 15, 30]"
+                   showFirstLastButtons
+                   aria-label="Seleccione pagina elementos cliente">
+              </mat-paginator>-->
+  
+           <!-- <div *ngIf="isLoading"
+                  style="display: flex; justify-content: center; align-items: center; background: white; margin-top: 3rem; margin-bottom: 3rem;">
+                <mat-progress-spinner
+                  color="primary"
+                  mode="indeterminate"
+                  [diameter]="50">
+                </mat-progress-spinner>
+            </div>
+            -->
+  
+           <!--  <div *ngIf="showSinDatos"
+                  style="display: flex; justify-content: center; align-items: center; margin-top: 3rem; margin-bottom: 3rem;">
+                <label> No se Encontraron Datos</label>
+            </div>-->
+  
+          </div>
+      </mat-card-content>
+  </mat-card>

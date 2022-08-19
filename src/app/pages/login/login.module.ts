@@ -11,12 +11,12 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from "@angular/material/icon";
 
 import { OverlayModule } from "@angular/cdk/overlay";
-import { LoadingService } from "src/app/services/loading.service";
+import { LoadingService } from "src/app/services/Loading.service";
 
 import { LoginRoutingModule } from "./login-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { ApplicationProvider, EndPointProvider } from "../providers/provider";
+import { ApplicationProvider, EndPointProvider } from "../../providers/provider";
 
 @NgModule({
     declarations: [

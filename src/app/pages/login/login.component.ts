@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ApplicationProvider } from '../providers/provider';
-import { DataStoreService } from '../services/DataStore.Service';
-import { DataStoreGlobalModel } from '../interfaces/DataStoreGlobalModel';
-import { LocalService } from '../services/local.service';
-import { LoadingService } from '../services/loading.service';
+import { ApplicationProvider } from '../../providers/provider';
+import { DataStoreService } from '../../services/DataStore.Service';
+import { DataStoreGlobalModel } from '../../interfaces/DataStoreGlobalModel';
+import { LocalService } from '../../services/local.service';
+import { LoadingService } from '../../services/Loading.service';
 import {ToastrService} from 'ngx-toastr';
 
 @Component({
@@ -53,6 +53,12 @@ export class LoginComponent implements OnInit {
 
         return;
     }
+
+    this.inicioSesionApi(sendFormData);
+  }
+
+  
+  private inicioSesionApi(sendFormData: any){
 
     let overlayRef = this.loadingService.open();
 

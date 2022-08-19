@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataStoreService } from 'src/app/services/DataStore.Service';
 import { DataStoreGlobalModel } from 'src/app/interfaces/DataStoreGlobalModel';
 import { LocalService } from 'src/app/services/local.service';
-import { LoadingService } from 'src/app/services/loading.service';
+import { LoadingService } from 'src/app/services/Loading.service';
 import {ToastrService} from 'ngx-toastr';
 
 @Component({

@@ -1,0 +1,26 @@
+.container-register{
+    min-height: 100%;
+    height: auto;
+  
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+  
+  }
+  .container-form{
+    max-width: 900px;
+    width: 100%;
+  }
+  
+  .container-form-field{
+    width: 100%;
+  }
+  
+  
+  .spinner{
+      color: rgba(0,0,0,.26) !important;
+      background-color: rgba(0,0,0,.12) !important;
+      box-shadow: 0 0 0 0 rgba(0,0,0,.2),0 0 0 0 rgba(0,0,0,.14),0 0 0 0 rgba(0,0,0,.12) !important;
+  }

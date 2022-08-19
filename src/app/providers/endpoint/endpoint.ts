@@ -80,8 +80,80 @@ export class EndPointProvider {
       return this.http.post<any>(endPointUrl, postData, this.getRequestHeader(accesToken));
     }
 
+    // METHODS FOR CLIENTES
+    private readonly _insertCliente: string = "clientes/insertar";
+
+    private get insertClienteUrl(){
+      return this.apiUrl + this._insertCliente;
+    }
+
+    insertClienteToBD<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.insertClienteUrl;
+        
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
+
+    private readonly _updateCliente: string = "clientes/update";
+    private get updateClienteUrl(){
+      return this.apiUrl + this._updateCliente;
+    }
+    updateClienteToBD<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.updateClienteUrl;        
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
 
 
+    private readonly _deleteClienteByIdEmp: string = "clientes/delete";
+    private get deleteClienteByIdEmp(){
+      return this.apiUrl + this._deleteClienteByIdEmp;
+    }
+    deleteClienteByIdEmpToBD<T>(idCliente: any, idEmpresa: any, accessToken: any): Observable<T>{
+      const endPointUrl = this.deleteClienteByIdEmp;
+      const postData = {
+        'idEmpresa': idEmpresa,
+        'idCliente': idCliente
+      }
+
+      return this.http.post<T>(endPointUrl,postData,  this.getRequestHeader(accessToken));
+    }
+
+
+    private readonly _listClientesByIdEmp: string = 'clientes/getClientesIdEmp';
+
+    private get listClientesByIdEmp(){
+      return this.apiUrl + this._listClientesByIdEmp;
+    }
+    getListClientesByIdEmp<T>(idEmpresa: any, accessToken: any): Observable<T>{
+      const endpointUrl = this.listClientesByIdEmp;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa);
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+
+    private readonly _clienteByIdEmp: string = 'clientes/getClienteIdEmp';
+    private get clienteByIdEmp(){
+      return this.apiUrl + this._clienteByIdEmp;
+    }
+    getClienteByIdEmp<T>(idCliente: any, idEmpresa: any, accessToken: any): Observable<T>{
+        const endpointUrl = this.clienteByIdEmp;
+
+        const header = this.getRequestHeaderClientes(accessToken);
+        let paramsRequest = new HttpParams().set('idCliente', idCliente).set('idEmp', idEmpresa);
+        const httpOptions = {
+          headers: header,
+          params: paramsRequest
+        }
+
+        return this.http.get<T>(endpointUrl, httpOptions);
+    }
 
     //---------------------------------------------------------------
     getRequestHeader(accesToken: any): {
@@ -109,6 +181,20 @@ export class EndPointProvider {
 
         return header;
 
+    }
+
+    getRequestHeaderClientes(accesToken: any): HttpHeaders | {}{
+      if(new Date(accesToken.expire) > new Date()){
+        const header = new HttpHeaders({
+            'Authorization': 'Bearer ' + accesToken.token,
+            'Content-Type': 'application/json'
+        });
+        return header
+      }else{
+
+        this.router.navigate(['/login']);
+        return {};
+      }
     }
 
 }

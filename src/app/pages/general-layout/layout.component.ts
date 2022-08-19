@@ -32,9 +32,8 @@ export class LayoutComponent implements OnInit {
       matIcon: 'people',
       active: false,
       routerLink: '',
-      submenu: [ {name: 'Lista Clientes', url: '/clientes'},
-      {name: 'Nuevo Cliente', url: '/clientes/nuevo'},
-      {name: 'Datos Emprsa', url: ''}]
+      submenu: [ {name: 'Lista Clientes', url: '/clientes'}
+      ]
     },
     {
       name: 'Inventario',
@@ -72,7 +71,8 @@ export class LayoutComponent implements OnInit {
       active: false,
       routerLink: '',
       submenu: [
-        {name: 'Datos Emprsa', url: 'infoempresa'},
+        {name: 'Datos Empresa', url: 'infoempresa'},
+        {name: 'Usuarios', url: 'usuarios'},
         {name: 'Avanzados', url: ''},
       ]
     }
