@@ -150,6 +150,11 @@ border-bottom-style:none;
   content: '';
 }
 
+
+th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+  padding-left: 24px;
+}
+
 /*MEDIA QUERIES*/
 @media screen and (max-width: 767px){
   .mat-table .mat-row {

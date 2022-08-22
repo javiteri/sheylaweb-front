@@ -1,7 +1,6 @@
 .container-register{
     min-height: 100%;
     height: auto;
-
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;
@@ -14,7 +13,7 @@
     width: 100%;
 }
 
-.container-form-field{
+.container-form-field, .container-identificacion, .container-form-field .mat-form-field{
     width: 100%;
 }
 
@@ -35,7 +34,6 @@
 
 .mat-card{
     box-shadow: 0 5px 20px rgba(0,0,0,.05) !important;
-
     transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
     display: block;
     position: relative;
@@ -65,21 +63,21 @@
     align-content: center;
 }
 
-.mat-form-field, .container-form-field div{
-    flex: 1 1 0;
-    max-width: 100%;
-}
-
-.mat-form-field + .mat-form-field{
-    margin-left: 20px;
-}
-
 .container-form-field .container-identificacion .mat-form-field:first-child{
     max-width: 20%;
 }
 
-.container-form-field .container-identificacion .mat-form-field:last-child{
-    max-width: 80%;
+.container-form-field .container-identificacion .identificacion{
+    max-width: 70% ;
+}
+
+.container-form-field .mat-form-field, .container-form-field div{
+    flex: 1 1 0;
+    
+}
+
+.mat-form-field + .mat-form-field{
+    margin-left: 20px;
 }
 
 .spinner{
@@ -87,3 +85,18 @@
     background-color: rgba(0,0,0,.12) !important;
     box-shadow: 0 0 0 0 rgba(0,0,0,.2),0 0 0 0 rgba(0,0,0,.14),0 0 0 0 rgba(0,0,0,.12) !important;
   }
+
+
+@media screen and (max-width: 926px){
+    .container-form-field .nacionalidad{
+        margin-left: 0;   
+    }
+}
+
+@media screen and (max-width: 488px){
+    .mat-form-field + .mat-form-field, .mat-form-field-date + .mat-form-field-date{
+        flex: 1 1 100%;
+        margin-left: 0;
+    }   
+}
+

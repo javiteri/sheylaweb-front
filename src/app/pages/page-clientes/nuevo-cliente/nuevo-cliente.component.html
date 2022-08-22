@@ -25,7 +25,7 @@
                                     </mat-select>
                                 </mat-form-field>
 
-                                <mat-form-field >
+                                <mat-form-field class="identificacion">
                                     <mat-label>Identificacion</mat-label>
                                     <input matInput type="text" formControlName="documentoIdentidad" (blur)="onLostFocus(sendDatosFormCliente.value.documentoIdentidad);">
                                 </mat-form-field>
@@ -40,7 +40,7 @@
 
                             </div>
 
-                            <mat-form-field >
+                            <mat-form-field class="nacionalidad">
                                 <mat-label>Nacionalidad</mat-label>
                                 <mat-select placeholder="Nacionalidad" formControlName="nacionalidad">
                                     <mat-option *ngFor="let nacionalidad of nacionalidades " [value]="nacionalidad">
@@ -53,12 +53,12 @@
 
                         <div class="container-form-field">
 
-                            <mat-form-field class="mat-form-field-date">
+                            <mat-form-field >
                                 <mat-label>Nombre Natural</mat-label>
                                 <input matInput type="text" formControlName="nombreNatural" >
                             </mat-form-field>
 
-                            <mat-form-field class="mat-form-field-date">
+                            <mat-form-field>
                                 <mat-label>Razon Social</mat-label>
                                 <input matInput type="text" formControlName="razonSocial" >
                             </mat-form-field>
@@ -68,7 +68,7 @@
 
 
                         <div class="container-form-field">
-                            <mat-form-field >
+                            <mat-form-field class="mat-form-field-date">
                                 <mat-label>E-Mail</mat-label>
                                 <input matInput type="text" formControlName="email" >
                             </mat-form-field>
