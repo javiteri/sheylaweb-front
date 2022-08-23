@@ -155,6 +155,71 @@ export class EndPointProvider {
         return this.http.get<T>(endpointUrl, httpOptions);
     }
 
+
+    //METHODS FOR USUARIOS 
+    private readonly _usuariosByIdEmp: string = 'usuarios/getUsuariosByIdEmp';
+    private get usuariosByIdEmp(){
+      return this.apiUrl + this._usuariosByIdEmp;
+    }
+    getUsuariosByIdEmp<T>(idEmp: any, accesToken: any){
+      const endpointUrl = this.usuariosByIdEmp;
+      const header = this.getRequestHeaderClientes(accesToken);
+
+      const httpOptions = {
+        headers: header, 
+        params: new HttpParams().set('idEmp', idEmp)
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+
+    private readonly _insertUsuario: string = "usuarios/insertar";
+    private get insertUsuarioUrl(){
+      return this.apiUrl + this._insertUsuario;
+    }
+    insertUsuarioToBD<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.insertUsuarioUrl;   
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
+
+    private readonly _getUsuarioById: string = "usuarios/getUsuarioByIdEmp";
+    private get getUsuarioByIdUrl(){
+      return this.apiUrl + this._getUsuarioById;
+    }
+    getUsuarioById<T>(idUser: any, idEmp: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.getUsuarioByIdUrl;
+
+        const header = this.getRequestHeaderClientes(accessToken)
+        const httpOptions = {
+          headers: header, 
+          params: new HttpParams().set('id', idUser).set('idEmp', idEmp)
+        }
+
+        return this.http.get<T>(endPointUrl, httpOptions);
+    }
+    private readonly _updateUsuario: string = "usuarios/update";
+    private get updateUsuarioUrl(){
+      return this.apiUrl + this._updateUsuario;
+    }
+    updateUsuarioToBD<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.updateUsuarioUrl;        
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
+    private readonly _deleteUsuarioByIdEmp: string = "usuarios/delete";
+    private get deleteUsuarioByIdEmp(){
+      return this.apiUrl + this._deleteUsuarioByIdEmp;
+    }
+    deleteUsuarioByIdEmpToBD<T>(idUser: any, idEmpresa: any, accessToken: any): Observable<T>{
+      const endPointUrl = this.deleteUsuarioByIdEmp;
+      const postData = {
+        'idEmpresa': idEmpresa,
+        'idUser': idUser
+      }
+
+      return this.http.post<T>(endPointUrl,postData,  this.getRequestHeader(accessToken));
+    }
+
+
     //---------------------------------------------------------------
     getRequestHeader(accesToken: any): {
       headers: HttpHeaders | { [header: string]: string | string[];}

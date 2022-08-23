@@ -7,27 +7,40 @@
 
                 <mat-card-header class="bg-info text-white">
                     <mat-card-title class="clientes">
-                        <h3>Titulo</h3>
+                        <h3>{{titlePage}}</h3>
                         <!--  <div> <label>Total: 2</label></div> -->
                     </mat-card-title>
                 </mat-card-header>
 
-                <form [formGroup]="sendDatosFormUsuario">
+                <form [formGroup]="sendDatosFormUsuario" (ngSubmit)="saveDatosUsuario(sendDatosFormUsuario.value)">
                     <div class="all-content">
                         <div class="container-form-field">
-                            <mat-form-field class="mat-form-field-date">
+                            
+                            <div class="container-identificacion mat-form-field"> 
+
+                                <mat-form-field class="identificacion">
+                                    <mat-label>Identificacion</mat-label>
+                                    <input matInput type="text" formControlName="identificacion" (blur)="onLostFocus(sendDatosFormUsuario.value.identificacion);">    
+                                </mat-form-field>
+
+                                <button (click)="searchDatosClienteSri(sendDatosFormUsuario.value.identificacion);$event.preventDefault();" matTooltip="Buscar datos Cliente" mat-icon-button color="icon-accent" >
+                                    <mat-icon >travel_explore</mat-icon>
+                                </button>
+                            </div>
+
+                            <mat-form-field >
                                 <mat-label>Nombre Natural</mat-label>
                                 <input matInput type="text" formControlName="nombreNatural" >
                             </mat-form-field>
                         </div>
     
                         <div class="container-form-field">
-                            <mat-form-field class="mat-form-field-date">
+                            <mat-form-field >
                                 <mat-label>Telefono</mat-label>
                                 <input matInput type="text" formControlName="telefono" >
                             </mat-form-field>
     
-                            <mat-form-field class="mat-form-field-date">
+                            <mat-form-field >
                                 <mat-label>Direccion</mat-label>
                                 <input matInput type="text" formControlName="direccion" >
                             </mat-form-field>
@@ -48,16 +61,21 @@
                         </div>
     
                         <div class="container-form-field">
-                            <mat-form-field class="mat-form-field-date">
+                            <mat-form-field >
                                 <mat-label>Nombre Usuario</mat-label>
                                 <input matInput type="text" formControlName="nombreUsuario" >
                             </mat-form-field>
     
-                            <mat-form-field class="mat-form-field-date">
+                            <mat-form-field >
                                 <mat-label>Password</mat-label>
                                 <input matInput type="password" formControlName="password">
                             </mat-form-field>
                         </div>
+
+                        <div class="container-form-field">
+                            <mat-checkbox formControlName="permisoEscritura" >Permiso Escritura</mat-checkbox>
+                        </div>
+
                     </div>
                     
                     <div class="container-form-btn">

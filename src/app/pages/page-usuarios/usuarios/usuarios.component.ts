@@ -1,10 +1,13 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { Usuario } from 'src/app/interfaces/Usuario';
+import { ApplicationProvider } from 'src/app/providers/provider';
+import { LoadingService } from 'src/app/services/Loading.service';
 import { LocalService } from 'src/app/services/local.service';
 
 @Component({
@@ -14,7 +17,7 @@ import { LocalService } from 'src/app/services/local.service';
 })
 export class UsuariosComponent implements OnInit {
 
-  displayedColumns: string[] = ['nombre', 'telefono', 'email', 'username'];
+  displayedColumns: string[] = ['identificacion','nombre', 'telefono', 'email', 'username', 'actions'];
   datasource = new MatTableDataSource<Usuario>();
 
   showPagination = false;
@@ -31,9 +34,12 @@ export class UsuariosComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('containerTable', {read: ElementRef}) tableInput!: ElementRef
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(private coreService: ApplicationProvider, 
               private localService: LocalService,
-              private router: Router) { 
+              private router: Router,
+              private loadingService: LoadingService,
+              private matDialog: MatDialog,
+              private ref: ChangeDetectorRef) { 
   }
 
   ngOnInit(): void {
@@ -49,6 +55,7 @@ export class UsuariosComponent implements OnInit {
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
 
+    this.getListUsuariosRefresh();
 
   }
 
@@ -59,5 +66,71 @@ export class UsuariosComponent implements OnInit {
 
   private getListUsuariosRefresh(): void {
     this.isLoading = !this.isLoading
+
+    let dialogRef = this.loadingService.open();
+
+    this.coreService.getUsuariosByIdEmp(this.idEmpresa, this.tokenValidate).subscribe({
+      next: (dataUsers: any) => {
+        dialogRef.close();
+
+        this.isLoading = !this.isLoading;
+        this.listaUsuarios = dataUsers.data;
+
+        if(this.listaUsuarios.length > 0){
+          this.showPagination = true;
+          this.showSinDatos = false
+        }else{
+          this.showSinDatos = !this.showSinDatos;
+          this.showPagination = false
+        }
+
+        this.datasource.data = this.listaUsuarios;
+        this.ref.detectChanges();
+        this.datasource.paginator = this.paginator;
+
+      },
+      error: (error) => {
+        dialogRef.close();
+
+        this.isLoading = !this.isLoading;
+        this.showSinDatos = !this.showSinDatos;
+      }
+    });
+    
   }
+
+
+  editarClick(idUser: any){ 
+    this.router.navigate(['/usuarios/editar', idUser]);
+  }
+
+  eliminarClick(idUser: any): void{
+    const dialogRef = this.matDialog.open(ConfirmDeleteDialogComponent, {
+        width: '250px',
+        data: {title: 'Va a eliminar el cliente, desea continuar?'}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.deleteUserBD(idUser);
+      }
+    });
+  }
+
+
+  private deleteUserBD(idUser: any): void{
+    let dialogRef = this.loadingService.open();
+
+    this.coreService.deleteUsuarioByIdEmp(idUser, this.idEmpresa, this.tokenValidate).subscribe({
+      next: (data: any) => {
+        dialogRef.close();
+        this.getListUsuariosRefresh();
+      },
+      error: (error: any) => {
+        dialogRef.close();
+      }
+    });
+    
+  }
+
 }

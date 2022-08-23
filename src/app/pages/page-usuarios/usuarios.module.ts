@@ -1,9 +1,11 @@
-import { NgModule } from "@angular/core";
+import { NgModule} from "@angular/core";
+import { CommonModule } from "@angular/common";
 
-import {MatCardModule} from '@angular/material/card'
-import {MatIconModule} from '@angular/material/icon'
-import {MatTableModule} from '@angular/material/table'
+import { MatCardModule } from '@angular/material/card'
+import { MatIconModule } from '@angular/material/icon'
+import { MatTableModule } from '@angular/material/table'
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { CustomPaginator } from 'src/app/pages/page-clientes/CustomPaginator';
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -27,6 +29,8 @@ import { NuevoUsuarioComponent } from "./nuevo-usuario/nuevo-usuario.component";
         NuevoUsuarioComponent
     ],
     imports: [
+        CommonModule,
+        MatCheckboxModule,
         MatCardModule,
         MatIconModule,
         MatTableModule,

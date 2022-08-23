@@ -44,4 +44,21 @@ export class ApplicationProvider {
   getClienteByIdClienteIdEmp(idCliente: any, idEmpresa: any, accessToken: any){
       return this.coreEndPoint.getClienteByIdEmp(idCliente, idEmpresa, accessToken);
   }
+
+  //USUARIOS
+  getUsuariosByIdEmp(idEmp: any, accessToken: any){
+    return this.coreEndPoint.getUsuariosByIdEmp(idEmp, accessToken);
+  }
+  insertUsuarioToBD(postData: any, accessToken: any){
+    return this.coreEndPoint.insertUsuarioToBD(postData, accessToken);
+  }
+  getUsuarioById(idUsuario: any, idEmpresa: any, accessToken: any){
+    return this.coreEndPoint.getUsuarioById(idUsuario, idEmpresa, accessToken);
+  }
+  updateUsuarioToBD(postData: any, accessToken: any){
+    return this.coreEndPoint.updateUsuarioToBD(postData, accessToken);
+  }
+  deleteUsuarioByIdEmp(idUser: any, idEmp: any, accessToken: any){
+    return this.coreEndPoint.deleteUsuarioByIdEmpToBD(idUser, idEmp, accessToken);
+  }
 }

@@ -31,32 +31,36 @@
   
           <div class="flex-layout-table" >
               <mat-table [dataSource]="datasource" role="grid" >
-  
-                  <ng-container matColumnDef="nombre" >
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header >Nombre </th>
-                      <td mat-cell *matCellDef="let usuario" data-label="Nombre"> {{usuario.nombre}} </td>
+
+                    <ng-container matColumnDef="identificacion">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header >Identificacion</th>
+                      <td mat-cell *matCellDef="let usuario" data-label="Identificacion"> {{usuario.usu_identificacion}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="nombre" >
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="flex-grow-1_5">Nombre </th>
+                      <td mat-cell class="flex-grow-1_5" *matCellDef="let usuario" data-label="Nombre"> {{usuario.usu_nombres}} </td>
                     </ng-container>
                     <ng-container matColumnDef="telefono" >
-                      <th mat-header-cell class="flex-grow-1_5" *matHeaderCellDef mat-sort-header > Telefono </th>
-                      <td mat-cell class="flex-grow-1_5" *matCellDef="let usuario" data-label="Telefono"> {{usuario.telefono}} </td>
+                      <th mat-header-cell  *matHeaderCellDef mat-sort-header > Telefono </th>
+                      <td mat-cell *matCellDef="let usuario" data-label="Telefono"> {{usuario.usu_telefonos}} </td>
                     </ng-container>
                     <ng-container matColumnDef="email" >
                       <th mat-header-cell *matHeaderCellDef mat-sort-header > Email </th>
-                      <td mat-cell  *matCellDef="let usuario" data-label="Email"> {{usuario.email}} </td>
+                      <td mat-cell  *matCellDef="let usuario" data-label="Email"> {{usuario.usu_mail}} </td>
                     </ng-container>
                     <ng-container matColumnDef="username" >
                       <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header  > Username </th>
-                      <td mat-cell class="justify-centro" *matCellDef="let usuario" data-label="Usernam"> {{usuario.username}} </td>
+                      <td mat-cell class="justify-centro" *matCellDef="let usuario" data-label="Username"> {{usuario.usu_username}} </td>
                     </ng-container>
   
                     <ng-container matColumnDef="actions">
                       <th mat-header-cell *matHeaderCellDef>Opciones</th>
-                      <td mat-cell   *matCellDef="let row" data-label="Opciones">
+                      <td mat-cell *matCellDef="let row" data-label="Opciones">
                         <div>
-                          <button mat-icon-button color="icon-accent" aria-label="boton editar Usuario" >
+                          <button mat-icon-button color="icon-accent" aria-label="boton editar Usuario" (click)="editarClick(row.usu_id)">
                             <mat-icon>edit</mat-icon>
                           </button>
-                          <button mat-icon-button color="icon-red" aria-label="boton eliminar Usuario" >
+                          <button mat-icon-button color="icon-red" aria-label="boton eliminar Usuario" (click)="eliminarClick(row.usu_id)">
                             <mat-icon >delete</mat-icon>
                           </button>
                         </div>
