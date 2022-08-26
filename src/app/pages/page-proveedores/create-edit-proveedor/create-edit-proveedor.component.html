@@ -1,0 +1,140 @@
+<div class="container-register">
+
+    <div class="container-form">
+
+        <mat-card>
+            <mat-card-content>
+                <mat-card-header class="bg-info text-white">
+                    <mat-card-title class="proveedores">
+                        <h3>{{titlePage}}</h3>
+                        <!--  <div> <label>Total: 2</label></div> -->
+                    </mat-card-title>
+                </mat-card-header>
+
+                <form [formGroup]="sendDatosFormProveedor" (ngSubmit)="saveDatosProveedor(sendDatosFormProveedor.value)">
+                    <div class="all-content">
+
+                        <div class="container-form-field">
+
+                            <div class="container-identificacion mat-form-field"> 
+                                <mat-form-field >
+                                    <mat-select placeholder="Tipo" formControlName="tipoIdentificacion">
+                                        <mat-option *ngFor="let tipo of tiposId" [value]="tipo.valor">
+                                            {{tipo.valorMostrar}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field class="identificacion">
+                                    <mat-label>Identificacion</mat-label>
+                                    <input matInput type="text" formControlName="documentoIdentidad" 
+                                    (blur)="searchdatosProveedorSri(sendDatosFormProveedor.value.documentoIdentidad, true);">
+                                </mat-form-field>
+
+                                <button (click)="searchdatosProveedorSri(sendDatosFormProveedor.value.documentoIdentidad, true);$event.preventDefault();" 
+                                        matTooltip="Buscar datos Cliente" 
+                                        mat-icon-button color="icon-accent" aria-label="boton editar Proveedor">
+                                    <mat-icon >travel_explore</mat-icon>
+                                </button>
+
+                               <!-- <button mat-icon-button color="icon-accent" aria-label="boton editar cliente">
+                                    <mat-icon>edit</mat-icon>
+                                </button>-->
+
+                            </div>
+
+                            <mat-form-field class="nombre-natural">
+                                <mat-label>Nombre Natural</mat-label>
+                                <input matInput type="text" formControlName="nombreNatural" >
+                            </mat-form-field>
+
+                        </div>
+
+                        <div class="container-form-field">
+
+                            <mat-form-field>
+                                <mat-label>Razon Social</mat-label>
+                                <input matInput type="text" formControlName="razonSocial" >
+                            </mat-form-field>
+
+                            <mat-form-field >
+                                <mat-label>Direccion</mat-label>
+                                <input matInput type="text" formControlName="direccion" >
+                            </mat-form-field>
+                        </div>
+
+                        <div class="container-form-field">
+                            <mat-form-field >
+                                <mat-label>Telefonos</mat-label>
+                                <input matInput type="text" formControlName="telefono" >
+                            </mat-form-field>
+                            <mat-form-field >
+                                <mat-label>Celular</mat-label>
+                                <input matInput type="text" formControlName="celular" >
+                            </mat-form-field>
+
+                        </div>
+
+                        <div class="container-form-field">
+                            <mat-form-field class="mat-form-field-date">
+                                <mat-label>E-Mail</mat-label>
+                                <input matInput type="text" formControlName="email" >
+                            </mat-form-field>
+                            <mat-form-field class="mat-form-field-date">
+                                <mat-label>Pagina Web</mat-label>
+                                <input matInput type="text" formControlName="paginaWeb" >
+                            </mat-form-field>
+                        </div>
+
+                        <div class="container-form-field">
+                            <mat-form-field >
+                                <mat-label>Observacion</mat-label>
+                                <input matInput type="text" formControlName="observacion" >
+                            </mat-form-field>
+                        </div>
+
+                        <h3 class="margin-top-1rem">Datos Representante</h3>
+
+                        <div class="container-form-field">
+                            <mat-form-field class="mat-form-field-date">
+                                <mat-label>Identificacion </mat-label>
+                                <input matInput type="text" formControlName="identificacionRepre" 
+                                (blur)="searchdatosProveedorSri(sendDatosFormProveedor.value.documentoIdentidad, false);">
+                            </mat-form-field>
+                            <mat-form-field class="mat-form-field-date">
+                                <mat-label>Nombre</mat-label>
+                                <input matInput type="text" formControlName="nombreRepre" >
+                            </mat-form-field>
+                        </div>
+                        <div class="container-form-field">
+                            <mat-form-field class="mat-form-field-date">
+                                <mat-label>Telefono </mat-label>
+                                <input matInput type="text" formControlName="telefonoRepre" >
+                            </mat-form-field>
+                            <mat-form-field class="mat-form-field-date">
+                                <mat-label>Email</mat-label>
+                                <input matInput type="text" formControlName="emailRepre" >
+                            </mat-form-field>
+                        </div>
+                        <div class="container-form-field">
+                            <mat-form-field class="mat-form-field-date">
+                                <mat-label>Direccion</mat-label>
+                                <input matInput type="text" formControlName="direccionRepre" >
+                            </mat-form-field>
+                        </div>
+
+                        <div class="container-form-btn">
+                            <button  [class.spinner]="loading" [disabled]="loading" mat-raised-button color="btn-icon-accent">Guardar</button>
+                        </div>
+
+                    </div>
+                </form>
+
+            </mat-card-content>
+        </mat-card>
+
+    </div>
+
+
+</div>
+

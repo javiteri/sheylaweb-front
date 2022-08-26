@@ -31,9 +31,8 @@ export class LayoutComponent implements OnInit {
       name: 'Clientes',
       matIcon: 'people',
       active: false,
-      routerLink: '',
-      submenu: [ {name: 'Lista Clientes', url: '/clientes'}
-      ]
+      routerLink: '/clientes',
+      submenu: [ ]
     },
     {
       name: 'Inventario',
@@ -55,7 +54,7 @@ export class LayoutComponent implements OnInit {
       name: 'Proveedores',
       matIcon: 'local_shipping',
       active: false,
-      routerLink: '',
+      routerLink: '/proveedores',
       submenu: []
     },
     {
@@ -137,7 +136,6 @@ export class LayoutComponent implements OnInit {
 
 
   selectMenu(parentMenu: {name: string, routerLink: string; }): void{
-
 
     if(parentMenu.routerLink){
       this.router.navigate(['/'+parentMenu.routerLink]);

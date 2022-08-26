@@ -49,7 +49,7 @@ export class NuevoClienteComponent implements OnInit {
       nacionalidad: [''],
       nombreNatural: ['', Validators.required],
       razonSocial: [ ''],
-      email: [''],
+      email: ['', [Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/), Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       fechaNacimiento: [''],
       telefonos: [''],
       celular: [''],
@@ -248,19 +248,18 @@ export class NuevoClienteComponent implements OnInit {
   }
 
   searchDatosClienteSri(identificacion: any){
+    if(identificacion.length == 10){
+      this.sendDatosFormCliente.controls['tipoIdentificacion'].setValue(this.tiposId[1].valor);
+    }
+    if(identificacion.length == 13){
+      this.sendDatosFormCliente.controls['tipoIdentificacion'].setValue(this.tiposId[0].valor);
+    }
+
     if(identificacion.length == 10 || identificacion.length == 13){
         this.searchDatosCliente(identificacion);
     }
   }
 
-
-  onLostFocus(documentoIdentidad: string){
-
-    if(documentoIdentidad.length == 10 || documentoIdentidad.length == 13){
-      this.searchDatosCliente(documentoIdentidad);
-    }
-
-  }
 
   private searchDatosCliente(identificacion: any){
 

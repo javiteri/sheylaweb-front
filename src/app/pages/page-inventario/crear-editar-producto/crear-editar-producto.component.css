@@ -1,0 +1,93 @@
+.container-register{
+    min-height: 100%;
+    height: auto;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+  
+}
+.container-form{
+  max-width: 900px;
+  width: 100%;    
+}
+  
+.container-form-field{
+  width: 100%;
+}
+
+.container-form-field div{
+  display: flex;
+  align-items: center;
+  align-content: center;
+}
+
+.container-form-field, .container-identificacion, .container-form-field .mat-form-field{
+  width: 100%;
+}
+
+  
+.all-content , .container-form-field{
+  display: flex;
+  flex-flow: row wrap;
+  align-content: center;
+  align-items: center;
+}
+
+.mat-icon-accent{
+  color: var(--accent-color);
+}
+
+::ng-deep  .mat-card-header-text {
+  margin: 0 !important;
+}
+
+
+.mat-card{
+  box-shadow: 0 5px 20px rgba(0,0,0,.05) !important;
+  transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  display: block;
+  position: relative;
+  padding: 16px;
+  border-radius: 4px;
+}
+.mat-card-header{
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+}
+
+.container-form-btn{
+  width: 100%;
+  text-align: end;
+  margin-top: 20px;
+}
+.container-form-btn button{
+  background-color: #00AAFF;
+  color: #ffffff;
+  font-weight: normal;
+}
+
+.container-form-field .mat-form-field, .container-form-field div{
+  flex: 1 1 0;
+  
+}
+
+.mat-form-field + .mat-form-field{
+  margin-left: 20px;
+}
+
+.spinner{
+  color: rgba(0,0,0,.26) !important;
+  background-color: rgba(0,0,0,.12) !important;
+  box-shadow: 0 0 0 0 rgba(0,0,0,.2),0 0 0 0 rgba(0,0,0,.14),0 0 0 0 rgba(0,0,0,.12) !important;
+}
+
+
+@media screen and (max-width: 488px){
+  .mat-form-field + .mat-form-field, .mat-form-field-date + .mat-form-field-date{
+      flex: 1 1 100%;
+      margin-left: 0;
+  }   
+}

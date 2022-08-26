@@ -27,7 +27,7 @@
 
                                 <mat-form-field class="identificacion">
                                     <mat-label>Identificacion</mat-label>
-                                    <input matInput type="text" formControlName="documentoIdentidad" (blur)="onLostFocus(sendDatosFormCliente.value.documentoIdentidad);">
+                                    <input matInput type="text" formControlName="documentoIdentidad" (blur)="searchDatosClienteSri(sendDatosFormCliente.value.documentoIdentidad);">
                                 </mat-form-field>
 
                                 <button (click)="searchDatosClienteSri(sendDatosFormCliente.value.documentoIdentidad);$event.preventDefault();" matTooltip="Buscar datos Cliente" mat-icon-button color="icon-accent" aria-label="boton editar cliente">

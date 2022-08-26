@@ -219,6 +219,90 @@ export class EndPointProvider {
       return this.http.post<T>(endPointUrl,postData,  this.getRequestHeader(accessToken));
     }
 
+    // METHODS FOR PROVEEDORES
+    private readonly _listProveedoresByIdEmp: string = 'proveedores/getProveedoresByIdEmp';
+    private get listProveedoresByIdEmp(){
+      return this.apiUrl + this._listProveedoresByIdEmp;
+    }
+    getListProveedoresByIdEmp<T>(idEmpresa: any, accessToken: any): Observable<T>{
+      const endpointUrl = this.listProveedoresByIdEmp;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa);
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+
+    private readonly _proveedorByIdEmp: string = 'proveedores/getProveedorByIdEmp';
+    private get proveedorByIdEmp(){
+      return this.apiUrl + this._proveedorByIdEmp;
+    }
+    getProveedorByIdEmp<T>(idProveedor: any, idEmpresa: any, accessToken: any): Observable<T>{
+        const endpointUrl = this.proveedorByIdEmp;
+
+        const header = this.getRequestHeaderClientes(accessToken);
+        let paramsRequest = new HttpParams().set('id', idProveedor).set('idEmp', idEmpresa);
+        const httpOptions = {
+          headers: header,
+          params: paramsRequest
+        }
+
+        return this.http.get<T>(endpointUrl, httpOptions);
+    }
+
+    private readonly _insertProveedor: string = "proveedores/insertar";
+    private get insertProveedorUrl(){
+      return this.apiUrl + this._insertProveedor;
+    }
+    insertProveedorToBD<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.insertProveedorUrl;   
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
+    private readonly _updateProveedor: string = "proveedores/update";
+    private get updateProveedorUrl(){
+      return this.apiUrl + this._updateProveedor;
+    }
+    updateProveedorToBD<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.updateProveedorUrl;        
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
+    private readonly _deleteProveedorByIdEmp: string = "proveedores/delete";
+    private get deleteProveedorByIdEmp(){
+      return this.apiUrl + this._deleteProveedorByIdEmp;
+    }
+    deleteProveedorByIdEmpToBD<T>(idProv: any, idEmpresa: any, accessToken: any): Observable<T>{
+      const endPointUrl = this.deleteProveedorByIdEmp;
+      const postData = {
+        'idEmpresa': idEmpresa,
+        'idProv': idProv
+      }
+
+      return this.http.post<T>(endPointUrl,postData,  this.getRequestHeader(accessToken));
+    }
+
+     // METHODS FOR PROVEEDORES
+     private readonly _listProductosByIdEmp: string = 'productos/getProductosByIdEmp';
+     private get listProductosByIdEmp(){
+       return this.apiUrl + this._listProductosByIdEmp;
+     }
+     getListProductosByIdEmp<T>(idEmpresa: any, accessToken: any): Observable<T>{
+       const endpointUrl = this.listProductosByIdEmp;
+       
+       const header = this.getRequestHeaderClientes(accessToken);
+ 
+       let paramsRequest = new HttpParams().set('idEmp', idEmpresa);
+ 
+       const httpOptions = {
+         headers: header,
+         params: paramsRequest
+       }
+       return this.http.get<T>(endpointUrl, httpOptions);
+     }
 
     //---------------------------------------------------------------
     getRequestHeader(accesToken: any): {

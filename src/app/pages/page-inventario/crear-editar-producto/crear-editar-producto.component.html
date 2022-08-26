@@ -1,0 +1,101 @@
+<div class="container-register">
+
+    <div class="container-form">
+
+        <mat-card>
+            <mat-card-content>
+                <mat-card-header class="bg-info text-white">
+                    <mat-card-title class="proveedores">
+                        <h3>{{titlePage}}</h3>
+                        <!--  <div> <label>Total: 2</label></div> -->
+                    </mat-card-title>
+                </mat-card-header>
+
+                <form [formGroup]="sendDatosFormProducto" (ngSubmit)="saveDatosProducto(sendDatosFormProducto.value)">
+                    <div class="all-content">
+
+                        <div class="container-form-field">
+
+                            <mat-form-field>
+                                <mat-label>Codigo</mat-label>
+                                <input matInput type="text" formControlName="codigo" >
+                            </mat-form-field>
+
+                            <mat-form-field >
+                                <mat-label>Codigo Barras</mat-label>
+                                <input matInput type="text" formControlName="codigoBarras" >
+                            </mat-form-field>
+                        </div>
+
+                        <div class="container-form-field">
+                            <mat-form-field >
+                                <mat-label>Nombre</mat-label>
+                                <input matInput type="text" formControlName="nombre" >
+                            </mat-form-field>
+                            <mat-form-field >
+                                <mat-label>PVP</mat-label>
+                                <input matInput type="text" formControlName="pvp" >
+                            </mat-form-field>
+
+                        </div>
+
+                        <div class="container-form-field">
+                            <mat-form-field >
+                                <mat-label>Costo</mat-label>
+                                <input matInput type="text" formControlName="costo" >
+                            </mat-form-field>
+                            <mat-form-field >
+                                <mat-label>Utilidad</mat-label>
+                                <input matInput type="text" formControlName="utilidad" >
+                            </mat-form-field>
+                        </div>
+
+                        <div class="container-form-field">
+                            <mat-form-field >
+                                <mat-label>Stock</mat-label>
+                                <input matInput type="text" formControlName="stock" >
+                            </mat-form-field>
+                            <mat-form-field >
+                                <mat-label>Unidad Medida</mat-label>
+                                <input matInput type="text" formControlName="unidadMedida" >
+                            </mat-form-field>
+                        </div>
+
+                        <div class="container-form-field">
+                            <mat-form-field >
+                                <mat-label>Categoria</mat-label>
+                                <input matInput type="text" formControlName="categoria" >
+                            </mat-form-field>
+                            <mat-form-field >
+                                <mat-label>Marca</mat-label>
+                                <input matInput type="text" formControlName="marca" >
+                            </mat-form-field>
+                        </div>
+
+                        <div class="container-form-field">
+                            <mat-checkbox formControlName="iva" >Tiene Iva</mat-checkbox>
+                            <mat-checkbox formControlName="activo" >Esta Activo</mat-checkbox>
+                        </div>
+
+                        <div class="container-form-field">
+                            <mat-form-field >
+                                <mat-label>Observacion</mat-label>
+                                <input matInput type="text" formControlName="observacion" >
+                            </mat-form-field>
+                        </div>
+
+                        <div class="container-form-btn">
+                            <button  [class.spinner]="loading" [disabled]="loading" mat-raised-button color="btn-icon-accent">Guardar</button>
+                        </div>
+
+                    </div>
+                </form>
+
+            </mat-card-content>
+        </mat-card>
+
+    </div>
+
+
+</div>
+

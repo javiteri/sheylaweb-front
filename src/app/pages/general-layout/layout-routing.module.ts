@@ -23,11 +23,15 @@ const routes: Routes = [
       },
       {
         path: 'inventario',
-        component: PageInventarioComponent
+        loadChildren: () => import('../page-inventario/productos.module').then((m) => m.ProductosModule)
       },
       {
         path: 'ventas',
         component: PageVentasComponent
+      },
+      {
+        path: 'proveedores',
+        loadChildren: () => import('../page-proveedores/proveedores.module').then((m) => m.ProveedoresModule)
       },
       {
         path: 'compras',

@@ -6,25 +6,25 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
-import { Producto } from 'src/app/interfaces/Productos';
+import { Proveedor } from 'src/app/interfaces/Proveedor';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
 import { LocalService } from 'src/app/services/local.service';
 
 @Component({
-  selector: 'app-page-inventario',
-  templateUrl: './page-inventario.component.html',
-  styleUrls: ['./page-inventario.component.css']
+  selector: 'app-proveedores',
+  templateUrl: './proveedores.component.html',
+  styleUrls: ['./proveedores.component.css']
 })
-export class PageInventarioComponent implements OnInit {
+export class ProveedoresComponent implements OnInit {
 
-  displayedColumns: string[] = ['codigo', 'codigoBarra', 'nombre', 'stock', 'unidadMedida', 'actions'];
-  datasource = new MatTableDataSource<Producto>();
+  displayedColumns: string[] = ['ci', 'nombre', 'email', 'telefono', 'observacion', 'actions'];
+  datasource = new MatTableDataSource<Proveedor>();
 
   showPagination = false;
   showSinDatos = false;
   isLoading = false;
-  listaProductos: Producto[] = [];
+  listaProveedores: Proveedor[] = [];
 
   idEmpresa: number = 0;
   rucEmpresa: string = '';
@@ -42,7 +42,9 @@ export class PageInventarioComponent implements OnInit {
               private toastr: ToastrService,
               private matDialog: MatDialog) { }
 
+
   ngOnInit(): void {
+
     // GET INITIAL DATA 
     const localServiceResponseToken = this.localService.storageGetJsonValue('DATA_TOK');
     const localServiceResponseUsr = this.localService.storageGetJsonValue('DATA_USER');
@@ -54,36 +56,37 @@ export class PageInventarioComponent implements OnInit {
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
 
-    this.getListaProductosRefresh();
+    this.getListaProveedoresRefresh();
+
   }
 
-  private getListaProductosRefresh(){
+  private getListaProveedoresRefresh(){
 
     this.isLoading = !this.isLoading;
 
     let dialogRef = this.loadingService.open();
 
-    this.coreService.getListProductosByIdEmp(this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.getListProveedoresByIdEmp(this.idEmpresa, this.tokenValidate).subscribe({
       next: (data: any) => {
 
         dialogRef.close();
 
         this.isLoading = !this.isLoading;
 
-        this.listaProductos = data.data;
+        this.listaProveedores = data.data;
 
-        console.log('productos response');
+        console.log('proveedores response');
         console.log(data.data);
 
-        if(this.listaProductos.length > 0){
-          this.showPagination = true;
+        if(this.listaProveedores.length > 0){
+          this.showPagination = true;//!this.showPagination;
           this.showSinDatos = false
         }else{
           this.showSinDatos = !this.showSinDatos;
           this.showPagination = false
         }
 
-        this.datasource.data = this.listaProductos;
+        this.datasource.data = this.listaProveedores;
         this.datasource.paginator = this.paginator;
 
       },
@@ -99,23 +102,22 @@ export class PageInventarioComponent implements OnInit {
 
   }
 
-  nuevoProducto(){
-    console.log('inside');
-    this.router.navigate(['inventario/nuevo']);
+  nuevoProveedor(){
+    this.router.navigate(['proveedores/nuevo']);
   }
 
-  editarClick(idProducto: any){
-    this.router.navigate(['inventario/editar', idProducto]);
+  editarClick(idProv: any){
+    this.router.navigate(['proveedores/editar', idProv]);
   }
-  eliminarClick(idProducto: any){
+  eliminarClick(idProv: any){
       const dialogRef = this.matDialog.open(ConfirmDeleteDialogComponent, {
         width: '250px',
-        data: {title: 'Va a eliminar el producto, desea continuar?'}
+        data: {title: 'Va a eliminar el proveedor, desea continuar?'}
       });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        //this.deleteProveedorApi(idProv);
+        this.deleteProveedorApi(idProv);
       }
     });
   }
@@ -126,7 +128,7 @@ export class PageInventarioComponent implements OnInit {
     this.coreService.deleteProveedorByIdEmp(idCliente, this.idEmpresa, this.tokenValidate).subscribe({
       next: (data: any) => {
         dialogRef.close();
-        //this.getListaProveedoresRefresh();
+        this.getListaProveedoresRefresh();
       },
       error: (error: any) => {
         dialogRef.close();

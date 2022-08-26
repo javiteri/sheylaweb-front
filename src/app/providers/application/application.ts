@@ -61,4 +61,26 @@ export class ApplicationProvider {
   deleteUsuarioByIdEmp(idUser: any, idEmp: any, accessToken: any){
     return this.coreEndPoint.deleteUsuarioByIdEmpToBD(idUser, idEmp, accessToken);
   }
+
+  // PROVEEDORES
+  getListProveedoresByIdEmp(idEmpresa: any, accessToken: any){
+    return this.coreEndPoint.getListProveedoresByIdEmp(idEmpresa, accessToken);
+  }
+  getProveedorByIdProvIdEmp(idProv: any, idEmpresa: any, accessToken: any){
+    return this.coreEndPoint.getProveedorByIdEmp(idProv, idEmpresa, accessToken);
+  }
+  insertProveedorToBD(postData: any, accessToken: any){
+    return this.coreEndPoint.insertProveedorToBD(postData, accessToken);
+  }
+  updateProveedorToBD(postData: any, accessToken: any){
+    return this.coreEndPoint.updateProveedorToBD(postData, accessToken);
+  }
+  deleteProveedorByIdEmp(idCliente: any, idEmp: any, accessToken: any){
+    return this.coreEndPoint.deleteProveedorByIdEmpToBD(idCliente, idEmp, accessToken);
+  }
+
+  // PRODUCTOS
+  getListProductosByIdEmp(idEmpresa: any, accessToken: any){
+    return this.coreEndPoint.getListProductosByIdEmp(idEmpresa, accessToken);
+  }
 }
