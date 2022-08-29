@@ -45,7 +45,8 @@
                     </ng-container>
                     <ng-container matColumnDef="stock" >
                       <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header  > Stock</th>
-                      <td mat-cell class="justify-centro" *matCellDef="let producto" data-label="Stock"> {{producto.prod_stock}} </td>
+                      <td mat-cell class="justify-centro" *matCellDef="let producto" data-label="Stock"
+                      [ngClass]="{'low-stock': producto.prod_stock <= 0}"> {{producto.prod_stock}} </td>
                     </ng-container>
                     <ng-container matColumnDef="unidadMedida">
                       <th mat-header-cell class="justify-centro flex-grow-1_5" *matHeaderCellDef mat-sort-header> Unidad Medida </th>

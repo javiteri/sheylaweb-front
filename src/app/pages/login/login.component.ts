@@ -22,7 +22,6 @@ export class LoginComponent implements OnInit {
     public formBuilder: FormBuilder,
     public router: Router,
     private coreService: ApplicationProvider,
-    private dataStoreService: DataStoreService,
     private localService: LocalService,
     private loadingService: LoadingService,
     private toastr: ToastrService

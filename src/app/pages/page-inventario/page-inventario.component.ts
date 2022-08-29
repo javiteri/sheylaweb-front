@@ -72,9 +72,6 @@ export class PageInventarioComponent implements OnInit {
 
         this.listaProductos = data.data;
 
-        console.log('productos response');
-        console.log(data.data);
-
         if(this.listaProductos.length > 0){
           this.showPagination = true;
           this.showSinDatos = false
@@ -100,7 +97,6 @@ export class PageInventarioComponent implements OnInit {
   }
 
   nuevoProducto(){
-    console.log('inside');
     this.router.navigate(['inventario/nuevo']);
   }
 
@@ -115,18 +111,18 @@ export class PageInventarioComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        //this.deleteProveedorApi(idProv);
+        this.deleteProductoApi(idProducto);
       }
     });
   }
 
-  private deleteProveedorApi(idCliente: any): void{
+  private deleteProductoApi(idProducto: any): void{
     let dialogRef = this.loadingService.open();
 
-    this.coreService.deleteProveedorByIdEmp(idCliente, this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.deleteProductoByIdEmp(idProducto, this.idEmpresa, this.tokenValidate).subscribe({
       next: (data: any) => {
         dialogRef.close();
-        //this.getListaProveedoresRefresh();
+        this.getListaProductosRefresh();
       },
       error: (error: any) => {
         dialogRef.close();

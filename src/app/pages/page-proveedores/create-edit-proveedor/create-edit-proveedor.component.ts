@@ -88,7 +88,7 @@ export class CreateEditProveedorComponent implements OnInit {
 
         }
 
-    });    
+    });
   }
 
   private getProveedorById(idProveedor: any){
@@ -216,11 +216,13 @@ export class CreateEditProveedorComponent implements OnInit {
 
   searchdatosProveedorSri(identificacion: any, isSearchProve: boolean){
     
-    if(identificacion.length == 10){
-      this.sendDatosFormProveedor.controls['tipoIdentificacion'].setValue(this.tiposId[1].valor);
-    }
-    if(identificacion.length == 13){
-      this.sendDatosFormProveedor.controls['tipoIdentificacion'].setValue(this.tiposId[0].valor);
+    if(isSearchProve){
+      if(identificacion.length == 10){
+        this.sendDatosFormProveedor.controls['tipoIdentificacion'].setValue(this.tiposId[1].valor);
+      }
+      if(identificacion.length == 13){
+        this.sendDatosFormProveedor.controls['tipoIdentificacion'].setValue(this.tiposId[0].valor);
+      }
     }
 
     if(identificacion.length == 10 || identificacion.length == 13){

@@ -13,15 +13,16 @@ import { LoadingService } from "src/app/services/Loading.service";
 
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import {MatCardModule} from '@angular/material/card';
-import {MatIconModule} from '@angular/material/icon';
-import {MatTableModule} from '@angular/material/table';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from "@angular/material/select";
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { CustomPaginator } from 'src/app/pages/page-clientes/CustomPaginator';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { ApplicationProvider, EndPointProvider } from "src/app/providers/provider";
 import { ProductosRoutingModule } from "./productos-routing.module";
 import { RouterModule } from "@angular/router";
@@ -37,6 +38,7 @@ import { CrearEditarProductoComponent } from './crear-editar-producto/crear-edit
         MatTooltipModule,
         CommonModule,
         MatCheckboxModule,
+        MatAutocompleteModule,
         ProductosRoutingModule,
         MatSelectModule,
         RouterModule,

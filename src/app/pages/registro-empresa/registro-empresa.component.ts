@@ -73,9 +73,6 @@ export class RegistroEmpresaComponent implements OnInit {
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
 
-    console.log('idEmpresa: ' + localServiceResponseUsr._bussId);
-    console.log('rucEmpresa: ' + localServiceResponseUsr._ruc);
-
     let postData = {
       ruc: this.rucEmpresa,
       idEmpresa: this.idEmpresa

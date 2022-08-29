@@ -78,6 +78,11 @@
   margin-left: 20px;
 }
 
+
+.mat-checkbox + .mat-checkbox{
+  margin-left: 2rem;
+}
+
 .spinner{
   color: rgba(0,0,0,.26) !important;
   background-color: rgba(0,0,0,.12) !important;
@@ -90,4 +95,17 @@
       flex: 1 1 100%;
       margin-left: 0;
   }   
+}
+
+@media screen and (max-width: 290px){
+  .mat-checkbox + .mat-checkbox{
+    margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 918px){
+  .decimal-field .mat-form-field:last-child{
+    margin-left: 0;
+    flex: 1 1 100%
+  }
 }

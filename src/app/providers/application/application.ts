@@ -83,4 +83,24 @@ export class ApplicationProvider {
   getListProductosByIdEmp(idEmpresa: any, accessToken: any){
     return this.coreEndPoint.getListProductosByIdEmp(idEmpresa, accessToken);
   }
+  getProductoByIdEmp(idProducto: any, idEmpresa: any, accessToken: any){
+    return this.coreEndPoint.getProductoByIdEmp(idProducto, idEmpresa, accessToken);
+  }
+  insertProductoToBD(postData: any, accessToken: any){
+    return this.coreEndPoint.insertProductoToBD(postData, accessToken);
+  }
+  updateProductoToBD(postData: any, accessToken: any){
+    return this.coreEndPoint.updateProductoToBD(postData, accessToken);
+  }
+  deleteProductoByIdEmp(idCliente: any, idEmp: any, accessToken: any){
+    return this.coreEndPoint.deleteProductoByIdEmpToBD(idCliente, idEmp, accessToken);
+  }
+
+  getCategoriasProductosByIdEmp(idEmpresa: any, accessToken: any){
+    return this.coreEndPoint.getCategoriasByIdEmp(idEmpresa, accessToken);
+  }
+  getMarcasProductosByIdEmp(idEmpresa: any, accessToken: any){
+    return this.coreEndPoint.getMarcasByIdEmp(idEmpresa, accessToken);
+  }
+
 }

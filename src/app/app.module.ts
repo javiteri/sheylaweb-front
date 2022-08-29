@@ -9,6 +9,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import {LayoutModule} from '@angular/cdk/layout';
 import { AppRoutingModule } from './app-routing.module';
 import { ConfirmDeleteDialogComponent } from './components/confirm-delete-dialog/confirm-delete-dialog.component';
+import { AuthGuard } from './shared/guard';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { ConfirmDeleteDialogComponent } from './components/confirm-delete-dialog
     AppRoutingModule,
     ToastrModule.forRoot()
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

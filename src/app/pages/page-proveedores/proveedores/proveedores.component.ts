@@ -75,9 +75,6 @@ export class ProveedoresComponent implements OnInit {
 
         this.listaProveedores = data.data;
 
-        console.log('proveedores response');
-        console.log(data.data);
-
         if(this.listaProveedores.length > 0){
           this.showPagination = true;//!this.showPagination;
           this.showSinDatos = false
@@ -122,10 +119,10 @@ export class ProveedoresComponent implements OnInit {
     });
   }
 
-  private deleteProveedorApi(idCliente: any): void{
+  private deleteProveedorApi(idProveedor: any): void{
     let dialogRef = this.loadingService.open();
 
-    this.coreService.deleteProveedorByIdEmp(idCliente, this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.deleteProveedorByIdEmp(idProveedor, this.idEmpresa, this.tokenValidate).subscribe({
       next: (data: any) => {
         dialogRef.close();
         this.getListaProveedoresRefresh();

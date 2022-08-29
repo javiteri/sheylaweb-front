@@ -32,21 +32,25 @@
                                 <mat-label>Nombre</mat-label>
                                 <input matInput type="text" formControlName="nombre" >
                             </mat-form-field>
-                            <mat-form-field >
-                                <mat-label>PVP</mat-label>
-                                <input matInput type="text" formControlName="pvp" >
-                            </mat-form-field>
-
                         </div>
 
-                        <div class="container-form-field">
+                        <div class="container-form-field decimal-field">
+
+                            <mat-form-field >
+                                <mat-label>PVP</mat-label>
+                                <input matInput type="number" formControlName="pvp" >
+                                <span matPrefix>$&nbsp;</span>
+                            </mat-form-field>
+
                             <mat-form-field >
                                 <mat-label>Costo</mat-label>
-                                <input matInput type="text" formControlName="costo" >
+                                <input matInput type="number" formControlName="costo" >
+                                <span matPrefix>$&nbsp;</span>
                             </mat-form-field>
                             <mat-form-field >
                                 <mat-label>Utilidad</mat-label>
                                 <input matInput type="text" formControlName="utilidad" >
+                                <span matSuffix>%</span>
                             </mat-form-field>
                         </div>
 
@@ -64,17 +68,35 @@
                         <div class="container-form-field">
                             <mat-form-field >
                                 <mat-label>Categoria</mat-label>
-                                <input matInput type="text" formControlName="categoria" >
+
+                                <input type="text" 
+                                aria-label="Categoria"
+                                matInput
+                                [matAutocomplete]="categoria"
+                                formControlName="categoria">
+
+                                <mat-autocomplete autoActiveFirstOption #categoria="matAutocomplete">
+                                    <mat-option *ngFor="let categoria of listCategorias | async" [value]="categoria.pro_categoria">
+                                        {{categoria.pro_categoria}}
+                                    </mat-option>
+                                </mat-autocomplete>
+
                             </mat-form-field>
                             <mat-form-field >
                                 <mat-label>Marca</mat-label>
-                                <input matInput type="text" formControlName="marca" >
-                            </mat-form-field>
-                        </div>
 
-                        <div class="container-form-field">
-                            <mat-checkbox formControlName="iva" >Tiene Iva</mat-checkbox>
-                            <mat-checkbox formControlName="activo" >Esta Activo</mat-checkbox>
+                                <input type="text" 
+                                aria-label="Marca"
+                                matInput
+                                [matAutocomplete]="marca"
+                                formControlName="marca">
+
+                                <mat-autocomplete autoActiveFirstOption #marca="matAutocomplete">
+                                    <mat-option *ngFor="let marca of listMarcas" [value]="marca.prod_marca">
+                                        {{marca.prod_marca}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
                         </div>
 
                         <div class="container-form-field">
@@ -82,6 +104,11 @@
                                 <mat-label>Observacion</mat-label>
                                 <input matInput type="text" formControlName="observacion" >
                             </mat-form-field>
+                        </div>
+                        
+                        <div class="container-form-field">
+                            <mat-checkbox formControlName="iva" >Tiene Iva</mat-checkbox>
+                            <mat-checkbox formControlName="activo" >Esta Activo</mat-checkbox>
                         </div>
 
                         <div class="container-form-btn">

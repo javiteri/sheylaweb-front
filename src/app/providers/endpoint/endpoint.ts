@@ -285,7 +285,7 @@ export class EndPointProvider {
       return this.http.post<T>(endPointUrl,postData,  this.getRequestHeader(accessToken));
     }
 
-     // METHODS FOR PROVEEDORES
+     // METHODS FOR PRODUCTOS
      private readonly _listProductosByIdEmp: string = 'productos/getProductosByIdEmp';
      private get listProductosByIdEmp(){
        return this.apiUrl + this._listProductosByIdEmp;
@@ -303,6 +303,89 @@ export class EndPointProvider {
        }
        return this.http.get<T>(endpointUrl, httpOptions);
      }
+
+    private readonly _productoByIdEmp: string = 'productos/getProductoByIdEmp';
+    private get productoByIdEmp(){
+      return this.apiUrl + this._productoByIdEmp;
+    }
+    getProductoByIdEmp<T>(idProducto: any, idEmpresa: any, accessToken: any): Observable<T>{
+        const endpointUrl = this.productoByIdEmp;
+
+        const header = this.getRequestHeaderClientes(accessToken);
+        let paramsRequest = new HttpParams().set('id', idProducto).set('idEmp', idEmpresa);
+        const httpOptions = {
+          headers: header,
+          params: paramsRequest
+        }
+
+        return this.http.get<T>(endpointUrl, httpOptions);
+    }
+
+    private readonly _insertProducto: string = "productos/insertar";
+    private get insertProductoUrl(){
+      return this.apiUrl + this._insertProducto;
+    }
+    insertProductoToBD<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.insertProductoUrl;   
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
+    private readonly _updateProducto: string = "productos/update";
+    private get updateProductoUrl(){
+      return this.apiUrl + this._updateProducto;
+    }
+    updateProductoToBD<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.updateProductoUrl;        
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
+    private readonly _deleteProductosByIdEmp: string = "productos/delete";
+    private get deleteProductosByIdEmp(){
+      return this.apiUrl + this._deleteProductosByIdEmp;
+    }
+    deleteProductoByIdEmpToBD<T>(idProducto: any, idEmpresa: any, accessToken: any): Observable<T>{
+      const endPointUrl = this.deleteProductosByIdEmp;
+      const postData = {
+        'idEmpresa': idEmpresa,
+        'idProducto': idProducto
+      }
+
+      return this.http.post<T>(endPointUrl,postData,  this.getRequestHeader(accessToken));
+    }
+
+    private readonly _categoriasByIdEmp: string = 'productos/getCategoriasByIdEmp';
+    private get categoriasByIdEmp(){
+      return this.apiUrl + this._categoriasByIdEmp;
+    }
+    getCategoriasByIdEmp<T>(idEmpresa: any, accessToken: any): Observable<T>{
+        const endpointUrl = this.categoriasByIdEmp;
+
+        const header = this.getRequestHeaderClientes(accessToken);
+        let paramsRequest = new HttpParams().set('idEmp', idEmpresa);
+        const httpOptions = {
+          headers: header,
+          params: paramsRequest
+        }
+
+        return this.http.get<T>(endpointUrl, httpOptions);
+    }
+
+    private readonly _marcasByIdEmp: string = 'productos/getMarcasByIdEmp';
+    private get marcasByIdEmp(){
+      return this.apiUrl + this._marcasByIdEmp;
+    }
+    getMarcasByIdEmp<T>(idEmpresa: any, accessToken: any): Observable<T>{
+        const endpointUrl = this.marcasByIdEmp;
+
+        const header = this.getRequestHeaderClientes(accessToken);
+        let paramsRequest = new HttpParams().set('idEmp', idEmpresa);
+        const httpOptions = {
+          headers: header,
+          params: paramsRequest
+        }
+        return this.http.get<T>(endpointUrl, httpOptions);
+    }
+
+
+
 
     //---------------------------------------------------------------
     getRequestHeader(accesToken: any): {
@@ -341,6 +424,7 @@ export class EndPointProvider {
         return header
       }else{
 
+        console.log('inside router login');
         this.router.navigate(['/login']);
         return {};
       }

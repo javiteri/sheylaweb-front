@@ -135,7 +135,6 @@ table{
 th.mat-header-cell,
 td.mat-cell,
 td.mat-footer-cell {
- padding:0;
  border-bottom-width:0;
  border-bottom-style:none; 
 }
@@ -150,6 +149,11 @@ td.mat-footer-cell {
     min-height: inherit;
     content: '';
 }
+
+.low-stock{
+    color: red;   
+}
+
 
 /*MEDIA QUERIES*/
 @media screen and (max-width: 767px){
