@@ -29,7 +29,8 @@ export class CrearEditarProductoComponent implements OnInit {
 
   titlePage = 'Nuevo Producto'
   
-  listMarcas = new Array();
+  listMarcasData = new Array();
+  listMarcas = new Observable<any[]>;
 
   listCategoriasData = new Array();
   listCategorias = new Observable<any[]>;
@@ -87,13 +88,17 @@ export class CrearEditarProductoComponent implements OnInit {
         }
     });
 
-    //setting filter to list categorias
-    /*this.listCategorias =*/ this.sendDatosFormProducto.get('categoria')!.valueChanges.subscribe(value => {
-      console.log(value);
+    this.sendDatosFormProducto.get('categoria')!.valueChanges.subscribe(value => {
+      
       const valueFilter = this.filterCategoria(value || '');
       this.listCategorias = of(valueFilter);
     });
 
+    this.sendDatosFormProducto.get('marca')!.valueChanges.subscribe(value => {
+      
+      const valueFilter = this.filterMarca(value || '');
+      this.listMarcas = of(valueFilter);
+    });
   }
 
 
@@ -111,7 +116,8 @@ export class CrearEditarProductoComponent implements OnInit {
   private getListMarcasByIdEmpresa(idEmpresa: any, accessToken: any){
     this.coreService.getMarcasProductosByIdEmp(idEmpresa, accessToken).subscribe({
       next: (result: any) => {
-        this.listMarcas = result.data;
+        this.listMarcas = of(result.data);
+        this.listMarcasData = result.data;
       },
       error: (error: any) => {
       }
@@ -248,10 +254,19 @@ export class CrearEditarProductoComponent implements OnInit {
 
   //METHODS FOR FILTER CATEGORIA AND PRODUCT
   
-  private filterCategoria(categoria: string): any[]{
+  private filterCategoria(categoria: string): string[]{
     const valorFiltrar = categoria.toLowerCase();
-    const listraFiltro =  this.listCategoriasData.filter(category => category.toString().toLowerCase().includes(valorFiltrar));
-    console.log(listraFiltro);
+    const listraFiltro =  this.listCategoriasData.filter((category: any) => {
+      return category.pro_categoria.toLowerCase().includes(valorFiltrar)
+    });
+
+    return listraFiltro;
+  }
+  private filterMarca(marca: string): string[]{
+    const valorFiltrar = marca.toLowerCase();
+    const listraFiltro =  this.listMarcasData.filter((marca: any) => {
+      return marca.prod_marca.toLowerCase().includes(valorFiltrar)
+    });
 
     return listraFiltro;
   }

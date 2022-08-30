@@ -18,6 +18,9 @@ export class LoginComponent implements OnInit {
   sendLoginForm: FormGroup
   loading = false;
 
+  showTextMessageInfo = false;
+  textMessage = '';
+
   constructor(
     public formBuilder: FormBuilder,
     public router: Router,
@@ -45,11 +48,12 @@ export class LoginComponent implements OnInit {
     if (this.sendLoginForm.invalid) {
         this.loading = false;
 
-        this.toastr.error('verifique que los datos esten llenos', '', {
+        /*this.toastr.error('verifique que los datos esten llenos', '', {
             timeOut: 3000,
             closeButton: true
-        });
+        });*/
 
+        this.showMessageInfo('verifique que los datos esten llenos');
         return;
     }
 
@@ -69,10 +73,12 @@ export class LoginComponent implements OnInit {
         if(response.error){
           this.loading = false;
 
-          this.toastr.error(response.error, '', {
+          /*this.toastr.error(response.error, '', {
             timeOut: 3000,
             closeButton: true
-          });
+          });*/
+          this.showMessageInfo(response.error);
+
 
           return;
         }
@@ -119,12 +125,26 @@ export class LoginComponent implements OnInit {
         this.loading = false;
 
         overlayRef.close();
-        this.toastr.error('error al conectar', '', {
+        /*this.toastr.error('error al conectar', '', {
           timeOut: 3000,
           closeButton: true
-        });
+        });*/
+        this.showMessageInfo('error al conectar');
+
       }
     });
 
+  }
+
+  private showMessageInfo(textShow: string): void{
+        this.showTextMessageInfo = true
+        this.textMessage = textShow;
+        setTimeout(() => {
+          this.showTextMessageInfo = false
+          //this.textMessage = '';
+        }, 8000);
+        setTimeout(() => {
+          this.textMessage = '';
+        }, 8300);
   }
 }

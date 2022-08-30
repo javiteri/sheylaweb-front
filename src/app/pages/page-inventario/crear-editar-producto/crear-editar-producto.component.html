@@ -92,7 +92,7 @@
                                 formControlName="marca">
 
                                 <mat-autocomplete autoActiveFirstOption #marca="matAutocomplete">
-                                    <mat-option *ngFor="let marca of listMarcas" [value]="marca.prod_marca">
+                                    <mat-option *ngFor="let marca of listMarcas | async" [value]="marca.prod_marca">
                                         {{marca.prod_marca}}
                                     </mat-option>
                                 </mat-autocomplete>

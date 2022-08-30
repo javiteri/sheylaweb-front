@@ -9,13 +9,10 @@ export class AuthGuard implements CanActivate{
 
     canActivate(): boolean{
         
-        console.log('inside can Activate');
         if (localStorage.getItem('DATA_TOK')) {
-            console.log('is true');
             return true;
         }
 
-        console.log('is false');
         this.router.navigate(['/login']);
         return false;
 

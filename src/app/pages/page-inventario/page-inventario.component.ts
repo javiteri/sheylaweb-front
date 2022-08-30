@@ -18,7 +18,7 @@ import { LocalService } from 'src/app/services/local.service';
 })
 export class PageInventarioComponent implements OnInit {
 
-  displayedColumns: string[] = ['codigo', 'codigoBarra', 'nombre', 'stock', 'unidadMedida', 'actions'];
+  displayedColumns: string[] = ['codigo', 'codigoBarra', 'nombre', 'stock', 'unidadMedida', 'categoria', 'marca','actions'];
   datasource = new MatTableDataSource<Producto>();
 
   showPagination = false;

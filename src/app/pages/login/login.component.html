@@ -52,6 +52,9 @@
 
     </div>
 
+    <div class="container-message-info-error" [ngClass]="showTextMessageInfo ? 'opacity-one' : 'opacity-zero' ">
+      <p class="text-message">{{textMessage}}</p>
+    </div>
   </div>
 </div>
 

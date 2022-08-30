@@ -100,3 +100,22 @@ h1, .h1, h2, .h2, h3, .h3 {
   background-color: rgba(0,0,0,.12) !important;
   box-shadow: 0 0 0 0 rgba(0,0,0,.2),0 0 0 0 rgba(0,0,0,.14),0 0 0 0 rgba(0,0,0,.12) !important;
 }
+
+
+.container-message-info-error{
+  margin-top: 1rem;
+  transition: opacity .5s ;
+}
+.text-message{
+  text-align: center;
+  color: #e30606;
+  font-weight: 400;
+}
+
+.opacity-zero{
+  opacity: 0;
+}
+.opacity-one{
+  opacity: 1;
+  transition: opacity .5s ;
+}
