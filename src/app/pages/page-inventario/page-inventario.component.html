@@ -5,7 +5,7 @@
       Nuevo Producto
     </button>
   
-    <button class="font-weight-300 mat-elevation-z1" mat-raised-button>
+    <button class="font-weight-300 mat-elevation-z1" mat-raised-button >
       <mat-icon>file_download</mat-icon>
       Exportar
     </button>
@@ -13,8 +13,12 @@
   
   <div class="container-search-bar">
     <div class="inner-container-search">
-      <input type="text" placeholder="Nombre o Identificacion"/>
-      <button class="font-weight-300" color="icon-accent" mat-icon-button>
+      <input type="text" placeholder="Nombre o Identificacion"
+              [(ngModel)]="textSearchProductos"
+              (keyup.enter)="searchProductosText();"/>
+      <button class="font-weight-300" color="icon-accent" mat-icon-button
+              matTooltip="Buscar"
+              (click)="searchProductosText();$event.preventDefault();">
         <mat-icon>search</mat-icon>
       </button>
     </div>
@@ -81,7 +85,7 @@
                   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
               </mat-table>
   
-              <mat-paginator *ngIf="showPagination" #paginator [pageSizeOptions]="[5, 15, 30]"
+              <mat-paginator *ngIf="showPagination" #paginator [pageSizeOptions]="[15, 30, 50]"
                    showFirstLastButtons
                    aria-label="Seleccione pagina elementos productos"
                    >

@@ -171,8 +171,6 @@ export class CrearEditarProductoComponent implements OnInit {
 
         },
         error: (error) => {
-          console.log('error');
-          console.log(error);
           dialogRef.close();
         }
     });

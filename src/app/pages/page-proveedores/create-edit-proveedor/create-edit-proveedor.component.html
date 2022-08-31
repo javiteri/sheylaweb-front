@@ -96,11 +96,19 @@
                         <h3 class="margin-top-1rem">Datos Representante</h3>
 
                         <div class="container-form-field">
-                            <mat-form-field class="mat-form-field-date">
-                                <mat-label>Identificacion </mat-label>
-                                <input matInput type="text" formControlName="identificacionRepre" 
-                                (blur)="searchdatosProveedorSri(sendDatosFormProveedor.value.identificacionRepre, false);">
-                            </mat-form-field>
+                            <div class="container-identification mat-form-field">
+                                <mat-form-field >
+                                    <mat-label>Identificacion </mat-label>
+                                    <input matInput type="text" formControlName="identificacionRepre" 
+                                    (blur)="searchdatosProveedorSri(sendDatosFormProveedor.value.identificacionRepre, false);">
+                                </mat-form-field>
+                                <button (click)="searchdatosProveedorSri(sendDatosFormProveedor.value.identificacionRepre, false);$event.preventDefault();" 
+                                            matTooltip="Buscar datos Representante" 
+                                            mat-icon-button color="icon-accent" aria-label="boton buscar datos">
+                                        <mat-icon >travel_explore</mat-icon>
+                                </button>
+                            </div>
+
                             <mat-form-field class="mat-form-field-date">
                                 <mat-label>Nombre</mat-label>
                                 <input matInput type="text" formControlName="nombreRepre" >

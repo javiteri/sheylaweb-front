@@ -44,6 +44,9 @@ export class ApplicationProvider {
   getClienteByIdClienteIdEmp(idCliente: any, idEmpresa: any, accessToken: any){
       return this.coreEndPoint.getClienteByIdEmp(idCliente, idEmpresa, accessToken);
   }
+  searchClientesByIdEmpText(idEmpresa: any, textSearch: any, accessToken: any){
+      return this.coreEndPoint.searchClientesByIdEmpText(idEmpresa, textSearch, accessToken);
+  }
 
   //USUARIOS
   getUsuariosByIdEmp(idEmp: any, accessToken: any){
@@ -61,6 +64,10 @@ export class ApplicationProvider {
   deleteUsuarioByIdEmp(idUser: any, idEmp: any, accessToken: any){
     return this.coreEndPoint.deleteUsuarioByIdEmpToBD(idUser, idEmp, accessToken);
   }
+  searchUsuariosByIdEmpText(idEmpresa: any, textSearch: any, accessToken: any){
+    return this.coreEndPoint.searchUsuariosByIdEmpText(idEmpresa, textSearch, accessToken);
+  }
+
 
   // PROVEEDORES
   getListProveedoresByIdEmp(idEmpresa: any, accessToken: any){
@@ -77,6 +84,9 @@ export class ApplicationProvider {
   }
   deleteProveedorByIdEmp(idCliente: any, idEmp: any, accessToken: any){
     return this.coreEndPoint.deleteProveedorByIdEmpToBD(idCliente, idEmp, accessToken);
+  }
+  searchProveedoresByIdEmpText(idEmpresa: any, textSearch: any, accessToken: any){
+    return this.coreEndPoint.searchProveedoresByIdEmpText(idEmpresa, textSearch, accessToken);
   }
 
   // PRODUCTOS
@@ -101,6 +111,9 @@ export class ApplicationProvider {
   }
   getMarcasProductosByIdEmp(idEmpresa: any, accessToken: any){
     return this.coreEndPoint.getMarcasByIdEmp(idEmpresa, accessToken);
+  }
+  searchProductosByIdEmpText(idEmpresa: any, textSearch: any, accessToken: any){
+    return this.coreEndPoint.searchProductosByIdEmpText(idEmpresa, textSearch, accessToken);
   }
 
 }

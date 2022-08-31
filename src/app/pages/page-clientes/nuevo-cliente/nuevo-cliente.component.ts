@@ -105,6 +105,11 @@ export class NuevoClienteComponent implements OnInit {
         next: (data: any) =>{
           dialogRef.close();
 
+          if(!data.data){
+            this.router.navigate(['/clientes']);
+            return;
+          }
+
           const datosCliente = data.data[0];
           this.sendDatosFormCliente.controls['documentoIdentidad'].setValue(datosCliente['cli_documento_identidad']);
           this.sendDatosFormCliente.controls['nombreNatural'].setValue(datosCliente['cli_nombres_natural']);

@@ -1,6 +1,7 @@
 <div class="container-options" #containerTable>
 
-  <button mat-raised-button class="font-weight-300 mat-elevation-z1" color="btn-icon-accent" (click)="nuevoCliente()">
+  <button mat-raised-button class="font-weight-300 mat-elevation-z1" 
+      color="btn-icon-accent" (click)="nuevoCliente()">
     <mat-icon>add</mat-icon>
     Nuevo Cliente
   </button>
@@ -10,11 +11,15 @@
     Exportar
   </button>
 </div>
-
+<!--(blur)="searchClientesText();"-->
 <div class="container-search-bar">
   <div class="inner-container-search">
-    <input type="text" placeholder="Nombre o Identificacion"/>
-    <button class="font-weight-300" color="icon-accent" mat-icon-button>
+    <input type="text" placeholder="Nombre o Identificacion" [(ngModel)]="textSearchClientes"
+    
+    (keyup.enter)="searchClientesText();"/>
+    <button class="font-weight-300" color="icon-accent" mat-icon-button 
+          matTooltip="Buscar"
+        (click)="searchClientesText();$event.preventDefault();">
       <mat-icon>search</mat-icon>
     </button>
   </div>
@@ -76,7 +81,7 @@
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
             </mat-table>
 
-            <mat-paginator *ngIf="showPagination" #paginator [pageSizeOptions]="[5, 15, 30]"
+            <mat-paginator *ngIf="showPagination" #paginator [pageSizeOptions]="[15, 30, 50]"
                  showFirstLastButtons
                  aria-label="Seleccione pagina elementos cliente"
                  (page)="scrollUp()">

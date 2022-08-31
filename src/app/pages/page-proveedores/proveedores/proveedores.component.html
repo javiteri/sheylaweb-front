@@ -13,8 +13,12 @@
   
   <div class="container-search-bar">
     <div class="inner-container-search">
-      <input type="text" placeholder="Nombre o Identificacion"/>
-      <button class="font-weight-300" color="icon-accent" mat-icon-button>
+      <input type="text" placeholder="Nombre o Identificacion"
+              [(ngModel)]="textSearchProveedores"
+              (keyup.enter)="searchProveedoresText();"/>
+      <button class="font-weight-300" color="icon-accent" mat-icon-button
+            matTooltip="Buscar"
+            (click)="searchProveedoresText();$event.preventDefault();">
         <mat-icon>search</mat-icon>
       </button>
     </div>

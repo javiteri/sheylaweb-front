@@ -32,6 +32,8 @@ export class PageClientesComponent implements OnInit {
   dataUser: any;
   tokenValidate!: TokenValidate;
 
+  textSearchClientes: string = '';
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('containerTable', {read: ElementRef}) tableInput!: ElementRef
 
@@ -174,5 +176,41 @@ export class PageClientesComponent implements OnInit {
       }
     });
     
+  }
+
+  searchClientesText(): void{
+
+    this.isLoading = !this.isLoading;
+
+    let dialogRef = this.loadingService.open();
+
+    this.coreService.searchClientesByIdEmpText(this.idEmpresa, this.textSearchClientes, this.tokenValidate).subscribe({
+      next: (data: any) => {
+        console.log(data);
+        dialogRef.close();
+        this.isLoading = !this.isLoading;
+
+        this.listaClientes = data.data;
+
+        if(this.listaClientes.length > 0){
+          this.showPagination = true;
+          this.showSinDatos = false
+        }else{
+          this.showSinDatos = true;
+          this.showPagination = false
+        }
+
+        this.datasource.data = this.listaClientes;
+        this.ref.detectChanges();
+        this.datasource.paginator = this.paginator;
+
+      },
+      error: (error: any) => {
+        dialogRef.close();
+
+        this.isLoading = !this.isLoading;
+        this.showSinDatos = !this.showSinDatos;
+      }
+    });
   }
 }

@@ -23,7 +23,7 @@
   width: 100%;
 }
 
-.clientes{
+.usuarios{
   display: flex;
   align-items: center;
   justify-content: space-between;

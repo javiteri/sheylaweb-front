@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -32,6 +32,8 @@ export class ProveedoresComponent implements OnInit {
   dataUser: any;
   tokenValidate!: TokenValidate;
 
+  textSearchProveedores: string = '';
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('containerTable', {read: ElementRef}) tableInput!: ElementRef
 
@@ -40,7 +42,8 @@ export class ProveedoresComponent implements OnInit {
               private loadingService: LoadingService,
               private router: Router,
               private toastr: ToastrService,
-              private matDialog: MatDialog) { }
+              private matDialog: MatDialog,
+              private ref: ChangeDetectorRef) { }
 
 
   ngOnInit(): void {
@@ -84,6 +87,7 @@ export class ProveedoresComponent implements OnInit {
         }
 
         this.datasource.data = this.listaProveedores;
+        this.ref.detectChanges();
         this.datasource.paginator = this.paginator;
 
       },
@@ -132,6 +136,44 @@ export class ProveedoresComponent implements OnInit {
       }
     });
     
+  }
+
+
+
+  searchProveedoresText(): void{
+
+    this.isLoading = !this.isLoading;
+
+    let dialogRef = this.loadingService.open();
+
+    this.coreService.searchProveedoresByIdEmpText(this.idEmpresa, this.textSearchProveedores, this.tokenValidate).subscribe({
+      next: (data: any) => {
+        
+        dialogRef.close();
+        this.isLoading = !this.isLoading;
+
+        this.listaProveedores = data.data;
+
+        if(this.listaProveedores.length > 0){
+          this.showPagination = true;
+          this.showSinDatos = false
+        }else{
+          this.showSinDatos = true;
+          this.showPagination = false
+        }
+
+        this.datasource.data = this.listaProveedores;
+        this.ref.detectChanges();
+        this.datasource.paginator = this.paginator;
+
+      },
+      error: (error: any) => {
+        dialogRef.close();
+
+        this.isLoading = !this.isLoading;
+        this.showSinDatos = !this.showSinDatos;
+      }
+    });
   }
 
 }

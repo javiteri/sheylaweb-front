@@ -154,7 +154,22 @@ export class EndPointProvider {
 
         return this.http.get<T>(endpointUrl, httpOptions);
     }
+    private readonly _searchClientesByIdEmp: string = 'clientes/searchClienteByIdEmp';
+    private get searchClientesByIdEmp(){
+      return this.apiUrl + this._searchClientesByIdEmp;
+    }
+    searchClientesByIdEmpText<T>(idEmpresa: any, textSearch: any, accessToken: any): Observable<T>{
+        const endpointUrl = this.searchClientesByIdEmp;
 
+        const header = this.getRequestHeaderClientes(accessToken);
+        let paramsRequest = new HttpParams().set('textSearch', textSearch).set('idEmp', idEmpresa);
+        const httpOptions = {
+          headers: header,
+          params: paramsRequest
+        }
+
+        return this.http.get<T>(endpointUrl, httpOptions);
+    }
 
     //METHODS FOR USUARIOS 
     private readonly _usuariosByIdEmp: string = 'usuarios/getUsuariosByIdEmp';
@@ -218,6 +233,23 @@ export class EndPointProvider {
 
       return this.http.post<T>(endPointUrl,postData,  this.getRequestHeader(accessToken));
     }
+    private readonly _searchUsuariosByIdEmp: string = 'usuarios/searchUsuariosByIdEmp';
+    private get searchUsuariosByIdEmp(){
+      return this.apiUrl + this._searchUsuariosByIdEmp;
+    }
+    searchUsuariosByIdEmpText<T>(idEmpresa: any, textSearch: any, accessToken: any): Observable<T>{
+        const endpointUrl = this.searchUsuariosByIdEmp;
+
+        const header = this.getRequestHeaderClientes(accessToken);
+        let paramsRequest = new HttpParams().set('textSearch', textSearch).set('idEmp', idEmpresa);
+        const httpOptions = {
+          headers: header,
+          params: paramsRequest
+        }
+
+        return this.http.get<T>(endpointUrl, httpOptions);
+    }
+
 
     // METHODS FOR PROVEEDORES
     private readonly _listProveedoresByIdEmp: string = 'proveedores/getProveedoresByIdEmp';
@@ -284,6 +316,25 @@ export class EndPointProvider {
 
       return this.http.post<T>(endPointUrl,postData,  this.getRequestHeader(accessToken));
     }
+
+    private readonly _searchProveedoresByIdEmp: string = 'proveedores/searchProveedorByIdEmp';
+    private get searchProveedoresByIdEmp(){
+      return this.apiUrl + this._searchProveedoresByIdEmp;
+    }
+    searchProveedoresByIdEmpText<T>(idEmpresa: any, textSearch: any, accessToken: any): Observable<T>{
+        const endpointUrl = this.searchProveedoresByIdEmp;
+
+        const header = this.getRequestHeaderClientes(accessToken);
+        let paramsRequest = new HttpParams().set('textSearch', textSearch).set('idEmp', idEmpresa);
+        const httpOptions = {
+          headers: header,
+          params: paramsRequest
+        }
+
+        return this.http.get<T>(endpointUrl, httpOptions);
+    }
+
+
 
      // METHODS FOR PRODUCTOS
      private readonly _listProductosByIdEmp: string = 'productos/getProductosByIdEmp';
@@ -384,6 +435,22 @@ export class EndPointProvider {
         return this.http.get<T>(endpointUrl, httpOptions);
     }
 
+    private readonly _searchProductosByIdEmp: string = 'productos/searchProductosByIdEmp';
+    private get searchProductosByIdEmp(){
+      return this.apiUrl + this._searchProductosByIdEmp;
+    }
+    searchProductosByIdEmpText<T>(idEmpresa: any, textSearch: any, accessToken: any): Observable<T>{
+        const endpointUrl = this.searchProductosByIdEmp;
+
+        const header = this.getRequestHeaderClientes(accessToken);
+        let paramsRequest = new HttpParams().set('textSearch', textSearch).set('idEmp', idEmpresa);
+        const httpOptions = {
+          headers: header,
+          params: paramsRequest
+        }
+
+        return this.http.get<T>(endpointUrl, httpOptions);
+    }
 
 
 

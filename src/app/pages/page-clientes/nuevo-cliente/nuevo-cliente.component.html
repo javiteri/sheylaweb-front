@@ -30,7 +30,9 @@
                                     <input matInput type="text" formControlName="documentoIdentidad" (blur)="searchDatosClienteSri(sendDatosFormCliente.value.documentoIdentidad);">
                                 </mat-form-field>
 
-                                <button (click)="searchDatosClienteSri(sendDatosFormCliente.value.documentoIdentidad);$event.preventDefault();" matTooltip="Buscar datos Cliente" mat-icon-button color="icon-accent" aria-label="boton editar cliente">
+                                <button (click)="searchDatosClienteSri(sendDatosFormCliente.value.documentoIdentidad);$event.preventDefault();" 
+                                    matTooltip="Buscar datos Cliente" mat-icon-button color="icon-accent" 
+                                    aria-label="boton editar cliente">
                                     <mat-icon >travel_explore</mat-icon>
                                 </button>
 

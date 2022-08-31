@@ -13,8 +13,12 @@
   
   <div class="container-search-bar">
     <div class="inner-container-search">
-      <input type="text" placeholder="Nombre o Identificacion"/>
-      <button class="font-weight-300" color="icon-accent" mat-icon-button>
+      <input type="text" placeholder="Nombre o Identificacion"
+              [(ngModel)]="textSearchUsuarios"
+              (keyup.enter)="searchUsuariosText();"/>
+      <button class="font-weight-300" color="icon-accent" mat-icon-button
+              matTooltip="Buscar"
+              (click)="searchUsuariosText();$event.preventDefault();">
         <mat-icon>search</mat-icon>
       </button>
     </div>
@@ -22,7 +26,7 @@
   
   <mat-card>
       <mat-card-header class="bg-info text-white">
-          <mat-card-title class="clientes">
+          <mat-card-title class="usuarios">
               <label>Lista Usuarios</label>
               <!--  <div> <label>Total: 2</label></div> -->
           </mat-card-title>
@@ -76,7 +80,12 @@
                    showFirstLastButtons
                    aria-label="Seleccione pagina elementos Usuarios">
             </mat-paginator>
-  
+            
+           <div *ngIf="showSinDatos"
+                  style="display: flex; justify-content: center; align-items: center; margin-top: 3rem; margin-bottom: 3rem;">
+                <label> No se Encontraron Datos</label>
+            </div>
+
            <!-- <div *ngIf="isLoading"
                   style="display: flex; justify-content: center; align-items: center; background: white; margin-top: 3rem; margin-bottom: 3rem;">
                 <mat-progress-spinner
@@ -86,11 +95,6 @@
                 </mat-progress-spinner>
             </div>
             -->
-  
-           <!--  <div *ngIf="showSinDatos"
-                  style="display: flex; justify-content: center; align-items: center; margin-top: 3rem; margin-bottom: 3rem;">
-                <label> No se Encontraron Datos</label>
-            </div>-->
   
           </div>
       </mat-card-content>

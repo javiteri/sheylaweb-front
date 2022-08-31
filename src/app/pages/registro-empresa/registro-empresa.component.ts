@@ -5,7 +5,6 @@ import { ApplicationProvider } from '../../providers/provider';
 import {TokenValidate} from '../../interfaces/IWebData';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataStoreService } from 'src/app/services/DataStore.Service';
-import { DataStoreGlobalModel } from 'src/app/interfaces/DataStoreGlobalModel';
 import { LocalService } from 'src/app/services/local.service';
 import { LoadingService } from 'src/app/services/Loading.service';
 import {ToastrService} from 'ngx-toastr';
@@ -32,10 +31,8 @@ export class RegistroEmpresaComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
     private coreService: ApplicationProvider,
     public router: Router,
-    private dataStoreService: DataStoreService,
     private localService: LocalService,
     private loadingService: LoadingService,
     private toastr: ToastrService
@@ -79,40 +76,6 @@ export class RegistroEmpresaComponent implements OnInit {
     }
     this.getDatosEmpresa(postData, this.tokenValidate);
 
-    /*this.route.paramMap.subscribe((params: any) => {
-
-        this.idEmpresa = params.get('id');
-        this.rucEmpresa = params.get('ruc');
-
-        let postData = {
-          ruc: this.rucEmpresa,
-          idEmpresa: this.idEmpresa
-        }
-
-        this.getDatosEmpresa(postData, this.tokenValidate);
-    });*/
-
-
-    //subscribe to observer dataStoreGlobalState
-    /*this.dataStoreService.globalModel$.subscribe((dataStoreGLobalModel: DataStoreGlobalModel) => {
-
-      if(dataStoreGLobalModel){
-          console.log('idEmpresaDataStore: ' + dataStoreGLobalModel.idEmpresa);
-          console.log('idUsuarioDataStore: ' + dataStoreGLobalModel.idUser);
-          console.log('rucEmpresaDataStore: ' + dataStoreGLobalModel.rucEmpresa);
-
-          this.rucEmpresa = dataStoreGLobalModel.rucEmpresa;
-          this.idEmpresa = dataStoreGLobalModel.idEmpresa;
-
-          let postData = {
-            ruc: this.rucEmpresa,
-            idEmpresa: this.idEmpresa
-          }
-
-          this.getDatosEmpresa(postData, this.tokenValidate);
-      }
-
-    });*/
   }
 
 
