@@ -27,7 +27,7 @@ const routes: Routes = [
       },
       {
         path: 'ventas',
-        component: PageVentasComponent
+        loadChildren: () => import('../page-ventas/ventas.module').then((m) => m.VentasModule)
       },
       {
         path: 'proveedores',

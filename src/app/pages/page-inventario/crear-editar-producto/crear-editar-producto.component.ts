@@ -250,6 +250,41 @@ export class CrearEditarProductoComponent implements OnInit {
   }
 
 
+  onLostFocusCalculateUti(){
+    const pvp = this.sendDatosFormProducto.controls['pvp'].value as number;
+    const costo = this.sendDatosFormProducto.controls['costo'].value as number;
+    const utilidad = this.sendDatosFormProducto.controls['utilidad'].value as number;
+
+    // si tengo pvp y costo (entonces calcular Utilidad)
+    if((pvp && pvp != null && pvp != undefined) && (costo && costo != null && costo != undefined)){
+        const valorUtilidad = ((pvp - costo)/costo) * 100;
+        this.sendDatosFormProducto.controls['utilidad'].setValue(valorUtilidad);
+        return;
+    }
+
+    console.log(pvp);
+    console.log(costo);
+    console.log(utilidad);
+  }
+
+  onLostFocusCalculatePvp(){
+    const pvp = this.sendDatosFormProducto.controls['pvp'].value as number;
+    const costo = this.sendDatosFormProducto.controls['costo'].value as number;
+    const utilidad = this.sendDatosFormProducto.controls['utilidad'].value as number;
+
+    // si tengo costo y utilidad (entonces calcular PVP)
+    if((costo && costo != null && costo != undefined) && (utilidad && utilidad != null && utilidad != undefined)){
+      const valorPrecio = costo + ((costo * utilidad)/100)
+    
+      this.sendDatosFormProducto.controls['pvp'].setValue(valorPrecio);
+      return;
+    }
+
+    console.log(pvp);
+    console.log(costo);
+    console.log(utilidad);
+  }
+
   //METHODS FOR FILTER CATEGORIA AND PRODUCT
   
   private filterCategoria(categoria: string): string[]{

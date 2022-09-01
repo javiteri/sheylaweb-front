@@ -6,10 +6,24 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { MatDialogModule } from '@angular/material/dialog';
 
+import { HttpClientModule } from '@angular/common/http';
+
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button'
+import { MatDatepickerModule} from '@angular/material/datepicker'
+import { MatNativeDateModule } from "@angular/material/core";
+import {MatCardModule} from '@angular/material/card'
+import {MatIconModule} from '@angular/material/icon'
+import { MatSelectModule } from "@angular/material/select";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+
 import {LayoutModule} from '@angular/cdk/layout';
 import { AppRoutingModule } from './app-routing.module';
 import { ConfirmDeleteDialogComponent } from './components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { AuthGuard } from './shared/guard';
+import { CrearClienteDialogComponent } from './components/crear-cliente-dialog/crear-cliente-dialog.component';
+import { ApplicationProvider, EndPointProvider } from './providers/provider';
 
 @NgModule({
   declarations: [
@@ -17,6 +31,17 @@ import { AuthGuard } from './shared/guard';
     ConfirmDeleteDialogComponent
   ],
   imports: [
+    FormsModule, 
+    HttpClientModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCardModule,
+    MatSelectModule,
+    MatIconModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatButtonModule,
     BrowserModule,
     BrowserAnimationsModule,
     MatDialogModule,
@@ -25,7 +50,7 @@ import { AuthGuard } from './shared/guard';
     AppRoutingModule,
     ToastrModule.forRoot()
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard, ApplicationProvider, EndPointProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

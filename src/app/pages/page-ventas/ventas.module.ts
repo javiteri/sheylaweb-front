@@ -2,8 +2,6 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip'
 
-import { PageClientesComponent } from "./page-clientes.component";
-
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button'
@@ -23,19 +21,22 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { CustomPaginator } from 'src/app/pages/page-clientes/CustomPaginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
-import { NuevoClienteComponent } from './nuevo-cliente/nuevo-cliente.component';
-import { ClientesRoutingModule } from "./clientes-routing.module";
+import { ApplicationProvider, EndPointProvider } from "src/app/providers/provider";
 import { RouterModule } from "@angular/router";
+
+import { PageVentasComponent } from "./page-ventas.component";
+import { VentasRoutingModule } from "./ventas-routing.module";
+import { CrearClienteDialogComponent } from "src/app/components/crear-cliente-dialog/crear-cliente-dialog.component";
 
 @NgModule({
     declarations: [
-        PageClientesComponent,
-        NuevoClienteComponent
+        PageVentasComponent,
+        CrearClienteDialogComponent     
     ],
     imports: [
         MatTooltipModule,
         CommonModule,
-        ClientesRoutingModule,
+        VentasRoutingModule,
         MatSelectModule,
         RouterModule,
         MatCardModule,
@@ -52,10 +53,10 @@ import { RouterModule } from "@angular/router";
         ReactiveFormsModule,
         OverlayModule
     ],
-    providers: [LoadingService,
+    providers: [LoadingService, ApplicationProvider,
         {provide: MatPaginatorIntl, useValue: CustomPaginator()}
       ]
 })
-export class ClientesModule {
+export class VentasModule {
 
 }

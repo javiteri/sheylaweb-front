@@ -38,18 +38,18 @@
 
                             <mat-form-field >
                                 <mat-label>PVP</mat-label>
-                                <input matInput type="number" formControlName="pvp" >
+                                <input matInput type="number" formControlName="pvp" (blur)="onLostFocusCalculateUti();">
                                 <span matPrefix>$&nbsp;</span>
                             </mat-form-field>
 
                             <mat-form-field >
                                 <mat-label>Costo</mat-label>
-                                <input matInput type="number" formControlName="costo" >
+                                <input matInput type="number" formControlName="costo" (blur)="onLostFocusCalculateUti();">
                                 <span matPrefix>$&nbsp;</span>
                             </mat-form-field>
                             <mat-form-field >
                                 <mat-label>Utilidad</mat-label>
-                                <input matInput type="text" formControlName="utilidad" >
+                                <input matInput type="text" formControlName="utilidad" (blur)="onLostFocusCalculatePvp();">
                                 <span matSuffix>%</span>
                             </mat-form-field>
                         </div>

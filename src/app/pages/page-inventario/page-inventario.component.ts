@@ -169,4 +169,6 @@ export class PageInventarioComponent implements OnInit {
       }
     });
   }
+
+  
 }

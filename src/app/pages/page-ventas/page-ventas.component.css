@@ -1,0 +1,207 @@
+.container-gen{
+    display: flex;
+    flex-flow: column wrap;
+    min-height: 100%;
+    height: auto;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.text-align-end{
+    text-align: end;
+    line-height: 1;
+}
+
+.container-child{
+    width: 90%;
+}
+.container-gen .container-child:nth-child(2){
+    margin-top: 6rem;
+}
+.container-gen .container-child:nth-child(3){
+    margin-top: 6rem;
+}
+
+.container-child .mat-card{
+    flex: 1 1 0;
+}
+.container-child .mat-card + .mat-card{
+    margin-left: 5rem;
+}
+
+
+.container-info{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-content: center;
+}
+.container-info .mat-card{
+    width: 100%;
+}
+
+
+.mat-card{
+    box-shadow: 0 5px 20px rgba(0,0,0,.05) !important;
+    transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+    display: block;
+    position: relative;
+    padding: 0 !important;
+    border-radius: 4px;
+}
+.mat-card .mat-card-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px !important;
+    border-radius: 4px 4px 0 0;
+}
+.mat-card .mat-card-header .mat-card-title{
+    margin-bottom: 0 !important;
+    font-size: 16px !important;
+}
+
+
+.bg-info{
+    background-color: var(--color-primary-dark);
+}
+.text-white{
+    color: white;
+}
+
+.opacity-zero{
+    opacity: 0;
+}
+
+
+.container-datos-cliente{
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 10px;
+    margin-top: 8px !important;
+}
+
+.container-datos-cliente .container-form-field .mat-form-field{
+    width: 100%;
+}
+
+.container-datos-factura{
+    display: flex;
+    flex-flow: row nowrap;
+    padding: 10px;
+    margin-top: 8px !important;
+}
+
+.container-datos-factura .container-form-field{
+    display: inherit;
+    width: 100%;
+}
+.container-datos-factura .container-form-field .mat-form-field {
+    flex: 1 1 0;    
+    max-width: 17rem;
+    min-width: 0;
+    width: 1rem ;
+    text-align: center;
+    color: black;
+    font-weight: 600;
+}
+
+.inner-container-total-values .mat-card-content{
+    width: 100%;
+}
+
+.container-datos-factura .container-form-field .mat-form-field + .mat-form-field{
+    margin-left: 10px;
+}
+
+@media screen and (max-width: 900px){
+    .container-info{
+        display: flex;
+        flex-flow: column nowrap;
+    }  
+
+    .container-child .mat-card + .mat-card{
+        margin-left: 0;
+        margin-top: 1em;
+    }
+}
+
+.container-totales{
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.container-totales-values{
+    display: flex;
+    justify-content: end;
+}
+
+.inner-container-total-values{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: flex-end;
+
+    background-color: white;
+    padding: 10px !important;
+    max-width: 70%;
+    width: auto;
+}
+
+.inner-container-total-values div{
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+}
+
+
+
+.inner-container-total-values div:last-child{
+    margin-top: 1rem;
+}
+
+.inner-container-total-values p{
+    margin-bottom: .1em;
+    flex: 1 1 0;
+}
+.inner-container-total-values p + p{
+    text-align: end;
+}
+
+.container-observacion{
+    background-color: white;
+    padding: 10px !important;
+}
+.container-observacion .mat-form-field{
+    width: 100%;
+}
+
+.container-totales div{
+    flex: 1 1 0;
+}
+.container-totales div{
+    flex: 1 1 0;
+}
+
+
+.font-size-one-rem{
+    font-size: .8rem;
+}
+.font-size-two-rem{
+    font-size: 2rem;
+}
+
+@media screen and (max-width: 900px){
+    .container-totales{
+        display: flex;
+        flex-flow: column nowrap;
+    }
+    .inner-container-total-values{
+        max-width: 100%;
+        width: 100%;
+        margin-top: 1em;
+    }
+}

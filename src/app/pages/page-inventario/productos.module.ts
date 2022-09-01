@@ -23,7 +23,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { CustomPaginator } from 'src/app/pages/page-clientes/CustomPaginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
-import { ApplicationProvider, EndPointProvider } from "src/app/providers/provider";
 import { ProductosRoutingModule } from "./productos-routing.module";
 import { RouterModule } from "@angular/router";
 import { PageInventarioComponent } from "./page-inventario.component";
@@ -56,7 +55,7 @@ import { CrearEditarProductoComponent } from './crear-editar-producto/crear-edit
         ReactiveFormsModule,
         OverlayModule
     ],
-    providers: [LoadingService, ApplicationProvider, EndPointProvider,
+    providers: [LoadingService,
         {provide: MatPaginatorIntl, useValue: CustomPaginator()}
       ]
 })

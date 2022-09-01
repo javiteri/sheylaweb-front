@@ -17,8 +17,6 @@ import { MatDatepickerModule} from '@angular/material/datepicker'
 import { MatNativeDateModule } from "@angular/material/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { ApplicationProvider, EndPointProvider } from "src/app/providers/provider";
-
 import { OverlayModule } from "@angular/cdk/overlay";
 import { LoadingService } from "src/app/services/Loading.service";
 
@@ -50,7 +48,7 @@ import { ProveedoresRoutingModule } from "./proveedores.routing.module";
         FormsModule,
         ReactiveFormsModule
     ],
-    providers: [LoadingService, ApplicationProvider, EndPointProvider,
+    providers: [LoadingService,
                 {provide: MatPaginatorIntl, useValue: CustomPaginator()}]
 })
 export class ProveedoresModule {}

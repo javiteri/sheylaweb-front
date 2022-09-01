@@ -13,7 +13,6 @@ import { MatListModule } from '@angular/material/list';
 
 import { LayoutComponent } from './layout.component';
 import { LayoutRoutingModule } from './layout-routing.module';
-import { PageVentasComponent } from '../page-ventas/page-ventas.component';
 import { PageComprasComponent } from '../page-compras/page-compras.component';
 import { ClientesComponentComponent } from '../../components/clientes-component/clientes-component.component';
 
@@ -22,7 +21,6 @@ import { ClientesComponentComponent } from '../../components/clientes-component/
 @NgModule({
   declarations: [
     LayoutComponent,
-    PageVentasComponent,
     PageComprasComponent,
     ClientesComponentComponent
   ],
