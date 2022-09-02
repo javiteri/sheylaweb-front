@@ -6,11 +6,12 @@
                     <label>Datos Cliente</label>
                 </mat-card-title>
                 <div>
-                  <button class="font-weight-300" color="icon-accent" mat-icon-button 
-                        matTooltip="Buscar">
+                  <button class="font-weight-300" mat-icon-button 
+                        matTooltip="Buscar"
+                        (click)="buscarClienteClick();$event.preventDefault();">
                     <mat-icon>search</mat-icon>
                   </button>
-                  <button class="font-weight-300" color="icon-accent" mat-icon-button 
+                  <button class="font-weight-300" mat-icon-button 
                   matTooltip="Nuevo Cliente"
                   (click)="nuevoClienteClick();$event.preventDefault();">
                     <mat-icon>edit</mat-icon>
@@ -23,21 +24,21 @@
                 <div class="container-form-field">
                   <mat-form-field >
                       <mat-label>CI/RUC</mat-label>
-                      <input matInput type="text" disabled>
+                      <input matInput type="text" disabled #identificacion>
                   </mat-form-field>
                 </div>
 
                 <div class="container-form-field">  
                   <mat-form-field >
                       <mat-label>Nombre</mat-label>
-                      <input matInput type="text" disabled>
+                      <input matInput type="text" disabled #nombreCliente>
                   </mat-form-field>
                 </div>
 
                 <div class="container-form-field">  
                   <mat-form-field >
                       <mat-label>Direccion</mat-label>
-                      <input matInput type="text" disabled>
+                      <input matInput type="text" disabled #dirCliente>
                   </mat-form-field>
                 </div>
 
@@ -175,4 +176,8 @@
 
     </div>
     
+    <div class="container-form-btn">
+      <button  class="btn-save" mat-raised-button color="btn-icon-accent">Guardar</button>
+  </div>
+
 </div>
