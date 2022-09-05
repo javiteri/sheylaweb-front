@@ -1,81 +1,77 @@
 <div class="container-gen">
     <div class="container-child container-info">
+      <div class="container-datos">
+        <div class="container-btn-cliente">
+          <button mat-raised-button class="font-weight-300 mat-elevation-z1" 
+            color="btn-icon-accent" 
+            (click)="nuevoClienteClick();$event.preventDefault();">
+            <mat-icon>add</mat-icon>
+            Nuevo Cliente
+          </button>
+          <button mat-raised-button class="font-weight-300 mat-elevation-z1" 
+            color="btn-icon-accent" 
+            (click)="buscarClienteClick();$event.preventDefault();">
+            <mat-icon>search</mat-icon>
+            Buscar Cliente
+          </button>
+        </div>
+
         <mat-card>
-            <mat-card-header class="bg-info text-white">
-                <mat-card-title class="clientes">
-                    <label>Datos Cliente</label>
-                </mat-card-title>
-                <div>
-                  <button class="font-weight-300" mat-icon-button 
-                        matTooltip="Buscar"
-                        (click)="buscarClienteClick();$event.preventDefault();">
-                    <mat-icon>search</mat-icon>
-                  </button>
-                  <button class="font-weight-300" mat-icon-button 
-                  matTooltip="Nuevo Cliente"
-                  (click)="nuevoClienteClick();$event.preventDefault();">
-                    <mat-icon>edit</mat-icon>
-                  </button>
-                </div>
+          <mat-card-header class="bg-info text-white">
+            <mat-card-title class="clientes">
+              <label>Datos Cliente</label>
+            </mat-card-title>
             </mat-card-header>
             <mat-card-content>
               <div class="container-datos-cliente">
 
-                <div class="container-form-field">
-                  <mat-form-field >
-                      <mat-label>CI/RUC</mat-label>
-                      <input matInput type="text" disabled #identificacion>
-                  </mat-form-field>
-                </div>
+                <mat-form-field >
+                  <mat-label>CI/RUC</mat-label>
+                  <input matInput type="text" disabled #identificacion>
+              </mat-form-field>
 
-                <div class="container-form-field">  
-                  <mat-form-field >
-                      <mat-label>Nombre</mat-label>
-                      <input matInput type="text" disabled #nombreCliente>
-                  </mat-form-field>
-                </div>
+              <mat-form-field >
+                <mat-label>Nombre</mat-label>
+                <input matInput type="text" disabled #nombreCliente>
+              </mat-form-field>
 
-                <div class="container-form-field">  
-                  <mat-form-field >
-                      <mat-label>Direccion</mat-label>
-                      <input matInput type="text" disabled #dirCliente>
-                  </mat-form-field>
-                </div>
+              <mat-form-field >
+                <mat-label>Direccion</mat-label>
+                <input matInput type="text" disabled #dirCliente>
+              </mat-form-field>
 
               </div>
             </mat-card-content>
         </mat-card>
 
+      </div>
+
+      <div class="container-datos">
         <mat-card>
-            <mat-card-header class="bg-info text-white">
-                <mat-card-title >
-                    <label>Datos Factura</label>
-                </mat-card-title>
-                <div>
-                  <button class="font-weight-300 opacity-zero" mat-icon-button disabled>
-                    <mat-icon>search</mat-icon>
-                  </button>
-                </div>
-            </mat-card-header>
-            <mat-card-content>
-              <div class="container-datos-factura">
-                <div class="container-form-field">
+          <mat-card-header class="bg-info text-white">
+              <mat-card-title >
+                  <label>Datos Factura</label>
+              </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="container-datos-factura">
+              <div class="container-form-field">
 
-                  <mat-form-field >
-                      <input matInput type="text" disabled value="001">
-                  </mat-form-field>
-                  <mat-form-field >
+                <mat-form-field >
                     <input matInput type="text" disabled value="001">
-                  </mat-form-field>
-                  <mat-form-field >
-                    <input matInput type="text" disabled value="1">
-                  </mat-form-field>
+                </mat-form-field>
+                <mat-form-field >
+                  <input matInput type="text" disabled value="001">
+                </mat-form-field>
+                <mat-form-field >
+                  <input matInput type="text" disabled value="1">
+                </mat-form-field>
 
-                </div>
               </div>
-            </mat-card-content>
-        </mat-card>
-
+            </div>
+          </mat-card-content>
+      </mat-card>
+      </div>  
     </div>
     
     <div class="container-child container-items">
@@ -142,10 +138,10 @@
         <mat-card class="container-observacion">
             <mat-card-content>
               <mat-form-field class="font-size-one-rem">
-                <textarea matInput placeholder="Observacion..."></textarea>
+                <textarea matInput rows="7" placeholder="Observacion..."></textarea>
               </mat-form-field>
             </mat-card-content>
-          </mat-card>
+        </mat-card>
 
         <div class="container-totales-values">
           <mat-card class="inner-container-total-values">

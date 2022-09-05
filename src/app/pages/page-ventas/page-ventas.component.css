@@ -1,3 +1,4 @@
+
 .container-gen{
     display: flex;
     flex-flow: column wrap;
@@ -23,11 +24,13 @@
     margin-top: 4rem;
 }
 
-.container-child .mat-card{
+
+.container-child .container-datos, .container-child .mat-card{
     flex: 1 1 0;
 }
-.container-child .mat-card + .mat-card{
+.container-child .container-datos + .container-datos{
     margin-left: 5rem;
+    margin-top: 1.4em;
 }
 
 
@@ -43,7 +46,6 @@
 
 
 .mat-card{
-    
     transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
     display: block;
     position: relative;
@@ -77,13 +79,35 @@
 
 .container-datos-cliente{
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: row nowrap;
     padding: 10px;
     margin-top: 8px !important;
 }
 
-.container-datos-cliente .container-form-field .mat-form-field{
-    width: 100%;
+.container-datos-cliente .mat-form-field {
+    flex: 1 1 0;    
+    max-width: 17rem;
+    min-width: 0;
+    width: 1rem ;
+    text-align: start;
+    font-size: .9em;
+}
+.container-datos-cliente .mat-form-field + .mat-form-field{
+    margin-left: 10px;
+}
+
+.container-datos .container-btn-cliente{
+    margin-bottom: .3em;   
+}
+.container-btn-cliente button + button{
+    margin-left: 8px;
+}
+
+@media screen and (max-width: 388px){
+    .container-btn-cliente button + button{
+        margin-left: 0;
+        margin-top: .2em;
+    }   
 }
 
 .container-datos-factura{
@@ -105,26 +129,27 @@
     text-align: center;
     color: black;
     font-weight: 600;
-}
-
-.inner-container-total-values .mat-card-content{
-    width: 100%;
+    font-size: .9em;
 }
 
 .container-datos-factura .container-form-field .mat-form-field + .mat-form-field{
     margin-left: 10px;
 }
 
-@media screen and (max-width: 900px){
+@media screen and (max-width: 1031px){
     .container-info{
         display: flex;
         flex-flow: column nowrap;
     }  
 
-    .container-child .mat-card + .mat-card{
+    .container-child .container-datos + .container-datos{
         margin-left: 0;
-        margin-top: 1em;
+        margin-top: .5em;
     }
+}
+
+.inner-container-total-values .mat-card-content{
+    width: 100%;
 }
 
 .container-totales{
@@ -158,7 +183,6 @@
 }
 
 
-
 .inner-container-total-values div:last-child{
     margin-top: 1rem;
 }
@@ -182,9 +206,6 @@
 .container-totales div{
     flex: 1 1 0;
 }
-.container-totales div{
-    flex: 1 1 0;
-}
 
 
 .font-size-one-rem{
@@ -204,6 +225,9 @@
         width: 100%;
         margin-top: 1em;
     }
+    .container-observacion textarea{
+        height: 5em;
+    }
 }
 
 .btn-save{
@@ -219,4 +243,8 @@
     width: 90%;
     text-align: end;
     margin-top: 1.5em;
+}
+
+.mat-row {
+    height: 50px !important;
 }

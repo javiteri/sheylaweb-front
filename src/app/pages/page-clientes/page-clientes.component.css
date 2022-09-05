@@ -82,11 +82,6 @@ table{
     margin-right: 15px;
 }
 
-.mat-btn-icon-accent{
-    color: white;
-    background-color: var(--accent-color);
-}
-
 .container-search-bar{
     margin-top: 3rem;
 }

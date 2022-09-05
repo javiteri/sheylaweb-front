@@ -81,3 +81,8 @@ th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:la
   top: 70px !important;
   right: 12px !important;
 }
+
+.mat-btn-icon-accent{
+  color: white;
+  background-color: var(--accent-color);
+}
