@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from '@angular/common';
-import { MatTooltipModule } from '@angular/material/tooltip'
 
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from '@angular/material/input';
@@ -8,7 +7,6 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatDatepickerModule} from '@angular/material/datepicker'
 import { MatNativeDateModule } from "@angular/material/core";
 
-import { OverlayModule } from "@angular/cdk/overlay";
 import { LoadingService } from "src/app/services/Loading.service";
 
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -34,7 +32,6 @@ import { CrearClienteDialogComponent } from "src/app/components/crear-cliente-di
         CrearClienteDialogComponent     
     ],
     imports: [
-        MatTooltipModule,
         CommonModule,
         VentasRoutingModule,
         MatSelectModule,
@@ -50,8 +47,7 @@ import { CrearClienteDialogComponent } from "src/app/components/crear-cliente-di
         MatPaginatorModule,
         MatProgressSpinnerModule,
         FormsModule,
-        ReactiveFormsModule,
-        OverlayModule
+        ReactiveFormsModule
     ],
     providers: [LoadingService, ApplicationProvider,
         {provide: MatPaginatorIntl, useValue: CustomPaginator()}

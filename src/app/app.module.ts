@@ -23,6 +23,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { ConfirmDeleteDialogComponent } from './components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { AuthGuard } from './shared/guard';
 import { ApplicationProvider, EndPointProvider } from './providers/provider';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { LoadingService } from './services/Loading.service';
+import { MatTooltipModule } from '@angular/material/tooltip'
 
 @NgModule({
   declarations: [
@@ -30,6 +33,8 @@ import { ApplicationProvider, EndPointProvider } from './providers/provider';
     ConfirmDeleteDialogComponent
   ],
   imports: [
+    OverlayModule,
+    MatTooltipModule,
     FormsModule, 
     HttpClientModule,
     ReactiveFormsModule,
@@ -49,7 +54,7 @@ import { ApplicationProvider, EndPointProvider } from './providers/provider';
     AppRoutingModule,
     ToastrModule.forRoot()
   ],
-  providers: [AuthGuard, ApplicationProvider, EndPointProvider],
+  providers: [AuthGuard, ApplicationProvider, EndPointProvider, LoadingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

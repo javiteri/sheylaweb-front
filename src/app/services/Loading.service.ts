@@ -16,7 +16,7 @@ export class LoadingOverlayRef {
 @Injectable()
 export class LoadingService{
 
-    constructor(private injector: Injector, private overlay: Overlay){}
+    constructor(private overlay: Overlay){}
 
 
     open(): LoadingOverlayRef {

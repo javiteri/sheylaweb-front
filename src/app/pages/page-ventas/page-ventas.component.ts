@@ -21,10 +21,18 @@ export class PageVentasComponent implements OnInit {
   @ViewChild('nombreCliente') inputNombreCliente: any; 
   @ViewChild('dirCliente') inputDirCliente: any;
 
+  loadingSecuencial = true;
+
   constructor(private matDialog: MatDialog,
     public viewContainerRef: ViewContainerRef) { }
 
   ngOnInit(): void {
+
+    //REQUEST DATA CONFIG SECUENCIAL
+    setTimeout(() => {
+      this.loadingSecuencial = !this.loadingSecuencial
+    }, 3000);
+
   }
 
   nuevoClienteClick(){

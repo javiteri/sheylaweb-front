@@ -122,11 +122,17 @@
     }   
 }
 
+.mat-progress-spinner svg{
+    width: 50px !important;
+    height: 50px !important;
+}
+
 .container-datos-factura{
     display: flex;
     flex-flow: row nowrap;
     padding: 10px;
     margin-top: 8px !important;
+    justify-content: center;
 }
 
 .container-datos-factura .container-form-field{
