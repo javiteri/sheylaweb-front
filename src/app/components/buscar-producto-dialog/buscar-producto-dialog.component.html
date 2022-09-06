@@ -1,8 +1,6 @@
 <div class="container-search-bar">
     <div class="inner-container-search">
-      <input type="text" placeholder="Nombre o Identificacion" 
-      
-    />
+      <input type="text" placeholder="Codigo o Nombre"/>
       <button class="font-weight-300" color="icon-accent" mat-icon-button 
             matTooltip="Buscar">
         <mat-icon>search</mat-icon>
@@ -12,17 +10,17 @@
 <mat-dialog-content class="margin-top-one-em">
     <div class="wrap-container">
         <mat-table [dataSource]="datasource" role="grid">
-            <ng-container matColumnDef="ci" >
-                <th mat-header-cell *matHeaderCellDef mat-sort-header >CI RUC </th>
-                <td  mat-cell *matCellDef="let cliente" data-label="CI RUC">{{cliente.cli_documento_identidad}}</td>
+            <ng-container matColumnDef="codigo" >
+                <th mat-header-cell *matHeaderCellDef mat-sort-header >Codigo</th>
+                <td  mat-cell *matCellDef="let producto" data-label="CI RUC">{{producto.prod_codigo}}</td>
               </ng-container>
               <ng-container matColumnDef="nombre" >
                 <th mat-header-cell  class="flex-grow-1_5" *matHeaderCellDef mat-sort-header >Nombre </th>
-                <td mat-cell class="flex-grow-1_5" *matCellDef="let cliente" data-label="Nombre">{{cliente.cli_nombres_natural}}</td>
+                <td mat-cell class="flex-grow-1_5" *matCellDef="let producto" data-label="Nombre">{{producto.prod_nombre}}</td>
               </ng-container>
-              <ng-container matColumnDef="direccion" >
-                <th  mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header >Direccion </th>
-                <td mat-cell class="justify-centro" *matCellDef="let cliente" data-label="Direccion">{{cliente.cli_direccion}}</td>
+              <ng-container matColumnDef="precio" >
+                <th  mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header >Precio</th>
+                <td mat-cell class="justify-centro" *matCellDef="let producto" data-label="Direccion">$ {{producto.prod_pvp}}</td>
               </ng-container>
         
               <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -33,5 +31,6 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button class="btn-cancelar" mat-button mat-dialog-close>Cancelar</button>
-  </mat-dialog-actions>
+</mat-dialog-actions>
   
+

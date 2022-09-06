@@ -18,7 +18,7 @@ import { LayoutRoutingModule } from './layout-routing.module';
 import { PageComprasComponent } from '../page-compras/page-compras.component';
 import { ClientesComponentComponent } from '../../components/clientes-component/clientes-component.component';
 import { BuscarClienteDialogComponent } from 'src/app/components/buscar-cliente-dialog/buscar-cliente-dialog.component';
-
+import { BuscarProductoDialogComponent } from 'src/app/components/buscar-producto-dialog/buscar-producto-dialog.component';
 
 
 @NgModule({
@@ -26,7 +26,8 @@ import { BuscarClienteDialogComponent } from 'src/app/components/buscar-cliente-
     LayoutComponent,
     PageComprasComponent,
     ClientesComponentComponent,
-    BuscarClienteDialogComponent
+    BuscarClienteDialogComponent,
+    BuscarProductoDialogComponent
   ],
   imports: [
     CommonModule,

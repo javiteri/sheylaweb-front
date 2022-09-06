@@ -18,10 +18,10 @@
     width: 90%;
 }
 .container-gen .container-child:nth-child(2){
-    margin-top: 4rem;
+    margin-top: 2rem;
 }
 .container-gen .container-child:nth-child(3){
-    margin-top: 4rem;
+    margin-top: 1rem;
 }
 
 
@@ -44,6 +44,9 @@
     width: 100%;
 }
 
+.container-items .mat-card{
+    margin-top: .1em;
+}
 
 .mat-card{
     transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -102,6 +105,15 @@
 .container-btn-cliente button + button{
     margin-left: 8px;
 }
+
+.flex-grow-1_5{
+    flex-grow: 3;
+}
+
+.flex-grow-punto_5{
+    flex-grow: .5;
+}
+
 
 @media screen and (max-width: 388px){
     .container-btn-cliente button + button{
@@ -221,7 +233,7 @@
         flex-flow: column nowrap;
     }
     .inner-container-total-values{
-        max-width: 100%;
+        max-width: 100% !important;
         width: 100%;
         margin-top: 1em;
     }
@@ -247,4 +259,86 @@
 
 .mat-row {
     height: 50px !important;
+}
+
+.container-btn-add-item{
+    display: flex;
+    justify-content: flex-end;
+}
+.btn-add-item{
+    color: var(--accent-color);
+    
+    font-weight: 400;
+}
+
+/*------------------------------*/
+.mat-footer-row, .mat-header-row, .mat-row{
+    width: auto;
+}
+
+th.mat-header-cell,
+td.mat-cell,
+td.mat-footer-cell {
+ border-bottom-width:0;
+ border-bottom-style:none; 
+}
+
+.mat-table .mat-header-row th:nth-child(n + 4), .mat-table .mat-row td:nth-child(n + 4){
+    justify-content: flex-end;
+    margin-right: .7rem;
+}
+
+.mat-table .mat-header-row th:last-child{
+    justify-content: center;
+    margin-right: 0;
+}
+.mat-table .mat-row td:last-child{
+    justify-content: center;
+    margin-right: 0;
+}
+
+
+@media screen and (max-width: 1100px){
+    .inner-container-total-values{
+        max-width: 90%;
+    }
+}
+
+@media screen and (max-width: 930px){
+    .mat-table {
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+    .mat-cell, .mat-footer-cell, .mat-header-cell{
+        min-width: 90px;
+    }
+    .mat-footer-row, .mat-header-row, .mat-row{
+        width: fit-content;
+    }
+    .mat-table .mat-header-row th:last-child, .mat-table .mat-row td:last-child{
+        min-width: 40px;
+    }
+}
+
+.font-weight-400{
+    font-weight: 400;
+}
+
+.wrapper-mat-icon-delete{
+    display: inline-block;
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 3px;
+    border-width: 1px;
+    border-style: solid;
+    --tw-border-opacity: 1;
+    border-color: rgb(223 114 114 / var(--tw-border-opacity));
+    text-align: center;
+    line-height: 23px;
+}
+.wrapper-mat-icon-delete .mat-icon{
+    transform: translateX(-1px);
+    font-size: 16px;
+    line-height: 22px;
+    color: rgb(223 114 114 / 1);
 }

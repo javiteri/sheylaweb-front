@@ -22,7 +22,6 @@ import {LayoutModule} from '@angular/cdk/layout';
 import { AppRoutingModule } from './app-routing.module';
 import { ConfirmDeleteDialogComponent } from './components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { AuthGuard } from './shared/guard';
-import { CrearClienteDialogComponent } from './components/crear-cliente-dialog/crear-cliente-dialog.component';
 import { ApplicationProvider, EndPointProvider } from './providers/provider';
 
 @NgModule({

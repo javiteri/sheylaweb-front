@@ -49,6 +49,7 @@ img{
  overflow: hidden;
  word-wrap: break-word;
 }
+
 .mat-cell, .mat-footer-cell{
   font-size: 12px;
 }
