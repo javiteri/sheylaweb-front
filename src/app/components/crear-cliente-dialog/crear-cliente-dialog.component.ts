@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
+import { Event as NavigationEvent } from '@angular/router';
 
 import nacionalidad from '../../assets/nacionalidad.json';
 
@@ -35,7 +38,8 @@ export class CrearClienteDialogComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private coreService: ApplicationProvider,
-    private loadingService: LoadingService) { 
+    private loadingService: LoadingService,
+    private router: Router) { 
 
       this.sendDatosFormCliente = this.formBuilder.group({
         tipoIdentificacion: ['', Validators.required],
@@ -52,13 +56,20 @@ export class CrearClienteDialogComponent implements OnInit {
         comentario: ['']
       });
 
+      router.events.pipe(
+        filter((event: NavigationEvent) => {
+          return (event instanceof NavigationEnd);
+        })
+      ).subscribe((event: NavigationEvent) => {
+          
+          console.log("back button press");
+      });
   }
 
   ngOnInit(): void {
     console.log('inside dialog component');
   }
 
-  
   nuevoCliente(){
     
   }

@@ -23,6 +23,7 @@ export class PageVentasComponent implements OnInit {
 
   loadingSecuencial = true;
 
+  total: string = "00.0";
   constructor(private matDialog: MatDialog,
     public viewContainerRef: ViewContainerRef) { }
 
@@ -35,10 +36,18 @@ export class PageVentasComponent implements OnInit {
 
   }
 
+
+  clickCantidad(precio: any){
+    console.log(precio);
+    console.log(this.datasource.data);
+  }
+
+
   nuevoClienteClick(){
 
     const dialogRef = this.matDialog.open(CrearClienteDialogComponent, {
       width: '100%',
+      closeOnNavigation: true, 
       viewContainerRef: this.viewContainerRef
     });
 
@@ -52,6 +61,7 @@ export class PageVentasComponent implements OnInit {
   buscarClienteClick(){
     const dialogRef = this.matDialog.open(BuscarClienteDialogComponent, {
       width: '100%',
+      closeOnNavigation: true,
       viewContainerRef: this.viewContainerRef
     });
 
@@ -72,6 +82,7 @@ export class PageVentasComponent implements OnInit {
   agregarProductoClick(){
     const dialogRef = this.matDialog.open(BuscarProductoDialogComponent, {
       width: '100%',
+      closeOnNavigation: true,
       viewContainerRef: this.viewContainerRef
     });
 
