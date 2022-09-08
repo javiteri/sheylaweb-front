@@ -1,10 +1,9 @@
 <div class="container-search-bar">
     <div class="inner-container-search">
-      <input type="text" placeholder="Nombre o Identificacion" 
-      
-    />
+      <input type="text" placeholder="Nombre o Identificacion" [(ngModel)]="textSearchClientes" 
+      (keyup.enter)="searchClientesText();"/>
       <button class="font-weight-300" color="icon-accent" mat-icon-button 
-            matTooltip="Buscar">
+            matTooltip="Buscar" (click)="searchClientesText();$event.preventDefault();">
         <mat-icon>search</mat-icon>
       </button>
     </div>
@@ -28,7 +27,12 @@
               <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
               <mat-row (click)="clickSelectItem(row)" *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
-    
+        
+        <div *ngIf="showSinDatos"
+                style="display: flex; justify-content: center; align-items: center; margin-top: 3rem; margin-bottom: 3rem;">
+              <label> No se Encontraron Datos</label>
+        </div>
+
     </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

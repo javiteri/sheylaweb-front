@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Cliente } from 'src/app/interfaces/Cliente';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/provider';
+import { LoadingService } from 'src/app/services/Loading.service';
 import { LocalService } from 'src/app/services/local.service';
 
 @Component({
@@ -23,10 +24,14 @@ export class BuscarClienteDialogComponent implements OnInit {
   tokenValidate!: TokenValidate;
 
   listaClientes: Cliente[] = [];
-
+  textSearchClientes: string = '';
+  showSinDatos = false;
+  
   constructor(private coreService: ApplicationProvider,
     private localService: LocalService,
-    public matDialogRef: MatDialogRef<BuscarClienteDialogComponent>) { }
+    public matDialogRef: MatDialogRef<BuscarClienteDialogComponent>,
+    private loadingService: LoadingService,
+    private ref: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.matDialogRef.disableClose = true;
@@ -55,7 +60,6 @@ export class BuscarClienteDialogComponent implements OnInit {
     this.coreService.getListClientesByIdEmp(this.idEmpresa, this.tokenValidate).subscribe({
       next: (data: any) => {
 
-        console.log(data);
         this.listaClientes = data.data;
         this.datasource.data = this.listaClientes;
         /*dialogRef.close();
@@ -94,4 +98,32 @@ export class BuscarClienteDialogComponent implements OnInit {
     this.matDialogRef.close(dataCliente);
   }
 
+
+  searchClientesText(): void{
+
+    let dialogRef = this.loadingService.open();
+
+    this.coreService.searchClientesByIdEmpText(this.idEmpresa, this.textSearchClientes, this.tokenValidate).subscribe({
+      next: (data: any) => {
+        
+        dialogRef.close();
+
+        this.listaClientes = data.data;
+
+        if(this.listaClientes.length > 0){
+          this.showSinDatos = false
+        }else{
+          this.showSinDatos = true;
+        }
+
+        this.datasource.data = this.listaClientes;
+        this.ref.detectChanges();
+
+      },
+      error: (error: any) => {
+        dialogRef.close();
+        this.showSinDatos = !this.showSinDatos;
+      }
+    });
+  }
 }

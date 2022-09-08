@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 import {BreakpointObserver} from '@angular/cdk/layout'
-import { Router, RouterLink } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { Menu, TokenValidate } from 'src/app/interfaces/IWebData';
 import { DataStoreService } from 'src/app/services/DataStore.Service';
 import { DataStoreGlobalModel } from 'src/app/interfaces/DataStoreGlobalModel';
+import { filter } from 'rxjs';
 
 
 @Component({
@@ -18,7 +19,8 @@ export class LayoutComponent implements OnInit {
   rucEmpresa: string = '';
 
   @ViewChild(MatSidenav) sidenav!: MatSidenav;
-
+  @ViewChild(MatSidenavContent) sidenavcontent!: MatSidenavContent;
+  
   menus: Menu[] = [
     {
       name: 'Dashboard',
@@ -85,12 +87,17 @@ export class LayoutComponent implements OnInit {
 
   constructor(private observer: BreakpointObserver,
     private router: Router,
-    private dataStoreService: DataStoreService){}
+    private dataStoreService: DataStoreService){
+    }
 
 
   ngOnInit(): void {
 
-
+    this.router.events
+        // For newer versions or rxjs use a pipe on the filter:
+         .pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
+           this.sidenavcontent.getElementRef().nativeElement.scrollTop = 0;
+          });
     /*this.dataStoreService.globalModel$.subscribe((dataStoreGLobalModel: DataStoreGlobalModel) => {
 
       if(dataStoreGLobalModel){

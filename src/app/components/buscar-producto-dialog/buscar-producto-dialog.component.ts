@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { Producto } from 'src/app/interfaces/Productos';
 import { ApplicationProvider } from 'src/app/providers/provider';
+import { LoadingService } from 'src/app/services/Loading.service';
 import { LocalService } from 'src/app/services/local.service';
 
 @Component({
@@ -23,10 +24,16 @@ export class BuscarProductoDialogComponent implements OnInit {
   tokenValidate!: TokenValidate;
 
   listaProductos: Producto[] = [];
+  textSearchProductos = '';
+
+  showPagination = false;
+  showSinDatos = false;
 
   constructor(private coreService: ApplicationProvider,
     private localService: LocalService,
-    public matDialogRef: MatDialogRef<BuscarProductoDialogComponent>
+    public matDialogRef: MatDialogRef<BuscarProductoDialogComponent>,
+    private loadingService: LoadingService,
+    private ref: ChangeDetectorRef
   ) { 
 
   }
@@ -47,6 +54,36 @@ export class BuscarProductoDialogComponent implements OnInit {
     this.rucEmpresa = localServiceResponseUsr._ruc;
 
     this.getListaProductosRefresh();
+  }
+
+  searchProductosText(): void{
+
+    let dialogRef = this.loadingService.open();
+
+    this.coreService.searchProductosByIdEmpText(this.idEmpresa, this.textSearchProductos, this.tokenValidate).subscribe({
+      next: (data: any) => {
+        dialogRef.close();
+
+        this.listaProductos = data.data;
+
+        if(this.listaProductos.length > 0){
+          this.showPagination = true;
+          this.showSinDatos = false
+        }else{
+          this.showSinDatos = true;
+          this.showPagination = false
+        }
+
+        this.datasource.data = this.listaProductos;
+        this.ref.detectChanges();
+
+      },
+      error: (error: any) => {
+        dialogRef.close();
+
+        this.showSinDatos = !this.showSinDatos;
+      }
+    });
   }
 
   private getListaProductosRefresh(){
@@ -92,7 +129,6 @@ export class BuscarProductoDialogComponent implements OnInit {
   }
 
   clickSelectItem(dataProducto: any){
-
     this.matDialogRef.close(dataProducto);
   }
 }

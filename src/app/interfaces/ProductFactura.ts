@@ -3,5 +3,6 @@ export interface ProductFactura {
     nombre: string,
     precio: number,
     cantidad: number,
+    descuento: number,
     iva: string
 }

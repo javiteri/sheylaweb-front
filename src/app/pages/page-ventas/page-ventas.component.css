@@ -353,7 +353,7 @@ td.mat-footer-cell {
 /*INPUTS CSS STYLES*/
 td input{
     text-align: center;
-    border: 1px solid var(--grey-300);
+    border: 1px solid var(--grey-400);
     border-radius: 4px;
     padding-top: 3px;
     padding-bottom: 3px;
@@ -375,4 +375,9 @@ td input:focus-visible {
     border-color: var(--accent-color);
     outline: none;
     box-shadow: inset 0 0 0 1px #0969da;
+  }
+
+  .item-totals {
+      font-weight: 400;
+      color: var(--grey-600);
   }

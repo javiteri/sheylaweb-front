@@ -2,9 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { LayoutComponent } from './layout.component';
-import { PageClientesComponent } from '../page-clientes/page-clientes.component'
-import { PageInventarioComponent } from '../page-inventario/page-inventario.component';
-import { PageVentasComponent } from '../page-ventas/page-ventas.component';
 import { PageComprasComponent } from '../page-compras/page-compras.component';
 
 const routes: Routes = [

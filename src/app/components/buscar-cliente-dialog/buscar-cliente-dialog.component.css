@@ -89,3 +89,13 @@ td.mat-footer-cell {
     background-color: var(--accent-color);
     color: white;
 }
+
+@media screen and (max-width: 420px){
+    .mat-dialog-content{
+        padding-left: 1px;
+        padding-right: 1px;
+    }
+    th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type{
+        padding-left: 10px;
+    }
+}
