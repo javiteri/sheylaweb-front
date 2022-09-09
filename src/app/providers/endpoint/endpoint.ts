@@ -28,7 +28,7 @@ export class EndPointProvider {
         params: ciRuc ? paramsRequest : {}
       }
       
-      return this.http.get(this.searchDatosClienteSriLocal, {params: paramsRequest, responseType: 'text'});
+      return this.http.get(this.searchDatosClienteSri, {params: paramsRequest, responseType: 'text'});
     }
 
     //CLIENTES
