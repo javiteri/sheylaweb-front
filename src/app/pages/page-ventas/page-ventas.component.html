@@ -47,6 +47,15 @@
       </div>
 
       <div class="container-datos">
+        <div class="container-chips-factura">
+          <mat-chip-list>
+            <div class="chips-parent">
+              <mat-chip #chipFactura>Factura</mat-chip>
+              <mat-chip #chipFactura (click)="selectChip(chipFactura);$event.preventDefault();">Ticket</mat-chip>
+            </div>
+            
+          </mat-chip-list>
+        </div>
         <mat-card>
           <mat-card-header class="bg-info text-white">
               <mat-card-title >

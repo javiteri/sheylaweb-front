@@ -26,6 +26,7 @@ import { PageVentasComponent } from "./page-ventas.component";
 import { VentasRoutingModule } from "./ventas-routing.module";
 import { CrearClienteDialogComponent } from "src/app/components/crear-cliente-dialog/crear-cliente-dialog.component";
 import { MatDialogModule } from "@angular/material/dialog";
+import { MatChipsModule } from "@angular/material/chips"
 
 @NgModule({
     declarations: [
@@ -49,7 +50,8 @@ import { MatDialogModule } from "@angular/material/dialog";
         MatProgressSpinnerModule,
         FormsModule,
         ReactiveFormsModule,
-        MatDialogModule
+        MatDialogModule,
+        MatChipsModule
     ],
     providers: [LoadingService, ApplicationProvider,
         {provide: MatPaginatorIntl, useValue: CustomPaginator()}

@@ -30,7 +30,7 @@
 }
 .container-child .container-datos + .container-datos{
     margin-left: 5rem;
-    margin-top: 1.4em;
+    
 }
 
 
@@ -381,3 +381,26 @@ td input:focus-visible {
       font-weight: 400;
       color: var(--grey-600);
   }
+
+.container-chips-factura{
+    margin-bottom: .3em;
+}
+
+div.mat-chip-list {
+    flex-flow: row nowrap !important;
+}
+
+.container-chips-factura .mat-chip{
+    width: 100%;
+    justify-content: center;
+    min-width: 0;
+    background: transparent;
+    border: 1px solid var(--grey-400);
+    font-weight: 400;
+}
+
+.chips-parent{
+    width: 100%;
+    display: inherit;
+    flex-flow: row nowrap;
+}

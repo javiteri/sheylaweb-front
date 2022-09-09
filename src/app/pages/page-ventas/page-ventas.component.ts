@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { MatChip } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -196,5 +197,9 @@ export class PageVentasComponent implements OnInit {
     this.calculateTotalItems();
   }
 
-
+  selectChip(selectChip: any){
+    const matChip = selectChip as MatChip;
+    matChip.selected = true;
+    console.log(matChip);
+  }
 }
