@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 import {BreakpointObserver} from '@angular/cdk/layout'
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
@@ -80,14 +80,15 @@ export class LayoutComponent implements OnInit {
 
   ];
 
-
+  closeDrawer = false;
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
 
   constructor(private observer: BreakpointObserver,
     private router: Router,
-    private dataStoreService: DataStoreService){
+    private dataStoreService: DataStoreService,
+    public ref: ChangeDetectorRef){
     }
 
 
@@ -98,25 +99,6 @@ export class LayoutComponent implements OnInit {
          .pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
            this.sidenavcontent.getElementRef().nativeElement.scrollTop = 0;
           });
-    /*this.dataStoreService.globalModel$.subscribe((dataStoreGLobalModel: DataStoreGlobalModel) => {
-
-      if(dataStoreGLobalModel){
-          console.log('idEmpresaDataStore: ' + dataStoreGLobalModel.idEmpresa);
-          console.log('idUsuarioDataStore: ' + dataStoreGLobalModel.idUser);
-          console.log('rucEmpresaDataStore: ' + dataStoreGLobalModel.rucEmpresa);
-
-          this.rucEmpresa = dataStoreGLobalModel.rucEmpresa;
-          this.idEmpresa = dataStoreGLobalModel.idEmpresa;
-
-          /*let postData = {
-            ruc: this.rucEmpresa,
-            idEmpresa: this.idEmpresa
-          }
-
-      }
-
-    })*/
-
   }
 
   ngAfterViewInit(){
@@ -125,18 +107,19 @@ export class LayoutComponent implements OnInit {
       if(res.matches){
         this.sidenav.mode = 'over';
         this.sidenav.close();
+        this.closeDrawer = true;
       }else{
         this.sidenav.mode = 'side';
         this.sidenav.open();
+        this.closeDrawer = false;
       }
+      this.ref.detectChanges();
 
     });
   }
 
 
   logout(){
-
-    console.log('logout');
     localStorage.clear();
     this.router.navigate(['/login']);
   }
@@ -146,6 +129,12 @@ export class LayoutComponent implements OnInit {
 
     if(parentMenu.routerLink){
       this.router.navigate(['/'+parentMenu.routerLink]);
+
+      if(this.closeDrawer){
+        this.sidenav.mode = 'over';
+        this.sidenav.close();
+        this.ref.detectChanges();
+      }
     }
 
     this.menus.forEach(menu => {
@@ -156,11 +145,19 @@ export class LayoutComponent implements OnInit {
       }
     })
 
+    
   }
 
   selectSubmenu(submenu: any): void {
     if(submenu.url){
       this.router.navigate(['/'+submenu.url]);
+
+      if(this.closeDrawer){
+        this.sidenav.mode = 'over';
+        this.sidenav.close();
+        this.ref.detectChanges();
+      }
+  
     }
   }
 

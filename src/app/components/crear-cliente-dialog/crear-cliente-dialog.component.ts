@@ -218,4 +218,8 @@ export class CrearClienteDialogComponent implements OnInit {
     }
     return true;
   }
+
+  cancelarClick(){
+    this.matDialogRef.close();
+  }
 }

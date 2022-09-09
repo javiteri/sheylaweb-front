@@ -47,11 +47,14 @@
 }
 
 .container-form-btn{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
     width: 100%;
     text-align: end;
     margin-top: 20px;
 }
-.container-form-btn button{
+.container-form-btn button:last-child{
     background-color: #00AAFF;
     color: #ffffff;
     font-weight: normal;
@@ -87,13 +90,14 @@
   }
 
 
+
 @media screen and (max-width: 926px){
     .container-form-field .nacionalidad{
         margin-left: 0;   
     }
 }
 
-@media screen and (max-width: 488px){
+@media screen and (max-width: 600px){
     .mat-form-field + .mat-form-field, .mat-form-field-date + .mat-form-field-date{
         flex: 1 1 100%;
         margin-left: 0;
@@ -110,4 +114,10 @@
         padding-left: 1px;
         padding-right: 1px;
     }
+}
+
+.btn-cancelar{
+    background-color: #e71046;
+    color: #ffffff;
+    font-weight: normal;
 }

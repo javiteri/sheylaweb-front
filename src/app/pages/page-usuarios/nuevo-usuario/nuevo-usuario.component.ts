@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -12,7 +12,7 @@ import { LocalService } from 'src/app/services/local.service';
   templateUrl: './nuevo-usuario.component.html',
   styleUrls: ['./nuevo-usuario.component.css']
 })
-export class NuevoUsuarioComponent implements OnInit {
+export class NuevoUsuarioComponent implements OnInit, AfterViewInit {
 
   sendDatosFormUsuario : FormGroup;
 
@@ -26,13 +26,21 @@ export class NuevoUsuarioComponent implements OnInit {
   editMode = false;
   titlePage = 'Nuevo Usuario'
 
+  identificacionInput! : ElementRef<HTMLInputElement>;
+  @ViewChild('identificacionInput') set inputElRef(elRef: ElementRef<HTMLInputElement>){
+    if(elRef){
+      this.identificacionInput = elRef;
+    }
+  }
+  
   constructor(private formBuilder: FormBuilder,
               private loadingService: LoadingService,
               private coreService: ApplicationProvider,
               private toastr: ToastrService,
               private localService: LocalService,
               private route: ActivatedRoute,
-              private router: Router) { 
+              private router: Router,
+              private ref: ChangeDetectorRef) { 
 
     this.sendDatosFormUsuario = this.formBuilder.group({
       identificacion: ['', Validators.required],
@@ -45,6 +53,10 @@ export class NuevoUsuarioComponent implements OnInit {
       password: ['', [Validators.required, Validators.maxLength(250)]],
       permisoEscritura: [false]
     });
+  }
+  ngAfterViewInit(): void {
+    this.identificacionInput.nativeElement.focus();
+    this.ref.detectChanges();
   }
 
   ngOnInit(): void {
@@ -252,4 +264,8 @@ export class NuevoUsuarioComponent implements OnInit {
     });
   }
   
+  cancelarClick(){
+    this.router.navigate(['/usuarios']);
+  }
+
 }

@@ -1,6 +1,6 @@
 <mat-toolbar class="mat-elevation-z8">
 
-    <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+    <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle();ref.detectChanges();">
       <mat-icon *ngIf="!sidenav.opened">
           menu
       </mat-icon>
@@ -10,12 +10,16 @@
     </button>
 
 
-    <a [routerLink]="['/clientes']">
+  <a [routerLink]="['/clientes']">
       <img src="../../assets/sheyla-logo.svg" width="153" height="50">
-    </a>
+  </a>
+  <div>
+  <span class="span-dias-restantes">15 Dias restantes</span>
   <button mat-icon-button (click)="logout()" >
     <mat-icon>logout</mat-icon>
-    </button>
+  </button>
+  </div>
+  
 
 </mat-toolbar>
 

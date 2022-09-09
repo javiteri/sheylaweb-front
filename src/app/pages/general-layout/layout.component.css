@@ -104,10 +104,19 @@ mat-toolbar {
     
   }
   
+  .span-dias-restantes{
+    font-size: 11px;
+    margin-right: 3rem;
+    font-weight: 400;
+  }
+  
   @media screen and (max-width: 800px){
     .content{
       margin-left: 8px;
-    } 
+    }
+    .span-dias-restantes{
+      margin-right: 0;
+    }
   }
   
   mat-sidenav-container {
@@ -162,3 +171,4 @@ mat-toolbar {
   mat-toolbar  a img{
     cursor: pointer;
   }
+

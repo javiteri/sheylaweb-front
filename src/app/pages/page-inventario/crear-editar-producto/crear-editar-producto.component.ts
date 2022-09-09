@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -13,7 +13,7 @@ import { LocalService } from 'src/app/services/local.service';
   templateUrl: './crear-editar-producto.component.html',
   styleUrls: ['./crear-editar-producto.component.css']
 })
-export class CrearEditarProductoComponent implements OnInit {
+export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
 
   sendDatosFormProducto : FormGroup;
   
@@ -30,10 +30,17 @@ export class CrearEditarProductoComponent implements OnInit {
   titlePage = 'Nuevo Producto'
   
   listMarcasData = new Array();
-  listMarcas = new Observable<any[]>;
+  listMarcas = new Observable<any[]>();
 
   listCategoriasData = new Array();
-  listCategorias = new Observable<any[]>;
+  listCategorias = new Observable<any[]>();
+
+  codigoInput! : ElementRef<HTMLInputElement>;
+  @ViewChild('inputCodigo') set inputElRef(elRef: ElementRef<HTMLInputElement>){
+    if(elRef){
+      this.codigoInput = elRef;
+    }
+  }
 
   constructor(private formBuilder: FormBuilder,
     private coreService: ApplicationProvider,
@@ -41,7 +48,8 @@ export class CrearEditarProductoComponent implements OnInit {
     private toastr: ToastrService,
     private localService: LocalService,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private ref: ChangeDetectorRef) {
 
       this.sendDatosFormProducto = formBuilder.group({
         codigo: ['', Validators.required],
@@ -59,6 +67,10 @@ export class CrearEditarProductoComponent implements OnInit {
         observacion: ['']
       });
     }
+  ngAfterViewInit(): void {
+    this.codigoInput.nativeElement.focus();
+    this.ref.detectChanges();
+  }
 
   ngOnInit(): void {
     // GET INITIAL DATA 
@@ -302,5 +314,9 @@ export class CrearEditarProductoComponent implements OnInit {
     });
 
     return listraFiltro;
+  }
+
+  cancelarClick(){
+    this.router.navigate(['/inventario']);
   }
 }

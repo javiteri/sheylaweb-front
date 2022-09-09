@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationProvider } from '../../providers/provider';
 
@@ -14,7 +14,7 @@ import {ToastrService} from 'ngx-toastr';
   templateUrl: './registro-empresa.component.html',
   styleUrls: ['./registro-empresa.component.css']
 })
-export class RegistroEmpresaComponent implements OnInit {
+export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
 
   sendDatosEmpresaForm: FormGroup;
 
@@ -29,13 +29,21 @@ export class RegistroEmpresaComponent implements OnInit {
 
   loading = false;
 
+  nombreEmpresaInput! : ElementRef<HTMLInputElement>;
+  @ViewChild('nombreEmpresaInput') set inputElRef(elRef: ElementRef<HTMLInputElement>){
+    if(elRef){
+      this.nombreEmpresaInput = elRef;
+    }
+  }
+  
   constructor(
     private formBuilder: FormBuilder,
     private coreService: ApplicationProvider,
     public router: Router,
     private localService: LocalService,
     private loadingService: LoadingService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private ref: ChangeDetectorRef
     ) {
 
       this.sendDatosEmpresaForm = this.formBuilder.group({
@@ -56,6 +64,10 @@ export class RegistroEmpresaComponent implements OnInit {
       });
 
     }
+  ngAfterViewInit(): void {
+    this.nombreEmpresaInput.nativeElement.focus();
+    this.ref.detectChanges();
+  }
 
 
   ngOnInit(): void {

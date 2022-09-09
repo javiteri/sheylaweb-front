@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -12,7 +12,7 @@ import { LocalService } from 'src/app/services/local.service';
   templateUrl: './create-edit-proveedor.component.html',
   styleUrls: ['./create-edit-proveedor.component.css']
 })
-export class CreateEditProveedorComponent implements OnInit {
+export class CreateEditProveedorComponent implements OnInit, AfterViewInit{
 
   tiposId = [
     {valor: 'RUC', valorMostrar: 'RUC'},
@@ -32,6 +32,12 @@ export class CreateEditProveedorComponent implements OnInit {
   editMode = false;
 
   titlePage = 'Nuevo Proveedor'
+  identificacionInput! : ElementRef<HTMLInputElement>;
+  @ViewChild('identificacionInput') set inputElRef(elRef: ElementRef<HTMLInputElement>){
+    if(elRef){
+      this.identificacionInput = elRef;
+    }
+  }
 
   constructor(private formBuilder: FormBuilder,
     private coreService: ApplicationProvider,
@@ -39,7 +45,8 @@ export class CreateEditProveedorComponent implements OnInit {
     private toastr: ToastrService,
     private localService: LocalService,
     private route: ActivatedRoute,
-    private router: Router) { 
+    private router: Router,
+    private ref: ChangeDetectorRef) { 
 
       this.sendDatosFormProveedor = this.formBuilder.group({
         tipoIdentificacion: ['', Validators.required],
@@ -60,6 +67,10 @@ export class CreateEditProveedorComponent implements OnInit {
       });
       
     }
+  ngAfterViewInit(): void {
+    this.identificacionInput.nativeElement.focus();
+    this.ref.detectChanges();
+  }
 
   ngOnInit(): void {
     // GET INITIAL DATA 
@@ -270,4 +281,8 @@ export class CreateEditProveedorComponent implements OnInit {
 
   }
 
+
+  cancelarClick(){
+    this.router.navigate(['/proveedores']);
+  }
 }

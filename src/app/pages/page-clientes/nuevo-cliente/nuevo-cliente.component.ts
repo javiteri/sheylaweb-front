@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentInit, AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
@@ -13,7 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './nuevo-cliente.component.html',
   styleUrls: ['./nuevo-cliente.component.css']
 })
-export class NuevoClienteComponent implements OnInit {
+export class NuevoClienteComponent implements OnInit, AfterViewInit{
 
   tiposId = [
     {valor: 'RUC', valorMostrar: 'RUC'},
@@ -35,13 +35,21 @@ export class NuevoClienteComponent implements OnInit {
   editMode = false;
   titlePage = 'Nuevo Cliente'
 
+  identificacionInput! : ElementRef<HTMLInputElement>;
+  @ViewChild('identificacionInput') set inputElRef(elRef: ElementRef<HTMLInputElement>){
+    if(elRef){
+      this.identificacionInput = elRef;
+    }
+  }
+
   constructor(private formBuilder: FormBuilder,
               private coreService: ApplicationProvider,
               private loadingService: LoadingService,
               private toastr: ToastrService,
               private localService: LocalService,
               private route: ActivatedRoute,
-              private router: Router) { 
+              private router: Router,
+              private ref: ChangeDetectorRef) { 
 
     this.sendDatosFormCliente = this.formBuilder.group({
       tipoIdentificacion: ['', Validators.required],
@@ -57,7 +65,11 @@ export class NuevoClienteComponent implements OnInit {
       profesion: [''],
       comentario: ['']
     });
-
+    
+  }
+  ngAfterViewInit(): void {
+    this.identificacionInput.nativeElement.focus();
+    this.ref.detectChanges();
   }
 
   ngOnInit(): void {
@@ -334,5 +346,9 @@ export class NuevoClienteComponent implements OnInit {
     const actualDate = new Date();
     this.sendDatosFormCliente.controls['fechaNacimiento'].setValue(actualDate);
 
+  }
+
+  cancelarClick(){
+    this.router.navigate(['/clientes']);
   }
 }

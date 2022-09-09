@@ -28,6 +28,7 @@
                                 <mat-form-field class="identificacion">
                                     <mat-label>Identificacion</mat-label>
                                     <input matInput type="text" formControlName="documentoIdentidad" 
+                                    #identificacionInput
                                     (blur)="searchdatosProveedorSri(sendDatosFormProveedor.value.documentoIdentidad, true);">
                                 </mat-form-field>
 
@@ -132,6 +133,8 @@
                         </div>
 
                         <div class="container-form-btn">
+                            <button  [class.spinner]="loading" [disabled]="loading" mat-raised-button class="btn-cancelar"
+                            (click)="cancelarClick();$event.preventDefault();">Cancelar</button>
                             <button  [class.spinner]="loading" [disabled]="loading" mat-raised-button color="btn-icon-accent">Guardar</button>
                         </div>
 

@@ -59,11 +59,14 @@
 }
 
 .container-form-btn{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
   width: 100%;
   text-align: end;
   margin-top: 20px;
 }
-.container-form-btn button{
+.container-form-btn button:last-child{
   background-color: #00AAFF;
   color: #ffffff;
   font-weight: normal;
@@ -108,4 +111,10 @@
     margin-left: 0;
     flex: 1 1 100%
   }
+}
+
+.btn-cancelar{
+  background-color: #e71046;
+  color: #ffffff;
+  font-weight: normal;
 }
