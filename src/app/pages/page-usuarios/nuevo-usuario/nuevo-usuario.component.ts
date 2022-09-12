@@ -1,7 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/provider';
@@ -39,8 +38,7 @@ export class NuevoUsuarioComponent implements OnInit, AfterViewInit {
               private toastr: ToastrService,
               private route: ActivatedRoute,
               private router: Router,
-              private ref: ChangeDetectorRef,
-              private cookieService: CookieService) { 
+              private ref: ChangeDetectorRef) { 
 
     this.sendDatosFormUsuario = this.formBuilder.group({
       identificacion: ['', Validators.required],

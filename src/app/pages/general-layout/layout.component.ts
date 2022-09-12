@@ -1,10 +1,9 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 import {BreakpointObserver} from '@angular/cdk/layout'
-import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { NavigationEnd, Router} from '@angular/router';
 import { Menu, TokenValidate } from 'src/app/interfaces/IWebData';
 import { DataStoreService } from 'src/app/services/DataStore.Service';
-import { DataStoreGlobalModel } from 'src/app/interfaces/DataStoreGlobalModel';
 import { filter } from 'rxjs';
 
 

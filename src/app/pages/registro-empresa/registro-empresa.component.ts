@@ -1,14 +1,11 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ApplicationProvider } from '../../providers/provider';
 
 import {TokenValidate} from '../../interfaces/IWebData';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DataStoreService } from 'src/app/services/DataStore.Service';
-import { LocalService } from 'src/app/services/local.service';
 import { LoadingService } from 'src/app/services/Loading.service';
 import {ToastrService} from 'ngx-toastr';
-import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-registro-empresa',

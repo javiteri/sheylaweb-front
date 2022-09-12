@@ -3,14 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
-import { ToastrService } from 'ngx-toastr';
 import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { Proveedor } from 'src/app/interfaces/Proveedor';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
-import { LocalService } from 'src/app/services/local.service';
 
 @Component({
   selector: 'app-proveedores',
@@ -42,8 +39,7 @@ export class ProveedoresComponent implements OnInit {
               private loadingService: LoadingService,
               private router: Router,
               private matDialog: MatDialog,
-              private ref: ChangeDetectorRef,
-              private cookieService: CookieService) { }
+              private ref: ChangeDetectorRef) { }
 
 
   ngOnInit(): void {

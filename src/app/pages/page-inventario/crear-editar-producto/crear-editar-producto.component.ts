@@ -1,13 +1,11 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
 import { map, Observable, startWith, of, observable } from 'rxjs';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
-import { LocalService } from 'src/app/services/local.service';
 
 @Component({
   selector: 'app-crear-editar-producto',
@@ -49,8 +47,7 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
     private toastr: ToastrService,
     private route: ActivatedRoute,
     private router: Router,
-    private ref: ChangeDetectorRef,
-    private cookieService: CookieService) {
+    private ref: ChangeDetectorRef) {
 
       this.sendDatosFormProducto = formBuilder.group({
         codigo: ['', Validators.required],

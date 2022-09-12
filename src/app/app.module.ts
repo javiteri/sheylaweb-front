@@ -26,7 +26,6 @@ import { ApplicationProvider, EndPointProvider } from './providers/provider';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { LoadingService } from './services/Loading.service';
 import { MatTooltipModule } from '@angular/material/tooltip'
-import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -56,7 +55,7 @@ import { CookieService } from 'ngx-cookie-service';
     ToastrModule.forRoot()
   ],
   providers: [AuthGuard, ApplicationProvider, 
-    EndPointProvider, LoadingService, CookieService],
+    EndPointProvider, LoadingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

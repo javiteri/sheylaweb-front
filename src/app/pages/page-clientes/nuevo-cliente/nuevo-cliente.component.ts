@@ -6,7 +6,6 @@ import nacionalidad from '../../../assets/nacionalidad.json';
 import {ToastrService} from 'ngx-toastr';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-nuevo-cliente',
