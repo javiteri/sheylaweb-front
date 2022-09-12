@@ -36,11 +36,18 @@
               </mat-form-field>
 
               <mat-form-field >
-                <mat-label>Direccion</mat-label>
-                <input matInput type="text" disabled #dirCliente [(ngModel)]="clientFac.direccion">
+                <mat-label>Telefono</mat-label>
+                <input matInput type="text" disabled #telCliente [(ngModel)]="clientFac.telefono">
               </mat-form-field>
 
               </div>
+              <div class="container-datos-cliente-dir">
+                <mat-form-field >
+                  <mat-label>Direccion</mat-label>
+                  <input matInput type="text" disabled #dirCliente [(ngModel)]="clientFac.direccion">
+                </mat-form-field>
+              </div>
+
             </mat-card-content>
         </mat-card>
 
@@ -48,13 +55,16 @@
 
       <div class="container-datos">
         <div class="container-chips-factura">
-          <mat-chip-list>
-            <div class="chips-parent">
-              <mat-chip #chipFactura>Factura</mat-chip>
-              <mat-chip #chipFactura (click)="selectChip(chipFactura);$event.preventDefault();">Ticket</mat-chip>
-            </div>
-            
-          </mat-chip-list>
+          <div class="chips-parent">
+            <mat-form-field>
+              <mat-label>Tipo Documento</mat-label>
+              <mat-select [(value)]="tipoDocSelect">
+                <mat-option *ngFor="let tipoDocumento of listTipoDocumento" [value]="tipoDocumento">
+                  {{tipoDocumento}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
         <mat-card>
           <mat-card-header class="bg-info text-white">
@@ -77,6 +87,24 @@
                 </mat-form-field>
 
               </div>
+
+              <div class="container-date-formapago">
+                <mat-form-field class="mat-form-field-date">
+                  <mat-label>Fecha</mat-label>
+                  <input matInput readonly [matDatepicker]="picker" >
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Forma Pago</mat-label>
+                <mat-select [(value)]="formaPagoSelect">
+                  <mat-option *ngFor="let formaPago of listFormaPago" [value]="formaPago">
+                    {{formaPago}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              </div>
+
             </div>
           </mat-card-content>
       </mat-card>

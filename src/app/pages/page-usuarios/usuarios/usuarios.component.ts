@@ -3,12 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { Usuario } from 'src/app/interfaces/Usuario';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
-import { LocalService } from 'src/app/services/local.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -37,7 +37,6 @@ export class UsuariosComponent implements OnInit {
   @ViewChild('containerTable', {read: ElementRef}) tableInput!: ElementRef
 
   constructor(private coreService: ApplicationProvider, 
-              private localService: LocalService,
               private router: Router,
               private loadingService: LoadingService,
               private matDialog: MatDialog,
@@ -47,8 +46,10 @@ export class UsuariosComponent implements OnInit {
   ngOnInit(): void {
 
     // GET INITIAL DATA 
-    const localServiceResponseToken = this.localService.storageGetJsonValue('DATA_TOK');
-    const localServiceResponseUsr = this.localService.storageGetJsonValue('DATA_USER');
+    const localServiceResponseToken =  
+          JSON.parse(sessionStorage.getItem('_valtok') ? sessionStorage.getItem('_valtok')! : '');
+    const localServiceResponseUsr = 
+          JSON.parse(sessionStorage.getItem('_valuser') ? sessionStorage.getItem('_valuser')! : '');
 
     this.dataUser = localServiceResponseToken;
     const { token, expire } = this.dataUser;

@@ -22,6 +22,7 @@
     "@angular/router": "^14.1.0",
     "crypto-js": "^4.1.1",
     "encrypt-storage": "^2.4.5",
+    "ngx-cookie-service": "^14.0.1",
     "ngx-toastr": "^15.0.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",

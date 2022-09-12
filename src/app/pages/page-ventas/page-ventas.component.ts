@@ -23,8 +23,15 @@ export class PageVentasComponent implements OnInit {
   @ViewChild('identificacion') inputIdentificacion: any; 
   @ViewChild('nombreCliente') inputNombreCliente: any; 
   @ViewChild('dirCliente') inputDirCliente: any;
+  @ViewChild('telCliente') inputTelCliente: any;
   @ViewChild('generalContainer') containerGeneral!: ElementRef;
 
+  @ViewChild('fechaFac') inputFechaFac: any;
+  @ViewChild('formaPagoFac') inputFormaPagoFac: any;
+  @ViewChild('tipoDocFac') inputTipoDocFac: any;
+  /*picker: any;
+  inputFormaPagoFac: any;*/
+  
   loadingSecuencial = true;
 
   total: string = "00.0";
@@ -33,7 +40,13 @@ export class PageVentasComponent implements OnInit {
   subtotalIva12: string = "00.0";
   Iva12: string = "00.0";
 
-  clientFac: ClienteFactura = new ClienteFactura(0, '999999999', 'CONSUMIDOR FINAL', '','');
+  clientFac: ClienteFactura = new ClienteFactura(0, '999999999', 'CONSUMIDOR FINAL', '','','0999999999');
+
+  listFormaPago = ['Efectivo', 'Cheque', 'Transferencia', 'Voucher', 'Credito'];
+  listTipoDocumento = ['Factura', 'Ticket', 'Nota de Venta'];
+
+  tipoDocSelect = 'Factura';
+  formaPagoSelect = 'Efectivo';
 
   constructor(private matDialog: MatDialog,
     public viewContainerRef: ViewContainerRef,
@@ -48,6 +61,9 @@ export class PageVentasComponent implements OnInit {
       this.loadingSecuencial = !this.loadingSecuencial
     }, 3000);
 
+    const fechaActual = new Date();
+    
+    //this.sendDatosFormCliente.controls['fechaNacimiento'].setValue(fechaNacimiento);
   }
 
 
@@ -146,7 +162,6 @@ export class PageVentasComponent implements OnInit {
     let result = 0.0
 
     this.datasource.data.forEach((item: ProductFactura, index: number) => {
-
 
         if(item.iva == "1"){
           result = ((item.cantidad * item.precio) / 1.12);

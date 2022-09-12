@@ -2,11 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApplicationProvider } from '../../providers/provider';
-import { DataStoreService } from '../../services/DataStore.Service';
-import { DataStoreGlobalModel } from '../../interfaces/DataStoreGlobalModel';
 import { LocalService } from '../../services/local.service';
 import { LoadingService } from '../../services/Loading.service';
-import {ToastrService} from 'ngx-toastr';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -25,9 +23,7 @@ export class LoginComponent implements OnInit {
     public formBuilder: FormBuilder,
     public router: Router,
     private coreService: ApplicationProvider,
-    private localService: LocalService,
-    private loadingService: LoadingService,
-    private toastr: ToastrService
+    private loadingService: LoadingService
   ) {
 
     this.sendLoginForm = this.formBuilder.group({
@@ -47,11 +43,6 @@ export class LoginComponent implements OnInit {
 
     if (this.sendLoginForm.invalid) {
         this.loading = false;
-
-        /*this.toastr.error('verifique que los datos esten llenos', '', {
-            timeOut: 3000,
-            closeButton: true
-        });*/
 
         this.showMessageInfo('verifique que los datos esten llenos');
         return;
@@ -73,12 +64,7 @@ export class LoginComponent implements OnInit {
         if(response.error){
           this.loading = false;
 
-          /*this.toastr.error(response.error, '', {
-            timeOut: 3000,
-            closeButton: true
-          });*/
           this.showMessageInfo(response.error);
-
 
           return;
         }
@@ -91,26 +77,19 @@ export class LoginComponent implements OnInit {
           expire: Expires
         }
 
-        this.localService.storageSetJsonValue('DATA_TOK', tokenAndExpire);
+        //this.localService.storageSetJsonValue('DATA_TOK', tokenAndExpire);
+        sessionStorage.setItem('_valtok', JSON.stringify(tokenAndExpire));
 
-        //localStorage.setItem('DATA_TOK', JSON.stringify(tokenAndExpire));
 
-        console.log('ruc empresa: ' + response.rucEmpresa);
         const dataUserBus = {
           _userId: response.idUsuario,
           _bussId: response.idEmpresa,
           _ruc: '' + response.rucEmpresa
         }
 
-        this.localService.storageSetJsonValue('DATA_USER', dataUserBus);
+        //this.localService.storageSetJsonValue('DATA_USER', dataUserBus);
+        sessionStorage.setItem('_valuser', JSON.stringify(dataUserBus));
 
-
-        let dataStoreGlobalModel = new DataStoreGlobalModel()
-        dataStoreGlobalModel.idEmpresa = response.idEmpresa;
-        dataStoreGlobalModel.rucEmpresa = response.rucEmpresa;
-        dataStoreGlobalModel.idUser = response.idUsuario;
-
-        //this.dataStoreService.setGlobalState(dataStoreGlobalModel);
 
         if(response.redirecRegistroEmp){
           this.router.navigate(['/infoempresa']);
@@ -125,10 +104,6 @@ export class LoginComponent implements OnInit {
         this.loading = false;
 
         overlayRef.close();
-        /*this.toastr.error('error al conectar', '', {
-          timeOut: 3000,
-          closeButton: true
-        });*/
         this.showMessageInfo('error al conectar');
 
       }

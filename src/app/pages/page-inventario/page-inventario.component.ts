@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
@@ -38,17 +39,18 @@ export class PageInventarioComponent implements OnInit {
   @ViewChild('containerTable', {read: ElementRef}) tableInput!: ElementRef
 
   constructor(private coreService: ApplicationProvider,
-              private localService: LocalService,
               private loadingService: LoadingService,
               private router: Router,
-              private toastr: ToastrService,
               private matDialog: MatDialog,
-              private ref: ChangeDetectorRef) { }
+              private ref: ChangeDetectorRef,
+              private cookieService: CookieService) { }
 
   ngOnInit(): void {
     // GET INITIAL DATA 
-    const localServiceResponseToken = this.localService.storageGetJsonValue('DATA_TOK');
-    const localServiceResponseUsr = this.localService.storageGetJsonValue('DATA_USER');
+    const localServiceResponseToken =  
+          JSON.parse(sessionStorage.getItem('_valtok') ? sessionStorage.getItem('_valtok')! : '');
+    const localServiceResponseUsr = 
+          JSON.parse(sessionStorage.getItem('_valuser') ? sessionStorage.getItem('_valuser')! : '');
 
     this.dataUser = localServiceResponseToken;
     const { token, expire } = this.dataUser;

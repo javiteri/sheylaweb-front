@@ -29,7 +29,7 @@
     flex: 1 1 0;
 }
 .container-child .container-datos + .container-datos{
-    margin-left: 5rem;
+    margin-left: 2rem;
     
 }
 
@@ -64,7 +64,7 @@
 }
 .mat-card .mat-card-header .mat-card-title{
     margin-bottom: 0 !important;
-    font-size: 16px !important;
+    font-size: 13px;
 }
 
 
@@ -83,8 +83,20 @@
 .container-datos-cliente{
     display: flex;
     flex-flow: row nowrap;
-    padding: 10px;
+    padding: 3px 10px;
     margin-top: 8px !important;
+}
+.container-datos-cliente-dir{
+    display: inherit;
+    width: 100%;
+    padding: 0 10px;
+}
+.container-datos-cliente-dir .mat-form-field{
+    flex: 1 1 0;    
+    width: 100%;
+    min-width: 0;
+    text-align: start;
+    font-size: .9em;
 }
 
 .container-datos-cliente .mat-form-field {
@@ -101,6 +113,9 @@
 
 .container-datos .container-btn-cliente{
     margin-bottom: .3em;   
+}
+.container-btn-cliente button, .container-btn-add-item button{
+    font-size: 13px;
 }
 .container-btn-cliente button + button{
     margin-left: 8px;
@@ -126,18 +141,20 @@
 
 .container-datos-factura{
     display: flex;
-    flex-flow: row nowrap;
-    padding: 10px;
+    flex-flow: column nowrap;
+    padding: 3px 10px;
     margin-top: 8px !important;
     justify-content: center;
+    align-items: center;
+    align-content: center;
 }
 
-.container-datos-factura .container-form-field{
+.container-datos-factura .container-form-field, .container-date-formapago{
     display: inherit;
     width: 100%;
 }
 .container-datos-factura .container-form-field .mat-form-field {
-    flex: 1 1 0;    
+    flex: 1 1 0;
     max-width: 17rem;
     min-width: 0;
     width: 1rem ;
@@ -147,11 +164,23 @@
     font-size: .9em;
 }
 
+.container-datos-factura .container-date-formapago .mat-form-field {
+    flex: 1 1 0;    
+    max-width: 100%;
+    min-width: 0;
+    width: 100% ;
+    text-align: center;
+    font-size: .9em;
+}
+.container-date-formapago .mat-form-field + .mat-form-field{
+    margin-left: 10px;
+}
+
 .container-datos-factura .container-form-field .mat-form-field + .mat-form-field{
     margin-left: 10px;
 }
 
-@media screen and (max-width: 1031px){
+@media screen and (max-width: 1200px){
     .container-info{
         display: flex;
         flex-flow: column nowrap;
@@ -382,25 +411,15 @@ td input:focus-visible {
       color: var(--grey-600);
   }
 
-.container-chips-factura{
-    margin-bottom: .3em;
-}
 
 div.mat-chip-list {
     flex-flow: row nowrap !important;
 }
 
-.container-chips-factura .mat-chip{
+.container-chips-factura .mat-form-field{
     width: 100%;
-    justify-content: center;
     min-width: 0;
-    background: transparent;
-    border: 1px solid var(--grey-400);
-    font-weight: 400;
+    font-size: 13px;
+    margin-bottom: -.5em;
 }
 
-.chips-parent{
-    width: 100%;
-    display: inherit;
-    flex-flow: row nowrap;
-}

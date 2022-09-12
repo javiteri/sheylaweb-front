@@ -37,8 +37,10 @@ export class BuscarClienteDialogComponent implements OnInit {
     this.matDialogRef.disableClose = true;
 
     // GET INITIAL DATA 
-    const localServiceResponseToken = this.localService.storageGetJsonValue('DATA_TOK');
-    const localServiceResponseUsr = this.localService.storageGetJsonValue('DATA_USER');
+    const localServiceResponseToken =  
+          JSON.parse(sessionStorage.getItem('_valtok') ? sessionStorage.getItem('_valtok')! : '');
+    const localServiceResponseUsr = 
+          JSON.parse(sessionStorage.getItem('_valuser') ? sessionStorage.getItem('_valuser')! : '');
 
     this.dataUser = localServiceResponseToken;
     const { token, expire } = this.dataUser;

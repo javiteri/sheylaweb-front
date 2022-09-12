@@ -1,12 +1,12 @@
-import { AfterContentInit, AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
 import nacionalidad from '../../../assets/nacionalidad.json';
 import {ToastrService} from 'ngx-toastr';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
-import { LocalService } from 'src/app/services/local.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-nuevo-cliente',
@@ -46,7 +46,6 @@ export class NuevoClienteComponent implements OnInit, AfterViewInit{
               private coreService: ApplicationProvider,
               private loadingService: LoadingService,
               private toastr: ToastrService,
-              private localService: LocalService,
               private route: ActivatedRoute,
               private router: Router,
               private ref: ChangeDetectorRef) { 
@@ -74,9 +73,11 @@ export class NuevoClienteComponent implements OnInit, AfterViewInit{
 
   ngOnInit(): void {
 
-    // GET INITIAL DATA 
-    const localServiceResponseToken = this.localService.storageGetJsonValue('DATA_TOK');
-    const localServiceResponseUsr = this.localService.storageGetJsonValue('DATA_USER');
+    // GET INITIAL DATA     
+    const localServiceResponseToken =  
+          JSON.parse(sessionStorage.getItem('_valtok') ? sessionStorage.getItem('_valtok')! : '');
+    const localServiceResponseUsr = 
+          JSON.parse(sessionStorage.getItem('_valuser') ? sessionStorage.getItem('_valuser')! : '');
 
     this.dataUser = localServiceResponseToken;
     const { token, expire } = this.dataUser;

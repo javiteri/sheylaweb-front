@@ -1,6 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
 import { map, Observable, startWith, of, observable } from 'rxjs';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
@@ -46,10 +47,10 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
     private coreService: ApplicationProvider,
     private loadingService: LoadingService,
     private toastr: ToastrService,
-    private localService: LocalService,
     private route: ActivatedRoute,
     private router: Router,
-    private ref: ChangeDetectorRef) {
+    private ref: ChangeDetectorRef,
+    private cookieService: CookieService) {
 
       this.sendDatosFormProducto = formBuilder.group({
         codigo: ['', Validators.required],
@@ -74,8 +75,10 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     // GET INITIAL DATA 
-    const localServiceResponseToken = this.localService.storageGetJsonValue('DATA_TOK');
-    const localServiceResponseUsr = this.localService.storageGetJsonValue('DATA_USER');
+    const localServiceResponseToken =  
+          JSON.parse(sessionStorage.getItem('_valtok') ? sessionStorage.getItem('_valtok')! : '');
+    const localServiceResponseUsr = 
+          JSON.parse(sessionStorage.getItem('_valuser') ? sessionStorage.getItem('_valuser')! : '');
 
     this.dataUser = localServiceResponseToken;
     const { token, expire } = this.dataUser;

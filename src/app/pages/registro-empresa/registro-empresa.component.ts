@@ -8,6 +8,7 @@ import { DataStoreService } from 'src/app/services/DataStore.Service';
 import { LocalService } from 'src/app/services/local.service';
 import { LoadingService } from 'src/app/services/Loading.service';
 import {ToastrService} from 'ngx-toastr';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-registro-empresa',
@@ -40,7 +41,6 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder,
     private coreService: ApplicationProvider,
     public router: Router,
-    private localService: LocalService,
     private loadingService: LoadingService,
     private toastr: ToastrService,
     private ref: ChangeDetectorRef
@@ -72,8 +72,10 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    const localServiceResponseToken = this.localService.storageGetJsonValue('DATA_TOK');
-    const localServiceResponseUsr = this.localService.storageGetJsonValue('DATA_USER');
+    const localServiceResponseToken =  
+          JSON.parse(sessionStorage.getItem('_valtok') ? sessionStorage.getItem('_valtok')! : '');
+    const localServiceResponseUsr = 
+          JSON.parse(sessionStorage.getItem('_valuser') ? sessionStorage.getItem('_valuser')! : '');
 
     this.dataUser = localServiceResponseToken;
     const { token, expire } = this.dataUser;

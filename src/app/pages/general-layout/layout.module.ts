@@ -16,7 +16,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { LayoutComponent } from './layout.component';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { PageComprasComponent } from '../page-compras/page-compras.component';
-import { ClientesComponentComponent } from '../../components/clientes-component/clientes-component.component';
 import { BuscarClienteDialogComponent } from 'src/app/components/buscar-cliente-dialog/buscar-cliente-dialog.component';
 import { BuscarProductoDialogComponent } from 'src/app/components/buscar-producto-dialog/buscar-producto-dialog.component';
 import { FormsModule } from '@angular/forms';
@@ -26,7 +25,6 @@ import { FormsModule } from '@angular/forms';
   declarations: [
     LayoutComponent,
     PageComprasComponent,
-    ClientesComponentComponent,
     BuscarClienteDialogComponent,
     BuscarProductoDialogComponent
   ],

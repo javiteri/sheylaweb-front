@@ -3,12 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/application/application';
 import { LoadingService } from 'src/app/services/Loading.service';
-import { LocalService } from 'src/app/services/local.service';
 import {Cliente} from '../../interfaces/Cliente'
 
 @Component({
@@ -39,16 +37,16 @@ export class PageClientesComponent implements OnInit {
 
   constructor(private coreService: ApplicationProvider ,
               private ref: ChangeDetectorRef,
-              private localService: LocalService,
               private loadingService: LoadingService,
               private router: Router,
-              private toastr: ToastrService,
               private matDialog: MatDialog) { }
 
   ngOnInit(): void {
       // GET INITIAL DATA 
-      const localServiceResponseToken = this.localService.storageGetJsonValue('DATA_TOK');
-      const localServiceResponseUsr = this.localService.storageGetJsonValue('DATA_USER');
+      const localServiceResponseToken =  
+          JSON.parse(sessionStorage.getItem('_valtok') ? sessionStorage.getItem('_valtok')! : '');
+      const localServiceResponseUsr = 
+          JSON.parse(sessionStorage.getItem('_valuser') ? sessionStorage.getItem('_valuser')! : '');
 
       this.dataUser = localServiceResponseToken;
       const { token, expire } = this.dataUser;
@@ -59,39 +57,6 @@ export class PageClientesComponent implements OnInit {
 
       this.getListaClientesRefresh();      
 
-      /*this.coreService.listaClientes('').subscribe(
-      {
-
-        next: (response:  any) => {
-
-          this.isLoading = !this.isLoading;
-
-          if(response['isSucces']){
-
-            this.listaClientes = response['data'];
-
-            if(this.listaClientes.length > 0){
-              this.showPagination = !this.showPagination;
-            }else{
-              this.showSinDatos = !this.showSinDatos;
-            }
-
-            this.datasource.data = this.listaClientes;
-            this.ref.detectChanges();
-            this.datasource.paginator = this.paginator;
-
-          }else{
-            console.log(' IS SUCCESS IS FALSE')
-          }
-
-        },
-        error: (error) => {
-          this.isLoading = !this.isLoading;
-          this.showSinDatos = !this.showSinDatos;
-          console.log('ocurrio un error al ejecutar la peticion' + error);
-        }
-
-      });*/
   }
 
 
