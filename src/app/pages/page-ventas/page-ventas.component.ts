@@ -56,6 +56,9 @@ export class PageVentasComponent implements OnInit {
 
   ngOnInit(): void {
 
+    /*const actualDate = new Date();
+    this.sendDatosFormCliente.controls['fechaNacimiento'].setValue(actualDate);*/
+
     //REQUEST DATA CONFIG SECUENCIAL
     setTimeout(() => {
       this.loadingSecuencial = !this.loadingSecuencial
