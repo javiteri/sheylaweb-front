@@ -2,11 +2,14 @@ import { Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@ang
 import { MatChip } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { BuscarClienteDialogComponent } from 'src/app/components/buscar-cliente-dialog/buscar-cliente-dialog.component';
 import { BuscarProductoDialogComponent } from 'src/app/components/buscar-producto-dialog/buscar-producto-dialog.component';
 import { CrearClienteDialogComponent } from 'src/app/components/crear-cliente-dialog/crear-cliente-dialog.component';
+import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ProductFactura } from 'src/app/interfaces/ProductFactura';
+import { ApplicationProvider } from 'src/app/providers/provider';
+import { LoadingService } from 'src/app/services/Loading.service';
 import { ClienteFactura } from './models/ClientFac';
 
 @Component({
@@ -14,8 +17,7 @@ import { ClienteFactura } from './models/ClientFac';
   templateUrl: './page-ventas.component.html',
   styleUrls: ['./page-ventas.component.css']
 })
-export class PageVentasComponent implements OnInit {
-
+export class PageVentasComponent implements OnInit{
 
   displayedColumns: string[] = ['#', 'Codigo', 'Articulo', 'Cantidad','descuento', 'P Unitario', 'P Total', 'actions'];
   datasource = new MatTableDataSource<ProductFactura>();
@@ -26,13 +28,18 @@ export class PageVentasComponent implements OnInit {
   @ViewChild('telCliente') inputTelCliente: any;
   @ViewChild('generalContainer') containerGeneral!: ElementRef;
 
-  @ViewChild('fechaFac') inputFechaFac: any;
-  @ViewChild('formaPagoFac') inputFormaPagoFac: any;
-  @ViewChild('tipoDocFac') inputTipoDocFac: any;
-  /*picker: any;
-  inputFormaPagoFac: any;*/
+  idEmpresa: number = 0;
+  rucEmpresa: string = '';
+  idUser: number = 0;
+  //dataUser
+  dataUser: any;
+  tokenValidate!: TokenValidate;
   
+  value001 = "001"
+  value002 = "001"
+  valueSecuencia = "1"
   loadingSecuencial = true;
+  observacion = "";
 
   total: string = "00.0";
   subtotal: string = "00.0";
@@ -43,30 +50,41 @@ export class PageVentasComponent implements OnInit {
   clientFac: ClienteFactura = new ClienteFactura(0, '999999999', 'CONSUMIDOR FINAL', '','','0999999999');
 
   listFormaPago = ['Efectivo', 'Cheque', 'Transferencia', 'Voucher', 'Credito'];
-  listTipoDocumento = ['Factura', 'Ticket', 'Nota de Venta'];
+  listTipoDocumento = ['Factura', 'Ticket', 'Otros'];
 
   tipoDocSelect = 'Factura';
   formaPagoSelect = 'Efectivo';
+  dateFac = new Date();
 
   constructor(private matDialog: MatDialog,
     public viewContainerRef: ViewContainerRef,
-    private router: Router) {
+    private toastr: ToastrService,
+    private coreService: ApplicationProvider,
+    private loadingService: LoadingService) {
 
-    }
+  }
+  
 
   ngOnInit(): void {
 
-    /*const actualDate = new Date();
-    this.sendDatosFormCliente.controls['fechaNacimiento'].setValue(actualDate);*/
+    // GET INITIAL DATA 
+    const localServiceResponseToken =  
+          JSON.parse(sessionStorage.getItem('_valtok') ? sessionStorage.getItem('_valtok')! : '');
+    const localServiceResponseUsr = 
+          JSON.parse(sessionStorage.getItem('_valuser') ? sessionStorage.getItem('_valuser')! : '');
+
+    this.dataUser = localServiceResponseToken;
+    const { token, expire } = this.dataUser;
+    this.tokenValidate = { token, expire};
+
+    this.idEmpresa = localServiceResponseUsr._bussId;
+    this.rucEmpresa = localServiceResponseUsr._ruc;
+    this.idUser = localServiceResponseUsr._userId;
 
     //REQUEST DATA CONFIG SECUENCIAL
     setTimeout(() => {
       this.loadingSecuencial = !this.loadingSecuencial
     }, 3000);
-
-    const fechaActual = new Date();
-    
-    //this.sendDatosFormCliente.controls['fechaNacimiento'].setValue(fechaNacimiento);
   }
 
 
@@ -132,6 +150,7 @@ export class PageVentasComponent implements OnInit {
 
       const data = this.datasource.data;
       const productItemAdd = {
+        id: result.prod_id,
         codigo: result.prod_codigo,
         nombre: result.prod_nombre,
         precio: result.prod_pvp,
@@ -148,13 +167,6 @@ export class PageVentasComponent implements OnInit {
     }
   });
   }
-
-  // GUARDAR DATOS FACTURA
-  guardarFactura(){
-  
-  }
-
-
 
   private calculateTotalItems(){
     let valorTotal = 0.0;
@@ -219,5 +231,155 @@ export class PageVentasComponent implements OnInit {
     const matChip = selectChip as MatChip;
     matChip.selected = true;
     console.log(matChip);
+  }
+
+
+  // GUARDAR DATOS FACTURA
+  guardarFactura(){
+    
+    if(!this.validateClienteFac()){
+      this.toastr.error('Verifique que los datos de Cliente sean correctos', '', {
+        timeOut: 4000,
+        closeButton: true
+      });
+
+      return;
+    }
+
+    if(!this.validateDatosFac()){
+      this.toastr.error('Verifique que los datos de Factura sean correctos', '', {
+        timeOut: 4000,
+        closeButton: true
+      });
+      return;
+    }
+
+    if(!this.validateListProduct()){
+      this.toastr.error('No se han agregado Productos', '', {
+        timeOut: 4000,
+        closeButton: true
+      });
+      return;
+    }
+
+    // CREAR OBJETOS Y GUARDAR
+    // SEND JSON OBJECT QUE TENGA DATOS DE VENTA Y UN ARRAY CON VENTA DETALLE
+    const detallesVenta: any = []
+    this.datasource.data.forEach(data => {
+
+      let precioTotal = 0.0
+      let precioUnitario = 0.0;
+      let totalSinIva = 0.0;
+
+      if(data.iva == "1"){
+        precioUnitario = (data.precio / 1.12);
+      }else{
+        precioUnitario = data.precio;
+      }
+      totalSinIva = precioUnitario * data.cantidad;
+      precioTotal = (totalSinIva - ((totalSinIva * data.descuento) / 100));
+
+      detallesVenta.push({
+        prodId: data.id,
+        cantidad: data.cantidad,
+        iva: (data.iva == "1" ? "12.00" : "0.00"),
+        nombreProd: data.nombre,
+        valorUnitario: precioUnitario,
+        descuento: data.descuento,
+        valorTotal: precioTotal
+      });
+
+    });
+
+    const actualDateHours = new Date();
+    const dateString = '' + this.dateFac.getFullYear() + '-' + ('0' + (this.dateFac.getMonth()+1)).slice(-2) + 
+                          '-' + ('0' + this.dateFac.getDate()).slice(-2) + ' ' + 
+                          actualDateHours.getHours() + ':' + actualDateHours.getMinutes() + ':' + actualDateHours.getSeconds();
+    
+    const sendFacturaJsonModel = {
+      empresaId: this.idEmpresa,
+      tipoVenta: this.tipoDocSelect,
+      venta001: this.value001,
+      venta002: this.value002,
+      ventaNumero: this.valueSecuencia,
+      ventaFechaHora: dateString,
+      usuId: this.idUser,
+      clienteId: this.clientFac.id,
+      subtotal12: this.subtotalIva12,
+      subtotal0: this.subtotalIva0,
+      valorIva: this.Iva12,
+      ventaTotal: this.total,
+      formaPago: this.formaPagoSelect,
+      obs: this.observacion,
+      ventaDetalles: detallesVenta
+    }
+
+    console.log(sendFacturaJsonModel);
+
+    let overlayRef = this.loadingService.open();
+
+    this.coreService.insertVentaFacturaToBD(sendFacturaJsonModel, this.tokenValidate).subscribe({
+      next: (data: any) => {
+        overlayRef.close();
+
+        if(data['isDuplicate']){
+          this.toastr.error('Ya esta en uso el Numero de Factura', '', {
+            timeOut: 4000,
+            closeButton: true
+          });
+    
+          return;
+        }
+
+        this.toastr.success('Venta Guardada Correctamente', '', {
+          timeOut: 4000,
+          closeButton: true
+        });
+
+        this.resetControls();
+
+
+      },
+      error: (error) => {
+        overlayRef.close();
+        this.toastr.error('Ocurrio un error, reintente', '', {
+          timeOut: 4000,
+          closeButton: true
+        });
+      }
+
+    });
+  }
+  
+  private validateClienteFac(): boolean{
+    return (this.clientFac && this.clientFac['id'] != 0);
+  }
+
+  private validateDatosFac(): boolean{
+    return true;
+  }
+
+  private validateListProduct(): boolean{
+    return this.datasource.data.length > 0
+  }
+
+
+  private resetControls(){
+      this.clientFac.id = 0;
+      this.clientFac.ciRuc = '999999999';
+      this.clientFac.nombre = 'CONSUMIDOR FINAL';
+      this.clientFac.direccion = '';
+      this.clientFac.email = '0999999999';
+
+      this.tipoDocSelect = 'Factura';
+      this.dateFac = new Date();
+      this.formaPagoSelect = 'Efectivo';
+      this.datasource.data = [];
+
+      this.total = "00.0";
+      this.subtotal = "00.0";
+      this.subtotalIva0 = "00.0";
+      this.subtotalIva12 = "00.0";
+      this.Iva12 = "00.0";
   }
 }

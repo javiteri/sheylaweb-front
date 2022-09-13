@@ -116,4 +116,10 @@ export class ApplicationProvider {
     return this.coreEndPoint.searchProductosByIdEmpText(idEmpresa, textSearch, accessToken);
   }
 
+
+  //VENTAS FACTURA, TICKET, OTROS
+  insertVentaFacturaToBD(postData: any, accessToken: any){
+    return this.coreEndPoint.insertVentaToBD(postData, accessToken);
+  }
+
 }

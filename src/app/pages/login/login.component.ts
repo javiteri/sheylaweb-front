@@ -75,19 +75,14 @@ export class LoginComponent implements OnInit {
           expire: Expires
         }
 
-        //this.localService.storageSetJsonValue('DATA_TOK', tokenAndExpire);
-        sessionStorage.setItem('_valtok', JSON.stringify(tokenAndExpire));
-
-
         const dataUserBus = {
           _userId: response.idUsuario,
           _bussId: response.idEmpresa,
           _ruc: '' + response.rucEmpresa
         }
 
-        //this.localService.storageSetJsonValue('DATA_USER', dataUserBus);
+        sessionStorage.setItem('_valtok', JSON.stringify(tokenAndExpire));
         sessionStorage.setItem('_valuser', JSON.stringify(dataUserBus));
-
 
         if(response.redirecRegistroEmp){
           this.router.navigate(['/infoempresa']);

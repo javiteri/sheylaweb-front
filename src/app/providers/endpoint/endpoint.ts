@@ -12,8 +12,8 @@ export class EndPointProvider {
 
     private readonly apiVersion = '1.0.0';
     private readonly appVersion = '1.0.0';
-    private readonly apiUrl = 'http://192.168.1.10:8086/api/';
-    //private readonly apiUrl = 'http://localhost:3000/api/';  
+    //private readonly apiUrl = 'http://192.168.1.10:8086/api/';
+    private readonly apiUrl = 'http://localhost:3000/api/';  
 
     private readonly searchDatosClienteSri = 'http://sheyla2.dyndns.info/SRI/SRI.php';
     private readonly searchDatosClienteSriLocal = 'http://localhost:4200/SRI';
@@ -453,6 +453,16 @@ export class EndPointProvider {
         return this.http.get<T>(endpointUrl, httpOptions);
     }
 
+    // METHODS FOR VENTAS FACTURA, TICKET , OTROS
+    private readonly _insertVenta: string = "ventas/insertar";
+    private get insertVentaUrl(){
+      return this.apiUrl + this._insertVenta;
+    }
+    insertVentaToBD<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.insertVentaUrl;   
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
+    
 
 
     //---------------------------------------------------------------
