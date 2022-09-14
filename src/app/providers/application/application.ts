@@ -121,5 +121,9 @@ export class ApplicationProvider {
   insertVentaFacturaToBD(postData: any, accessToken: any){
     return this.coreEndPoint.insertVentaToBD(postData, accessToken);
   }
+  getListaVentasByIdEmp(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
+    fechaFin: any, accessToken: any){
+    return this.coreEndPoint.getListaVentasByIdEmp(idEmpresa,nombreCi,noDoc,fechaIni,fechaFin,accessToken);
+  }
 
 }

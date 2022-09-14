@@ -47,8 +47,12 @@ export class LayoutComponent implements OnInit {
       name: 'Ventas',
       matIcon: 'receipt_long',
       active: false,
-      routerLink: '/ventas',
-      submenu: []
+      routerLink: '',
+      submenu: [
+        {name: 'Lista De Ventas', url: 'ventas/listaventas'},
+        {name: 'Resumen De Ventas', url: 'ventas/resumenventas'},
+        {name: 'Registrar Venta', url: 'ventas/crearventa'},
+      ]
     }
     ,
     {

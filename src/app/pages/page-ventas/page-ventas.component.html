@@ -77,13 +77,16 @@
               <mat-spinner *ngIf="loadingSecuencial" [diameter]="30"></mat-spinner>
               <div class="container-form-field" *ngIf="!loadingSecuencial">
                 <mat-form-field >
-                    <input matInput type="text" disabled [(ngModel)]="value001">
+                    <input matInput type="text" name="valor001" [(ngModel)]="value001"
+                    (blur)="changeNumFac(1);">
                 </mat-form-field>
                 <mat-form-field >
-                  <input matInput type="text" disabled [(ngModel)]="value002">
+                  <input matInput type="number" [(ngModel)]="value002"
+                  (blur)="changeNumFac(2);">
                 </mat-form-field>
                 <mat-form-field >
-                  <input matInput type="text" disabled [(ngModel)]="valueSecuencia">
+                  <input matInput type="number" #secuencial [(ngModel)]="valueSecuencia"
+                  (blur)="changeNumFac(3);">
                 </mat-form-field>
 
               </div>
@@ -146,7 +149,6 @@
                       <td mat-cell class="flex-grow-punto_5" *matCellDef="let producto" data-label="Cantidad"> 
                         <input  matInput type="number" min="1" max="999999" [(ngModel)]="producto.cantidad" 
                         (blur)="changeCantidadItemBlur(producto);">
-                        <!--  {{producto.cantidad}}-->
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="descuento" >

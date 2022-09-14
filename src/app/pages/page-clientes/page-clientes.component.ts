@@ -33,7 +33,6 @@ export class PageClientesComponent implements OnInit {
   textSearchClientes: string = '';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild('containerTable', {read: ElementRef}) tableInput!: ElementRef
 
   constructor(private coreService: ApplicationProvider ,
               private ref: ChangeDetectorRef,

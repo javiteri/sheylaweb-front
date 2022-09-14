@@ -462,7 +462,28 @@ export class EndPointProvider {
         const endPointUrl = this.insertVentaUrl;   
         return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
     }
-    
+    private readonly _listaVentasByIdEmp: string = 'ventas/listaVentasIdEmp';
+
+    private get listaVentasByIdEmp(){
+      return this.apiUrl + this._listaVentasByIdEmp;
+    }
+    getListaVentasByIdEmp<T>(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
+      fechaFin: any, accessToken: any): Observable<T>{
+      const endpointUrl = this.listaVentasByIdEmp;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('ciname',nombreCi)
+                            .set('nodoc',noDoc).set('fechaini',fechaIni).set('nodoc',noDoc)
+                            .set('fechafin',fechaFin);
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }    
 
 
     //---------------------------------------------------------------

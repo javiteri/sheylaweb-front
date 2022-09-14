@@ -1,0 +1,110 @@
+<div class="container-options" #containerTable>  
+    <button class="font-weight-300 mat-elevation-z1" mat-raised-button (click)="searchListaVentasFilter()">
+      <mat-icon>file_download</mat-icon>
+      Exportar
+    </button>
+</div>
+
+<mat-card class="mat-card-one">
+  <mat-card-content>
+    <div class="container-search-bar">
+
+      <div class="inner-container-date-filter">
+          <mat-form-field class="mat-form-field-date">
+              <mat-label>Fecha Inicio</mat-label>
+              <input matInput readonly [matDatepicker]="pickerdesde" [(ngModel)]="dateInicioFilter">
+              <mat-datepicker-toggle matSuffix [for]="pickerdesde"></mat-datepicker-toggle>
+              <mat-datepicker #pickerdesde></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="mat-form-field-date">
+              <mat-label>Fecha Fin</mat-label>
+              <input matInput readonly [matDatepicker]="pickerhasta" [(ngModel)]="dateFinFilter">
+              <mat-datepicker-toggle matSuffix [for]="pickerhasta"></mat-datepicker-toggle>
+              <mat-datepicker #pickerhasta></mat-datepicker>
+          </mat-form-field>
+      </div>
+  
+      <div class="flex-grow-dos inner-container-search ">
+        <input type="text" placeholder="Nombre o Identificacion" [(ngModel)]="nombreCiRuc" />
+        <input type="text" placeholder="No Documento" [(ngModel)]="noDocmento"/>
+      </div>
+  
+  </div>
+  </mat-card-content>
+</mat-card>
+
+  
+<mat-card class="mat-card-two">
+      <mat-card-header class="bg-info text-white">
+          <mat-card-title class="ventas">
+              <label>Lista Ventas</label>
+              <!--  <div> <label>Total: 2</label></div> -->
+          </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+  
+          <div class="flex-layout-table" >
+              <mat-table [dataSource]="datasource" role="grid" >
+  
+                  <ng-container matColumnDef="fecha hora" >
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header >Fecha Hora</th>
+                      <td mat-cell *matCellDef="let venta" data-label="Fecha Hora"> {{venta.fechaHora | date : 'dd/MM/yyyy hh:mm a'}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="documento" >
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header >Documento</th>
+                      <td mat-cell *matCellDef="let venta" data-label="documento"> {{venta.documento}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="numero" >
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header >Numero</th>
+                      <td mat-cell  *matCellDef="let venta" data-label="Numero"> {{venta.numero}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="total" >
+                      <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header  >Total</th>
+                      <td mat-cell class="justify-centro" *matCellDef="let venta" data-label="Total"> {{venta.total}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="usuario">
+                      <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header>Usuario</th>
+                      <td mat-cell class="justify-centro" *matCellDef="let venta" data-label="Usuario"> {{venta.usuario}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="cliente" >
+                      <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header>Cliente</th>
+                      <td mat-cell class="justify-centro" *matCellDef="let venta" data-label="Cliente"> {{venta.cliente}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="identificacion" >
+                        <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header>Identificacion</th>
+                        <td mat-cell class="justify-centro" *matCellDef="let venta" data-label="Identificacion"> {{venta.cc_ruc_pasaporte}}</td>
+                      </ng-container>
+                    <ng-container matColumnDef="forma pago" >
+                        <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header>Forma Pago</th>
+                        <td mat-cell class="justify-centro" *matCellDef="let venta" data-label="Forma Pago"> {{venta.forma_pago}} </td>
+                    </ng-container>
+  
+                  <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+              </mat-table>
+  
+              <mat-paginator *ngIf="showPagination" #paginator [pageSizeOptions]="[15, 30, 50]"
+                   showFirstLastButtons
+                   aria-label="Seleccione pagina elementos ventas"
+                   >
+              </mat-paginator>
+  
+           <!-- <div *ngIf="isLoading"
+                  style="display: flex; justify-content: center; align-items: center; background: white; margin-top: 3rem; margin-bottom: 3rem;">
+                <mat-progress-spinner
+                  color="primary"
+                  mode="indeterminate"
+                  [diameter]="50">
+                </mat-progress-spinner>
+            </div>
+            -->
+  
+            <div *ngIf="showSinDatos"
+                  style="display: flex; justify-content: center; align-items: center; margin-top: 3rem; margin-bottom: 3rem;">
+                <label> No se Encontraron Datos</label>
+            </div>
+  
+          </div>
+      </mat-card-content>
+</mat-card>
+  

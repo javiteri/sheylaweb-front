@@ -19,19 +19,21 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { CustomPaginator } from 'src/app/pages/page-clientes/CustomPaginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
-import { ApplicationProvider, EndPointProvider } from "src/app/providers/provider";
+import { ApplicationProvider } from "src/app/providers/provider";
 import { RouterModule } from "@angular/router";
 
 import { PageVentasComponent } from "./page-ventas.component";
 import { VentasRoutingModule } from "./ventas-routing.module";
 import { CrearClienteDialogComponent } from "src/app/components/crear-cliente-dialog/crear-cliente-dialog.component";
 import { MatDialogModule } from "@angular/material/dialog";
-import { MatChipsModule } from "@angular/material/chips"
+import { MatChipsModule } from "@angular/material/chips";
+import { ListaVentasComponent } from './lista-ventas/lista-ventas.component'
 
 @NgModule({
     declarations: [
         PageVentasComponent,
-        CrearClienteDialogComponent
+        CrearClienteDialogComponent,
+        ListaVentasComponent
     ],
     imports: [
         CommonModule,

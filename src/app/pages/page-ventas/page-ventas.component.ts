@@ -27,6 +27,7 @@ export class PageVentasComponent implements OnInit{
   @ViewChild('dirCliente') inputDirCliente: any;
   @ViewChild('telCliente') inputTelCliente: any;
   @ViewChild('generalContainer') containerGeneral!: ElementRef;
+  @ViewChild('secuencial') secuencial!: ElementRef;
 
   idEmpresa: number = 0;
   rucEmpresa: string = '';
@@ -35,9 +36,9 @@ export class PageVentasComponent implements OnInit{
   dataUser: any;
   tokenValidate!: TokenValidate;
   
-  value001 = "001"
-  value002 = "001"
-  valueSecuencia = "1"
+  value001:string = "001";
+  value002:string = "001";
+  valueSecuencia:string = "1";
   loadingSecuencial = true;
   observacion = "";
 
@@ -327,7 +328,8 @@ export class PageVentasComponent implements OnInit{
             timeOut: 4000,
             closeButton: true
           });
-    
+          
+          this.secuencial.nativeElement.focus();
           return;
         }
 
@@ -363,6 +365,38 @@ export class PageVentasComponent implements OnInit{
     return this.datasource.data.length > 0
   }
 
+
+changeNumFac(numeroFac: number){
+  
+  if(numeroFac == 1){
+    if(!this.value001 ){
+      this.value001 = "001";
+      return;
+    }
+    
+    this.value001 = (this.value001.length == 1) ? `00${this.value001}` :  this.value001
+    this.value001 = (this.value001.length == 2) ? `0${this.value001}` :  this.value001
+    
+    return;
+  }
+
+  if(numeroFac == 2){
+    if(!this.value002){
+      this.value002 = "001";
+    }
+    
+    this.value002 = (this.value002.length == 1) ? `00${this.value002}` :  this.value002
+    this.value002 = (this.value002.length == 2) ? `0${this.value002}` :  this.value002
+
+    return;
+  }
+
+  if(!this.valueSecuencia){
+    this.valueSecuencia = "1";
+    return;
+  }
+  
+}
 
   private resetControls(){
       this.clientFac.id = 0;
