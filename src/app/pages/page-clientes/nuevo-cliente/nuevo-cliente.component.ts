@@ -6,6 +6,7 @@ import nacionalidad from '../../../assets/nacionalidad.json';
 import {ToastrService} from 'ngx-toastr';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-nuevo-cliente',
@@ -47,7 +48,8 @@ export class NuevoClienteComponent implements OnInit, AfterViewInit{
               private toastr: ToastrService,
               private route: ActivatedRoute,
               private router: Router,
-              private ref: ChangeDetectorRef) { 
+              private ref: ChangeDetectorRef,
+              private location: Location) { 
 
     this.sendDatosFormCliente = this.formBuilder.group({
       tipoIdentificacion: ['', Validators.required],
@@ -265,6 +267,9 @@ export class NuevoClienteComponent implements OnInit, AfterViewInit{
   }
 
   searchDatosClienteSri(identificacion: any){
+
+    console.log('inside search datos cliente sri');
+
     if(identificacion.length == 10){
       this.sendDatosFormCliente.controls['tipoIdentificacion'].setValue(this.tiposId[1].valor);
     }
@@ -349,6 +354,8 @@ export class NuevoClienteComponent implements OnInit, AfterViewInit{
   }
 
   cancelarClick(){
-    this.router.navigate(['/clientes']);
+    //this.router.navigate(['/clientes']);
+    console.log('inside cancelar click');
+    this.location.back();
   }
 }

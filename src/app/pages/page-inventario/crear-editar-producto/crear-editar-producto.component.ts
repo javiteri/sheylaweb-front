@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -47,7 +48,8 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
     private toastr: ToastrService,
     private route: ActivatedRoute,
     private router: Router,
-    private ref: ChangeDetectorRef) {
+    private ref: ChangeDetectorRef,
+    private location: Location) {
 
       this.sendDatosFormProducto = formBuilder.group({
         codigo: ['', Validators.required],
@@ -317,6 +319,7 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
   }
 
   cancelarClick(){
-    this.router.navigate(['/inventario']);
+    //this.router.navigate(['/inventario']);
+    this.location.back();
   }
 }

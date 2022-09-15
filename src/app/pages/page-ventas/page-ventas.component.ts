@@ -19,7 +19,7 @@ import { ClienteFactura } from './models/ClientFac';
 })
 export class PageVentasComponent implements OnInit{
 
-  displayedColumns: string[] = ['#', 'Codigo', 'Articulo', 'Cantidad','descuento', 'P Unitario', 'P Total', 'actions'];
+  displayedColumns: string[] = ['#', 'Codigo', 'Articulo', 'Cantidad', 'P Unitario','descuento', 'P Total', 'actions'];
   datasource = new MatTableDataSource<ProductFactura>();
 
   @ViewChild('identificacion') inputIdentificacion: any; 
@@ -51,11 +51,13 @@ export class PageVentasComponent implements OnInit{
   clientFac: ClienteFactura = new ClienteFactura(0, '999999999', 'CONSUMIDOR FINAL', '','','0999999999');
 
   listFormaPago = ['Efectivo', 'Cheque', 'Transferencia', 'Voucher', 'Credito'];
-  listTipoDocumento = ['Factura', 'Ticket', 'Otros'];
+  listTipoDocumento = ['Factura', 'Nota de Venta', 'Otros'];
 
   tipoDocSelect = 'Factura';
   formaPagoSelect = 'Efectivo';
   dateFac = new Date();
+
+  cantItems = 0
 
   constructor(private matDialog: MatDialog,
     public viewContainerRef: ViewContainerRef,
@@ -95,6 +97,7 @@ export class PageVentasComponent implements OnInit{
     data.splice(indexItem, 1);
     this.datasource.data = data;
 
+    this.cantItems = this.datasource.data.length;
     // CALCULATE TOTAL VALUE IN ITEMS LIST
     this.calculateTotalItems();
   }
@@ -163,6 +166,7 @@ export class PageVentasComponent implements OnInit{
       data.push(productItemAdd);
       this.datasource.data = data;
 
+      this.cantItems = this.datasource.data.length;
       // CALCULATE TOTAL VALUE IN ITEMS LIST
       this.calculateTotalItems();
     }

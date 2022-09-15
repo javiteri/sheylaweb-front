@@ -1,4 +1,11 @@
-
+.titulo{
+    margin-bottom: .5em;
+  }
+  .titulo p{
+    font-size: .8em;
+    font-weight: 400;
+    color: var(--grey-600);
+  }
 .container-gen{
     display: flex;
     flex-flow: column wrap;
@@ -61,12 +68,17 @@
     justify-content: space-between;
     padding: 6px !important;
     border-radius: 4px 4px 0 0;
+    
 }
 .mat-card .mat-card-header .mat-card-title{
     margin-bottom: 0 !important;
     font-size: 13px;
 }
 
+.precio-unitario-td input{
+    text-align: end;
+    padding-right: 30%;
+}
 
 .bg-info{
     background-color: var(--color-primary-dark);
@@ -83,8 +95,7 @@
 .container-datos-cliente{
     display: flex;
     flex-flow: row nowrap;
-    padding: 3px 10px;
-    margin-top: 8px !important;
+    padding: 3px 10px 0 10px;
 }
 .container-datos-cliente-dir{
     display: inherit;
@@ -138,12 +149,11 @@
 }
 
 
-
 .container-datos-factura{
     display: flex;
     flex-flow: column nowrap;
-    padding: 3px 10px;
-    margin-top: 8px !important;
+    padding: 3px 10px 0 10px;
+    
     justify-content: center;
     align-items: center;
     align-content: center;
@@ -295,8 +305,17 @@
 
 .container-btn-add-item{
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-content: center;
+    align-items: flex-end;
 }
+.container-btn-add-item p{
+    font-size: .5em;
+    font-weight: 400;
+color: var(--grey-600);
+    margin: 0 !important;
+}
+
 .btn-add-item{
     color: var(--accent-color);
     
@@ -304,6 +323,13 @@
 }
 
 /*------------------------------*/
+.mat-header-row{
+    background-color: var(--color-primary-dark);
+}
+.mat-header-row th{
+    color: white;
+}
+
 .mat-footer-row, .mat-header-row, .mat-row{
     width: auto;
 }

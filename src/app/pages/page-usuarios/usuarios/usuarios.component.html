@@ -1,5 +1,25 @@
+<div class="titulo">
+  <p>Lista Usuarios</p>
+</div>
+
 <div class="container-options" #containerTable>
 
+  <div>
+    <div class="container-search-bar">
+      <div class="inner-container-search">
+        <input type="text" placeholder="Nombre o Identificacion"
+                [(ngModel)]="textSearchUsuarios"
+                (keyup.enter)="searchUsuariosText();"/>
+        <button class="font-weight-300" color="icon-accent" mat-icon-button
+                matTooltip="Buscar"
+                (click)="searchUsuariosText();$event.preventDefault();">
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div>
     <button mat-raised-button class="font-weight-300 mat-elevation-z1" color="btn-icon-accent" (click)="nuevoUsuario()">
       <mat-icon>add</mat-icon>
       Nuevo Usuario
@@ -9,28 +29,12 @@
       <mat-icon>file_download</mat-icon>
       Exportar
     </button>
-  </div>
+  </div> 
+
+</div>
+
   
-  <div class="container-search-bar">
-    <div class="inner-container-search">
-      <input type="text" placeholder="Nombre o Identificacion"
-              [(ngModel)]="textSearchUsuarios"
-              (keyup.enter)="searchUsuariosText();"/>
-      <button class="font-weight-300" color="icon-accent" mat-icon-button
-              matTooltip="Buscar"
-              (click)="searchUsuariosText();$event.preventDefault();">
-        <mat-icon>search</mat-icon>
-      </button>
-    </div>
-  </div>
-  
-  <mat-card>
-      <mat-card-header class="bg-info text-white">
-          <mat-card-title class="usuarios">
-              <label>Lista Usuarios</label>
-              <!--  <div> <label>Total: 2</label></div> -->
-          </mat-card-title>
-      </mat-card-header>
+<mat-card>
       <mat-card-content>
   
           <div class="flex-layout-table" >
@@ -98,4 +102,4 @@
   
           </div>
       </mat-card-content>
-  </mat-card>
+</mat-card>

@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -38,7 +39,8 @@ export class NuevoUsuarioComponent implements OnInit, AfterViewInit {
               private toastr: ToastrService,
               private route: ActivatedRoute,
               private router: Router,
-              private ref: ChangeDetectorRef) { 
+              private ref: ChangeDetectorRef,
+              private location: Location) { 
 
     this.sendDatosFormUsuario = this.formBuilder.group({
       identificacion: ['', Validators.required],
@@ -265,7 +267,8 @@ export class NuevoUsuarioComponent implements OnInit, AfterViewInit {
   }
   
   cancelarClick(){
-    this.router.navigate(['/usuarios']);
+    //this.router.navigate(['/usuarios']);
+    this.location.back();
   }
 
 }

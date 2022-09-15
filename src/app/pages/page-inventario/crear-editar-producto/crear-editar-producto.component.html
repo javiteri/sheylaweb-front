@@ -1,3 +1,7 @@
+<div class="titulo">
+    <p>{{titlePage}}</p>
+</div>
+
 <div class="container-register">
 
     <div class="container-form">
@@ -6,12 +10,12 @@
             <mat-card-content>
                 <mat-card-header class="bg-info text-white">
                     <mat-card-title class="proveedores">
-                        <h3>{{titlePage}}</h3>
+                        <h3>Datos Producto</h3>
                         <!--  <div> <label>Total: 2</label></div> -->
                     </mat-card-title>
                 </mat-card-header>
 
-                <form [formGroup]="sendDatosFormProducto" (ngSubmit)="saveDatosProducto(sendDatosFormProducto.value)">
+                <form [formGroup]="sendDatosFormProducto">
                     <div class="all-content">
 
                         <div class="container-form-field">
@@ -35,13 +39,6 @@
                         </div>
 
                         <div class="container-form-field decimal-field">
-
-                            <mat-form-field >
-                                <mat-label>PVP</mat-label>
-                                <input matInput type="number" formControlName="pvp" (blur)="onLostFocusCalculateUti();">
-                                <span matPrefix>$&nbsp;</span>
-                            </mat-form-field>
-
                             <mat-form-field >
                                 <mat-label>Costo</mat-label>
                                 <input matInput type="number" formControlName="costo" (blur)="onLostFocusCalculateUti();">
@@ -52,6 +49,12 @@
                                 <input matInput type="text" formControlName="utilidad" (blur)="onLostFocusCalculatePvp();">
                                 <span matSuffix>%</span>
                             </mat-form-field>
+                            <mat-form-field >
+                                <mat-label>PVP</mat-label>
+                                <input matInput type="number" formControlName="pvp" (blur)="onLostFocusCalculateUti();">
+                                <span matPrefix>$&nbsp;</span>
+                            </mat-form-field>
+
                         </div>
 
                         <div class="container-form-field">
@@ -113,8 +116,9 @@
 
                         <div class="container-form-btn">
                             <button  [class.spinner]="loading" [disabled]="loading" mat-raised-button class="btn-cancelar"
-                            (click)="cancelarClick();$event.preventDefault();">Cancelar</button>
-                            <button  [class.spinner]="loading" [disabled]="loading" mat-raised-button color="btn-icon-accent">Guardar</button>
+                            (mousedown)="cancelarClick();$event.preventDefault();">Cancelar</button>
+                            <button (mousedown)="saveDatosProducto(sendDatosFormProducto.value);$event.preventDefault();" 
+                            [class.spinner]="loading" [disabled]="loading" mat-raised-button color="btn-icon-accent">Guardar</button>
                         </div>
 
                     </div>

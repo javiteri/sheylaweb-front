@@ -1,17 +1,9 @@
+<div class="titulo">
+  <p>Lista Productos</p>
+</div>
 <div class="container-options" #containerTable>
-
-    <button mat-raised-button class="font-weight-300 mat-elevation-z1" color="btn-icon-accent" (click)="nuevoProducto()">
-      <mat-icon>add</mat-icon>
-      Nuevo Producto
-    </button>
-  
-    <button class="font-weight-300 mat-elevation-z1" mat-raised-button >
-      <mat-icon>file_download</mat-icon>
-      Exportar
-    </button>
-  </div>
-  
-  <div class="container-search-bar">
+    
+  <div>
     <div class="inner-container-search">
       <input type="text" placeholder="Codigo o Nombre"
               [(ngModel)]="textSearchProductos"
@@ -24,12 +16,22 @@
     </div>
   </div>
   
-  <mat-card>
-      <mat-card-header class="bg-info text-white">
-          <mat-card-title class="proveedores">
-              <label>Lista Productos</label>
-          </mat-card-title>
-      </mat-card-header>
+  <div>
+      <button mat-raised-button class="font-weight-300 mat-elevation-z1" color="btn-icon-accent" (click)="nuevoProducto()">
+        <mat-icon>add</mat-icon>
+        Nuevo Producto
+      </button>
+    
+      <button class="font-weight-300 mat-elevation-z1" mat-raised-button >
+        <mat-icon>file_download</mat-icon>
+        Exportar
+      </button>
+  </div>
+    
+</div>
+  
+  
+<mat-card>
       <mat-card-content>
 
          <div class="flex-layout-table" >
@@ -98,6 +100,6 @@
   
           </div>
       </mat-card-content>
-  </mat-card>
+</mat-card>
   
 

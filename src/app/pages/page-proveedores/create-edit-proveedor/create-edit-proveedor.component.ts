@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -44,7 +45,8 @@ export class CreateEditProveedorComponent implements OnInit, AfterViewInit{
     private toastr: ToastrService,
     private route: ActivatedRoute,
     private router: Router,
-    private ref: ChangeDetectorRef){ 
+    private ref: ChangeDetectorRef,
+    private location: Location){ 
 
       this.sendDatosFormProveedor = this.formBuilder.group({
         tipoIdentificacion: ['', Validators.required],
@@ -283,6 +285,7 @@ export class CreateEditProveedorComponent implements OnInit, AfterViewInit{
 
 
   cancelarClick(){
-    this.router.navigate(['/proveedores']);
+    //this.router.navigate(['/proveedores']);
+    this.location.back();
   }
 }

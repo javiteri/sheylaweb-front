@@ -1,44 +1,48 @@
+<div class="titulo">
+  <p>Lista Clientes</p>
+</div>
+
 <div class="container-options" #containerTable>
 
-  <button mat-raised-button class="font-weight-300 mat-elevation-z1" 
-      color="btn-icon-accent" (click)="nuevoCliente()">
-    <mat-icon>add</mat-icon>
-    Nuevo Cliente
-  </button>
+  <div>
+    <div class="container-search-bar">
+      <div class="inner-container-search">
+        <input type="text" placeholder="Nombre o Identificacion" [(ngModel)]="textSearchClientes"
+        
+        (keyup.enter)="searchClientesText();"/>
+        <button class="font-weight-300" color="icon-accent" mat-icon-button 
+              matTooltip="Buscar"
+            (click)="searchClientesText();$event.preventDefault();">
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
 
-  <button class="font-weight-300 mat-elevation-z1" mat-raised-button>
-    <mat-icon>file_download</mat-icon>
-    Exportar
-  </button>
-</div>
-<!--(blur)="searchClientesText();"-->
-<div class="container-search-bar">
-  <div class="inner-container-search">
-    <input type="text" placeholder="Nombre o Identificacion" [(ngModel)]="textSearchClientes"
-    
-    (keyup.enter)="searchClientesText();"/>
-    <button class="font-weight-300" color="icon-accent" mat-icon-button 
-          matTooltip="Buscar"
-        (click)="searchClientesText();$event.preventDefault();">
-      <mat-icon>search</mat-icon>
+  <div>
+    <button mat-raised-button class="font-weight-300 mat-elevation-z1" 
+      color="btn-icon-accent" (click)="nuevoCliente()">
+      <mat-icon>add</mat-icon>
+      Nuevo Cliente
+    </button>
+    <button class="font-weight-300 mat-elevation-z1" mat-raised-button>
+      <mat-icon>file_download</mat-icon>
+      Exportar
     </button>
   </div>
+
 </div>
 
+
 <mat-card>
-    <mat-card-header class="bg-info text-white">
-        <mat-card-title class="clientes">
-            <label>Lista Clientes</label>
-            <!--  <div> <label>Total: 2</label></div> -->
-        </mat-card-title>
-    </mat-card-header>
+    
     <mat-card-content>
 
         <div class="flex-layout-table" >
             <mat-table [dataSource]="datasource" role="grid" >
 
                 <ng-container matColumnDef="ci" >
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header >CI RUC </th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CI RUC </th>
                     <td mat-cell *matCellDef="let cliente" data-label="CI RUC"> {{cliente.cli_documento_identidad}} </td>
                   </ng-container>
                   <ng-container matColumnDef="nombre" >

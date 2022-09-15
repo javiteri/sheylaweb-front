@@ -1,16 +1,9 @@
+<div class="titulo">
+  <p>Lista Proveedores</p>
+</div>
+
 <div class="container-options" #containerTable>
 
-    <button mat-raised-button class="font-weight-300 mat-elevation-z1" color="btn-icon-accent" (click)="nuevoProveedor()">
-      <mat-icon>add</mat-icon>
-      Nuevo Proveedor
-    </button>
-  
-    <button class="font-weight-300 mat-elevation-z1" mat-raised-button>
-      <mat-icon>file_download</mat-icon>
-      Exportar
-    </button>
-  </div>
-  
   <div class="container-search-bar">
     <div class="inner-container-search">
       <input type="text" placeholder="Nombre o Identificacion"
@@ -23,13 +16,23 @@
       </button>
     </div>
   </div>
+
+    <div>
+      <button mat-raised-button class="font-weight-300 mat-elevation-z1" color="btn-icon-accent" (click)="nuevoProveedor()">
+        <mat-icon>add</mat-icon>
+        Nuevo Proveedor
+      </button>
+    
+      <button class="font-weight-300 mat-elevation-z1" mat-raised-button>
+        <mat-icon>file_download</mat-icon>
+        Exportar
+      </button>
+    </div>
+
+  </div>
+  
   
   <mat-card>
-      <mat-card-header class="bg-info text-white">
-          <mat-card-title class="proveedores">
-              <label>Lista Proveedores</label>
-          </mat-card-title>
-      </mat-card-header>
       <mat-card-content>
   
          <div class="flex-layout-table" >

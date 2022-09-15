@@ -1,3 +1,11 @@
+.titulo{
+  margin-bottom: .5em;
+}
+.titulo p{
+  font-size: .8em;
+  font-weight: 400;
+  color: var(--grey-600);
+}
 .container-register{
     min-height: 100%;
     height: auto;

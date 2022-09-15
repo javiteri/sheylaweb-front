@@ -57,6 +57,7 @@ a span{
   transition: max-height 0.4s ease;
   max-height: 0;
 }
+
 .menu-item-sub a{
   background: #026f96;
   color: white;
@@ -64,6 +65,8 @@ a span{
   padding: 8px 10px;
   position: relative;
   
+  text-align: start;
+  padding-left: 30px;
 }
 .menu-item-sub a:hover{
   background: #057da4;

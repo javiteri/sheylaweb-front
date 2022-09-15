@@ -79,6 +79,7 @@ export class ListaVentasComponent implements OnInit {
 
         try{
           this.showPagination = results.data.length > 0;
+          this.showSinDatos = !(results.data.length > 0);
         }catch(error){
           this.showPagination = false;
         }

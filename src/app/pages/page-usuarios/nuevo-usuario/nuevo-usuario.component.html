@@ -1,3 +1,7 @@
+<div class="titulo">
+    <p>{{titlePage}}</p>
+  </div>
+
 <div class="container-register">
 
     <div class="container-form">
@@ -7,12 +11,12 @@
 
                 <mat-card-header class="bg-info text-white">
                     <mat-card-title class="clientes">
-                        <h3>{{titlePage}}</h3>
+                        <h3>Datos Usuario</h3>
                         <!--  <div> <label>Total: 2</label></div> -->
                     </mat-card-title>
                 </mat-card-header>
 
-                <form [formGroup]="sendDatosFormUsuario" (ngSubmit)="saveDatosUsuario(sendDatosFormUsuario.value)">
+                <form [formGroup]="sendDatosFormUsuario" >
                     <div class="all-content">
                         <div class="container-form-field">
                             
@@ -80,8 +84,9 @@
                     
                     <div class="container-form-btn">
                         <button mat-raised-button class="btn-cancelar"
-                        (click)="cancelarClick();$event.preventDefault();">Cancelar</button>
-                        <button   mat-raised-button color="btn-icon-accent">Guardar</button>
+                        (mousedown)="cancelarClick();$event.preventDefault();">Cancelar</button>
+                        <button (mousedown)="saveDatosUsuario(sendDatosFormUsuario.value);$event.preventDefault();" 
+                        mat-raised-button color="btn-icon-accent">Guardar</button>
                     </div>
 
                 </form>

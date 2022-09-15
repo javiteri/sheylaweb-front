@@ -32,6 +32,12 @@ img{
 }
 
 
+.mat-header-row{
+  min-height: 3em;
+}
+.mat-row{
+  height: auto !important; min-height: 3em;
+}
 
 .mat-footer-row, .mat-header-row, .mat-row{
   display: flex;
@@ -40,7 +46,7 @@ img{
   border-style: solid;
   align-items: center;
   border-bottom-color: rgba(0,0,0,.12);
-  min-height: 56px;
+  
 }
 .mat-cell, .mat-footer-cell, .mat-header-cell{
  display: flex;

@@ -1,3 +1,7 @@
+<div class="titulo">
+    <p>{{titlePage}}</p>
+  </div>
+
 <div class="container-register">
 
     <div class="container-form">
@@ -6,12 +10,12 @@
             <mat-card-content>
                 <mat-card-header class="bg-info text-white">
                     <mat-card-title class="proveedores">
-                        <h3>{{titlePage}}</h3>
+                        <h3>Datos Proveedor</h3>
                         <!--  <div> <label>Total: 2</label></div> -->
                     </mat-card-title>
                 </mat-card-header>
 
-                <form [formGroup]="sendDatosFormProveedor" (ngSubmit)="saveDatosProveedor(sendDatosFormProveedor.value)">
+                <form [formGroup]="sendDatosFormProveedor">
                     <div class="all-content">
 
                         <div class="container-form-field">
@@ -134,8 +138,9 @@
 
                         <div class="container-form-btn">
                             <button  [class.spinner]="loading" [disabled]="loading" mat-raised-button class="btn-cancelar"
-                            (click)="cancelarClick();$event.preventDefault();">Cancelar</button>
-                            <button  [class.spinner]="loading" [disabled]="loading" mat-raised-button color="btn-icon-accent">Guardar</button>
+                            (mousedown)="cancelarClick();$event.preventDefault();">Cancelar</button>
+                            <button  (mousedown)="saveDatosProveedor(sendDatosFormProveedor.value);$event.preventDefault();" 
+                            [class.spinner]="loading" [disabled]="loading" mat-raised-button color="btn-icon-accent">Guardar</button>
                         </div>
 
                     </div>
