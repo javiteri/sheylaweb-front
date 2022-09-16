@@ -25,7 +25,7 @@
     width: 90%;
 }
 .container-gen .container-child:nth-child(2){
-    margin-top: 1rem;
+    margin-top: .7rem;
 }
 .container-gen .container-child:nth-child(3){
     margin-top: 1rem;
@@ -123,7 +123,7 @@
 }
 
 .container-datos .container-btn-cliente{
-    margin-bottom: .3em;   
+    margin-bottom: .1em;   
 }
 .container-btn-cliente button, .container-btn-add-item button{
     font-size: 13px;
@@ -289,11 +289,20 @@
     color: #ffffff;
     font-weight: normal;
 }
+.btn-cancelar{
+    background-color: #e71046;
+    color: #ffffff;
+    font-weight: normal;
+}
 .mat-icon-accent{
     color: var(--accent-color);
 }
 
 .container-form-btn{
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
     width: 90%;
     text-align: end;
     margin-top: 1.5em;
@@ -446,6 +455,6 @@ div.mat-chip-list {
     width: 100%;
     min-width: 0;
     font-size: 13px;
-    margin-bottom: -.5em;
+    margin-bottom: -1em;
 }
 

@@ -110,7 +110,7 @@ table{
     width: 100%;
 }
 .container-search-bar div:first-child{
-    width: 50%;
+    width: 30%;
 }
 
 .inner-container-search{
@@ -262,10 +262,14 @@ td.mat-footer-cell {
     .container-search-bar div + div{
         margin-left: 0;
     }
+    .container-search-bar div:first-child{
+        width: 100%;
+    }
 }
 
 @media screen and (max-width: 892px){
     .container-options{
         flex-flow: column-reverse;
     }
+    
 }

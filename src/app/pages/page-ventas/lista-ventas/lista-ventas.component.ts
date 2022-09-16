@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
@@ -35,7 +36,8 @@ export class ListaVentasComponent implements OnInit {
 
   constructor(private coreService: ApplicationProvider,
     private loadingService: LoadingService,
-    private ref: ChangeDetectorRef) { }
+    private ref: ChangeDetectorRef,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
 
@@ -63,7 +65,12 @@ export class ListaVentasComponent implements OnInit {
   private searchListaVentasWithFilter(){
 
     let dialogRef = this.loadingService.open();
-
+    
+    if(!(this.dateInicioFilter && this.dateFinFilter)){
+      dialogRef.close();
+      console.log('verifique que las fechas sean correctas');
+      return;
+    }
 
     const dateInitString = '' + this.dateInicioFilter.getFullYear() + '-' + ('0' + (this.dateInicioFilter.getMonth()+1)).slice(-2) + 
                           '-' + ('0' + this.dateInicioFilter.getDate()).slice(-2) + ' ' + 
@@ -90,8 +97,6 @@ export class ListaVentasComponent implements OnInit {
       },
       error: (error) => {
         dialogRef.close();
-        console.log('inside error lista ventas');
-        console.log(error);
       }
     });
   }

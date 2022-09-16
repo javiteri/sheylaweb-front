@@ -12,13 +12,13 @@
           <div class="inner-container-date-filter">
               <mat-form-field class="mat-form-field-date">
                   <mat-label>Desde</mat-label>
-                  <input matInput readonly [matDatepicker]="pickerdesde" [(ngModel)]="dateInicioFilter">
+                  <input matInput [matDatepicker]="pickerdesde" [(ngModel)]="dateInicioFilter">
                   <mat-datepicker-toggle matSuffix [for]="pickerdesde"></mat-datepicker-toggle>
                   <mat-datepicker #pickerdesde></mat-datepicker>
               </mat-form-field>
               <mat-form-field class="mat-form-field-date">
                   <mat-label>Hasta</mat-label>
-                  <input matInput readonly [matDatepicker]="pickerhasta" [(ngModel)]="dateFinFilter">
+                  <input matInput [matDatepicker]="pickerhasta" [(ngModel)]="dateFinFilter">
                   <mat-datepicker-toggle matSuffix [for]="pickerhasta"></mat-datepicker-toggle>
                   <mat-datepicker #pickerhasta></mat-datepicker>
               </mat-form-field>

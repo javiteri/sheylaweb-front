@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatChip } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
@@ -63,7 +64,8 @@ export class PageVentasComponent implements OnInit{
     public viewContainerRef: ViewContainerRef,
     private toastr: ToastrService,
     private coreService: ApplicationProvider,
-    private loadingService: LoadingService) {
+    private loadingService: LoadingService,
+    private location: Location) {
 
   }
   
@@ -88,8 +90,29 @@ export class PageVentasComponent implements OnInit{
     setTimeout(() => {
       this.loadingSecuencial = !this.loadingSecuencial
     }, 3000);
+
+    this.getConsumidorFinalApi();
   }
 
+
+  private getConsumidorFinalApi(){
+    this.coreService.getConsumidorFinalOrCreate(this.idEmpresa, this.tokenValidate).subscribe({
+      next: (response: any) => {
+
+        const datosConsuFinal = response['data'];
+
+        this.clientFac.id = datosConsuFinal['cli_id'];
+        this.clientFac.ciRuc = datosConsuFinal['cli_documento_identidad'];
+        this.clientFac.nombre = datosConsuFinal['cli_nombres_natural'];
+        this.clientFac.telefono = datosConsuFinal['cli_teleono'];
+        this.clientFac.direccion =  '';
+        this.clientFac.email = '';
+      },
+      error: (error) => {
+          console.log(error);
+      }
+    });
+  }
 
   removeCart(indexItem: number){
     
@@ -402,7 +425,7 @@ changeNumFac(numeroFac: number){
   
 }
 
-  private resetControls(){
+private resetControls(){
       this.clientFac.id = 0;
       this.clientFac.ciRuc = '999999999';
       this.clientFac.nombre = 'CONSUMIDOR FINAL';
@@ -419,5 +442,9 @@ changeNumFac(numeroFac: number){
       this.subtotalIva0 = "00.0";
       this.subtotalIva12 = "00.0";
       this.Iva12 = "00.0";
+}
+
+  cancelarClick(): void{
+    this.location.back();    
   }
 }
