@@ -208,9 +208,7 @@ export class NuevoUsuarioComponent implements OnInit, AfterViewInit {
           closeButton: true
         });
 
-        setTimeout(() => {
-          this.router.navigate(['/usuarios']);
-        }, 600);
+        this.resetControlsForm();
 
       },
       error: (error) => {
@@ -266,8 +264,21 @@ export class NuevoUsuarioComponent implements OnInit, AfterViewInit {
     });
   }
   
+  
+  private resetControlsForm(){
+    this.sendDatosFormUsuario.controls['identificacion'].setValue('');
+    this.sendDatosFormUsuario.controls['nombreNatural'].setValue('');
+    this.sendDatosFormUsuario.controls['telefono'].setValue('');
+    this.sendDatosFormUsuario.controls['direccion'].setValue('');
+    this.sendDatosFormUsuario.controls['email'].setValue('');
+    const actualDate = new Date();
+    this.sendDatosFormUsuario.controls['fechaNacimiento'].setValue(actualDate);
+    this.sendDatosFormUsuario.controls['nombreUsuario'].setValue('');
+    this.sendDatosFormUsuario.controls['password'].setValue('');
+    this.sendDatosFormUsuario.controls['permisoEscritura'].setValue('');
+  }
+
   cancelarClick(){
-    //this.router.navigate(['/usuarios']);
     this.location.back();
   }
 

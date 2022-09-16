@@ -34,8 +34,6 @@ export class EndPointProvider {
 
     //CLIENTES
     private readonly _listClientes: String = 'clientes';
-
-
     private get listClientesUrl(){
       return this.apiUrl + this._listClientes;
     }
@@ -462,8 +460,8 @@ export class EndPointProvider {
         const endPointUrl = this.insertVentaUrl;   
         return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
     }
-    private readonly _listaVentasByIdEmp: string = 'ventas/listaVentasIdEmp';
 
+    private readonly _listaVentasByIdEmp: string = 'ventas/listaVentasIdEmp';
     private get listaVentasByIdEmp(){
       return this.apiUrl + this._listaVentasByIdEmp;
     }
@@ -483,7 +481,23 @@ export class EndPointProvider {
       }
 
       return this.http.get<T>(endpointUrl, httpOptions);
-    }    
+    }
+    private readonly _getOrCreateConsumidorFinalByIdEmp: string = 'ventas/getorcreateconsfinalbyidemp';
+    private get consumidorFinalByIdEmp(){
+      return this.apiUrl + this._getOrCreateConsumidorFinalByIdEmp;
+    }
+    getConsumidorFinalByIdEmp<T>(idEmpresa: any,accessToken: any): Observable<T>{
+      const endpointUrl = this.consumidorFinalByIdEmp;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa)
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
 
 
     //---------------------------------------------------------------

@@ -124,6 +124,11 @@ export class CreateEditProveedorComponent implements OnInit, AfterViewInit{
           this.sendDatosFormProveedor.controls['paginaWeb'].setValue(datosProveedor['pro_pagina_web']);
           this.sendDatosFormProveedor.controls['observacion'].setValue(datosProveedor['pro_observacion']);
 
+          this.sendDatosFormProveedor.controls['identificacionRepre'].setValue(datosProveedor['pro_cedula_representante']);
+          this.sendDatosFormProveedor.controls['nombreRepre'].setValue(datosProveedor['pro_nombre_presentante']);
+          this.sendDatosFormProveedor.controls['telefonoRepre'].setValue(datosProveedor['pro_telefonos_representante']);
+          this.sendDatosFormProveedor.controls['emailRepre'].setValue(datosProveedor['pro_mail_representante']);
+          this.sendDatosFormProveedor.controls['direccionRepre'].setValue(datosProveedor['pro_direccion_representante']);
           
         },
         error: (error) => {
@@ -170,11 +175,8 @@ export class CreateEditProveedorComponent implements OnInit, AfterViewInit{
           closeButton: true
         });
 
-        setTimeout(() => {
-          this.router.navigate(['/proveedores']);
-        }, 600);
+        this.resetControlsForm();
 
-        //this.resetControlsForm();
       },
       error: (error) => {
         overlayRef.close();
@@ -274,8 +276,6 @@ export class CreateEditProveedorComponent implements OnInit, AfterViewInit{
         dialogRef.close();
       },
       error: (err) => {
-        console.log('error');
-        console.log(err);
         dialogRef.close();
       }
 
@@ -284,8 +284,24 @@ export class CreateEditProveedorComponent implements OnInit, AfterViewInit{
   }
 
 
+  private resetControlsForm(){
+    this.sendDatosFormProveedor.controls['documentoIdentidad'].setValue('');
+    this.sendDatosFormProveedor.controls['nombreNatural'].setValue('');
+    this.sendDatosFormProveedor.controls['razonSocial'].setValue('');
+    this.sendDatosFormProveedor.controls['direccion'].setValue('');
+    this.sendDatosFormProveedor.controls['telefono'].setValue('');
+    this.sendDatosFormProveedor.controls['celular'].setValue('');
+    this.sendDatosFormProveedor.controls['email'].setValue('');
+    this.sendDatosFormProveedor.controls['paginaWeb'].setValue('');
+    this.sendDatosFormProveedor.controls['observacion'].setValue('');
+    this.sendDatosFormProveedor.controls['identificacionRepre'].setValue('');
+    this.sendDatosFormProveedor.controls['nombreRepre'].setValue('');
+    this.sendDatosFormProveedor.controls['telefonoRepre'].setValue('');
+    this.sendDatosFormProveedor.controls['emailRepre'].setValue('');
+    this.sendDatosFormProveedor.controls['direccionRepre'].setValue('');
+  }
+
   cancelarClick(){
-    //this.router.navigate(['/proveedores']);
     this.location.back();
   }
 }

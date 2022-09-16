@@ -206,11 +206,11 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
           closeButton: true
         });
 
-        setTimeout(() => {
+        /*setTimeout(() => {
           this.router.navigate(['/inventario']);
-        }, 600);
+        }, 600);*/
 
-        //this.resetControlsForm();
+        this.resetControlsForm();
       },
       error: (error) => {
         overlayRef.close();
@@ -276,9 +276,6 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
         return;
     }
 
-    console.log(pvp);
-    console.log(costo);
-    console.log(utilidad);
   }
 
   onLostFocusCalculatePvp(){
@@ -294,9 +291,6 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    console.log(pvp);
-    console.log(costo);
-    console.log(utilidad);
   }
 
   //METHODS FOR FILTER CATEGORIA AND PRODUCT
@@ -318,8 +312,24 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
     return listraFiltro;
   }
 
+  private resetControlsForm(){
+    this.sendDatosFormProducto.controls['codigo'].setValue('');
+    this.sendDatosFormProducto.controls['codigoBarras'].setValue('');
+    this.sendDatosFormProducto.controls['nombre'].setValue('');
+    this.sendDatosFormProducto.controls['costo'].setValue('0.0');
+    this.sendDatosFormProducto.controls['utilidad'].setValue('0.0');
+    this.sendDatosFormProducto.controls['pvp'].setValue('0.0');
+    this.sendDatosFormProducto.controls['stock'].setValue('');
+    this.sendDatosFormProducto.controls['unidadMedida'].setValue('');
+    this.sendDatosFormProducto.controls['categoria'].setValue('');
+    this.sendDatosFormProducto.controls['marca'].setValue('');
+    this.sendDatosFormProducto.controls['observacion'].setValue('');
+    this.sendDatosFormProducto.controls['iva'].setValue('');
+    this.sendDatosFormProducto.controls['activo'].setValue('');
+  }
+
+
   cancelarClick(){
-    //this.router.navigate(['/inventario']);
     this.location.back();
   }
 }

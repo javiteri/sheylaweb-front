@@ -1,5 +1,5 @@
 <div class="titulo">
-  <p>Crear Venta</p>
+  <p>Registrar Venta</p>
 </div>
 
 <div class="container-gen" #generalContainer>
@@ -235,6 +235,8 @@
     </div>
     
     <div class="container-form-btn">
+      <button   mat-raised-button class="btn-cancelar"
+      (click)="cancelarClick();$event.preventDefault();">Cancelar</button>
       <button  class="btn-save" mat-raised-button color="btn-icon-accent"
       (click)="guardarFactura();$event.preventDefault();">Guardar</button>
   </div>

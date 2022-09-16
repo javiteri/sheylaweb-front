@@ -208,11 +208,7 @@ export class NuevoClienteComponent implements OnInit, AfterViewInit{
           closeButton: true
         });
 
-        setTimeout(() => {
-          this.router.navigate(['/clientes']);
-        }, 600);
-
-        //this.resetControlsForm();
+        this.resetControlsForm();
       },
       error: (error) => {
         overlayRef.close();

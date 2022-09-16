@@ -126,4 +126,7 @@ export class ApplicationProvider {
     return this.coreEndPoint.getListaVentasByIdEmp(idEmpresa,nombreCi,noDoc,fechaIni,fechaFin,accessToken);
   }
 
+  getConsumidorFinalOrCreate(idEmpresa: any, accessToken: any){
+    return this.coreEndPoint.getConsumidorFinalByIdEmp(idEmpresa, accessToken);
+  }
 }

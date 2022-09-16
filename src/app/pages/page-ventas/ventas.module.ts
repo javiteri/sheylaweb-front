@@ -5,7 +5,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button'
 import { MatDatepickerModule} from '@angular/material/datepicker'
-import { MatNativeDateModule } from "@angular/material/core";
+import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS } from "@angular/material/core";
 
 import { LoadingService } from "src/app/services/Loading.service";
 
@@ -28,6 +28,7 @@ import { CrearClienteDialogComponent } from "src/app/components/crear-cliente-di
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatChipsModule } from "@angular/material/chips";
 import { ListaVentasComponent } from './lista-ventas/lista-ventas.component'
+import { PickDateAdapter, PICK_FORMATS} from "./adapter/DatePickerAdapter";
 
 @NgModule({
     declarations: [
@@ -56,7 +57,9 @@ import { ListaVentasComponent } from './lista-ventas/lista-ventas.component'
         MatChipsModule
     ],
     providers: [LoadingService, ApplicationProvider,
-        {provide: MatPaginatorIntl, useValue: CustomPaginator()}
+        {provide: MatPaginatorIntl, useValue: CustomPaginator()},
+        {provide: MAT_DATE_FORMATS, useValue: PICK_FORMATS},
+        {provide: DateAdapter, useClass: PickDateAdapter}
       ]
 })
 export class VentasModule {
