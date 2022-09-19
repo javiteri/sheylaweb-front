@@ -22,27 +22,28 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
 import { ApplicationProvider } from "src/app/providers/provider";
 import { RouterModule } from "@angular/router";
 
-import { PageVentasComponent } from "./page-ventas.component";
-import { VentasRoutingModule } from "./ventas-routing.module";
+
 import { MatDialogModule } from "@angular/material/dialog";
-import { MatChipsModule } from "@angular/material/chips";
-import { ListaVentasComponent } from './lista-ventas/lista-ventas.component'
-import { PickDateAdapter, PICK_FORMATS} from "./adapter/DatePickerAdapter";
-import { ResumenVentasComponent } from './resumen-ventas/resumen-ventas.component';
+import { PickDateAdapter, PICK_FORMATS} from "../page-ventas/adapter/DatePickerAdapter";
+import { PageComprasComponent } from "./page-compras.component";
+import { ComprasRoutingModule } from "./compras-routing.module";
+import { ListaComprasComponent } from './lista-compras/lista-compras.component';
+import { ResumenComprasComponent } from './resumen-compras/resumen-compras.component';
 
 @NgModule({
     declarations: [
-        PageVentasComponent,
-        ListaVentasComponent,
-        ResumenVentasComponent
+        PageComprasComponent,
+        ListaComprasComponent,
+        ResumenComprasComponent
     ],
     imports: [
         CommonModule,
+        ComprasRoutingModule,
         MatTooltipModule,
-        VentasRoutingModule,
         MatSelectModule,
         RouterModule,
         MatCardModule,
+        MatFormFieldModule,
         MatInputModule,
         MatButtonModule,
         MatIconModule,
@@ -53,8 +54,7 @@ import { ResumenVentasComponent } from './resumen-ventas/resumen-ventas.componen
         MatProgressSpinnerModule,
         FormsModule,
         ReactiveFormsModule,
-        MatDialogModule,
-        MatChipsModule
+        MatDialogModule
     ],
     providers: [LoadingService, ApplicationProvider,
         {provide: MatPaginatorIntl, useValue: CustomPaginator()},
@@ -62,6 +62,4 @@ import { ResumenVentasComponent } from './resumen-ventas/resumen-ventas.componen
         {provide: DateAdapter, useClass: PickDateAdapter}
       ]
 })
-export class VentasModule {
-
-}
+export class ComprasModule {}

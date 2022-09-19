@@ -15,24 +15,36 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import { LayoutComponent } from './layout.component';
 import { LayoutRoutingModule } from './layout-routing.module';
-import { PageComprasComponent } from '../page-compras/page-compras.component';
 import { BuscarClienteDialogComponent } from 'src/app/components/buscar-cliente-dialog/buscar-cliente-dialog.component';
 import { BuscarProductoDialogComponent } from 'src/app/components/buscar-producto-dialog/buscar-producto-dialog.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CrearClienteDialogComponent } from 'src/app/components/crear-cliente-dialog/crear-cliente-dialog.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
   declarations: [
     LayoutComponent,
-    PageComprasComponent,
     BuscarClienteDialogComponent,
-    BuscarProductoDialogComponent
+    BuscarProductoDialogComponent,
+    CrearClienteDialogComponent
   ],
   imports: [
     CommonModule,
+    MatFormFieldModule,
+    FormsModule,
+    MatInputModule,
+    ReactiveFormsModule,
     MatTableModule,
+    MatSelectModule,
     MatDialogModule,
     MatToolbarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     MatSidenavModule,
     MatIconModule,
     MatDividerModule,

@@ -117,7 +117,12 @@ table{
     display: flex;
     flex-flow: row nowrap;
 }
-
+.inner-container-search button{
+    padding: 0 0;
+    min-width: 3em;
+    width: 2em;
+    margin-left: .2em;
+}
 .inner-container-search input{
     padding: .5rem 1rem;
     width: 100%;
@@ -270,6 +275,13 @@ td.mat-footer-cell {
 @media screen and (max-width: 892px){
     .container-options{
         flex-flow: column-reverse;
-    }
-    
+    } 
+}
+
+.text-decoration-troght{
+    color: red;
+    text-decoration: line-through;
+}
+.mat-icon-accent{
+    color: var(--accent-color);
 }

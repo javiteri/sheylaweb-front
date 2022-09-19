@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -39,6 +39,7 @@ export class PageClientesComponent implements OnInit {
               private loadingService: LoadingService,
               private router: Router,
               private matDialog: MatDialog) { }
+              
 
   ngOnInit(): void {
       // GET INITIAL DATA 

@@ -32,7 +32,7 @@ const routes: Routes = [
       },
       {
         path: 'compras',
-        component: PageComprasComponent
+        loadChildren: () => import('../page-compras/compras.module').then((m) => m.ComprasModule)
       },
       {
         path: 'infoempresa',

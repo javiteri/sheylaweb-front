@@ -14,7 +14,7 @@ import { ItemListaVenta } from '../models/ItemVentaModel';
 })
 export class ListaVentasComponent implements OnInit {
 
-  displayedColumns: string[] = ['fecha hora', 'documento', 'numero', 'total', 'usuario', 'cliente', 'identificacion', 'forma pago'];
+  displayedColumns: string[] = ['fecha hora', 'documento', 'numero', 'total', 'usuario', 'cliente', 'identificacion', 'forma pago','actions'];
   datasource = new MatTableDataSource<ItemListaVenta>();
 
   idEmpresa: number = 0;
@@ -84,6 +84,7 @@ export class ListaVentasComponent implements OnInit {
       next: (results: any) => {
         dialogRef.close();
 
+        console.log(results.data);
         try{
           this.showPagination = results.data.length > 0;
           this.showSinDatos = !(results.data.length > 0);
@@ -97,6 +98,40 @@ export class ListaVentasComponent implements OnInit {
       },
       error: (error) => {
         dialogRef.close();
+      }
+    });
+  }
+
+  updateEstadoAnulado(idVenta: any, estado: any){
+    let dialogRef = this.loadingService.open();
+
+    this.coreService.updateEstadoVentaByIdEmp(this.idEmpresa,idVenta,estado, this.tokenValidate).subscribe({
+      next: (results: any) => {
+        dialogRef.close();
+        console.log('se anulo correctamente');
+        console.log(results);
+        this.searchListaVentasWithFilter();
+      },
+      error: (error) => {
+        dialogRef.close();
+        console.log('error en la actalizacion');
+      }
+    });
+  }
+
+  deleteVentaByIdEmp(idVenta: any, estado: any){
+    let dialogRef = this.loadingService.open();
+
+    this.coreService.deleteVentaByIdEmp(this.idEmpresa,idVenta,estado, this.tokenValidate).subscribe({
+      next: (results: any) => {
+        dialogRef.close();
+        console.log('se elimino correctamente');
+        console.log(results);
+        this.searchListaVentasWithFilter();
+      },
+      error: (error) => {
+        dialogRef.close();
+        console.log('error en la eliminacion');
       }
     });
   }

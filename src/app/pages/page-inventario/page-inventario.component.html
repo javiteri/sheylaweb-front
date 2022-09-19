@@ -55,17 +55,17 @@
                       [ngClass]="{'low-stock': producto.prod_stock <= 0}"> {{producto.prod_stock}} </td>
                     </ng-container>
                     <ng-container matColumnDef="unidadMedida">
-                      <th mat-header-cell class="justify-centro flex-grow-1_5" *matHeaderCellDef mat-sort-header> Unidad Medida </th>
-                      <td mat-cell class="justify-centro flex-grow-1_5" *matCellDef="let producto" data-label="Unidad Medida"> {{producto.prod_unidad_medida}} </td>
+                      <th mat-header-cell class="justify-centro " *matHeaderCellDef mat-sort-header> Unidad Medida </th>
+                      <td mat-cell class="justify-centro " *matCellDef="let producto" data-label="Unidad Medida"> {{producto.prod_unidad_medida}} </td>
                     </ng-container>
                     
                     <ng-container matColumnDef="categoria">
-                      <th mat-header-cell class="justify-centro flex-grow-1_5" *matHeaderCellDef mat-sort-header> Categoria </th>
-                      <td mat-cell class="justify-centro flex-grow-1_5" *matCellDef="let producto" data-label="Categoria"> {{producto.pro_categoria}} </td>
+                      <th mat-header-cell class="justify-centro " *matHeaderCellDef mat-sort-header> Categoria </th>
+                      <td mat-cell class="justify-centro " *matCellDef="let producto" data-label="Categoria"> {{producto.pro_categoria}} </td>
                     </ng-container>
                     <ng-container matColumnDef="marca">
-                      <th mat-header-cell class="justify-centro flex-grow-1_5" *matHeaderCellDef mat-sort-header> Marca </th>
-                      <td mat-cell class="justify-centro flex-grow-1_5" *matCellDef="let producto" data-label="Marca"> {{producto.prod_marca}} </td>
+                      <th mat-header-cell class="justify-centro " *matHeaderCellDef mat-sort-header> Marca </th>
+                      <td mat-cell class="justify-centro " *matCellDef="let producto" data-label="Marca"> {{producto.prod_marca}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="actions">

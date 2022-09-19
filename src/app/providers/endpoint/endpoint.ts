@@ -16,7 +16,7 @@ export class EndPointProvider {
     //private readonly apiUrl = 'http://localhost:3000/api/';  
 
     private readonly searchDatosClienteSri = 'http://sheyla2.dyndns.info/SRI/SRI.php';
-    private readonly searchDatosClienteSriLocal = 'http://localhost:4200/SRI';
+    //private readonly searchDatosClienteSriLocal = 'http://localhost:4200/SRI';
 
     //SEARCH CLIENT BY CI OR RUC
     searchClientByCiRuc(ciRuc: any): Observable<string>{
@@ -460,6 +460,23 @@ export class EndPointProvider {
         const endPointUrl = this.insertVentaUrl;   
         return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
     }
+    private readonly _updateEstadoVenta: string = "ventas/updateEstadoVenta";
+    private get updateEstadoVentaUrl(){
+      return this.apiUrl + this._updateEstadoVenta;
+    }
+    updateEstadoVentaToBD<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.updateEstadoVentaUrl;   
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
+    
+    private readonly _deleteVenta: string = "ventas/deleteVenta";
+    private get deleteVentaUrl(){
+      return this.apiUrl + this._deleteVenta;
+    }
+    deleteVentaToBD<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.deleteVentaUrl;   
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
 
     private readonly _listaVentasByIdEmp: string = 'ventas/listaVentasIdEmp';
     private get listaVentasByIdEmp(){
@@ -472,7 +489,28 @@ export class EndPointProvider {
       const header = this.getRequestHeaderClientes(accessToken);
 
       let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('ciname',nombreCi)
-                            .set('nodoc',noDoc).set('fechaini',fechaIni).set('nodoc',noDoc)
+                            .set('nodoc',noDoc).set('fechaini',fechaIni)
+                            .set('fechafin',fechaFin);
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+    private readonly _listaResumenVentasByIdEmp: string = 'ventas/listaResumenVentasIdEmp';
+    private get listaResumenVentasByIdEmp(){
+      return this.apiUrl + this._listaResumenVentasByIdEmp;
+    }
+    getListaResumenVentasByIdEmp<T>(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
+      fechaFin: any, accessToken: any): Observable<T>{
+      const endpointUrl = this.listaResumenVentasByIdEmp;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('ciname',nombreCi)
+                            .set('nodoc',noDoc).set('fechaini',fechaIni)
                             .set('fechafin',fechaFin);
 
       const httpOptions = {

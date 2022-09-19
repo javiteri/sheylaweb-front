@@ -125,8 +125,17 @@ export class ApplicationProvider {
     fechaFin: any, accessToken: any){
     return this.coreEndPoint.getListaVentasByIdEmp(idEmpresa,nombreCi,noDoc,fechaIni,fechaFin,accessToken);
   }
-
+  getResumenVentasByIdEmp(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
+                        fechaFin: any, accessToken: any){
+    return this.coreEndPoint.getListaResumenVentasByIdEmp(idEmpresa,nombreCi,noDoc,fechaIni,fechaFin,accessToken);
+  }
   getConsumidorFinalOrCreate(idEmpresa: any, accessToken: any){
     return this.coreEndPoint.getConsumidorFinalByIdEmp(idEmpresa, accessToken);
+  }
+  updateEstadoVentaByIdEmp(idEmpresa: any, idVenta: any, estado: any, accessToken: any){
+    return this.coreEndPoint.updateEstadoVentaToBD({idEmpresa,idVenta,estado},accessToken);
+  }
+  deleteVentaByIdEmp(idEmpresa: any, idVenta: any, estado: any, accessToken: any){
+    return this.coreEndPoint.deleteVentaToBD({idEmpresa,idVenta,estado},accessToken);
   }
 }
