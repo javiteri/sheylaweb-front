@@ -10,7 +10,7 @@
         <input type="text" placeholder="Nombre o Identificacion" [(ngModel)]="textSearchClientes"
         
         (keyup.enter)="searchClientesText();"/>
-        <button class="font-weight-300" color="icon-accent" mat-icon-button 
+        <button class="font-weight-300" color="icon-accent" mat-stroked-button 
               matTooltip="Buscar"
             (click)="searchClientesText();$event.preventDefault();">
           <mat-icon>search</mat-icon>
@@ -47,7 +47,7 @@
                   </ng-container>
                   <ng-container matColumnDef="nombre" >
                     <th mat-header-cell class="flex-grow-1_5" *matHeaderCellDef mat-sort-header > Nombre </th>
-                    <td mat-cell class="flex-grow-1_5" *matCellDef="let cliente" data-label="Nombre"> {{cliente.cli_nombres_natural}} </td>
+                    <td mat-cell *matCellDef="let cliente" class="flex-grow-1_5" data-label="Nombre"> {{cliente.cli_nombres_natural}} </td>
                   </ng-container>
                   <ng-container matColumnDef="email" >
                     <th mat-header-cell *matHeaderCellDef mat-sort-header > Email </th>

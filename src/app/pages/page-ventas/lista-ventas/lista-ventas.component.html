@@ -27,6 +27,11 @@
           <div class="flex-grow-dos inner-container-search ">
             <input type="text" placeholder="Nombre o Identificacion" [(ngModel)]="nombreCiRuc" />
             <input type="text" placeholder="No Documento" [(ngModel)]="noDocmento"/>
+            <button class="font-weight-300" color="icon-accent" mat-stroked-button
+              matTooltip="Buscar"
+              (click)="searchListaVentasFilter();$event.preventDefault();">
+              <mat-icon>search</mat-icon>
+            </button>
           </div>
       
       </div>
@@ -35,7 +40,7 @@
   </div>
 
   <div>
-    <button class="font-weight-300 mat-elevation-z1" mat-raised-button (click)="searchListaVentasFilter()">
+    <button class="font-weight-300 mat-elevation-z1" mat-raised-button>
       <mat-icon>file_download</mat-icon>
       Exportar
     </button>
@@ -54,37 +59,63 @@
   
                   <ng-container matColumnDef="fecha hora" >
                       <th mat-header-cell *matHeaderCellDef mat-sort-header >Fecha Hora</th>
-                      <td mat-cell *matCellDef="let venta" data-label="Fecha Hora"> {{venta.fechaHora | date : 'dd/MM/yyyy hh:mm a'}} </td>
+                      <td mat-cell *matCellDef="let venta"
+                      [ngClass]="venta.anulado == 1 ? 'text-decoration-troght' : ''" data-label="Fecha Hora"> {{venta.fechaHora | date : 'dd/MM/yyyy hh:mm a'}} </td>
                     </ng-container>
                     <ng-container matColumnDef="documento" >
                       <th mat-header-cell *matHeaderCellDef mat-sort-header >Documento</th>
-                      <td mat-cell *matCellDef="let venta" data-label="documento"> {{venta.documento}} </td>
+                      <td mat-cell *matCellDef="let venta"
+                      [ngClass]="venta.anulado == 1 ? 'text-decoration-troght' : ''" data-label="documento"> {{venta.documento}} </td>
                     </ng-container>
                     <ng-container matColumnDef="numero" >
                       <th mat-header-cell *matHeaderCellDef mat-sort-header >Numero</th>
-                      <td mat-cell  *matCellDef="let venta" data-label="Numero"> {{venta.numero}} </td>
+                      <td mat-cell  *matCellDef="let venta" 
+                      [ngClass]="venta.anulado == 1 ? 'text-decoration-troght' : ''"data-label="Numero"> {{venta.numero}} </td>
                     </ng-container>
                     <ng-container matColumnDef="total" >
-                      <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header  >Total</th>
-                      <td mat-cell class="justify-centro" *matCellDef="let venta" data-label="Total"> <p class="total-valor">{{venta.total}}</p> </td>
+                      <th mat-header-cell  *matHeaderCellDef mat-sort-header  >Total</th>
+                      <td mat-cell  *matCellDef="let venta"
+                      [ngClass]="venta.anulado == 1 ? 'text-decoration-troght' : ''" data-label="Total"> <p class="total-valor">{{venta.total}}</p> </td>
                     </ng-container>
                     <ng-container matColumnDef="usuario">
-                      <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header>Usuario</th>
-                      <td mat-cell class="justify-centro" *matCellDef="let venta" data-label="Usuario"> {{venta.usuario}} </td>
+                      <th mat-header-cell  *matHeaderCellDef mat-sort-header>Usuario</th>
+                      <td mat-cell *matCellDef="let venta" 
+                      [ngClass]="venta.anulado == 1 ? 'text-decoration-troght' : ''"data-label="Usuario"> {{venta.usuario}} </td>
                     </ng-container>
                     <ng-container matColumnDef="cliente" >
-                      <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header>Cliente</th>
-                      <td mat-cell class="justify-centro" *matCellDef="let venta" data-label="Cliente"> {{venta.cliente}} </td>
+                      <th mat-header-cell  *matHeaderCellDef mat-sort-header>Cliente</th>
+                      <td mat-cell *matCellDef="let venta" 
+                      [ngClass]="venta.anulado == 1 ? 'text-decoration-troght' : ''" data-label="Cliente"> {{venta.cliente}} </td>
                     </ng-container>
                     <ng-container matColumnDef="identificacion" >
-                        <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header>Identificacion</th>
-                        <td mat-cell class="justify-centro" *matCellDef="let venta" data-label="Identificacion"> {{venta.cc_ruc_pasaporte}}</td>
+                        <th mat-header-cell  *matHeaderCellDef mat-sort-header>Identificacion</th>
+                        <td mat-cell *matCellDef="let venta" 
+                        [ngClass]="venta.anulado == 1 ? 'text-decoration-troght' : ''"data-label="Identificacion"> {{venta.cc_ruc_pasaporte}}</td>
                       </ng-container>
                     <ng-container matColumnDef="forma pago" >
-                        <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header>Forma Pago</th>
-                        <td mat-cell class="justify-centro" *matCellDef="let venta" data-label="Forma Pago"> {{venta.forma_pago}} </td>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Forma Pago</th>
+                        <td mat-cell *matCellDef="let venta" 
+                        [ngClass]="venta.anulado == 1? 'text-decoration-troght' : ''"data-label="Forma Pago"> {{venta.forma_pago}} </td>
                     </ng-container>
+                    
+
+                    <ng-container matColumnDef="actions">
+                      <th mat-header-cell *matHeaderCellDef>Opciones</th>
+                      <td mat-cell *matCellDef="let row" data-label="Opciones">
+                        <div>
+                          <button [disabled]="row.anulado == 1 ? 'disabled' : null" matTooltip="Anular" mat-icon-button color="icon-red" aria-label="boton anular venta"
+                          (click)="updateEstadoAnulado(row.id, 1)">
+                            <mat-icon>block</mat-icon>
+                          </button>
+                          <button matTooltip="Borrar" mat-icon-button color="icon-red" aria-label="boton eliminar venta" 
+                          (click)="deleteVentaByIdEmp(row.id, row.anulado)">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </div>
   
+                      </td>
+                    </ng-container>
+
                   <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
               </mat-table>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EncryptStorage } from "encrypt-storage";
+//import { EncryptStorage } from "encrypt-storage";
 
 const SECRET_KEY = 'M10101418/2=golosossoftsheyla';
 
@@ -8,7 +8,7 @@ const SECRET_KEY = 'M10101418/2=golosossoftsheyla';
 })
 export class LocalService {
 
-    encryptStorage = new EncryptStorage(SECRET_KEY);
+    /*encryptStorage = new EncryptStorage(SECRET_KEY);
 
     constructor() { }
 
@@ -27,5 +27,5 @@ export class LocalService {
     // Clear the local 
     storageclearToken() {    
         //return this.storageService.secureStorage.clear();
-    }
+    }*/
 }

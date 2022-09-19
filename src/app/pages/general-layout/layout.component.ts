@@ -66,8 +66,12 @@ export class LayoutComponent implements OnInit {
       name: 'Compras',
       matIcon: 'shopping_cart',
       active: false,
-      routerLink: '/compras',
-      submenu: []
+      routerLink: '',
+      submenu: [
+        {name: 'Lista De Compras', url: 'compras/listacompra'},
+        {name: 'Resumen De Compras', url: 'compras/resumencompra'},
+        {name: 'Registrar Compra', url: 'compras/crearcompra'},
+      ]
     },
     {
       name: 'Configurar',
@@ -123,7 +127,7 @@ export class LayoutComponent implements OnInit {
 
 
   logout(){
-    localStorage.clear();
+    sessionStorage.clear();
     this.router.navigate(['/login']);
   }
 
