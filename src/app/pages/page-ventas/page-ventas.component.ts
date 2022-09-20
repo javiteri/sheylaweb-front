@@ -87,10 +87,11 @@ export class PageVentasComponent implements OnInit{
     this.idUser = localServiceResponseUsr._userId;
 
     //REQUEST DATA CONFIG SECUENCIAL
-    setTimeout(() => {
+    /*setTimeout(() => {
       this.loadingSecuencial = !this.loadingSecuencial
-    }, 3000);
+    }, 2000);*/
 
+    this.getNextNumeroSecuencial();
     this.getConsumidorFinalApi();
   }
 
@@ -110,6 +111,23 @@ export class PageVentasComponent implements OnInit{
       },
       error: (error) => {
           console.log(error);
+      }
+    });
+  }
+
+  private getNextNumeroSecuencial(){
+
+    this.loadingSecuencial = !this.loadingSecuencial
+
+    this.coreService.getNextNumeroSecuencialByIdEmp(this.idEmpresa, this.tipoDocSelect, 
+                        this.value001, this.value002,this.tokenValidate).subscribe({
+      next: (response: any) => {
+        this.loadingSecuencial = false;
+        this.valueSecuencia = response.data;
+      },
+      error: (error) => {
+        this.loadingSecuencial = false;
+        console.log(error);
       }
     });
   }
@@ -426,11 +444,11 @@ changeNumFac(numeroFac: number){
 }
 
 private resetControls(){
-      this.clientFac.id = 0;
+      /*this.clientFac.id = 0;
       this.clientFac.ciRuc = '999999999';
       this.clientFac.nombre = 'CONSUMIDOR FINAL';
       this.clientFac.direccion = '';
-      this.clientFac.email = '0999999999';
+      this.clientFac.email = '0999999999';*/
 
       this.tipoDocSelect = 'Factura';
       this.dateFac = new Date();
@@ -442,9 +460,18 @@ private resetControls(){
       this.subtotalIva0 = "00.0";
       this.subtotalIva12 = "00.0";
       this.Iva12 = "00.0";
+      this.cantItems = 0;
+      this.observacion = '';
+
+      this.getConsumidorFinalApi();
+      this.getNextNumeroSecuencial();
 }
 
   cancelarClick(): void{
     this.location.back();    
+  }
+
+  changeTipoDoc(){
+    this.getNextNumeroSecuencial();
   }
 }

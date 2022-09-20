@@ -62,7 +62,7 @@
           <div class="chips-parent">
             <mat-form-field>
               <mat-label>Tipo Documento</mat-label>
-              <mat-select [(value)]="tipoDocSelect">
+              <mat-select [(value)]="tipoDocSelect" (valueChange)="changeTipoDoc()">
                 <mat-option *ngFor="let tipoDocumento of listTipoDocumento" [value]="tipoDocumento">
                   {{tipoDocumento}}
                 </mat-option>

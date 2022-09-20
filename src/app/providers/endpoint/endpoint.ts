@@ -12,8 +12,9 @@ export class EndPointProvider {
 
     private readonly apiVersion = '1.0.0';
     private readonly appVersion = '1.0.0';
-    private readonly apiUrl = 'http://192.168.1.10:8086/api/';
-    //private readonly apiUrl = 'http://localhost:3000/api/';  
+    //private readonly apiUrl = 'http://192.168.1.10:8086/api/';
+    //private readonly apiUrl = 'http://localhost:3000/api/';
+    private readonly apiUrl = 'http://factura.dyndns.info:8086/api/';
 
     private readonly searchDatosClienteSri = 'http://sheyla2.dyndns.info/SRI/SRI.php';
     //private readonly searchDatosClienteSriLocal = 'http://localhost:4200/SRI';
@@ -536,7 +537,25 @@ export class EndPointProvider {
 
       return this.http.get<T>(endpointUrl, httpOptions);
     }
+    private readonly _nextNumeroSecuencialByIdEmp: string = 'ventas/getNextNumeroSecuencialByIdEmp';
+    private get nextNumeroSecuencialByIdEmp(){
+      return this.apiUrl + this._nextNumeroSecuencialByIdEmp;
+    }
+    getNextNumeroSecuencialByIdEmp<T>(idEmpresa: any,tipoDoc: any, fac001: any, fac002: any, accessToken: any): Observable<T>{
+      const endpointUrl = this.nextNumeroSecuencialByIdEmp;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
 
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('tipoDoc',tipoDoc)
+                            .set('fac001',fac001).set('fac002',fac002);
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
 
     //---------------------------------------------------------------
     getRequestHeader(accesToken: any): {

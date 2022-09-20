@@ -138,4 +138,8 @@ export class ApplicationProvider {
   deleteVentaByIdEmp(idEmpresa: any, idVenta: any, estado: any, accessToken: any){
     return this.coreEndPoint.deleteVentaToBD({idEmpresa,idVenta,estado},accessToken);
   }
+
+  getNextNumeroSecuencialByIdEmp(idEmp: any, tipoDoc: any, fac001: any, fac002: any, accessToken: any){
+    return this.coreEndPoint.getNextNumeroSecuencialByIdEmp(idEmp,tipoDoc,fac001,fac002,accessToken);
+  }
 }
