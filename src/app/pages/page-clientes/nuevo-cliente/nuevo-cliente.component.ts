@@ -347,6 +347,7 @@ export class NuevoClienteComponent implements OnInit, AfterViewInit{
     const actualDate = new Date();
     this.sendDatosFormCliente.controls['fechaNacimiento'].setValue(actualDate);
 
+
   }
 
   cancelarClick(){

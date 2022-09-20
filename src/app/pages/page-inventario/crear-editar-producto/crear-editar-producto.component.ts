@@ -62,7 +62,7 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
         unidadMedida: [''],
         categoria: [''],
         marca: [''],
-        iva: [false],
+        iva: [true],
         activo: [false],
         observacion: ['']
       });
