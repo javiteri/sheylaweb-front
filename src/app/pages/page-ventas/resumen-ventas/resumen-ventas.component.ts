@@ -34,6 +34,11 @@ export class ResumenVentasComponent implements OnInit {
   noDocmento = "";
   nombreCiRuc = "";
   
+  calcSubtotal12 = 0.00;
+  calcSubtotal0 = 0.00;
+  calcIva = 0.00;
+  calcTotal = 0.00;
+
   constructor(private loadingService: LoadingService,
     private coreService: ApplicationProvider,
     private ref: ChangeDetectorRef) { }
