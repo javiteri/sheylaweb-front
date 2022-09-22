@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
-import { Event as NavigationEvent } from '@angular/router';
 
 import nacionalidad from '../../assets/nacionalidad.json';
 import { MatDialogRef } from '@angular/material/dialog';
