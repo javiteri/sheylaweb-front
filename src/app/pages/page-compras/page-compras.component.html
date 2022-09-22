@@ -30,30 +30,30 @@
 
                   <div class="container-datos-cliente">
     
-                    <mat-form-field >
+                    <mat-form-field style="margin-bottom: -1.25em">
                       <mat-label>CI/RUC</mat-label>
                       <input matInput  type="text" disabled #identificacion [(ngModel)]="proveedorFac.ciRuc">
                   </mat-form-field>
     
-                  <mat-form-field >
+                  <mat-form-field style="margin-bottom: -1.25em">
                     <mat-label>Nombre</mat-label>
                     <input matInput type="text" disabled #nombreCliente [(ngModel)]="proveedorFac.nombre">
                   </mat-form-field>
     
-                  <mat-form-field >
+                  <mat-form-field style="margin-bottom: -1.25em">
                     <mat-label>Telefono</mat-label>
                     <input matInput type="text" disabled #telCliente [(ngModel)]="proveedorFac.telefono">
                   </mat-form-field>
     
                   </div>
                   <div class="container-datos-cliente-dir">
-                    <mat-form-field >
+                    <mat-form-field style="margin-bottom: -1.25em">
                       <mat-label>Direccion</mat-label>
                       <input matInput type="text" disabled #dirCliente [(ngModel)]="proveedorFac.direccion">
                     </mat-form-field>
                   </div>
                   <div class="container-datos-cliente-dir">
-                    <mat-form-field>
+                    <mat-form-field style="margin-bottom: -1.25em">
                       <mat-label>Sustento</mat-label>
                       <mat-select [(value)]="sustentoTributarioSelect"><!-- (valueChange)="changeTipoDoc()"-->
                         <mat-option *ngFor="let sustentoTributario of listSustentoTributario" [value]="sustentoTributario">
@@ -71,7 +71,7 @@
           <div class="container-datos">
             <div class="container-chips-factura">
               <div class="chips-parent">
-                <mat-form-field>
+                <mat-form-field style="margin-bottom: -1.25em">
                   <mat-label>Tipo Documento</mat-label>
                   <mat-select [(value)]="tipoDocSelect" (valueChange)="changeTipoDoc()">
                     <mat-option *ngFor="let tipoDocumento of listTipoDocumento" [value]="tipoDocumento">
@@ -91,15 +91,15 @@
                 <div class="container-datos-factura">
                   <mat-spinner *ngIf="loadingSecuencial" [diameter]="30"></mat-spinner>
                   <div class="container-form-field" *ngIf="!loadingSecuencial">
-                    <mat-form-field >
+                    <mat-form-field style="margin-bottom: -1.25em">
                         <input matInput type="text" name="valor001" [(ngModel)]="value001"
                         (blur)="changeNumFac(1);">
                     </mat-form-field>
-                    <mat-form-field >
+                    <mat-form-field style="margin-bottom: -1.25em">
                       <input matInput type="text" [(ngModel)]="value002"
                       (blur)="changeNumFac(2);">
                     </mat-form-field>
-                    <mat-form-field >
+                    <mat-form-field style="margin-bottom: -1.25em">
                       <input matInput type="number" #secuencial [(ngModel)]="valueSecuencia"
                       (blur)="changeNumFac(3);">
                     </mat-form-field>
@@ -107,20 +107,20 @@
                   </div>
 
                   <div class="container-autorizacion" [formGroup]="sendDatosFormCompra">
-                    <mat-form-field class="mat-form-field-date">
+                    <mat-form-field class="mat-form-field-date" style="margin-bottom: -1.25em">
                       <mat-label>Numero Autorizacion</mat-label>
                       <input formControlName="numeroAutorizacionn" matInput >
                   </mat-form-field>
                   </div>
 
                   <div class="container-date-formapago">
-                    <mat-form-field class="mat-form-field-date">
+                    <mat-form-field class="mat-form-field-date" style="margin-bottom: -1.25em">
                       <mat-label>Fecha</mat-label>
                       <input matInput readonly [matDatepicker]="picker" [(ngModel)]="dateFac">
                       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                       <mat-datepicker #picker></mat-datepicker>
                   </mat-form-field>
-                  <mat-form-field>
+                  <mat-form-field style="margin-bottom: -1.25em">
                     <mat-label>Forma Pago</mat-label>
                     <mat-select [(value)]="formaPagoSelect">
                       <mat-option *ngFor="let formaPago of listFormaPago" [value]="formaPago">
