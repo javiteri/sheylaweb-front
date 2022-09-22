@@ -1,40 +1,39 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { Cliente } from 'src/app/interfaces/Cliente';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
+import { Proveedor } from 'src/app/interfaces/Proveedor';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
-import { LocalService } from 'src/app/services/local.service';
 
 @Component({
-  selector: 'app-buscar-cliente-dialog',
-  templateUrl: './buscar-cliente-dialog.component.html',
-  styleUrls: ['./buscar-cliente-dialog.component.css']
+  selector: 'app-buscar-proveedor-dialog',
+  templateUrl: './buscar-proveedor-dialog.component.html',
+  styleUrls: ['./buscar-proveedor-dialog.component.css']
 })
-export class BuscarClienteDialogComponent implements OnInit {
+export class BuscarProveedorDialogComponent implements OnInit {
 
   displayedColumns: string[] = ['ci', 'nombre', 'direccion'];
-  datasource = new MatTableDataSource<Cliente>();
-  
+  datasource = new MatTableDataSource<Proveedor>();
+
+  textSearchProveedores: string = '';
   idEmpresa: number = 0;
   rucEmpresa: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
 
-  listaClientes: Cliente[] = [];
-  textSearchClientes: string = '';
+  listaProveedores: Proveedor[] = [];
   showSinDatos = false;
-  
+
   constructor(private coreService: ApplicationProvider,
-    private localService: LocalService,
-    public matDialogRef: MatDialogRef<BuscarClienteDialogComponent>,
     private loadingService: LoadingService,
+    public matDialogRef: MatDialogRef<BuscarProveedorDialogComponent>,
     private ref: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.matDialogRef.disableClose = true;
+
+    //this.matDialogRef.disableClose = true;
 
     // GET INITIAL DATA 
     const localServiceResponseToken =  
@@ -49,17 +48,18 @@ export class BuscarClienteDialogComponent implements OnInit {
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
 
-    this.getListaClientesRefresh();
+    this.getListaProveedoresInit();
+
   }
 
 
-  private getListaClientesRefresh(){
+  private getListaProveedoresInit(){
 
-    this.coreService.getListClientesByIdEmp(this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.getListProveedoresByIdEmp(this.idEmpresa, this.tokenValidate).subscribe({
       next: (data: any) => {
 
-        this.listaClientes = data.data;
-        this.datasource.data = this.listaClientes;
+        this.listaProveedores = data.data;
+        this.datasource.data = this.listaProveedores;
       },
       error: (error) => {
 
@@ -68,30 +68,29 @@ export class BuscarClienteDialogComponent implements OnInit {
 
   }
 
-  clickSelectItem(dataCliente: any){
 
-    this.matDialogRef.close(dataCliente);
+  clickSelectItem(dataProveedor: any){
+    this.matDialogRef.close(dataProveedor);
   }
 
-
-  searchClientesText(): void{
+  searchProveedoresText(): void{
 
     let dialogRef = this.loadingService.open();
 
-    this.coreService.searchClientesByIdEmpText(this.idEmpresa, this.textSearchClientes, this.tokenValidate).subscribe({
+    this.coreService.searchProveedoresByIdEmpText(this.idEmpresa, this.textSearchProveedores, this.tokenValidate).subscribe({
       next: (data: any) => {
         
         dialogRef.close();
 
-        this.listaClientes = data.data;
+        this.listaProveedores = data.data;
 
-        if(this.listaClientes.length > 0){
+        if(this.listaProveedores.length > 0){
           this.showSinDatos = false
         }else{
           this.showSinDatos = true;
         }
 
-        this.datasource.data = this.listaClientes;
+        this.datasource.data = this.listaProveedores;
         this.ref.detectChanges();
 
       },
@@ -101,4 +100,6 @@ export class BuscarClienteDialogComponent implements OnInit {
       }
     });
   }
+
+
 }

@@ -2,7 +2,7 @@
   <p>Registrar Venta</p>
 </div>
 
-<div class="container-gen" #generalContainer>
+<div class="container-gen" >
     <div class="container-child container-info">
       <div class="container-datos">
         <div class="container-btn-cliente">
@@ -85,7 +85,7 @@
                     (blur)="changeNumFac(1);">
                 </mat-form-field>
                 <mat-form-field >
-                  <input matInput type="number" [(ngModel)]="value002"
+                  <input matInput type="text" [(ngModel)]="value002"
                   (blur)="changeNumFac(2);">
                 </mat-form-field>
                 <mat-form-field >
@@ -239,6 +239,6 @@
       (click)="cancelarClick();$event.preventDefault();">Cancelar</button>
       <button  class="btn-save" mat-raised-button color="btn-icon-accent"
       (click)="guardarFactura();$event.preventDefault();">Guardar</button>
-  </div>
+    </div>
 
 </div>

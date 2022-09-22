@@ -557,6 +557,108 @@ export class EndPointProvider {
       return this.http.get<T>(endpointUrl, httpOptions);
     }
 
+    // METHODS FOR COMPRAS
+    private readonly _insertCompra: string = "compras/insertar";
+    private get insertCompraUrl(){
+      return this.apiUrl + this._insertCompra;
+    }
+    insertCompraToBD<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.insertCompraUrl;   
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
+
+    private readonly _listaComprasByIdEmp: string = 'compras/listaComprasByIdEmp';
+    private get listaComprasByIdEmp(){
+      return this.apiUrl + this._listaComprasByIdEmp;
+    }
+    getListaComprasByIdEmp<T>(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
+      fechaFin: any, accessToken: any): Observable<T>{
+      const endpointUrl = this.listaComprasByIdEmp;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('ciname',nombreCi)
+                            .set('nodoc',noDoc).set('fechaini',fechaIni)
+                            .set('fechafin',fechaFin);
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+    private readonly _listaResumenComprasByIdEmp: string = 'compras/listaResumenComprasIdEmp';
+    private get listaResumenComprasByIdEmp(){
+      return this.apiUrl + this._listaResumenComprasByIdEmp;
+    }
+    getListaResumenComprasByIdEmp<T>(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
+      fechaFin: any, accessToken: any): Observable<T>{
+      const endpointUrl = this.listaResumenComprasByIdEmp;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('ciname',nombreCi)
+                            .set('nodoc',noDoc).set('fechaini',fechaIni)
+                            .set('fechafin',fechaFin);
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+    private readonly _getOrCreateProveedorGenericoByIdEmp: string = 'compras/getorcreateprovgenericobyidemp';
+    private get proveedorGenericoByIdEmp(){
+      return this.apiUrl + this._getOrCreateProveedorGenericoByIdEmp;
+    }
+    getProveedorGenericoByIdEmp<T>(idEmpresa: any,accessToken: any): Observable<T>{
+      const endpointUrl = this.proveedorGenericoByIdEmp;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa)
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+
+    private readonly _nextNumeroSecuencialCompraByIdEmp: string = 'compras/getNextNumeroSecuencialByIdEmp';
+    private get nextNumeroSecuencialCompraByIdEmp(){
+      return this.apiUrl + this._nextNumeroSecuencialCompraByIdEmp;
+    }
+    getNextNumeroSecuencialCompraByIdEmp<T>(idEmpresa: any,tipoDoc: any, 
+                idProveedor: any, compraNumero: any, accessToken: any): Observable<T>{
+      const endpointUrl = this.nextNumeroSecuencialCompraByIdEmp;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('tipoDoc',tipoDoc)
+                            .set('idProveedor',idProveedor).set('compraNumero',compraNumero);
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+
+    private readonly _deleteCompra: string = "compras/deleteCompra";
+    private get deleteCompraUrl(){
+      return this.apiUrl + this._deleteCompra;
+    }
+    deleteCompraToBD<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.deleteCompraUrl;   
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
+
+
+
+
     //---------------------------------------------------------------
     getRequestHeader(accesToken: any): {
       headers: HttpHeaders | { [header: string]: string | string[];}
@@ -593,8 +695,6 @@ export class EndPointProvider {
         });
         return header
       }else{
-
-        console.log('inside router login');
         this.router.navigate(['/login']);
         return {};
       }

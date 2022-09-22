@@ -142,4 +142,26 @@ export class ApplicationProvider {
   getNextNumeroSecuencialByIdEmp(idEmp: any, tipoDoc: any, fac001: any, fac002: any, accessToken: any){
     return this.coreEndPoint.getNextNumeroSecuencialByIdEmp(idEmp,tipoDoc,fac001,fac002,accessToken);
   }
+
+  //COMPRAS
+  insertCompraFacturaToBD(postData: any, accessToken: any){
+    return this.coreEndPoint.insertCompraToBD(postData, accessToken);
+  }
+  getListaComprasByIdEmp(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
+    fechaFin: any, accessToken: any){
+    return this.coreEndPoint.getListaComprasByIdEmp(idEmpresa,nombreCi,noDoc,fechaIni,fechaFin,accessToken);
+  }
+  getResumenComprasByIdEmp(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
+    fechaFin: any, accessToken: any){
+    return this.coreEndPoint.getListaResumenComprasByIdEmp(idEmpresa,nombreCi,noDoc,fechaIni,fechaFin,accessToken);
+  }
+  getProveedorGenericoOrCreate(idEmpresa: any, accessToken: any){
+    return this.coreEndPoint.getProveedorGenericoByIdEmp(idEmpresa, accessToken);
+  }
+  getNextNumeroSecuencialCompraByIdEmp(idEmp: any, tipoDoc: any, idProveedor: any, compraNumero: any, accessToken: any){
+    return this.coreEndPoint.getNextNumeroSecuencialCompraByIdEmp(idEmp,tipoDoc,idProveedor,compraNumero,accessToken);
+  }
+  deleteCompraByIdEmp(idEmpresa: any, idCompra: any, tipoDoc: any, accessToken: any){
+    return this.coreEndPoint.deleteCompraToBD({idEmpresa,idCompra,tipoDoc},accessToken);
+  }
 }

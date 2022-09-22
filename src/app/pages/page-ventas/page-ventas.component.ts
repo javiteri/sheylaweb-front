@@ -58,7 +58,7 @@ export class PageVentasComponent implements OnInit{
   formaPagoSelect = 'Efectivo';
   dateFac = new Date();
 
-  cantItems = 0
+  cantItems = 0;
 
   constructor(private matDialog: MatDialog,
     public viewContainerRef: ViewContainerRef,
@@ -86,10 +86,6 @@ export class PageVentasComponent implements OnInit{
     this.rucEmpresa = localServiceResponseUsr._ruc;
     this.idUser = localServiceResponseUsr._userId;
 
-    //REQUEST DATA CONFIG SECUENCIAL
-    /*setTimeout(() => {
-      this.loadingSecuencial = !this.loadingSecuencial
-    }, 2000);*/
 
     this.getNextNumeroSecuencial();
     this.getConsumidorFinalApi();
@@ -413,12 +409,19 @@ export class PageVentasComponent implements OnInit{
 
 changeNumFac(numeroFac: number){
   
+  const regexOnlyNumber = new RegExp(/^\d+$/);
+
   if(numeroFac == 1){
     if(!this.value001 ){
       this.value001 = "001";
       return;
     }
-    
+
+    if(!regexOnlyNumber.test(this.value001)){
+      this.value001 = "001";
+      return;
+    }
+
     this.value001 = (this.value001.length == 1) ? `00${this.value001}` :  this.value001
     this.value001 = (this.value001.length == 2) ? `0${this.value001}` :  this.value001
     
@@ -428,6 +431,11 @@ changeNumFac(numeroFac: number){
   if(numeroFac == 2){
     if(!this.value002){
       this.value002 = "001";
+    }
+
+    if(!regexOnlyNumber.test(this.value002)){
+      this.value002 = "001";
+      return;
     }
     
     this.value002 = (this.value002.length == 1) ? `00${this.value002}` :  this.value002
@@ -444,11 +452,6 @@ changeNumFac(numeroFac: number){
 }
 
 private resetControls(){
-      /*this.clientFac.id = 0;
-      this.clientFac.ciRuc = '999999999';
-      this.clientFac.nombre = 'CONSUMIDOR FINAL';
-      this.clientFac.direccion = '';
-      this.clientFac.email = '0999999999';*/
 
       this.tipoDocSelect = 'Factura';
       this.dateFac = new Date();

@@ -25,7 +25,7 @@ import { AuthGuard } from './shared/guard';
 import { ApplicationProvider, EndPointProvider } from './providers/provider';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { LoadingService } from './services/Loading.service';
-import { MatTooltipModule } from '@angular/material/tooltip'
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
