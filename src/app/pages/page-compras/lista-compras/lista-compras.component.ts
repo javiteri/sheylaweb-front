@@ -61,7 +61,6 @@ export class ListaComprasComponent implements OnInit {
     
     if(!(this.dateInicioFilter && this.dateFinFilter)){
       dialogRef.close();
-      console.log('verifique que las fechas sean correctas');
       return;
     }
 
@@ -77,7 +76,6 @@ export class ListaComprasComponent implements OnInit {
       next: (results: any) => {
         dialogRef.close();
 
-        console.log(results.data);
         try{
           this.showPagination = results.data.length > 0;
           this.showSinDatos = !(results.data.length > 0);
@@ -101,13 +99,10 @@ export class ListaComprasComponent implements OnInit {
     this.coreService.deleteCompraByIdEmp(this.idEmpresa,idCompra,tipoDoc, this.tokenValidate).subscribe({
       next: (results: any) => {
         dialogRef.close();
-        console.log('se elimino correctamente');
-        console.log(results);
         this.searchListaComprasWithFilter();
       },
       error: (error) => {
         dialogRef.close();
-        console.log('error en la eliminacion');
       }
     });
   }

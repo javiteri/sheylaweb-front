@@ -151,7 +151,6 @@ export class PageClientesComponent implements OnInit {
 
     this.coreService.searchClientesByIdEmpText(this.idEmpresa, this.textSearchClientes, this.tokenValidate).subscribe({
       next: (data: any) => {
-        console.log(data);
         dialogRef.close();
         this.isLoading = !this.isLoading;
 

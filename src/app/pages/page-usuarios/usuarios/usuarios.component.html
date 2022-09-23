@@ -80,13 +80,13 @@
                   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
               </mat-table>
   
-            <mat-paginator *ngIf="showPagination" #paginator [pageSizeOptions]="[5, 15, 30]"
+            <mat-paginator *ngIf="showPagination" #paginator [pageSizeOptions]="[15,30,50]"
                    showFirstLastButtons
                    aria-label="Seleccione pagina elementos Usuarios">
             </mat-paginator>
             
            <div *ngIf="showSinDatos"
-                  style="display: flex; justify-content: center; align-items: center; margin-top: 3rem; margin-bottom: 3rem;">
+                  style="display: flex; justify-content: center; align-items: center; margin-top: 3rem; margin-bottom: 3rem;padding-bottom: 3rem;">
                 <label> No se Encontraron Datos</label>
             </div>
 
