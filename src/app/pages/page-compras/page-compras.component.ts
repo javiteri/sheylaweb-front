@@ -124,9 +124,6 @@ export class PageComprasComponent implements OnInit {
 
   dialogRef.afterClosed().subscribe(result => {
     if(result){
-
-      console.log(result);
-
       this.proveedorFac.id = result.data['id'];
       this.proveedorFac.ciRuc = result.data['ciRuc'];
       this.proveedorFac.nombre = result.data['nombre'];
@@ -345,15 +342,12 @@ export class PageComprasComponent implements OnInit {
       compraNcId: 0
     }
 
-    console.log(sendCompraJsonModel);
-
     let overlayRef = this.loadingService.open();
 
     this.coreService.insertCompraFacturaToBD(sendCompraJsonModel, this.tokenValidate).subscribe({
       next: (data: any) => {
         overlayRef.close();
 
-        console.log(data);
         if(data['isDuplicate']){
           this.toastr.error('Ya esta en uso el Numero de Compra', '', {
             timeOut: 4000,
@@ -373,7 +367,6 @@ export class PageComprasComponent implements OnInit {
       },
       error: (error) => {
         overlayRef.close();
-        console.log(error);
         this.toastr.error('Ocurrio un error, reintente', '', {
           timeOut: 4000,
           closeButton: true
@@ -403,7 +396,6 @@ export class PageComprasComponent implements OnInit {
       next: (response: any) => {
 
         const datosConsuFinal = response['data'];
-        console.log(datosConsuFinal);
 
         this.proveedorFac.id = datosConsuFinal['pro_id'];
         this.proveedorFac.ciRuc = datosConsuFinal['pro_documento_identidad'];
@@ -415,7 +407,6 @@ export class PageComprasComponent implements OnInit {
         this.getNextNumeroSecuencial();
       },
       error: (error) => {
-          console.log(error);
       }
     });
   }
@@ -429,12 +420,9 @@ export class PageComprasComponent implements OnInit {
       next: (response: any) => {
         this.loadingSecuencial = false;
         this.valueSecuencia = response.data;
-        console.log('inside');
-        console.log(response);
       },
       error: (error) => {
         this.loadingSecuencial = false;
-        console.log(error);
       }
     });
   }

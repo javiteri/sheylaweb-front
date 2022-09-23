@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { LayoutComponent } from './layout.component';
 import { PageComprasComponent } from '../page-compras/page-compras.component';
+import { ConfiguracionesComponent } from '../configuraciones/configuraciones.component';
 
 const routes: Routes = [
   {
@@ -41,6 +42,10 @@ const routes: Routes = [
       {
         path: 'usuarios',
         loadChildren: () => import('../page-usuarios/usuarios.module').then((m) => m.UsuariosModule)
+      },
+      {
+        path: 'configuracion',
+        component: ConfiguracionesComponent
       }
     ]
   }

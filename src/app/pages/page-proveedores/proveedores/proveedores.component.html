@@ -63,10 +63,12 @@
                       <th mat-header-cell *matHeaderCellDef>Opciones</th>
                       <td mat-cell *matCellDef="let row" data-label="Opciones">
                         <div>
-                          <button mat-icon-button color="icon-accent" aria-label="boton editar proveedor" (click)="editarClick(row.pro_id)">
+                          <button  [disabled]="row.pro_nombre_natural == 'PROVEEDOR GENERICO' ? 'disabled' : null"
+                          mat-icon-button color="icon-accent" aria-label="boton editar proveedor" (click)="editarClick(row.pro_id)">
                             <mat-icon>edit</mat-icon>
                           </button>
-                          <button mat-icon-button color="icon-red" aria-label="boton eliminar proveedor" (click)="eliminarClick(row.pro_id)">
+                          <button [disabled]="row.pro_nombre_natural == 'PROVEEDOR GENERICO' ? 'disabled' : null"
+                          mat-icon-button color="icon-red" aria-label="boton eliminar proveedor" (click)="eliminarClick(row.pro_id)">
                             <mat-icon >delete</mat-icon>
                           </button>
                         </div>
@@ -78,7 +80,7 @@
                   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
               </mat-table>
   
-              <mat-paginator *ngIf="showPagination" #paginator [pageSizeOptions]="[5, 15, 30]"
+              <mat-paginator *ngIf="showPagination" #paginator [pageSizeOptions]="[15,30,50]"
                    showFirstLastButtons
                    aria-label="Seleccione pagina elementos cliente"
                    >
@@ -95,7 +97,7 @@
         
   
             <div *ngIf="showSinDatos"
-                  style="display: flex; justify-content: center; align-items: center; margin-top: 3rem; margin-bottom: 3rem;">
+                  style="display: flex; justify-content: center; align-items: center; margin-top: 3rem; margin-bottom: 3rem;padding-bottom: 3rem;">
                 <label> No se Encontraron Datos</label>
             </div>
   

@@ -67,7 +67,6 @@ export class ResumenComprasComponent implements OnInit {
     
     if(!(this.dateInicioFilter && this.dateFinFilter)){
       dialogRef.close();
-      console.log('verifique que las fechas sean correctas');
       return;
     }
 
@@ -83,7 +82,6 @@ export class ResumenComprasComponent implements OnInit {
           next: (results: any) => {
             dialogRef.close();
                           
-            console.log(results.data);
             try{    
               this.showPagination = results.data.length > 0;
               this.showSinDatos = !(results.data.length > 0);

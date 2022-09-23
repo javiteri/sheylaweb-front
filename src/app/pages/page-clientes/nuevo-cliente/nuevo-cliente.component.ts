@@ -264,8 +264,6 @@ export class NuevoClienteComponent implements OnInit, AfterViewInit{
 
   searchDatosClienteSri(identificacion: any){
 
-    console.log('inside search datos cliente sri');
-
     if(identificacion.length == 10){
       this.sendDatosFormCliente.controls['tipoIdentificacion'].setValue(this.tiposId[1].valor);
     }
@@ -351,8 +349,6 @@ export class NuevoClienteComponent implements OnInit, AfterViewInit{
   }
 
   cancelarClick(){
-    //this.router.navigate(['/clientes']);
-    console.log('inside cancelar click');
     this.location.back();
   }
 }
