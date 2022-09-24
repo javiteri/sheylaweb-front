@@ -241,3 +241,6 @@ td.mat-footer-cell {
     }
 }
 
+.mat-row:hover{
+    background-color: var(--grey-300);
+  }

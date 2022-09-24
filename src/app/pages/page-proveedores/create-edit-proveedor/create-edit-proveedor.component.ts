@@ -299,6 +299,9 @@ export class CreateEditProveedorComponent implements OnInit, AfterViewInit{
     this.sendDatosFormProveedor.controls['telefonoRepre'].setValue('');
     this.sendDatosFormProveedor.controls['emailRepre'].setValue('');
     this.sendDatosFormProveedor.controls['direccionRepre'].setValue('');
+
+    this.identificacionInput.nativeElement.focus();
+    this.ref.detectChanges();
   }
 
   cancelarClick(){

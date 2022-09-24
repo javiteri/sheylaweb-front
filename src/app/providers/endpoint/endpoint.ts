@@ -13,8 +13,8 @@ export class EndPointProvider {
     private readonly apiVersion = '1.0.0';
     private readonly appVersion = '1.0.0';
     //private readonly apiUrl = 'http://192.168.1.10:8086/api/';
-    //private readonly apiUrl = 'http://localhost:3000/api/';
-    private readonly apiUrl = 'http://factura.dyndns.info:8086/api/';
+    private readonly apiUrl = 'http://localhost:3000/api/';
+    //private readonly apiUrl = 'http://factura.dyndns.info:8086/api/';
 
     private readonly searchDatosClienteSri = 'http://sheyla2.dyndns.info/SRI/SRI.php';
     //private readonly searchDatosClienteSriLocal = 'http://localhost:4200/SRI';
@@ -82,11 +82,9 @@ export class EndPointProvider {
 
     // METHODS FOR CLIENTES
     private readonly _insertCliente: string = "clientes/insertar";
-
     private get insertClienteUrl(){
       return this.apiUrl + this._insertCliente;
     }
-
     insertClienteToBD<T>(postData: any, accessToken: any): Observable<T>{
         const endPointUrl = this.insertClienteUrl;
         
@@ -354,6 +352,24 @@ export class EndPointProvider {
        }
        return this.http.get<T>(endpointUrl, httpOptions);
      }
+     // METHODS FOR PRODUCTOS
+     private readonly _listProductosByIdEmpActivo: string = 'productos/getProductosNoAnuladoByIdEmp';
+     private get listProductosByIdEmpActivo(){
+       return this.apiUrl + this._listProductosByIdEmpActivo;
+     }
+     getListProductosByIdEmpActivo<T>(idEmpresa: any, accessToken: any): Observable<T>{
+       const endpointUrl = this.listProductosByIdEmpActivo;
+       
+       const header = this.getRequestHeaderClientes(accessToken);
+ 
+       let paramsRequest = new HttpParams().set('idEmp', idEmpresa);
+ 
+       const httpOptions = {
+         headers: header,
+         params: paramsRequest
+       }
+       return this.http.get<T>(endpointUrl, httpOptions);
+     }
 
     private readonly _productoByIdEmp: string = 'productos/getProductoByIdEmp';
     private get productoByIdEmp(){
@@ -441,6 +457,23 @@ export class EndPointProvider {
     }
     searchProductosByIdEmpText<T>(idEmpresa: any, textSearch: any, accessToken: any): Observable<T>{
         const endpointUrl = this.searchProductosByIdEmp;
+
+        const header = this.getRequestHeaderClientes(accessToken);
+        let paramsRequest = new HttpParams().set('textSearch', textSearch).set('idEmp', idEmpresa);
+        const httpOptions = {
+          headers: header,
+          params: paramsRequest
+        }
+
+        return this.http.get<T>(endpointUrl, httpOptions);
+    }
+
+    private readonly _searchProductosByIdEmpActivo: string = 'productos/searchProductosByIdEmpActivo';
+    private get searchProductosByIdEmpActivo(){
+      return this.apiUrl + this._searchProductosByIdEmpActivo;
+    }
+    searchProductosByIdEmpTextActivo<T>(idEmpresa: any, textSearch: any, accessToken: any): Observable<T>{
+        const endpointUrl = this.searchProductosByIdEmpActivo;
 
         const header = this.getRequestHeaderClientes(accessToken);
         let paramsRequest = new HttpParams().set('textSearch', textSearch).set('idEmp', idEmpresa);
@@ -656,6 +689,17 @@ export class EndPointProvider {
         return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
     }
 
+
+    //METHODS FOR CONFIGURACIONES
+    private readonly _insertListConfigs: string = "configs/insertarlist";
+    private get insertListConfigsUrl(){
+      return this.apiUrl + this._insertListConfigs;
+    }
+    insertListConfigsToBD<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.insertListConfigsUrl;
+        
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
 
 
 

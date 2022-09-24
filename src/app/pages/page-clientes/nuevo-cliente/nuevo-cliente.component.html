@@ -117,7 +117,8 @@
                         <div class="container-form-btn">
                             <button  [class.spinner]="loading" [disabled]="loading" mat-raised-button class="btn-cancelar" 
                             (mousedown)="cancelarClick();$event.preventDefault();">Cancelar</button>
-                            <button (mousedown)="saveDatosCliente(sendDatosFormCliente.value);$event.preventDefault();" [class.spinner]="loading" [disabled]="loading" mat-raised-button color="btn-icon-accent">Guardar</button>                            
+                            <button (mousedown)="saveDatosCliente(sendDatosFormCliente.value);$event.preventDefault();" 
+                            [class.spinner]="loading" [disabled]="loading" mat-raised-button color="btn-icon-accent">Guardar</button>
                         </div>
 
                     </div>

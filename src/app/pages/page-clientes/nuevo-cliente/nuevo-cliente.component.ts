@@ -74,7 +74,7 @@ export class NuevoClienteComponent implements OnInit, AfterViewInit{
 
   ngOnInit(): void {
 
-    // GET INITIAL DATA     
+    // GET INITIAL DATA
     const localServiceResponseToken =  
           JSON.parse(sessionStorage.getItem('_valtok') ? sessionStorage.getItem('_valtok')! : '');
     const localServiceResponseUsr = 
@@ -345,7 +345,8 @@ export class NuevoClienteComponent implements OnInit, AfterViewInit{
     const actualDate = new Date();
     this.sendDatosFormCliente.controls['fechaNacimiento'].setValue(actualDate);
 
-
+    this.identificacionInput.nativeElement.focus();
+    this.ref.detectChanges();
   }
 
   cancelarClick(){

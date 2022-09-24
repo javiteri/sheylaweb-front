@@ -276,6 +276,9 @@ export class NuevoUsuarioComponent implements OnInit, AfterViewInit {
     this.sendDatosFormUsuario.controls['nombreUsuario'].setValue('');
     this.sendDatosFormUsuario.controls['password'].setValue('');
     this.sendDatosFormUsuario.controls['permisoEscritura'].setValue('');
+
+    this.identificacionInput.nativeElement.focus();
+    this.ref.detectChanges();
   }
 
   cancelarClick(){

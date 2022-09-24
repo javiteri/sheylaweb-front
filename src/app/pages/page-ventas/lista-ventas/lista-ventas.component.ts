@@ -1,7 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
+import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
@@ -37,7 +39,7 @@ export class ListaVentasComponent implements OnInit {
   constructor(private coreService: ApplicationProvider,
     private loadingService: LoadingService,
     private ref: ChangeDetectorRef,
-    private toastr: ToastrService) { }
+    private matDialog: MatDialog) { }
 
   ngOnInit(): void {
 
@@ -103,36 +105,62 @@ export class ListaVentasComponent implements OnInit {
   }
 
   updateEstadoAnulado(idVenta: any, estado: any){
-    let dialogRef = this.loadingService.open();
 
-    this.coreService.updateEstadoVentaByIdEmp(this.idEmpresa,idVenta,estado, this.tokenValidate).subscribe({
-      next: (results: any) => {
-        dialogRef.close();
-        console.log('se anulo correctamente');
-        console.log(results);
-        this.searchListaVentasWithFilter();
-      },
-      error: (error) => {
-        dialogRef.close();
-        console.log('error en la actalizacion');
+    const dialogRef = this.matDialog.open(ConfirmDeleteDialogComponent, {
+      width: '250px',
+      data: {title: 'Va a Anular la Venta, desea continuar?'}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        
+        let dialogReff = this.loadingService.open();
+
+        this.coreService.updateEstadoVentaByIdEmp(this.idEmpresa,idVenta,estado, this.tokenValidate).subscribe({
+          next: (results: any) => {
+            dialogReff.close();
+            console.log('se anulo correctamente');
+            console.log(results);
+            this.searchListaVentasWithFilter();
+          },
+          error: (error) => {
+            dialogReff.close();
+            console.log('error en la actalizacion');
+          }
+        });
+
       }
     });
+
   }
 
   deleteVentaByIdEmp(idVenta: any, estado: any){
-    let dialogRef = this.loadingService.open();
 
-    this.coreService.deleteVentaByIdEmp(this.idEmpresa,idVenta,estado, this.tokenValidate).subscribe({
-      next: (results: any) => {
-        dialogRef.close();
-        console.log('se elimino correctamente');
-        console.log(results);
-        this.searchListaVentasWithFilter();
-      },
-      error: (error) => {
-        dialogRef.close();
-        console.log('error en la eliminacion');
-      }
+
+    const dialogRef = this.matDialog.open(ConfirmDeleteDialogComponent, {
+      width: '250px',
+      data: {title: 'Va a Eliminar la Venta, desea continuar?'}
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        let dialogRef = this.loadingService.open();
+
+        this.coreService.deleteVentaByIdEmp(this.idEmpresa,idVenta,estado, this.tokenValidate).subscribe({
+          next: (results: any) => {
+            dialogRef.close();
+            console.log('se elimino correctamente');
+            console.log(results);
+            this.searchListaVentasWithFilter();
+          },
+          error: (error) => {
+            dialogRef.close();
+            console.log('error en la eliminacion');
+          }
+        });
+      }
+
+    });
+
   }
 }

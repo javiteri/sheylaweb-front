@@ -5,16 +5,16 @@ import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { Producto } from 'src/app/interfaces/Productos';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
-import { LocalService } from 'src/app/services/local.service';
+import { BuscarProductoDialogComponent } from '../buscar-producto-dialog/buscar-producto-dialog.component';
 
 @Component({
-  selector: 'app-buscar-producto-dialog',
-  templateUrl: './buscar-producto-dialog.component.html',
-  styleUrls: ['./buscar-producto-dialog.component.css']
+  selector: 'app-buscar-producto-compra-dialog',
+  templateUrl: './buscar-producto-compra-dialog.component.html',
+  styleUrls: ['./buscar-producto-compra-dialog.component.css']
 })
-export class BuscarProductoDialogComponent implements OnInit {
+export class BuscarProductoCompraDialogComponent implements OnInit {
 
-  displayedColumns: string[] = ['codigo', 'nombre', 'precio'];
+  displayedColumns: string[] = ['codigo', 'nombre', 'costo'];
   datasource = new MatTableDataSource<Producto>();
 
   idEmpresa: number = 0;
@@ -30,7 +30,6 @@ export class BuscarProductoDialogComponent implements OnInit {
   showSinDatos = false;
 
   constructor(private coreService: ApplicationProvider,
-    private localService: LocalService,
     public matDialogRef: MatDialogRef<BuscarProductoDialogComponent>,
     private loadingService: LoadingService,
     private ref: ChangeDetectorRef
@@ -96,7 +95,7 @@ export class BuscarProductoDialogComponent implements OnInit {
         this.listaProductos = data.data;
         this.datasource.data = this.listaProductos;
         
-
+        console.log(data);
       },
       error: (error) => {
       }
@@ -107,4 +106,5 @@ export class BuscarProductoDialogComponent implements OnInit {
   clickSelectItem(dataProducto: any){
     this.matDialogRef.close(dataProducto);
   }
+
 }

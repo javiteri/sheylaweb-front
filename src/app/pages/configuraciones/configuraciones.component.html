@@ -11,17 +11,41 @@
     <mat-card-content>
         <div class="content-configs">
             <div>
-                <p>Valor Iva:</p>                
-                <input matInput >
+                <p class="margin-bottom-cero">Valor Iva:</p>
+                <input matInput [(ngModel)]="ivaSelect" type="text"
+                (blur)="changeValorIva();">
             </div>
             <div>
-                <p>Decimales en Venta:</p>
-                <input matInput >
+                <p class="margin-bottom-cero">Decimales en Venta:</p>
+                <mat-form-field appearance="fill" style="margin-bottom: -1.25em">
+                    <mat-label>Decimales</mat-label>
+                    <mat-select [(value)]="decimalesVentaSelect">
+                      <mat-option *ngFor="let decimales of listDecimalesVenta" [value]="decimales">
+                        {{decimales}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
             </div>
             <div>
-                <p>Decimales en Compra:</p>
-                <input matInput>
+                <p class="margin-bottom-cero">Decimales en Compra:</p>
+                <mat-form-field appearance="fill" style="margin-bottom: -1.25em">
+                    <mat-label>Decimales</mat-label>
+                    <mat-select [(value)]="decimalesCompraSelect">
+                      <mat-option *ngFor="let decimales of listDecimalesVenta" [value]="decimales">
+                        {{decimales}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+            </div>
+
+            <div class="container-form-btn">
+                <button  mat-raised-button class="btn-cancelar" 
+                (mousedown)="cancelarClick();$event.preventDefault();">Cancelar</button>
+                <button mat-raised-button color="btn-icon-accent"
+                color="btn-icon-accent"
+                (mousedown)="saveDatosConfig();$event.preventDefault();">Guardar</button>
             </div>
         </div>
+
     </mat-card-content>
 </mat-card>

@@ -83,15 +83,24 @@ export class ResumenVentasComponent implements OnInit {
           next: (results: any) => {
             dialogRef.close();
                           
-            console.log(results.data);
+            const listWithThreeDecimals = Array.from(results.data).map((valor: any,index) => {
+              
+              valor.subtotalIva = (Number(valor.subtotalIva).toFixed(3)).toString();
+              valor.subtotalCero = (Number(valor.subtotalCero).toFixed(3)).toString();
+              valor.valorIva = (Number(valor.valorIva).toFixed(3)).toString();
+              valor.total = (Number(valor.total).toFixed(2)).toString();
+
+              return valor;
+            });
+
             try{    
               this.showPagination = results.data.length > 0;
               this.showSinDatos = !(results.data.length > 0);
             }catch(error){
               this.showPagination = false;
             }
-                          
-            this.datasource.data = results.data;
+              
+            this.datasource.data = listWithThreeDecimals;
             this.ref.detectChanges();
             this.datasource.paginator = this.paginator;
           },

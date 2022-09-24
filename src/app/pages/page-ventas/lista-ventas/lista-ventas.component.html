@@ -25,8 +25,10 @@
           </div>
       
           <div class="flex-grow-dos inner-container-search ">
-            <input type="text" placeholder="Nombre o Identificacion" [(ngModel)]="nombreCiRuc" />
-            <input type="text" placeholder="No Documento" [(ngModel)]="noDocmento"/>
+            <input type="text" placeholder="Nombre o Identificacion" [(ngModel)]="nombreCiRuc" 
+            (keyup.enter)="searchListaVentasFilter();"/>
+            <input type="text" placeholder="No Documento" [(ngModel)]="noDocmento"
+            (keyup.enter)="searchListaVentasFilter();"/>
             <button class="font-weight-300" color="icon-accent" mat-stroked-button
               matTooltip="Buscar"
               (click)="searchListaVentasFilter();$event.preventDefault();">

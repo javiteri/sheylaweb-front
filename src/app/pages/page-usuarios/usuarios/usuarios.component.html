@@ -10,7 +10,7 @@
         <input type="text" placeholder="Nombre o Identificacion"
                 [(ngModel)]="textSearchUsuarios"
                 (keyup.enter)="searchUsuariosText();"/>
-        <button class="font-weight-300" color="icon-accent" mat-icon-button
+        <button class="font-weight-300" color="icon-accent" mat-stroked-button
                 matTooltip="Buscar"
                 (click)="searchUsuariosText();$event.preventDefault();">
           <mat-icon>search</mat-icon>
@@ -65,10 +65,11 @@
                       <th mat-header-cell *matHeaderCellDef>Opciones</th>
                       <td mat-cell *matCellDef="let row" data-label="Opciones">
                         <div>
-                          <button mat-icon-button color="icon-accent" aria-label="boton editar Usuario" (click)="editarClick(row.usu_id)">
+                          <button matTooltip="Editar" mat-icon-button color="icon-accent" aria-label="boton editar Usuario" (click)="editarClick(row.usu_id)">
                             <mat-icon>edit</mat-icon>
                           </button>
-                          <button mat-icon-button color="icon-red" aria-label="boton eliminar Usuario" (click)="eliminarClick(row.usu_id)">
+                          <button matTooltip="Eliminar" mat-icon-button color="icon-red" aria-label="boton eliminar Usuario"  [disabled]="row.usu_id == idUsuario ? 'disabled' : null"
+                          (click)="eliminarClick(row.usu_id)">
                             <mat-icon >delete</mat-icon>
                           </button>
                         </div>

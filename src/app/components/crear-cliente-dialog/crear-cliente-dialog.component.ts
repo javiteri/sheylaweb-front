@@ -73,6 +73,14 @@ export class CrearClienteDialogComponent implements OnInit {
 
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
+
+    this.sendDatosFormCliente.controls['tipoIdentificacion'].setValue(this.tiposId[1].valor);
+    
+    const indexDefaultCountry = this.nacionalidades.indexOf('Ecuador');
+    this.sendDatosFormCliente.controls['nacionalidad'].setValue(this.nacionalidades[indexDefaultCountry]);
+
+    const actualDate = new Date();
+    this.sendDatosFormCliente.controls['fechaNacimiento'].setValue(actualDate);
   }
 
   nuevoCliente(){

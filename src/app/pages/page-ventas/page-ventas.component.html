@@ -196,16 +196,17 @@
     </div>
     
     <div class="container-child container-totales">
+      <div class="container-observacion">
+        <mat-card >
+          <mat-card-content>
+            <mat-form-field class="font-size-one-rem">
+              <textarea matInput rows="7" placeholder="Observacion..." [(ngModel)]="observacion"></textarea>
+            </mat-form-field>
+          </mat-card-content>
+      </mat-card>
+      </div>
 
-        <mat-card class="container-observacion">
-            <mat-card-content>
-              <mat-form-field class="font-size-one-rem">
-                <textarea matInput rows="7" placeholder="Observacion..." [(ngModel)]="observacion"></textarea>
-              </mat-form-field>
-            </mat-card-content>
-        </mat-card>
-
-        <div class="container-totales-values">
+      <div class="container-totales-values container-observacion">
           <mat-card class="inner-container-total-values">
             <mat-card-content>
               <div class="font-size-one-rem item-totals">
@@ -230,7 +231,7 @@
               </div>
             </mat-card-content>
           </mat-card>
-        </div>
+      </div>
 
     </div>
     

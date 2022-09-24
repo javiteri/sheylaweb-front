@@ -93,6 +93,9 @@ export class ApplicationProvider {
   getListProductosByIdEmp(idEmpresa: any, accessToken: any){
     return this.coreEndPoint.getListProductosByIdEmp(idEmpresa, accessToken);
   }
+  getListProductosByIdEmpActivo(idEmpresa: any, accessToken: any){
+    return this.coreEndPoint.getListProductosByIdEmpActivo(idEmpresa, accessToken);
+  }
   getProductoByIdEmp(idProducto: any, idEmpresa: any, accessToken: any){
     return this.coreEndPoint.getProductoByIdEmp(idProducto, idEmpresa, accessToken);
   }
@@ -114,6 +117,9 @@ export class ApplicationProvider {
   }
   searchProductosByIdEmpText(idEmpresa: any, textSearch: any, accessToken: any){
     return this.coreEndPoint.searchProductosByIdEmpText(idEmpresa, textSearch, accessToken);
+  }
+  searchProductosByIdEmpTextActivo(idEmpresa: any, textSearch: any, accessToken: any){
+    return this.coreEndPoint.searchProductosByIdEmpTextActivo(idEmpresa, textSearch, accessToken);
   }
 
 
@@ -163,5 +169,10 @@ export class ApplicationProvider {
   }
   deleteCompraByIdEmp(idEmpresa: any, idCompra: any, tipoDoc: any, accessToken: any){
     return this.coreEndPoint.deleteCompraToBD({idEmpresa,idCompra,tipoDoc},accessToken);
+  }
+
+  //CONFIGURACIONES
+  insertListConfigsToBD(postData: any, accessToken: any){
+    return this.coreEndPoint.insertListConfigsToBD(postData, accessToken);
   }
 }

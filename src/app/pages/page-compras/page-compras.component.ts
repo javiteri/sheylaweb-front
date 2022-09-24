@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
-import { BuscarProductoDialogComponent } from 'src/app/components/buscar-producto-dialog/buscar-producto-dialog.component';
+import { BuscarProductoCompraDialogComponent } from 'src/app/components/buscar-producto-compra-dialog/buscar-producto-compra-dialog.component';
 import { BuscarProveedorDialogComponent } from 'src/app/components/buscar-proveedor-dialog/buscar-proveedor-dialog.component';
 import { CrearProveedorDialogComponent } from 'src/app/components/crear-proveedor-dialog/crear-proveedor-dialog.component';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
@@ -107,10 +107,6 @@ export class PageComprasComponent implements OnInit {
     this.rucEmpresa = localServiceResponseUsr._ruc;
     this.idUser = localServiceResponseUsr._userId;
 
-    setTimeout(() => {
-      this.loadingSecuencial = false;
-    }, 2000);
-
     this.getProveedorGenericoApi();
   }
 
@@ -165,7 +161,7 @@ export class PageComprasComponent implements OnInit {
   }
 
   agregarProductoClick(){
-    const dialogRef = this.matDialog.open(BuscarProductoDialogComponent, {
+    const dialogRef = this.matDialog.open(BuscarProductoCompraDialogComponent, {
       width: '100%',
       closeOnNavigation: true
     });
@@ -401,8 +397,8 @@ export class PageComprasComponent implements OnInit {
         this.proveedorFac.ciRuc = datosConsuFinal['pro_documento_identidad'];
         this.proveedorFac.nombre = datosConsuFinal['pro_nombre_natural'];
         this.proveedorFac.telefono = datosConsuFinal['pro_telefono'];
-        this.proveedorFac.direccion =  '';
-        this.proveedorFac.email = '';
+        this.proveedorFac.direccion =  datosConsuFinal['pro_direccion'];
+        this.proveedorFac.email = datosConsuFinal['pro_email'];
 
         this.getNextNumeroSecuencial();
       },

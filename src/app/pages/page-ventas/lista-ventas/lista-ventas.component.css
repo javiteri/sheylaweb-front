@@ -285,3 +285,6 @@ td.mat-footer-cell {
 .mat-icon-accent{
     color: var(--accent-color);
 }
+.mat-row:hover{
+    background-color: var(--grey-300);
+  }

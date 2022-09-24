@@ -63,7 +63,7 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
         categoria: [''],
         marca: [''],
         iva: [true],
-        activo: [false],
+        activo: [true],
         observacion: ['']
       });
     }
@@ -103,13 +103,11 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
     });
 
     this.sendDatosFormProducto.get('categoria')!.valueChanges.subscribe(value => {
-      
       const valueFilter = this.filterCategoria(value || '');
       this.listCategorias = of(valueFilter);
     });
 
-    this.sendDatosFormProducto.get('marca')!.valueChanges.subscribe(value => {
-      
+    this.sendDatosFormProducto.get('marca')!.valueChanges.subscribe(value => {    
       const valueFilter = this.filterMarca(value || '');
       this.listMarcas = of(valueFilter);
     });
@@ -141,17 +139,24 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
   saveDatosProducto(sendFormProducto: any){
     if(this.sendDatosFormProducto.invalid){
       this.loading = false;
-
       this.toastr.error('verifique que los datos esten llenos', '', {
           timeOut: 3000,
           closeButton: true
         });
-
       return;
     }
 
     sendFormProducto['idEmpresa'] = this.idEmpresa;
 
+
+    if(!this.validateIsNumber(sendFormProducto['costo'])){
+      sendFormProducto['costo'] = '0';
+    }
+    if(!this.validateIsNumber(sendFormProducto['utilidad'])){
+      sendFormProducto['utilidad'] = '0';
+    }
+
+    console.log(sendFormProducto);
     if(this.editMode){
       sendFormProducto['idProducto'] = this.idProductoEdit;
       this.updateDatosProductoApi(sendFormProducto);
@@ -205,10 +210,6 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
           timeOut: 3000,
           closeButton: true
         });
-
-        /*setTimeout(() => {
-          this.router.navigate(['/inventario']);
-        }, 600);*/
 
         this.resetControlsForm();
       },
@@ -275,7 +276,6 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
         this.sendDatosFormProducto.controls['utilidad'].setValue(valorUtilidad);
         return;
     }
-
   }
 
   onLostFocusCalculatePvp(){
@@ -324,12 +324,22 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
     this.sendDatosFormProducto.controls['categoria'].setValue('');
     this.sendDatosFormProducto.controls['marca'].setValue('');
     this.sendDatosFormProducto.controls['observacion'].setValue('');
-    this.sendDatosFormProducto.controls['iva'].setValue('');
-    this.sendDatosFormProducto.controls['activo'].setValue('');
+    this.sendDatosFormProducto.controls['iva'].setValue(true);
+    this.sendDatosFormProducto.controls['activo'].setValue(true);
+
+    this.codigoInput.nativeElement.focus();
+    this.ref.detectChanges();
   }
 
 
   cancelarClick(){
     this.location.back();
+  }
+
+
+  private validateIsNumber(texto: any): boolean{
+    console.log(texto);
+    const regexOnlyNumber = new RegExp(/^\d+(\.\d{1,2})?$/);
+    return regexOnlyNumber.test(texto);
   }
 }

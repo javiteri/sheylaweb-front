@@ -27,6 +27,7 @@ import { MatInputModule } from '@angular/material/input';
 import { CrearProveedorDialogComponent } from 'src/app/components/crear-proveedor-dialog/crear-proveedor-dialog.component';
 import { BuscarProveedorDialogComponent } from 'src/app/components/buscar-proveedor-dialog/buscar-proveedor-dialog.component';
 import { ConfiguracionesComponent } from '../configuraciones/configuraciones.component';
+import { BuscarProductoCompraDialogComponent } from 'src/app/components/buscar-producto-compra-dialog/buscar-producto-compra-dialog.component';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { ConfiguracionesComponent } from '../configuraciones/configuraciones.com
     LayoutComponent,
     BuscarClienteDialogComponent,
     BuscarProductoDialogComponent,
+    BuscarProductoCompraDialogComponent,
     CrearClienteDialogComponent,
     CrearProveedorDialogComponent,
     BuscarProveedorDialogComponent,

@@ -26,6 +26,7 @@ export class UsuariosComponent implements OnInit {
 
   idEmpresa: number = 0;
   rucEmpresa: string = '';
+  idUsuario: number = 0;
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -56,6 +57,9 @@ export class UsuariosComponent implements OnInit {
 
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
+    this.idUsuario = localServiceResponseUsr._userId;
+
+    console.log(this.idUsuario);
 
     this.getListUsuariosRefresh();
 
@@ -109,7 +113,7 @@ export class UsuariosComponent implements OnInit {
   eliminarClick(idUser: any): void{
     const dialogRef = this.matDialog.open(ConfirmDeleteDialogComponent, {
         width: '250px',
-        data: {title: 'Va a eliminar el cliente, desea continuar?'}
+        data: {title: 'Va a eliminar el Usuario, desea continuar?'}
     });
 
     dialogRef.afterClosed().subscribe(result => {

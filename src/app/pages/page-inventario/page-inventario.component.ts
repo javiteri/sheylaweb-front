@@ -67,6 +67,7 @@ export class PageInventarioComponent implements OnInit {
     this.coreService.getListProductosByIdEmp(this.idEmpresa, this.tokenValidate).subscribe({
       next: (data: any) => {
 
+        console.log(data);
         dialogRef.close();
 
         this.isLoading = !this.isLoading;
