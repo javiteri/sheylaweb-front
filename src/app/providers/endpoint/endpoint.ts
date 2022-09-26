@@ -533,6 +533,24 @@ export class EndPointProvider {
 
       return this.http.get<T>(endpointUrl, httpOptions);
     }
+    private readonly _dataByIdVenta: string = 'ventas/getDataByIdVenta';
+    private get dataByIdVenta(){
+      return this.apiUrl + this._dataByIdVenta;
+    }
+    getDataByIdVenta<T>(idVenta: any, idEmpresa: any,accessToken: any): Observable<T>{
+      const endpointUrl = this.dataByIdVenta;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('id', idVenta);
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
     private readonly _listaResumenVentasByIdEmp: string = 'ventas/listaResumenVentasIdEmp';
     private get listaResumenVentasByIdEmp(){
       return this.apiUrl + this._listaResumenVentasByIdEmp;
@@ -688,6 +706,25 @@ export class EndPointProvider {
         const endPointUrl = this.deleteCompraUrl;   
         return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
     }
+    private readonly _dataByIdCompra: string = 'compras/getDataByIdCompra';
+    private get dataByIdCompra(){
+      return this.apiUrl + this._dataByIdCompra;
+    }
+    getDataByIdCompra<T>(idVenta: any, idEmpresa: any,accessToken: any): Observable<T>{
+      const endpointUrl = this.dataByIdCompra;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('id', idVenta);
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+
 
 
     //METHODS FOR CONFIGURACIONES
@@ -701,6 +738,44 @@ export class EndPointProvider {
         return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
     }
 
+    private readonly _getListConfigsByIdEmp: string = 'configs/listConfigsIdEmp';
+    private get getListConfigByIdEmp(){
+      return this.apiUrl + this._getListConfigsByIdEmp;
+    }
+    getListConfigsByIdEmp<T>(idEmpresa: any,accessToken: any): Observable<T>{
+      const endpointUrl = this.getListConfigByIdEmp;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa)
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+
+    private readonly _getConfigByIdEmp: string = 'configs/getConfigByIdEmp';
+    private get getConfigsByIdEmp(){
+      return this.apiUrl + this._getConfigByIdEmp;
+    }
+    getConfigByIdEmp<T>(idEmpresa: any,nombreConfig: any, accessToken: any): Observable<T>{
+      const endpointUrl = this.getConfigsByIdEmp;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa)
+                                    .set('nombreConfig', nombreConfig)
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
 
 
     //---------------------------------------------------------------

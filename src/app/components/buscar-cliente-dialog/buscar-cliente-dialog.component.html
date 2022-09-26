@@ -6,6 +6,12 @@
             matTooltip="Buscar" (click)="searchClientesText();$event.preventDefault();">
         <mat-icon>search</mat-icon>
       </button>
+
+      <button *ngIf="showSinDatos" color="icon-accent" mat-stroked-button 
+            matTooltip="Nuevo Cliente" (click)="nuevoClienteClick()">
+            Nuevo Cliente
+      </button>
+
     </div>
 </div>
 <mat-dialog-content class="margin-top-one-em">

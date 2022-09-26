@@ -144,10 +144,13 @@ export class ApplicationProvider {
   deleteVentaByIdEmp(idEmpresa: any, idVenta: any, estado: any, accessToken: any){
     return this.coreEndPoint.deleteVentaToBD({idEmpresa,idVenta,estado},accessToken);
   }
-
   getNextNumeroSecuencialByIdEmp(idEmp: any, tipoDoc: any, fac001: any, fac002: any, accessToken: any){
     return this.coreEndPoint.getNextNumeroSecuencialByIdEmp(idEmp,tipoDoc,fac001,fac002,accessToken);
   }
+  getDataByIdVenta(idVenta: any, idEmp: any, accessToken: any){
+    return this.coreEndPoint.getDataByIdVenta(idVenta, idEmp,accessToken);
+  }
+
 
   //COMPRAS
   insertCompraFacturaToBD(postData: any, accessToken: any){
@@ -170,9 +173,18 @@ export class ApplicationProvider {
   deleteCompraByIdEmp(idEmpresa: any, idCompra: any, tipoDoc: any, accessToken: any){
     return this.coreEndPoint.deleteCompraToBD({idEmpresa,idCompra,tipoDoc},accessToken);
   }
+  getDataByIdCompra(idVenta: any, idEmp: any, accessToken: any){
+    return this.coreEndPoint.getDataByIdCompra(idVenta, idEmp,accessToken);
+  }
 
   //CONFIGURACIONES
   insertListConfigsToBD(postData: any, accessToken: any){
     return this.coreEndPoint.insertListConfigsToBD(postData, accessToken);
+  }
+  getListConfigsByIdEmp(idEmp: any, accessToken: any){
+    return this.coreEndPoint.getListConfigsByIdEmp(idEmp, accessToken);
+  }
+  getConfigByNameIdEmp(idEmp: any, nombreConfig: any, accessToken: any){
+    return this.coreEndPoint.getConfigByIdEmp(idEmp, nombreConfig, accessToken); 
   }
 }

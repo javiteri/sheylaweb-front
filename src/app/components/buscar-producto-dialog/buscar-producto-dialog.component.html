@@ -21,6 +21,14 @@
                 <th mat-header-cell  class="flex-grow-1_5" *matHeaderCellDef mat-sort-header >Nombre </th>
                 <td mat-cell class="flex-grow-1_5" *matCellDef="let producto" data-label="Nombre">{{producto.prod_nombre}}</td>
               </ng-container>
+              <ng-container matColumnDef="marca" >
+                <th mat-header-cell *matHeaderCellDef mat-sort-header >Marca</th>
+                <td mat-cell  *matCellDef="let producto" data-label="Marca">{{producto.prod_marca}}</td>
+              </ng-container>
+              <ng-container matColumnDef="categoria" >
+                <th mat-header-cell *matHeaderCellDef mat-sort-header >Categoria</th>
+                <td mat-cell *matCellDef="let producto" data-label="Categoria">{{producto.pro_categoria}}</td>
+              </ng-container>
               <ng-container matColumnDef="precio" >
                 <th  mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header >Precio</th>
                 <td mat-cell class="justify-centro" *matCellDef="let producto" data-label="Direccion">$ {{producto.prod_pvp}}</td>

@@ -3,14 +3,17 @@ import { Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@ang
 import { MatChip } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { BuscarClienteDialogComponent } from 'src/app/components/buscar-cliente-dialog/buscar-cliente-dialog.component';
 import { BuscarProductoDialogComponent } from 'src/app/components/buscar-producto-dialog/buscar-producto-dialog.component';
+import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { CrearClienteDialogComponent } from 'src/app/components/crear-cliente-dialog/crear-cliente-dialog.component';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ProductFactura } from 'src/app/interfaces/ProductFactura';
 import { ApplicationProvider } from 'src/app/providers/provider';
-import { LoadingService } from 'src/app/services/Loading.service';
+import { LoadingOverlayRef, LoadingService } from 'src/app/services/Loading.service';
+import { ConfigReceive } from '../configuraciones/models/ConfigReceive';
 import { ClienteFactura } from './models/ClientFac';
 
 @Component({
@@ -59,13 +62,18 @@ export class PageVentasComponent implements OnInit{
   dateFac = new Date();
 
   cantItems = 0;
+  fixedNumDecimal = 2;
+  permitirVentaSecuenciaIncorrecta = false;
+  configIvaIncluidoEnVenta = true;
 
   constructor(private matDialog: MatDialog,
     public viewContainerRef: ViewContainerRef,
     private toastr: ToastrService,
     private coreService: ApplicationProvider,
     private loadingService: LoadingService,
-    private location: Location) {
+    private location: Location,
+    private route: ActivatedRoute,
+    private router: Router) {
 
   }
   
@@ -86,11 +94,96 @@ export class PageVentasComponent implements OnInit{
     this.rucEmpresa = localServiceResponseUsr._ruc;
     this.idUser = localServiceResponseUsr._userId;
 
+    this.getConfigNumDecimalesIdEmp();
+    this.getConfigVentaSinSecuencia();
+    this.getConfigIvaIncluidoEnVenta();
 
-    this.getNextNumeroSecuencial();
-    this.getConsumidorFinalApi();
+    
   }
 
+  private getDataRoutedMap(){
+    this.route.paramMap.subscribe((params: any) => {
+
+      let idVenta = params.get('idventa');
+      
+      if(idVenta){
+        this.coreService.getDataByIdVenta(idVenta, this.idEmpresa, this.tokenValidate).subscribe({
+          next: (data: any) =>{
+
+            this.clientFac.id = data.data['clienteId'];
+            this.clientFac.ciRuc = data.data['cc_ruc_pasaporte'];
+            this.clientFac.nombre = data.data['cliente'];
+            this.clientFac.telefono = data.data['clienteTele'];
+            this.clientFac.direccion = data.data['clienteDir'];
+            this.clientFac.email = data.data['clienteEmail'];
+
+            this.formaPagoSelect = data.data['forma_pago']
+            const mDate = new Date(data.data['fechaHora']);
+            this.dateFac = mDate;
+
+            this.value001 = data.data['venta001'];
+            this.value002 = data.data['venta002'];
+            this.valueSecuencia = data.data['numero'];
+            this.loadingSecuencial = false;
+
+            let dataInSource = this.datasource.data;
+            const arrayVentaDetalle = Array.from(data.data.data);
+            arrayVentaDetalle.forEach((data: any) => {
+
+              const productItemAdd: ProductFactura = {
+                id: data.ventad_prod_id,
+                codigo: data.prod_codigo,
+                nombre: data.ventad_producto,
+                precio: data.ventad_vu,
+                cantidad: data.ventad_cantidad,
+                descuento: data.ventad_descuento,
+                iva: (data.ventad_iva == "0.00") ? "0" : "1"
+              }
+
+              if(this.configIvaIncluidoEnVenta){
+                
+                if(productItemAdd.iva == "1"){
+                  
+                  productItemAdd.precio = ((productItemAdd.precio * 1.12).toFixed(this.fixedNumDecimal) as any);
+                }
+              }              
+
+              dataInSource.push(productItemAdd);
+        
+            });
+
+            this.datasource.data = dataInSource;
+            this.cantItems = this.datasource.data.length;
+            
+            this.subtotalIva12 = Number(data.data['subtotal12']).toFixed(this.fixedNumDecimal);
+            this.subtotalIva0 = Number(data.data['subtotal0']).toFixed(this.fixedNumDecimal);
+            this.Iva12 = Number(data.data['valorIva']).toFixed(this.fixedNumDecimal);
+            this.subtotal = (Number(this.subtotalIva12) + Number(this.subtotalIva0)).toFixed(this.fixedNumDecimal);
+            this.total = Number(data.data['total']).toFixed(2);
+          },
+          error: (error: any) =>{
+            if(error.error['notExist']){
+              this.loadingSecuencial = false;
+              this.toastr.error('No existe Venta', '', {
+                timeOut: 4000,
+                closeButton: true
+              });
+
+              this.router.navigate(['/ventas/listaventas']);
+
+            }
+          }
+        });
+
+
+      }else{
+
+        this.getNextNumeroSecuencial();
+        this.getConsumidorFinalApi();
+      }
+
+    });
+  }
 
   private getConsumidorFinalApi(){
     this.coreService.getConsumidorFinalOrCreate(this.idEmpresa, this.tokenValidate).subscribe({
@@ -128,6 +221,26 @@ export class PageVentasComponent implements OnInit{
     });
   }
 
+
+  private getConfigNumDecimalesIdEmp(){
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTA_NUMERODECIMALES', this.tokenValidate).subscribe({
+      next: (data: any) => {
+
+        if(data.data){
+          const configReceive: ConfigReceive = data.data[0];
+
+          const splitValue = configReceive.con_valor.split('.');
+          this.fixedNumDecimal = splitValue[1].length
+        }
+
+      },
+      error: (error) => {
+        console.log('error get num decimales');
+        console.log(error);
+      }
+    });
+  }
+  
   removeCart(indexItem: number){
     
     const data = this.datasource.data;
@@ -139,24 +252,24 @@ export class PageVentasComponent implements OnInit{
     this.calculateTotalItems();
   }
 
-  nuevoClienteClick(){
-
+  nuevoClienteClick(data?: any){
     const dialogRef = this.matDialog.open(CrearClienteDialogComponent, {
       width: '100%',
       closeOnNavigation: true, 
-      viewContainerRef: this.viewContainerRef
+      viewContainerRef: this.viewContainerRef,
+      data: {identificacion: data}
     });
 
-  dialogRef.afterClosed().subscribe(result => {
-    if(result){
-      
-      this.clientFac.id = result.data['id'];
-      this.clientFac.ciRuc = result.data['ciRuc'];
-      this.clientFac.nombre = result.data['nombre'];
-      this.clientFac.direccion = result.data['direccion'];
-      this.clientFac.email = result.data['email'];
-    }
-  });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        
+        this.clientFac.id = result.data['id'];
+        this.clientFac.ciRuc = result.data['ciRuc'];
+        this.clientFac.nombre = result.data['nombre'];
+        this.clientFac.direccion = result.data['direccion'];
+        this.clientFac.email = result.data['email'];
+      }
+    });
   }
 
   buscarClienteClick(){
@@ -168,6 +281,11 @@ export class PageVentasComponent implements OnInit{
 
   dialogRef.afterClosed().subscribe(result => {
     if(result){
+
+      if(result.redirectNewClient){
+        this.nuevoClienteClick(result.data);
+        return;
+      }
 
       this.clientFac.id = result['cli_id'];
       this.clientFac.ciRuc = result['cli_documento_identidad'];
@@ -190,7 +308,7 @@ export class PageVentasComponent implements OnInit{
     if(result){
 
       const data = this.datasource.data;
-      const productItemAdd = {
+      const productItemAdd: ProductFactura = {
         id: result.prod_id,
         codigo: result.prod_codigo,
         nombre: result.prod_nombre,
@@ -200,9 +318,15 @@ export class PageVentasComponent implements OnInit{
         iva: result.prod_iva_si_no
       }
 
-      data.push(productItemAdd);
-      this.datasource.data = data;
+      if(!this.configIvaIncluidoEnVenta){
+        if(productItemAdd.iva == "1"){
+          productItemAdd.precio = Number((productItemAdd.precio / 1.12).toFixed(this.fixedNumDecimal));
+        }
+      }
 
+      data.push(productItemAdd);
+
+      this.datasource.data = data;
       this.cantItems = this.datasource.data.length;
       // CALCULATE TOTAL VALUE IN ITEMS LIST
       this.calculateTotalItems();
@@ -220,26 +344,34 @@ export class PageVentasComponent implements OnInit{
 
     this.datasource.data.forEach((item: ProductFactura, index: number) => {
 
+      if(!this.configIvaIncluidoEnVenta){
+        result = (item.cantidad * item.precio);
+      }else{
+
         if(item.iva == "1"){
           result = ((item.cantidad * item.precio) / 1.12);
         }else{
           result = (item.cantidad * item.precio);
         }
-        const totalConDescuento = (result - ((result * item.descuento) / 100));
 
-        if(item.iva == "1"){
-          subtotalIva12 += totalConDescuento;
-        }else{
-          subtotalIva0 += totalConDescuento;
-        }
-        subtotal += totalConDescuento;
+      }
+
+      const totalConDescuento = (result - ((result * item.descuento) / 100));
+
+      if(item.iva == "1"){
+        subtotalIva12 += totalConDescuento;
+      }else{
+        subtotalIva0 += totalConDescuento;
+      }
+      subtotal += totalConDescuento;
+
     });
     
     iva12 = ((subtotalIva12 * 12) / 100);
-    this.Iva12 = iva12.toFixed(2).toString();
-    this.subtotal = subtotal.toFixed(2).toString();
-    this.subtotalIva0 = subtotalIva0.toFixed(2).toString();
-    this.subtotalIva12 = subtotalIva12.toFixed(2).toString();
+    this.Iva12 = iva12.toFixed(this.fixedNumDecimal).toString();
+    this.subtotal = subtotal.toFixed(this.fixedNumDecimal).toString();
+    this.subtotalIva0 = subtotalIva0.toFixed(this.fixedNumDecimal).toString();
+    this.subtotalIva12 = subtotalIva12.toFixed(this.fixedNumDecimal).toString();
 
 
     valorTotal = subtotal + iva12
@@ -262,9 +394,18 @@ export class PageVentasComponent implements OnInit{
     this.calculateTotalItems();
   }
   changePrecioUnitarioItemBlur(productItem: ProductFactura){
-    if(!productItem.precio || productItem.precio <= 0){
-      productItem.precio = 1;
+
+    const regexOnlyNumber = new RegExp(/^\d+(\.\d{1,8})?$/);
+    
+    if(!regexOnlyNumber.test(productItem.precio.toString()) || (!productItem.precio || productItem.precio <= 0) ){
+      const value = (1).toFixed(this.fixedNumDecimal);
+      productItem.precio = (value as any);
+      return;
     }
+
+    let productoPrecio = productItem.precio;
+    const value = Number(productoPrecio).toFixed(this.fixedNumDecimal);
+    productItem.precio = (value as any);
 
     this.calculateTotalItems();
   }
@@ -272,7 +413,6 @@ export class PageVentasComponent implements OnInit{
   selectChip(selectChip: any){
     const matChip = selectChip as MatChip;
     matChip.selected = true;
-    console.log(matChip);
   }
 
 
@@ -310,16 +450,17 @@ export class PageVentasComponent implements OnInit{
     this.datasource.data.forEach(data => {
 
       let precioTotal = 0.0
-      let precioUnitario = 0.0;
+      let precioUnitario = data.precio;//Number(((data.precio) as any).toFixed(this.fixedNumDecimal));
       let totalSinIva = 0.0;
 
-      if(data.iva == "1"){
-        precioUnitario = (data.precio / 1.12);
-      }else{
-        precioUnitario = data.precio;
+      if(this.configIvaIncluidoEnVenta){
+        if(data.iva == "1"){
+          precioUnitario = Number((data.precio / 1.12).toFixed(this.fixedNumDecimal));
+        }
       }
-      totalSinIva = precioUnitario * data.cantidad;
-      precioTotal = (totalSinIva - ((totalSinIva * data.descuento) / 100));
+
+      totalSinIva = Number((precioUnitario * data.cantidad).toFixed(this.fixedNumDecimal));
+      precioTotal = Number((totalSinIva - ((totalSinIva * data.descuento) / 100)).toFixed(this.fixedNumDecimal));
 
       detallesVenta.push({
         prodId: data.id,
@@ -356,10 +497,55 @@ export class PageVentasComponent implements OnInit{
       ventaDetalles: detallesVenta
     }
 
-    console.log(sendFacturaJsonModel);
-
     let overlayRef = this.loadingService.open();
 
+    this.coreService.getNextNumeroSecuencialByIdEmp(this.idEmpresa, this.tipoDocSelect, 
+      this.value001, this.value002,this.tokenValidate).subscribe({
+      next: (response: any) => {
+
+        const valorSecuencial = response.data;
+        if(Number(this.valueSecuencia) > valorSecuencial){
+          if(this.permitirVentaSecuenciaIncorrecta){
+            overlayRef.close();
+
+            const dialogRef = this.matDialog.open(ConfirmDeleteDialogComponent, {
+              width: '250px',
+              data: {title: 'Esta seguro que desea registrar ese secuencial?'}
+            });
+        
+            dialogRef.afterClosed().subscribe(result => {
+              if(result){
+                let dialogRef = this.loadingService.open();
+                this.insertVentaToBD(sendFacturaJsonModel, dialogRef);
+              }
+        
+            });
+
+
+          }else{
+            overlayRef.close();
+            this.toastr.error('No se permite ingresar secuencia Incorrecta', '', {
+              timeOut: 4000,
+              closeButton: true
+            });
+          }
+
+        }else{
+
+          this.insertVentaToBD(sendFacturaJsonModel, overlayRef);
+        }        
+      },
+      error: (error) => {
+        overlayRef.close();
+        console.log(error);
+      }
+    });
+    
+
+  }
+
+
+  private insertVentaToBD(sendFacturaJsonModel: any, overlayRef: LoadingOverlayRef){
     this.coreService.insertVentaFacturaToBD(sendFacturaJsonModel, this.tokenValidate).subscribe({
       next: (data: any) => {
         overlayRef.close();
@@ -391,9 +577,9 @@ export class PageVentasComponent implements OnInit{
         });
       }
 
-    });
+      });
   }
-  
+
   private validateClienteFac(): boolean{
     return (this.clientFac && this.clientFac['id'] != 0);
   }
@@ -476,5 +662,41 @@ private resetControls(){
 
   changeTipoDoc(){
     this.getNextNumeroSecuencial();
+  }
+
+  private getConfigVentaSinSecuencia(){
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_PERMITIR_INGRESAR_SIN_SECUENCIA', this.tokenValidate).subscribe({
+      next: (data: any) => {
+
+        if(data.data){
+          const configReceive: ConfigReceive = data.data[0];
+          this.permitirVentaSecuenciaIncorrecta = configReceive.con_valor === "1" ? true : false;
+        }
+      },
+      error: (error) => {
+        console.log('error get num decimales');
+        console.log(error);
+      }
+    });
+  }
+
+  private getConfigIvaIncluidoEnVenta(){
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_IVA_INCLUIDO_FACTURA', this.tokenValidate).subscribe({
+      next: (data: any) => {
+
+        if(data.data){
+          
+          const configReceive: ConfigReceive = data.data[0];
+
+          this.configIvaIncluidoEnVenta = configReceive.con_valor === "1" ? true : false;
+        }
+
+        this.getDataRoutedMap();
+      },
+      error: (error) => {
+        console.log('error get num decimales');
+        console.log(error);
+      }
+    });
   }
 }

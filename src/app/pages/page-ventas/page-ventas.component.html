@@ -169,7 +169,7 @@
                       <th mat-header-cell *matHeaderCellDef mat-sort-header> P Total </th>
                       <td mat-cell *matCellDef="let producto" data-label="P Total">
                         $ {{ ((producto.cantidad * producto.precio) - 
-                          ((producto.cantidad * producto.precio) * producto.descuento / 100)).toFixed(3) }} 
+                          ((producto.cantidad * producto.precio) * producto.descuento / 100)).toFixed(fixedNumDecimal) }} 
                       </td>
                     </ng-container>
     

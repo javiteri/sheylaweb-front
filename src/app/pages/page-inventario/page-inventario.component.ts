@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { Producto } from 'src/app/interfaces/Productos';
@@ -39,7 +40,8 @@ export class PageInventarioComponent implements OnInit {
               private loadingService: LoadingService,
               private router: Router,
               private matDialog: MatDialog,
-              private ref: ChangeDetectorRef) { }
+              private ref: ChangeDetectorRef,
+              private toastr: ToastrService) { }
 
   ngOnInit(): void {
     // GET INITIAL DATA 
@@ -125,7 +127,18 @@ export class PageInventarioComponent implements OnInit {
     this.coreService.deleteProductoByIdEmp(idProducto, this.idEmpresa, this.tokenValidate).subscribe({
       next: (data: any) => {
         dialogRef.close();
-        this.getListaProductosRefresh();
+
+        if(data.isSucess){
+          this.getListaProductosRefresh();
+        }else{
+          if(data.tieneMovimientos){
+            this.toastr.error('No se puede eliminar, presenta movimientos', '', {
+              timeOut: 3000,
+              closeButton: true
+            });
+          }
+        }
+
       },
       error: (error: any) => {
         dialogRef.close();

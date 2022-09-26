@@ -7,6 +7,7 @@ import { map, Observable, startWith, of, observable } from 'rxjs';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
+import { ConfigReceive } from '../../configuraciones/models/ConfigReceive';
 
 @Component({
   selector: 'app-crear-editar-producto',
@@ -41,6 +42,8 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
       this.codigoInput = elRef;
     }
   }
+
+  fixedNumDecimal = 2;
 
   constructor(private formBuilder: FormBuilder,
     private coreService: ApplicationProvider,
@@ -89,6 +92,7 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
     this.getListCategoriasByIdEmpresa(this.idEmpresa, this.tokenValidate);
     this.getListMarcasByIdEmpresa(this.idEmpresa, this.tokenValidate);
 
+    this.getConfigNumDecimalesIdEmp();
 
     this.route.paramMap.subscribe((params: any) => {
 
@@ -148,15 +152,14 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
 
     sendFormProducto['idEmpresa'] = this.idEmpresa;
 
-
     if(!this.validateIsNumber(sendFormProducto['costo'])){
       sendFormProducto['costo'] = '0';
     }
+
     if(!this.validateIsNumber(sendFormProducto['utilidad'])){
       sendFormProducto['utilidad'] = '0';
     }
 
-    console.log(sendFormProducto);
     if(this.editMode){
       sendFormProducto['idProducto'] = this.idProductoEdit;
       this.updateDatosProductoApi(sendFormProducto);
@@ -198,6 +201,8 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
   private insertDatosProductoApi(sendFormProducto: any){
     let overlayRef = this.loadingService.open();
 
+    console.log(sendFormProducto);
+    console.log('inside insert');
     this.coreService.insertProductoToBD(sendFormProducto, this.tokenValidate).subscribe({
       next: (data: any) => {
 
@@ -273,7 +278,7 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
     // si tengo pvp y costo (entonces calcular Utilidad)
     if((pvp && pvp != null && pvp != undefined) && (costo && costo != null && costo != undefined)){
         const valorUtilidad = ((pvp - costo)/costo) * 100;
-        this.sendDatosFormProducto.controls['utilidad'].setValue(valorUtilidad);
+        this.sendDatosFormProducto.controls['utilidad'].setValue(valorUtilidad.toFixed(this.fixedNumDecimal));
         return;
     }
   }
@@ -285,8 +290,10 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
 
     // si tengo costo y utilidad (entonces calcular PVP)
     if((costo && costo != null && costo != undefined) && (utilidad && utilidad != null && utilidad != undefined)){
-      const valorPrecio = costo + ((costo * utilidad)/100)
-    
+
+      const valueFixed = (((costo * utilidad)/100).toFixed(this.fixedNumDecimal) as any);
+      const valorPrecio = (Number(valueFixed) + Number(costo)).toFixed(this.fixedNumDecimal);
+
       this.sendDatosFormProducto.controls['pvp'].setValue(valorPrecio);
       return;
     }
@@ -294,7 +301,6 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
   }
 
   //METHODS FOR FILTER CATEGORIA AND PRODUCT
-  
   private filterCategoria(categoria: string): string[]{
     const valorFiltrar = categoria.toLowerCase();
     const listraFiltro =  this.listCategoriasData.filter((category: any) => {
@@ -331,15 +337,34 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
     this.ref.detectChanges();
   }
 
-
   cancelarClick(){
     this.location.back();
   }
 
-
   private validateIsNumber(texto: any): boolean{
-    console.log(texto);
-    const regexOnlyNumber = new RegExp(/^\d+(\.\d{1,2})?$/);
+    const regexOnlyNumber = new RegExp(/^\d+(\.\d{1,10})?$/);
     return regexOnlyNumber.test(texto);
+  }
+
+
+  private getConfigNumDecimalesIdEmp(){
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTA_NUMERODECIMALES', this.tokenValidate).subscribe({
+      next: (data: any) => {
+
+        if(data.data){
+          const configReceive: ConfigReceive = data.data[0];
+
+          const splitValue = configReceive.con_valor.split('.');
+          this.fixedNumDecimal = splitValue[1].length
+        }
+
+
+        //this.searchListaVentasWithFilter();
+      },
+      error: (error) => {
+        console.log('error get num decimales');
+        console.log(error);
+      }
+    });
   }
 }

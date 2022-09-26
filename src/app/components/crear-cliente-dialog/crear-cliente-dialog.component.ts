@@ -1,20 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
 
 import nacionalidad from '../../assets/nacionalidad.json';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { LocalService } from 'src/app/services/local.service';
+
+
+export interface DialogNuevoClienteData {
+  identificacion: string;
+}
+
 
 @Component({
   selector: 'app-crear-cliente-dialog',
   templateUrl: './crear-cliente-dialog.component.html',
   styleUrls: ['./crear-cliente-dialog.component.css']
 })
-export class CrearClienteDialogComponent implements OnInit {
+export class CrearClienteDialogComponent implements OnInit, AfterViewInit {
 
   tiposId = [
     {valor: 'RUC', valorMostrar: 'RUC'},
@@ -36,12 +42,20 @@ export class CrearClienteDialogComponent implements OnInit {
   editMode = false;
   titlePage = 'Nuevo Cliente'
 
+  identificacionInput! : ElementRef<HTMLInputElement>;
+  @ViewChild('identificacionInput') set inputElRef(elRef: ElementRef<HTMLInputElement>){
+    if(elRef){
+      this.identificacionInput = elRef;
+    }
+  }
+  
   constructor(private formBuilder: FormBuilder,
     private coreService: ApplicationProvider,
     private loadingService: LoadingService,
     public matDialogRef: MatDialogRef<CrearClienteDialogComponent>,
     private toastr: ToastrService,
-    private localService: LocalService
+    private ref: ChangeDetectorRef,
+    @Inject(MAT_DIALOG_DATA) public dialogData: DialogNuevoClienteData
     ) { 
 
       this.sendDatosFormCliente = this.formBuilder.group({
@@ -59,6 +73,19 @@ export class CrearClienteDialogComponent implements OnInit {
         comentario: ['']
       });
 
+  }
+  ngAfterViewInit(): void {
+    const regexOnlyNumber = new RegExp(/^\d{10,13}$/);
+    if(this.dialogData && regexOnlyNumber.test(this.dialogData['identificacion'])){
+      console.log('identificacion');
+      console.log(this.dialogData['identificacion']);
+      this.sendDatosFormCliente.controls['documentoIdentidad'].setValue(this.dialogData['identificacion']);
+
+      this.identificacionInput.nativeElement.focus();
+      this.ref.detectChanges();
+
+      this.searchDatosCliente(this.sendDatosFormCliente.controls['documentoIdentidad'].value);
+    }
   }
 
   ngOnInit(): void {
@@ -81,11 +108,10 @@ export class CrearClienteDialogComponent implements OnInit {
 
     const actualDate = new Date();
     this.sendDatosFormCliente.controls['fechaNacimiento'].setValue(actualDate);
-  }
 
-  nuevoCliente(){
     
   }
+
 
   saveDatosCliente(sendDatosCliente: any){
     

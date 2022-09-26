@@ -89,3 +89,8 @@ td.mat-footer-cell {
     background-color: var(--accent-color);
     color: white;
 }
+
+.mat-table td:last-child {
+    justify-content: end;
+    padding-right: 1em !important;
+  }

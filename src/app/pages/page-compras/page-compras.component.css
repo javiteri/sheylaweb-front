@@ -2,6 +2,7 @@
     margin-bottom: -1.25em;
 }*/
 
+
 textarea.mat-input-element {
     resize: none;
 }
@@ -455,4 +456,9 @@ td.mat-footer-cell {
     .mat-table .mat-header-row th:last-child, .mat-table .mat-row td:last-child{
         min-width: 40px;
     }
+}
+
+.costo-unitario-td input{
+    text-align: end;
+    padding-right: 5%;
 }

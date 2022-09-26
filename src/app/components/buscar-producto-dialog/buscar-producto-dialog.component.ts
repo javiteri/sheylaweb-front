@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { Producto } from 'src/app/interfaces/Productos';
+import { ConfigReceive } from 'src/app/pages/configuraciones/models/ConfigReceive';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
 import { LocalService } from 'src/app/services/local.service';
@@ -14,7 +15,7 @@ import { LocalService } from 'src/app/services/local.service';
 })
 export class BuscarProductoDialogComponent implements OnInit {
 
-  displayedColumns: string[] = ['codigo', 'nombre', 'precio'];
+  displayedColumns: string[] = ['codigo', 'nombre', 'marca','categoria','precio'];
   datasource = new MatTableDataSource<Producto>();
 
   idEmpresa: number = 0;
@@ -29,6 +30,8 @@ export class BuscarProductoDialogComponent implements OnInit {
   showPagination = false;
   showSinDatos = false;
 
+  fixedNumDecimal = 2;
+
   constructor(private coreService: ApplicationProvider,
     private localService: LocalService,
     public matDialogRef: MatDialogRef<BuscarProductoDialogComponent>,
@@ -40,7 +43,7 @@ export class BuscarProductoDialogComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.matDialogRef.disableClose = true;
+    //this.matDialogRef.disableClose = true;
 
     // GET INITIAL DATA 
     const localServiceResponseToken =  
@@ -55,7 +58,8 @@ export class BuscarProductoDialogComponent implements OnInit {
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
 
-    this.getListaProductosRefresh();
+    //this.getListaProductosRefresh();
+    this.getConfigNumDecimalesIdEmp();
   }
 
   searchProductosText(): void{
@@ -76,6 +80,14 @@ export class BuscarProductoDialogComponent implements OnInit {
           this.showPagination = false
         }
 
+
+        const arrayProducts: Producto[] = data.data;
+        const arrayWithDecimal = arrayProducts.map((producto: Producto) => {
+          producto.prod_pvp = Number(producto.prod_pvp).toFixed(this.fixedNumDecimal);
+          return producto;
+        });
+
+        this.listaProductos = arrayWithDecimal;
         this.datasource.data = this.listaProductos;
         this.ref.detectChanges();
 
@@ -93,10 +105,17 @@ export class BuscarProductoDialogComponent implements OnInit {
     this.coreService.getListProductosByIdEmpActivo(this.idEmpresa, this.tokenValidate).subscribe({
       next: (data: any) => {
 
-        this.listaProductos = data.data;
+        const arrayProducts: Producto[] = data.data;
+
+        const arrayWithDecimal = arrayProducts.map((producto: Producto) => {
+          producto.prod_pvp = Number(producto.prod_pvp).toFixed(this.fixedNumDecimal);
+          return producto;
+        });
+
+        //this.listaProductos = data.data;
+        this.listaProductos = arrayWithDecimal;
         this.datasource.data = this.listaProductos;
         
-
       },
       error: (error) => {
       }
@@ -106,5 +125,26 @@ export class BuscarProductoDialogComponent implements OnInit {
 
   clickSelectItem(dataProducto: any){
     this.matDialogRef.close(dataProducto);
+  }
+
+  private getConfigNumDecimalesIdEmp(){
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTA_NUMERODECIMALES', this.tokenValidate).subscribe({
+      next: (data: any) => {
+
+        if(data.data){
+          const configReceive: ConfigReceive = data.data[0];
+
+          const splitValue = configReceive.con_valor.split('.');
+          this.fixedNumDecimal = splitValue[1].length
+        }
+
+
+        this.getListaProductosRefresh();
+      },
+      error: (error) => {
+        console.log('error get num decimales');
+        console.log(error);
+      }
+    });
   }
 }

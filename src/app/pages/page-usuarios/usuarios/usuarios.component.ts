@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { Usuario } from 'src/app/interfaces/Usuario';
@@ -40,7 +41,8 @@ export class UsuariosComponent implements OnInit {
               private router: Router,
               private loadingService: LoadingService,
               private matDialog: MatDialog,
-              private ref: ChangeDetectorRef) { 
+              private ref: ChangeDetectorRef,
+              private toastr: ToastrService) { 
   }
 
   ngOnInit(): void {
@@ -130,7 +132,17 @@ export class UsuariosComponent implements OnInit {
     this.coreService.deleteUsuarioByIdEmp(idUser, this.idEmpresa, this.tokenValidate).subscribe({
       next: (data: any) => {
         dialogRef.close();
-        this.getListUsuariosRefresh();
+        if(data.isSucess){
+          this.getListUsuariosRefresh();
+        }else{
+          if(data.tieneMovimientos){
+            this.toastr.error('No se puede eliminar, presenta movimientos', '', {
+              timeOut: 3000,
+              closeButton: true
+            });
+          }
+        }
+        
       },
       error: (error: any) => {
         dialogRef.close();

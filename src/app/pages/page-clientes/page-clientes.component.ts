@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/application/application';
@@ -38,7 +39,8 @@ export class PageClientesComponent implements OnInit {
               private ref: ChangeDetectorRef,
               private loadingService: LoadingService,
               private router: Router,
-              private matDialog: MatDialog) { }
+              private matDialog: MatDialog,
+              private toastr: ToastrService) { }
               
 
   ngOnInit(): void {
@@ -134,9 +136,19 @@ export class PageClientesComponent implements OnInit {
     this.coreService.deleteClienteByIdEmp(idCliente, this.idEmpresa, this.tokenValidate).subscribe({
       next: (data: any) => {
         dialogRef.close();
-        this.getListaClientesRefresh();
+        if(data.isSucess){
+          this.getListaClientesRefresh();
+        }else{
+          if(data.tieneMovimientos){
+            this.toastr.error('No se puede eliminar, presenta movimientos', '', {
+              timeOut: 3000,
+              closeButton: true
+            });
+          }
+        }
       },
       error: (error: any) => {
+        console.log(error);
         dialogRef.close();
       }
     });

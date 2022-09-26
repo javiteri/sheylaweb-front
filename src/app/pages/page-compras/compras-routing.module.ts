@@ -11,6 +11,10 @@ const routes: Routes = [
         component: PageComprasComponent
     },
     {
+        path: 'crearcompra/:id',
+        component: PageComprasComponent
+    },
+    {
         path: 'listacompra',
         component: ListaComprasComponent
     },

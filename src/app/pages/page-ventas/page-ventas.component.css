@@ -83,7 +83,7 @@ textarea.mat-input-element {
 
 .precio-unitario-td input{
     text-align: end;
-    padding-right: 30%;
+    padding-right: 5%;
 }
 
 .bg-info{
@@ -358,7 +358,9 @@ td.mat-footer-cell {
 .mat-table .mat-header-row th:nth-child(n + 5), .mat-table .mat-row td:nth-child(n + 5){
     justify-content: center;
 }
-
+.mat-table .mat-row td:nth-child(7){
+    justify-content: end;
+}
 
 
 .mat-table .mat-header-row th:last-child{

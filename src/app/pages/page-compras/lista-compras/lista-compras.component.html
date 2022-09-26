@@ -104,6 +104,10 @@
                         (click)="deleteCompraByIdEmp(row.id, row.documento)">
                           <mat-icon>delete</mat-icon>
                         </button>
+                        <button matTooltip="Copiar Compra" mat-icon-button color="icon-accent" aria-label="boton copiar venta" 
+                          (click)="copiarCompraClick(row);">
+                            <mat-icon>content_copy</mat-icon>
+                          </button>
                       </div>
 
                     </td>

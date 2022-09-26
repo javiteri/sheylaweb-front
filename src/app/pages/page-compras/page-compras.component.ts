@@ -3,6 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@an
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { BuscarProductoCompraDialogComponent } from 'src/app/components/buscar-producto-compra-dialog/buscar-producto-compra-dialog.component';
 import { BuscarProveedorDialogComponent } from 'src/app/components/buscar-proveedor-dialog/buscar-proveedor-dialog.component';
@@ -11,6 +12,7 @@ import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ProductCompra } from 'src/app/interfaces/ProductCompra';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
+import { ConfigReceive } from '../configuraciones/models/ConfigReceive';
 import { ProveedorFactura } from './models/ProveedorFac';
 
 @Component({
@@ -75,6 +77,8 @@ export class PageComprasComponent implements OnInit {
   dateFac = new Date();
   cantItems = 0;
 
+  fixedNumDecimal = 2;
+
   proveedorFac: ProveedorFactura = new ProveedorFactura(0, '999999999', 'PROVEEDOR GENERICO', 'PROVEEDOR GENERICO','','0999999999');
 
   //@ViewChild('numeroAutorizacionEl') numeroAutorizacionEl = ElementRef<HTMLInputElement>;
@@ -84,7 +88,9 @@ export class PageComprasComponent implements OnInit {
     private coreService: ApplicationProvider,
     private loadingService: LoadingService,
     private location: Location,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router) {
 
       this.sendDatosFormCompra = this.formBuilder.group({
         numeroAutorizacionn: ['', [Validators.pattern(/^[0-9]*$/), Validators.minLength(9),Validators.required]]
@@ -107,10 +113,31 @@ export class PageComprasComponent implements OnInit {
     this.rucEmpresa = localServiceResponseUsr._ruc;
     this.idUser = localServiceResponseUsr._userId;
 
-    this.getProveedorGenericoApi();
+    this.getDataRoutedMap();
+    this.getConfigNumDecimalesIdEmp();
+
   }
 
 
+  private getConfigNumDecimalesIdEmp(){
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'COMPRA_NUMERODECIMALES', this.tokenValidate).subscribe({
+      next: (data: any) => {
+
+        if(data.data){
+          const configReceive: ConfigReceive = data.data[0];
+
+          const splitValue = configReceive.con_valor.split('.');
+          this.fixedNumDecimal = splitValue[1].length
+        }
+
+      },
+      error: (error) => {
+        console.log('error get num decimales');
+        console.log(error);
+      }
+    });
+  }
+  
   nuevoProveedorClick(){
 
     const dialogRef = this.matDialog.open(CrearProveedorDialogComponent, {
@@ -145,6 +172,8 @@ export class PageComprasComponent implements OnInit {
       this.proveedorFac.direccion = result['pro_direccion'];
       this.proveedorFac.email = result['pro_email'];
       this.proveedorFac.telefono = result['pro_telefono'];
+
+      this.getNextNumeroSecuencial();
     }
   });
   }
@@ -174,7 +203,7 @@ export class PageComprasComponent implements OnInit {
         id: result.prod_id,
         codigo: result.prod_codigo,
         nombre: result.prod_nombre,
-        costo: result.prod_costo,
+        costo: result.prod_costo,//(result.prod_iva_si_no == "1") ? (result.prod_costo / 1.12).toFixed(this.fixedNumDecimal) : result.prod_costo,
         precio: result.prod_pvp,
         cantidad: 1,
         descuento: 0,
@@ -201,11 +230,12 @@ export class PageComprasComponent implements OnInit {
 
     this.datasource.data.forEach((item: ProductCompra, index: number) => {
 
-        if(item.iva == "1"){
+        /*if(item.iva == "1"){
           result = ((item.cantidad * item.costo) / 1.12);
         }else{
           result = (item.cantidad * item.costo);
-        }
+        }*/
+        result = (item.cantidad * item.costo);
         const totalConDescuento = (result - ((result * item.descuento) / 100));
 
         if(item.iva == "1"){
@@ -217,10 +247,10 @@ export class PageComprasComponent implements OnInit {
     });
     
     iva12 = ((subtotalIva12 * 12) / 100);
-    this.Iva12 = iva12.toFixed(2).toString();
-    this.subtotal = subtotal.toFixed(2).toString();
-    this.subtotalIva0 = subtotalIva0.toFixed(2).toString();
-    this.subtotalIva12 = subtotalIva12.toFixed(2).toString();
+    this.Iva12 = iva12.toFixed(this.fixedNumDecimal).toString();
+    this.subtotal = subtotal.toFixed(this.fixedNumDecimal).toString();
+    this.subtotalIva0 = subtotalIva0.toFixed(this.fixedNumDecimal).toString();
+    this.subtotalIva12 = subtotalIva12.toFixed(this.fixedNumDecimal).toString();
 
 
     valorTotal = subtotal + iva12
@@ -244,8 +274,14 @@ export class PageComprasComponent implements OnInit {
   }
   changePrecioUnitarioItemBlur(productItem: ProductCompra){
     if(!productItem.costo || productItem.costo <= 0){
-      productItem.costo = 1;
+      const value = (1).toFixed(this.fixedNumDecimal);
+      productItem.costo = (value as any);
+      return;
     }
+
+    let productoCosto = productItem.costo;
+    const value = Number(productoCosto).toFixed(this.fixedNumDecimal);
+    productItem.costo = (value as any);
 
     this.calculateTotalItems();
   }
@@ -290,14 +326,14 @@ export class PageComprasComponent implements OnInit {
     this.datasource.data.forEach(data => {
 
       let precioTotal = 0.0
-      let precioUnitario = 0.0;
+      let precioUnitario = data.costo;
       let totalSinIva = 0.0;
 
-      if(data.iva == "1"){
+      /*if(data.iva == "1"){
         precioUnitario = (data.costo / 1.12);
       }else{
         precioUnitario = data.costo;
-      }
+      }*/
       totalSinIva = precioUnitario * data.cantidad;
       precioTotal = (totalSinIva - ((totalSinIva * data.descuento) / 100));
 
@@ -488,6 +524,97 @@ export class PageComprasComponent implements OnInit {
       this.valueSecuencia = "1";
       return;
     }    
+  }
+
+
+  private getDataRoutedMap(){
+    this.route.paramMap.subscribe((params: any) => {
+
+      let idCompra = params.get('id');
+      
+      if(idCompra){
+        this.coreService.getDataByIdCompra(idCompra, this.idEmpresa, this.tokenValidate).subscribe({
+          next: (data: any) =>{
+
+            console.log(data);
+            this.loadingSecuencial = false;
+
+            this.proveedorFac.id = data.data['proveedorId'];
+            this.proveedorFac.ciRuc = data.data['cc_ruc_pasaporte'];
+            this.proveedorFac.nombre = data.data['proveedor'];
+            this.proveedorFac.telefono = data.data['proveedorTele'];
+            this.proveedorFac.direccion = data.data['proveedorDir'];
+            this.proveedorFac.email = data.data['proveedorEmail'];
+
+            this.sustentoTributarioSelect = data.data['sustentoSri'];
+
+            this.formaPagoSelect = data.data['forma_pago']
+            const mDate = new Date(data.data['fechaHora']);
+            this.dateFac = mDate;
+
+            this.tipoDocSelect = data.data['documento'];
+            this.sendDatosFormCompra.controls['numeroAutorizacionn'].setValue(data.data['numeroAutorizacion']);
+
+            const valuesSecuenciales = data.data['numero'].split('-');
+            this.value001 = valuesSecuenciales[0];
+            this.value002 = valuesSecuenciales[1];
+            this.valueSecuencia = valuesSecuenciales[2];
+
+            let dataInSource = this.datasource.data;
+            const arrayVentaDetalle = Array.from(data.data.data);
+            arrayVentaDetalle.forEach((data: any) => {
+
+              const productItemAdd = {
+                id: data.comprad_pro_id,
+                codigo: data.prod_codigo,
+                nombre: data.comprad_producto,
+                costo: data.comprad_vu,
+                precio: data.prod_precio,
+                cantidad: data.comprad_cantidad,
+                descuento: data.comprad_descuento,
+                iva: (data.comprad_iva == "0.00") ? "0" : "1"
+              }
+
+              dataInSource.push(productItemAdd);
+              
+            });
+            
+            this.datasource.data = dataInSource;
+            this.cantItems = this.datasource.data.length;
+
+            this.subtotalIva12 = Number(data.data['subtotal12']).toFixed(this.fixedNumDecimal);
+            this.subtotalIva0 = Number(data.data['subtotal0']).toFixed(this.fixedNumDecimal);
+            this.Iva12 = Number(data.data['valorIva']).toFixed(this.fixedNumDecimal);
+            this.subtotal = (Number(this.subtotalIva12) + Number(this.subtotalIva0)).toFixed(this.fixedNumDecimal);
+            this.total = Number(data.data['total']).toFixed(2);
+            /*
+            
+            */
+          },
+          error: (error: any) =>{
+            console.log('error');
+            console.log(error);
+            if(error.error['notExist']){
+              this.loadingSecuencial = false;
+              this.toastr.error('No existe Compra', '', {
+                timeOut: 4000,
+                closeButton: true
+              });
+
+              this.router.navigate(['/compras/listacompra']);
+
+            }
+          }
+        });
+
+
+      }else{
+        this.getProveedorGenericoApi();
+        /*this.getNextNumeroSecuencial();
+        this.getConsumidorFinalApi();*/
+      }
+
+    });
   }
 
 }

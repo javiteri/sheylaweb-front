@@ -172,7 +172,7 @@
                     </ng-container>
                     <ng-container matColumnDef="costo">
                       <th mat-header-cell  *matHeaderCellDef mat-sort-header>Costo</th>
-                      <td mat-cell  *matCellDef="let producto" data-label="Costo" class="precio-unitario-td">
+                      <td mat-cell class="costo-unitario-td" *matCellDef="let producto" data-label="Costo">
                         <input  matInput type="number" [(ngModel)]="producto.costo"
                         (blur)="changePrecioUnitarioItemBlur(producto);"></td>
                     </ng-container>

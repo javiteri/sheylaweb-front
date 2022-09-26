@@ -101,4 +101,12 @@ export class BuscarClienteDialogComponent implements OnInit {
       }
     });
   }
+
+  nuevoClienteClick(){
+    const response = {
+      redirectNewClient: true,
+      data: this.textSearchClientes
+    }
+    this.matDialogRef.close(response);
+  }
 }

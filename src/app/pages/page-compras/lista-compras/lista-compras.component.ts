@@ -1,9 +1,13 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
+import { ConfigReceive } from '../../configuraciones/models/ConfigReceive';
 import { ItemListaCompra } from '../models/ItemListaCompra';
 
 @Component({
@@ -31,11 +35,15 @@ export class ListaComprasComponent implements OnInit {
   noDocmento = "";
   nombreCiRuc = "";
 
+  fixedNumDecimal = 2;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private coreService: ApplicationProvider,
     private loadingService: LoadingService,
-    private ref: ChangeDetectorRef) { }
+    private ref: ChangeDetectorRef,
+    private router: Router,
+    private matDialog: MatDialog) { }
 
   ngOnInit(): void {
     // GET INITIAL DATA     
@@ -51,7 +59,8 @@ export class ListaComprasComponent implements OnInit {
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
 
-    this.searchListaComprasWithFilter();
+    //this.searchListaComprasWithFilter();
+    this.getConfigNumDecimalesIdEmp();
   }
 
 
@@ -83,9 +92,18 @@ export class ListaComprasComponent implements OnInit {
           this.showPagination = false;
         }
 
-        this.datasource.data = results.data;
+        const arrayProducts: ItemListaCompra[] = results.data;
+        const arrayWithDecimal = arrayProducts.map((itemListCompra: ItemListaCompra) => {
+          itemListCompra.total = Number(itemListCompra.total).toFixed(this.fixedNumDecimal);
+          return itemListCompra;
+        });
+
+        this.datasource.data = arrayWithDecimal;
         this.ref.detectChanges();
-        this.datasource.paginator = this.paginator;
+
+        /*this.datasource.data = results.data;
+        this.ref.detectChanges();
+        this.datasource.paginator = this.paginator;*/
       },
       error: (error) => {
         dialogRef.close();
@@ -94,16 +112,55 @@ export class ListaComprasComponent implements OnInit {
   }
 
   deleteCompraByIdEmp(idCompra: any, tipoDoc: any){
-    let dialogRef = this.loadingService.open();
 
-    this.coreService.deleteCompraByIdEmp(this.idEmpresa,idCompra,tipoDoc, this.tokenValidate).subscribe({
-      next: (results: any) => {
-        dialogRef.close();
+    const dialogRef = this.matDialog.open(ConfirmDeleteDialogComponent, {
+      width: '250px',
+      data: {title: 'Va a Eliminar la Compra, desea continuar?'}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        let dialogRef = this.loadingService.open();
+
+      this.coreService.deleteCompraByIdEmp(this.idEmpresa,idCompra,tipoDoc, this.tokenValidate).subscribe({
+        next: (results: any) => {
+          dialogRef.close();
+          this.searchListaComprasWithFilter();
+        },
+        error: (error) => {
+          dialogRef.close();
+        }
+      });
+      }
+
+    });
+
+  }
+
+  private getConfigNumDecimalesIdEmp(){
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'COMPRA_NUMERODECIMALES', this.tokenValidate).subscribe({
+      next: (data: any) => {
+
+        if(data.data){
+          const configReceive: ConfigReceive = data.data[0];
+
+          const splitValue = configReceive.con_valor.split('.');
+          this.fixedNumDecimal = splitValue[1].length
+        }
+
+
         this.searchListaComprasWithFilter();
       },
       error: (error) => {
-        dialogRef.close();
+        console.log('error get num decimales');
+        console.log(error);
       }
     });
+  }
+
+
+  copiarCompraClick(compra: any): void{
+    console.log(compra);
+    this.router.navigate(['/compras/crearcompra', compra.id]); 
   }
 }

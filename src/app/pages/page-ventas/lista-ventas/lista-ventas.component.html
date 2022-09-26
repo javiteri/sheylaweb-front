@@ -113,6 +113,10 @@
                           (click)="deleteVentaByIdEmp(row.id, row.anulado)">
                             <mat-icon>delete</mat-icon>
                           </button>
+                          <button matTooltip="Copiar Venta" mat-icon-button color="icon-accent" aria-label="boton copiar venta" 
+                          (click)="copiarVentaClick(row)">
+                            <mat-icon>content_copy</mat-icon>
+                          </button>
                         </div>
   
                       </td>

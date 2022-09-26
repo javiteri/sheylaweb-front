@@ -2,11 +2,12 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
+import { ConfigReceive } from '../../configuraciones/models/ConfigReceive';
 import { ItemListaVenta } from '../models/ItemVentaModel';
 
 @Component({
@@ -36,10 +37,13 @@ export class ListaVentasComponent implements OnInit {
   noDocmento = "";
   nombreCiRuc = "";
 
+  fixedNumDecimal = 2;
+
   constructor(private coreService: ApplicationProvider,
     private loadingService: LoadingService,
     private ref: ChangeDetectorRef,
-    private matDialog: MatDialog) { }
+    private matDialog: MatDialog,
+    private router: Router) { }
 
   ngOnInit(): void {
 
@@ -56,7 +60,8 @@ export class ListaVentasComponent implements OnInit {
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
     
-    this.searchListaVentasWithFilter();
+    //this.searchListaVentasWithFilter();
+    this.getConfigNumDecimalesIdEmp();
   }
 
 
@@ -70,7 +75,6 @@ export class ListaVentasComponent implements OnInit {
     
     if(!(this.dateInicioFilter && this.dateFinFilter)){
       dialogRef.close();
-      console.log('verifique que las fechas sean correctas');
       return;
     }
 
@@ -86,7 +90,6 @@ export class ListaVentasComponent implements OnInit {
       next: (results: any) => {
         dialogRef.close();
 
-        console.log(results.data);
         try{
           this.showPagination = results.data.length > 0;
           this.showSinDatos = !(results.data.length > 0);
@@ -94,9 +97,15 @@ export class ListaVentasComponent implements OnInit {
           this.showPagination = false;
         }
 
-        this.datasource.data = results.data;
+
+        const arrayProducts: ItemListaVenta[] = results.data;
+        const arrayWithDecimal = arrayProducts.map((itemListVenta: ItemListaVenta) => {
+          itemListVenta.total = Number(itemListVenta.total).toFixed(this.fixedNumDecimal);
+          return itemListVenta;
+        });
+
+        this.datasource.data = arrayWithDecimal;
         this.ref.detectChanges();
-        this.datasource.paginator = this.paginator;
       },
       error: (error) => {
         dialogRef.close();
@@ -119,8 +128,6 @@ export class ListaVentasComponent implements OnInit {
         this.coreService.updateEstadoVentaByIdEmp(this.idEmpresa,idVenta,estado, this.tokenValidate).subscribe({
           next: (results: any) => {
             dialogReff.close();
-            console.log('se anulo correctamente');
-            console.log(results);
             this.searchListaVentasWithFilter();
           },
           error: (error) => {
@@ -136,7 +143,6 @@ export class ListaVentasComponent implements OnInit {
 
   deleteVentaByIdEmp(idVenta: any, estado: any){
 
-
     const dialogRef = this.matDialog.open(ConfirmDeleteDialogComponent, {
       width: '250px',
       data: {title: 'Va a Eliminar la Venta, desea continuar?'}
@@ -149,18 +155,41 @@ export class ListaVentasComponent implements OnInit {
         this.coreService.deleteVentaByIdEmp(this.idEmpresa,idVenta,estado, this.tokenValidate).subscribe({
           next: (results: any) => {
             dialogRef.close();
-            console.log('se elimino correctamente');
-            console.log(results);
             this.searchListaVentasWithFilter();
           },
           error: (error) => {
             dialogRef.close();
-            console.log('error en la eliminacion');
           }
         });
       }
 
     });
 
+  }
+
+  private getConfigNumDecimalesIdEmp(){
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTA_NUMERODECIMALES', this.tokenValidate).subscribe({
+      next: (data: any) => {
+
+        if(data.data){
+          const configReceive: ConfigReceive = data.data[0];
+
+          const splitValue = configReceive.con_valor.split('.');
+          this.fixedNumDecimal = splitValue[1].length
+        }
+
+
+        this.searchListaVentasWithFilter();
+      },
+      error: (error) => {
+        console.log('error get num decimales');
+        console.log(error);
+      }
+    });
+  }
+
+
+  copiarVentaClick(venta: any): void{
+    this.router.navigate(['/ventas/crearventa', venta.id]); 
   }
 }

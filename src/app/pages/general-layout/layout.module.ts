@@ -13,6 +13,8 @@ import { MatListModule } from '@angular/material/list';
 import {MatTableModule} from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+
 import { LayoutComponent } from './layout.component';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { BuscarClienteDialogComponent } from 'src/app/components/buscar-cliente-dialog/buscar-cliente-dialog.component';
@@ -43,6 +45,7 @@ import { BuscarProductoCompraDialogComponent } from 'src/app/components/buscar-p
   ],
   imports: [
     CommonModule,
+    MatSlideToggleModule,
     MatFormFieldModule,
     FormsModule,
     MatInputModule,
