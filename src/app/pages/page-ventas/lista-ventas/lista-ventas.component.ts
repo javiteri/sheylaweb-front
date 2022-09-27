@@ -170,8 +170,7 @@ export class ListaVentasComponent implements OnInit {
   private getConfigNumDecimalesIdEmp(){
     this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTA_NUMERODECIMALES', this.tokenValidate).subscribe({
       next: (data: any) => {
-
-        if(data.data){
+        if(data.data.length > 0){
           const configReceive: ConfigReceive = data.data[0];
 
           const splitValue = configReceive.con_valor.split('.');

@@ -134,7 +134,7 @@ export class PageVentasComponent implements OnInit{
                 id: data.ventad_prod_id,
                 codigo: data.prod_codigo,
                 nombre: data.ventad_producto,
-                precio: data.ventad_vu,
+                precio: Number(Number(data.ventad_vu).toFixed(this.fixedNumDecimal)),
                 cantidad: data.ventad_cantidad,
                 descuento: data.ventad_descuento,
                 iva: (data.ventad_iva == "0.00") ? "0" : "1"
@@ -225,8 +225,7 @@ export class PageVentasComponent implements OnInit{
   private getConfigNumDecimalesIdEmp(){
     this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTA_NUMERODECIMALES', this.tokenValidate).subscribe({
       next: (data: any) => {
-
-        if(data.data){
+        if(data.data.length > 0) {
           const configReceive: ConfigReceive = data.data[0];
 
           const splitValue = configReceive.con_valor.split('.');
@@ -395,7 +394,7 @@ export class PageVentasComponent implements OnInit{
   }
   changePrecioUnitarioItemBlur(productItem: ProductFactura){
 
-    const regexOnlyNumber = new RegExp(/^\d+(\.\d{1,8})?$/);
+    const regexOnlyNumber = new RegExp(/^\d+(\.\d{1,20})?$/);
     
     if(!regexOnlyNumber.test(productItem.precio.toString()) || (!productItem.precio || productItem.precio <= 0) ){
       const value = (1).toFixed(this.fixedNumDecimal);
@@ -668,7 +667,7 @@ private resetControls(){
     this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_PERMITIR_INGRESAR_SIN_SECUENCIA', this.tokenValidate).subscribe({
       next: (data: any) => {
 
-        if(data.data){
+        if(data.data.length > 0) {
           const configReceive: ConfigReceive = data.data[0];
           this.permitirVentaSecuenciaIncorrecta = configReceive.con_valor === "1" ? true : false;
         }
