@@ -104,7 +104,7 @@ mat-toolbar {
   }
   
   .content {
-    min-height: calc(100vh - 98px);;
+    min-height: calc(100vh - 5rem);
     height: auto;
     border-radius: 10px;
     margin: 8px;
@@ -176,9 +176,10 @@ mat-toolbar {
     padding-right: 0;
   }
   
-  .mat-drawer-inner-container{
-    overflow: initial !important;
+  mat-sidenav .mat-drawer-inner-container{
+    scrollbar-width: none !important;
   }
+
   
   mat-toolbar  a img{
     cursor: pointer;

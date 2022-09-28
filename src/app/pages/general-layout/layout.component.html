@@ -25,29 +25,30 @@
 
 <mat-sidenav-container>
     <mat-sidenav #sidenav="matSidenav" >
+      <div class="mat-drawer-inner-container">
+        <img class="avatar mat-elevation-z8"  src="../../../assets/default_user.png" />
 
-      <img class="avatar mat-elevation-z8"  src="../../../assets/default_user.png" />
+        <h4 class="name">Lider Andrade</h4>
+        <p class="designation">Sheyla Software</p>
 
-      <h4 class="name">Lider Andrade</h4>
-      <p class="designation">Sheyla Software</p>
+        <mat-divider></mat-divider>
+        <div class="menu">
 
-      <mat-divider></mat-divider>
-      <div class="menu">
+          <li *ngFor="let menu of menus; let i = index"  [class.active]="menu.active"
+              (click)="selectMenu(menu)">
+            <a class="a-btn" >
+              <mat-icon>{{menu.matIcon}}</mat-icon>
+              <span>{{menu.name}}</span>
+              <mat-icon class="chevron-icon" *ngIf="menu.submenu.length > 0">chevron_right</mat-icon>
+            </a>
+            <div #submenu class="menu-item-sub" [ngStyle]="{
+              'max-height': menu.active ? submenu.scrollHeight + 'px' : 0 + 'px'
+            }">
+              <a *ngFor="let submenu of menu.submenu" (click)="selectSubmenu(submenu); $event.stopPropagation();">{{submenu.name}}</a>
+            </div>
+          </li>
 
-        <li *ngFor="let menu of menus; let i = index"  [class.active]="menu.active"
-            (click)="selectMenu(menu)">
-          <a class="a-btn" >
-            <mat-icon>{{menu.matIcon}}</mat-icon>
-            <span>{{menu.name}}</span>
-            <mat-icon class="chevron-icon" *ngIf="menu.submenu.length > 0">chevron_right</mat-icon>
-          </a>
-          <div #submenu class="menu-item-sub" [ngStyle]="{
-            'max-height': menu.active ? submenu.scrollHeight + 'px' : 0 + 'px'
-          }">
-            <a *ngFor="let submenu of menu.submenu" (click)="selectSubmenu(submenu); $event.stopPropagation();">{{submenu.name}}</a>
-          </div>
-        </li>
-
+      </div>
       </div>
 
     </mat-sidenav>

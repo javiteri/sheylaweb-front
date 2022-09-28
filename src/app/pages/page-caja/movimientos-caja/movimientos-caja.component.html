@@ -1,0 +1,120 @@
+<div class="titulo">
+    <p>Movimientos Caja</p>
+</div>
+
+<div class="container-options" #containerTable>
+
+    <div>
+      <mat-card class="mat-card-one">
+        <mat-card-content>
+          <div class="container-search-bar">
+      
+            <div class="inner-container-date-filter">
+                <mat-form-field class="mat-form-field-date">
+                    <mat-label>Desde</mat-label>
+                    <input matInput [matDatepicker]="pickerdesde" [(ngModel)]="dateInicioFilter">
+                    <mat-datepicker-toggle matSuffix [for]="pickerdesde"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerdesde></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field class="mat-form-field-date">
+                    <mat-label>Hasta</mat-label>
+                    <input matInput [matDatepicker]="pickerhasta" [(ngModel)]="dateFinFilter">
+                    <mat-datepicker-toggle matSuffix [for]="pickerhasta"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerhasta></mat-datepicker>
+                </mat-form-field>
+            </div>
+        
+            <div class="flex-grow-dos inner-container-search ">
+                <mat-form-field class="font-size-12px">
+                    <mat-label>Usuario</mat-label>
+                    <mat-select [(ngModel)]="usuarioSelect">
+                        <mat-option *ngFor="let usuario of listUsuarios" [value]="usuario">
+                          {{usuario['usu_username']}}
+                        </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field class="font-size-12px">
+                    <mat-label>Tipo</mat-label>
+                    <mat-select [(value)]="tipoMovimientoSelect">
+                        <mat-option *ngFor="let tipoMovimiento of listTipoMovimiento" [value]="tipoMovimiento" >
+                          {{tipoMovimiento}}
+                        </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+
+              <input type="text" placeholder="Concepto" [(ngModel)]="conceptoMovimientoSearch"/>
+
+              <button class="font-weight-300" color="icon-accent" mat-stroked-button
+                matTooltip="Buscar"
+                (click)="searchListMovimientosCaja();$event.preventDefault();">
+                <mat-icon>search</mat-icon>
+              </button>
+            </div>
+            
+        </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  
+    <div>
+      <button class="font-weight-300 mat-elevation-z1" mat-raised-button>
+        <mat-icon>file_download</mat-icon>
+        Exportar
+      </button>
+    </div>
+  
+</div>
+
+<mat-card class="mat-card-two">
+     
+    <mat-card-content>
+
+        <div class="flex-layout-table" >
+            <mat-table [dataSource]="datasource" role="grid" >
+
+                <ng-container matColumnDef="fecha hora" >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header >Fecha Hora</th>
+                    <td mat-cell *matCellDef="let resumenMov"
+                    [ngClass]="resumenMov.tipo == 'EGRESO' ? 'text-decoration-troght' : ''" data-label="Fecha Hora"> {{resumenMov.fecha | date : 'dd/MM/yyyy hh:mm a'}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="tipo" >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header >Tipo</th>
+                    <td mat-cell *matCellDef="let resumenMov"
+                    [ngClass]="resumenMov.tipo == 'EGRESO' ? 'text-decoration-troght' : ''" data-label="Tipo"> {{resumenMov.tipo}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="monto" >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header >Monto</th>
+                    <td mat-cell  *matCellDef="let resumenMov" class="justify-content-center"
+                    [ngClass]="resumenMov.tipo == 'EGRESO' ? 'text-decoration-troght' : ''" data-label="Monto"> {{resumenMov.monto}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="concepto" >
+                    <th mat-header-cell  *matHeaderCellDef mat-sort-header  >Concepto</th>
+                    <td mat-cell  *matCellDef="let resumenMov"
+                    [ngClass]="resumenMov.tipo == 'EGRESO' ? 'text-decoration-troght' : ''" data-label="Concepto"> <p class="total-valor">{{resumenMov.concepto}}</p> </td>
+                  </ng-container>
+                  <ng-container matColumnDef="responsable">
+                    <th mat-header-cell  *matHeaderCellDef mat-sort-header>Responsable</th>
+                    <td mat-cell *matCellDef="let resumenMov" 
+                    [ngClass]="resumenMov.tipo == 'EGRESO' ? 'text-decoration-troght' : ''" data-label="Responsable"> {{resumenMov.responsable}} </td>
+                  </ng-container>                  
+
+
+                <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+
+            <mat-paginator *ngIf="showPagination" #paginator [pageSizeOptions]="[15, 30, 50]"
+                 showFirstLastButtons
+                 aria-label="Seleccione pagina elementos ventas"
+                 >
+            </mat-paginator>
+
+            <div *ngIf="showSinDatos"
+                  style="display: flex; justify-content: center; align-items: center; margin-top: 3rem; margin-bottom: 3rem;padding-bottom: 3rem;">
+                <label> No se Encontraron Datos</label>
+            </div>
+
+        </div>
+    </mat-card-content>
+</mat-card>

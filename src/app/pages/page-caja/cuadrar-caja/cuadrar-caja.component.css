@@ -1,0 +1,106 @@
+.titulo{
+    margin-bottom: .5em;
+}
+.titulo p{
+    font-size: .8em;
+    font-weight: 400;
+    color: var(--grey-600);
+}
+
+.container-main{
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.container-main div{
+    flex: 1 1 0;
+}
+
+.container-monedas-values > div{
+    width: 60%;
+}
+.container-monedas-values .mat-card{
+    padding: 0;
+    width: 60%;
+    box-shadow: 0 5px 20px rgba(0,0,0,.05) !important;
+}
+.container-monedas-values .mat-row{
+    min-height: 1.5rem;
+}
+
+.container-monedas-values .mat-card th.mat-header-cell:first-of-type, .container-monedas-values .mat-card td.mat-cell:first-of-type{
+    padding-left: 12px;
+}
+
+.mat-row:nth-child(even){
+    background-color: var(--color-primary-dark-400);
+}
+
+th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+    border-bottom-width: 0;
+    border-bottom-style: none;
+}
+
+
+/*INPUTS CSS STYLES*/
+td input, .totales-arqueo input{
+    text-align: center;
+    border: 1px solid var(--grey-400);
+    border-radius: 4px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    max-width: 50%;
+    min-width: 0;
+}
+td input:focus-visible,.totales-arqueo input:focus-visible {
+    border-color: var(--accent-color);
+    outline: none;
+    box-shadow: inset 0 0 0 1px #0969da;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.margin-left-1em{
+    margin-left: 1em;
+}
+@media screen and (max-width: 1028px){
+    td input{
+        max-width: 100%;
+        width: 90%;
+    }  
+}
+
+.totales-arqueo{
+    margin-top: .4em;
+}
+.totales-arqueo span{
+    white-space: nowrap;
+}
+.totales-arqueo div{
+    font-size: .4em;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+.totales-arqueo input{
+    min-width: 0;
+    margin-left: 3px;
+}
+
+.totales-arqueo div:last-child{
+    margin-top: 1em;
+}
+
+.mat-icon-accent{
+    color: var(--accent-color);
+}

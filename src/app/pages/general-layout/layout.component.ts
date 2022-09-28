@@ -81,6 +81,16 @@ export class LayoutComponent implements OnInit {
       ]
     },
     {
+      name: 'Caja',
+      matIcon: 'calculate',
+      active: false,
+      routerLink: '',
+      submenu: [
+        {name: 'Movimientos de Caja', url: 'caja/movimientoscaja'},
+        {name: 'Cuadrar Caja', url: 'caja/cuadrarcaja'}
+      ]
+    },
+    {
       name: 'Configurar',
       matIcon: 'settings',
       active: false,

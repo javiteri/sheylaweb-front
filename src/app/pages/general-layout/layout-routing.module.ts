@@ -35,6 +35,10 @@ const routes: Routes = [
         path: 'compras',
         loadChildren: () => import('../page-compras/compras.module').then((m) => m.ComprasModule)
       },
+      { 
+        path: 'caja',
+        loadChildren: () => import('../page-caja/caja.module').then((m) => m.CajaModule)
+      },
       {
         path: 'infoempresa',
         loadChildren: () => import('../registro-empresa/registroempresa.module').then((m) => m.RegistroEmpresaModule)

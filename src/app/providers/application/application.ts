@@ -177,6 +177,14 @@ export class ApplicationProvider {
     return this.coreEndPoint.getDataByIdCompra(idVenta, idEmp,accessToken);
   }
 
+  //CAJA
+  getListMovimientosCajaByIdEmp(idEmpresa: any, nombreUsuario: any, tipo: any, concepto: any, fechaIni: any, 
+    fechaFin: any, accessToken: any){
+    return this.coreEndPoint.getListaMovimientosCajaByIdEmp(idEmpresa,nombreUsuario,tipo,concepto,fechaIni,fechaFin,accessToken);
+  }
+
+
+
   //CONFIGURACIONES
   insertListConfigsToBD(postData: any, accessToken: any){
     return this.coreEndPoint.insertListConfigsToBD(postData, accessToken);
