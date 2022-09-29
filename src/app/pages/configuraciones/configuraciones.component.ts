@@ -19,7 +19,8 @@ export class ConfiguracionesComponent implements OnInit {
   "COMPRA_NUMERODECIMALES",
   "VENTAS_PERMITIR_INGRESAR_SIN_SECUENCIA",
   "VENTAS_IVA_INCLUIDO_FACTURA",
-  "CAJA_PERMITIR_CAMBIAR_FECHA"
+  "CAJA_PERMITIR_CAMBIAR_FECHA",
+  "CAJA_PERMITIR_CAMBIAR_USUARIO"
   ]
 
 
@@ -30,8 +31,9 @@ export class ConfiguracionesComponent implements OnInit {
   ivaSelect = "00.00"
   checkedIvaIncluidoVentas = false;
   checkedVentasSinSecuencia = false;
-  checkedPermitirChangeFechaMovCaja = false;
 
+  checkedPermitirChangeFechaMovCaja = false;
+  checkedPermitirCambiarUsuarioCuadreCaja = false;
   idEmpresa: number = 0;
   rucEmpresa: string = '';
   //dataUser
@@ -107,6 +109,13 @@ export class ConfiguracionesComponent implements OnInit {
           this.checkedPermitirChangeFechaMovCaja = (cajaAllowCambiarFecha.con_valor == "1" ? true : false);
         }else{
           this.checkedPermitirChangeFechaMovCaja = false
+        }
+
+        const cajaAllowCambiarUsuarioCuadre = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[6]);
+        if(cajaAllowCambiarUsuarioCuadre){
+          this.checkedPermitirCambiarUsuarioCuadreCaja = (cajaAllowCambiarUsuarioCuadre.con_valor == "1" ? true : false);
+        }else{
+          this.checkedPermitirCambiarUsuarioCuadreCaja = false
         }
 
       },

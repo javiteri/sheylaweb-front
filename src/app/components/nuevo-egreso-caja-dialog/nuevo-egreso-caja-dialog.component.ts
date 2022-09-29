@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
+import { ConfigReceive } from 'src/app/pages/configuraciones/models/ConfigReceive';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
 
@@ -57,6 +58,7 @@ export class NuevoEgresoCajaDialogComponent implements OnInit {
     this.idUsuario = localServiceResponseUsr._userId;
 
     this.validateChangeDate();
+    this.getConfigAllowChangeFecha();
   }
 
 
@@ -110,5 +112,28 @@ export class NuevoEgresoCajaDialogComponent implements OnInit {
 
     console.log();
 
+  }
+
+  private getConfigAllowChangeFecha(){
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'CAJA_PERMITIR_CAMBIAR_FECHA', this.tokenValidate).subscribe({
+      next: (data: any) => {
+        console.log('inside config change fecha');
+        console.log(data);
+        if(data.data.length > 0){
+          const configReceive: ConfigReceive = data.data[0];
+
+          this.isAllowChangeDate = (configReceive.con_valor == "1") ? true : false;
+        }else{
+          this.isAllowChangeDate = false;
+        }
+
+        this.validateChangeDate();
+
+      },
+      error: (error) => {
+        console.log('error get num decimales');
+        console.log(error);
+      }
+    });
   }
 }

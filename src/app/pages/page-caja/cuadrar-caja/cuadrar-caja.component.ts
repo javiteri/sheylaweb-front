@@ -11,6 +11,7 @@ import { LoadingService } from 'src/app/services/Loading.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
+import { ConfigReceive } from '../../configuraciones/models/ConfigReceive';
 
 @Component({
   selector: 'app-cuadrar-caja',
@@ -56,6 +57,9 @@ export class CuadrarCajaComponent implements OnInit {
 
   showSinMovimientos = true;
 
+  isAllowChangeDate = false;
+  isAllowChangeuser = false;
+
   constructor(private coreService: ApplicationProvider,
     private loadingService: LoadingService,
     private toastr: ToastrService,
@@ -87,6 +91,8 @@ export class CuadrarCajaComponent implements OnInit {
     this.getListMovimientosCuadrarCajaByIdEmp();
     this.getUsuariosByIdEmpresa();
     this.getValorCajaByIdEmp();
+    this.getConfigAllowChangeFecha();
+    this.getConfigAllowChangeUsarioCaja();
   }
 
   private cloningArrayMonedasCant(){
@@ -118,6 +124,9 @@ export class CuadrarCajaComponent implements OnInit {
         let valorIngresosMenosEgreso = 0.0;
 
         this.dataSourceListMov.forEach((valor: ItemCuadreCajaWithDetalle) => {
+
+          valor.monto = Number(valor.monto).toFixed(2);
+          
           if(valor.tipo == 'INGRESO'){
             valorIngresosMenosEgreso += Number(valor.monto);
           }else{
@@ -185,6 +194,7 @@ export class CuadrarCajaComponent implements OnInit {
     if(!regexOnlyNumber.test(cantidad)){
       this.datasource.data[index].cantidad = '';
     }
+    this.datasource.data[index].cantidad = Number(cantidad).toFixed(2);
 
     let totalArqueo = 0.0;
     this.datasource.data.forEach((value: MonedaCantidadItem) => {
@@ -281,4 +291,44 @@ export class CuadrarCajaComponent implements OnInit {
     this.totalArqueoCaja = "00.00";
     this.totalResultadoValorArqueo = "00.00";
   }
+
+  private getConfigAllowChangeFecha(){
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'CAJA_PERMITIR_CAMBIAR_FECHA', this.tokenValidate).subscribe({
+      next: (data: any) => {
+        console.log('inside config change fecha');
+        console.log(data);
+        if(data.data.length > 0){
+          const configReceive: ConfigReceive = data.data[0];
+
+          this.isAllowChangeDate = (configReceive.con_valor == "1") ? true : false;
+        }
+
+      },
+      error: (error) => {
+        console.log('error get num decimales');
+        console.log(error);
+      }
+    });
+  }
+
+  private getConfigAllowChangeUsarioCaja(){
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'CAJA_PERMITIR_CAMBIAR_USUARIO', this.tokenValidate).subscribe({
+      next: (data: any) => {
+
+        if(data.data.length > 0){
+          const configReceive: ConfigReceive = data.data[0];
+
+          this.isAllowChangeuser = (configReceive.con_valor == "1") ? true : false;
+        }
+
+        
+
+      },
+      error: (error) => {
+        console.log('error get num decimales');
+        console.log(error);
+      }
+    });
+  }
+
 }

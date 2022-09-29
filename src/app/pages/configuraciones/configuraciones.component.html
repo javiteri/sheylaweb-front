@@ -3,64 +3,93 @@
 </div>
 
 <mat-card>
-    <mat-card-header class="bg-info text-white">
-        <mat-card-title >
-            <label>Configuraciones Generales</label>
-        </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-        <div class="content-configs">
-            <div>
-                <p class="margin-bottom-cero">Valor Iva:</p>
-                <input matInput [(ngModel)]="ivaSelect" type="text"
-                (blur)="changeValorIva();">
-            </div>
-            <div>
-                <p class="margin-bottom-cero">Decimales en Venta:</p>
-                <mat-form-field appearance="fill" style="margin-bottom: -1.25em">
-                    <mat-label>Decimales</mat-label>
-                    <mat-select [(value)]="decimalesVentaSelect" (selectionChange)="changeToogle(NAMES_CONFIGS[1], decimalesVentaSelect)">
-                      <mat-option *ngFor="let decimales of listDecimalesVenta" [value]="decimales">
-                        {{decimales}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-            </div>
-            <div>
-                <p class="margin-bottom-cero">Decimales en Compra:</p>
-                <mat-form-field appearance="fill" style="margin-bottom: -1.25em">
-                    <mat-label>Decimales</mat-label>
-                    <mat-select [(value)]="decimalesCompraSelect" (selectionChange)="changeToogle(NAMES_CONFIGS[2], decimalesCompraSelect)">
-                      <mat-option *ngFor="let decimales of listDecimalesVenta" [value]="decimales">
-                        {{decimales}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-            </div>
-            <div>
-              <p class="margin-bottom-cero">Iva Incluido en Ventas:</p>
-              <mat-slide-toggle [(ngModel)]="checkedIvaIncluidoVentas"
-              (change)="changeToogle(NAMES_CONFIGS[4], checkedIvaIncluidoVentas)"></mat-slide-toggle>
-            </div>
-            <div>
-              <p class="margin-bottom-cero">PERMITIR INGRESAR VENTAS SIN SECUENCIA CORRECTA</p>
-              <mat-slide-toggle [(ngModel)]="checkedVentasSinSecuencia"
-              (change)="changeToogle(NAMES_CONFIGS[3], checkedVentasSinSecuencia)"></mat-slide-toggle>
-            </div>
-            <div>
-              <p class="margin-bottom-cero">PERMITIR CAMBIAR FECHA EN MOV. CAJA</p>
-              <mat-slide-toggle [(ngModel)]="checkedPermitirChangeFechaMovCaja"
-              (change)="changeToogle(NAMES_CONFIGS[5], checkedPermitirChangeFechaMovCaja)"></mat-slide-toggle>
-            </div>
-          <!--  <div class="container-form-btn">
-                <button  mat-raised-button class="btn-cancelar" 
-                (mousedown)="cancelarClick();$event.preventDefault();">Cancelar</button>
-                <button mat-raised-button color="btn-icon-accent"
-                color="btn-icon-accent"
-                (mousedown)="saveDatosConfig();$event.preventDefault();">Guardar</button>
-            </div>-->
+  <mat-card-header class="bg-info text-white">
+      <mat-card-title >
+          <label>Configuracion Ventas</label>
+      </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+      <div class="content-configs">
+          <div>
+              <p class="margin-bottom-cero">Valor Iva:</p>
+              <input matInput [(ngModel)]="ivaSelect" type="text"
+              (blur)="changeValorIva();">
+          </div>
+          <div>
+              <p class="margin-bottom-cero">Decimales en Venta:</p>
+              <mat-form-field appearance="fill" style="margin-bottom: -1.25em">
+                  <mat-label>Decimales</mat-label>
+                  <mat-select [(value)]="decimalesVentaSelect" (selectionChange)="changeToogle(NAMES_CONFIGS[1], decimalesVentaSelect)">
+                    <mat-option *ngFor="let decimales of listDecimalesVenta" [value]="decimales">
+                      {{decimales}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+          </div>
+          <div>
+            <p class="margin-bottom-cero">Iva Incluido en Ventas:</p>
+            <mat-slide-toggle [(ngModel)]="checkedIvaIncluidoVentas"
+            (change)="changeToogle(NAMES_CONFIGS[4], checkedIvaIncluidoVentas)"></mat-slide-toggle>
+          </div>
 
-        </div>
+          <div>
+            <p class="margin-bottom-cero">PERMITIR INGRESAR VENTAS SIN SECUENCIA CORRECTA</p>
+            <mat-slide-toggle [(ngModel)]="checkedVentasSinSecuencia"
+            (change)="changeToogle(NAMES_CONFIGS[3], checkedVentasSinSecuencia)"></mat-slide-toggle>
+          </div>  
 
-    </mat-card-content>
+      </div>
+
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-header class="bg-info text-white">
+      <mat-card-title >
+          <label>Configuraciones Compras</label>
+      </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+      <div class="content-configs">
+         
+          <div>
+              <p class="margin-bottom-cero">Decimales en Compra:</p>
+              <mat-form-field appearance="fill" style="margin-bottom: -1.25em">
+                  <mat-label>Decimales</mat-label>
+                  <mat-select [(value)]="decimalesCompraSelect" (selectionChange)="changeToogle(NAMES_CONFIGS[2], decimalesCompraSelect)">
+                    <mat-option *ngFor="let decimales of listDecimalesVenta" [value]="decimales">
+                      {{decimales}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+          </div>
+        
+      </div>
+
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-header class="bg-info text-white">
+      <mat-card-title >
+          <label>Configuraciones Caja</label>
+      </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+      <div class="content-configs">
+          
+          <div>
+            <p class="margin-bottom-cero">PERMITIR CAMBIAR FECHA EN MOV. CAJA</p>
+            <mat-slide-toggle [(ngModel)]="checkedPermitirChangeFechaMovCaja"
+            (change)="changeToogle(NAMES_CONFIGS[5], checkedPermitirChangeFechaMovCaja)"></mat-slide-toggle>
+          </div>
+          <div>
+            <p class="margin-bottom-cero">PERMITIR CAMBIAR USUARIO CUADRE DE CAJA</p>
+            <mat-slide-toggle [(ngModel)]="checkedPermitirCambiarUsuarioCuadreCaja"
+            (change)="changeToogle(NAMES_CONFIGS[6], checkedPermitirCambiarUsuarioCuadreCaja)"></mat-slide-toggle>
+          </div>
+
+      </div>
+
+  </mat-card-content>
 </mat-card>

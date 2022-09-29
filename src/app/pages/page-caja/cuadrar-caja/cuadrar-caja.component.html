@@ -37,16 +37,16 @@
         <div class="totales-arqueo">
             <div>
                 <span>Total Arqueo</span>
-                <input [(ngModel)]="totalArqueoCaja"/>
+                <input [(ngModel)]="totalArqueoCaja" readonly/>
             </div>
             <div>
                 <span>Total Caja</span>
-                <input [(ngModel)]="totalValorCaja"/>
+                <input [(ngModel)]="totalValorCaja" readonly/>
             </div>
             <div>
                 <span>Resultado</span>
                 <input class="text-color-green" [class.text-color-red] = "totalResultadoValorArqueo == '0' || totalResultadoValorArqueo.includes('-')" 
-                [(ngModel)]="totalResultadoValorArqueo"/>
+                [(ngModel)]="totalResultadoValorArqueo" readonly/>
             </div>
             <div class="container-btn-aceptar-valores" >
                 <button mat-button mat-raised-button color="btn-icon-accent" 
@@ -66,19 +66,19 @@
                             <div class="inner-container-date-filter">
                                 <mat-form-field class="mat-form-field-date">
                                     <mat-label>Desde</mat-label>
-                                    <input matInput [matDatepicker]="pickerdesde" [(ngModel)]="dateInicioFilter">
+                                    <input matInput [matDatepicker]="pickerdesde" [(ngModel)]="dateInicioFilter" [disabled]="!isAllowChangeDate">
                                     <mat-datepicker-toggle matSuffix [for]="pickerdesde"></mat-datepicker-toggle>
                                     <mat-datepicker #pickerdesde></mat-datepicker>
                                 </mat-form-field>
                                 <mat-form-field class="mat-form-field-date">
                                     <mat-label>Hasta</mat-label>
-                                    <input matInput [matDatepicker]="pickerhasta" [(ngModel)]="dateFinFilter">
+                                    <input matInput [matDatepicker]="pickerhasta" [(ngModel)]="dateFinFilter" [disabled]="!isAllowChangeDate">
                                     <mat-datepicker-toggle matSuffix [for]="pickerhasta"></mat-datepicker-toggle>
                                     <mat-datepicker #pickerhasta></mat-datepicker>
                                 </mat-form-field>
                                 <mat-form-field class="font-size-12px">
                                     <mat-label>Usuario</mat-label>
-                                    <mat-select [(ngModel)]="usuarioSelect">
+                                    <mat-select [(ngModel)]="usuarioSelect" [disabled]="!isAllowChangeuser">
                                         <mat-option *ngFor="let usuario of listUsuarios" [value]="usuario">
                                           {{usuario['usu_username']}}
                                         </mat-option>
@@ -101,9 +101,10 @@
                 <ng-container matColumnDef="tipo" >
                     <th mat-header-cell *matHeaderCellDef mat-sort-header >Tipo</th>
                     <td mat-cell *matCellDef="let element"
-                    [class.text-color-red]="element.tipo == 'EGRESO'"> {{element.tipo}} </td>
+                    [class.text-color-red]="element.tipo == 'EGRESO'">
+                    <mat-icon >{{(element.tipo == 'EGRESO') ? 'remove' : 'add'}}</mat-icon> {{element.tipo}} </td>
                 </ng-container>
-                <ng-container matColumnDef="grupo" >
+                <ng-container matColumnDef="grupo" > 
                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="flex-grow-1-5">Grupo</th>
                     <td mat-cell *matCellDef="let element" class="flex-grow-1-5"> {{element.grupo}} </td>
                 </ng-container>
@@ -147,7 +148,7 @@
                             </ng-container>
                             <ng-container matColumnDef="monto" >
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header >Monto</th>
-                                <td mat-cell *matCellDef="let element" class="text-align-end"> {{element.monto }} </td>
+                                <td mat-cell *matCellDef="let element" class="text-align-end"> {{element.monto | number: '.2'}} </td>
                             </ng-container>
                             <ng-container matColumnDef="fecha" >
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="justify-content-center">Fecha</th>
