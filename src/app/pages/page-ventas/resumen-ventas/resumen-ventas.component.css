@@ -271,3 +271,11 @@ border-bottom-style:none;
 .mat-row:hover{
   background-color: var(--grey-300);
 }
+
+.mat-footer-row{
+  font-weight: 500;
+}
+
+.mat-footer-row .mat-footer-cell:last-child{
+  padding-right: 0;
+}

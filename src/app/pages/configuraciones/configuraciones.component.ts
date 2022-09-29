@@ -18,7 +18,8 @@ export class ConfiguracionesComponent implements OnInit {
   "VENTA_NUMERODECIMALES",
   "COMPRA_NUMERODECIMALES",
   "VENTAS_PERMITIR_INGRESAR_SIN_SECUENCIA",
-  "VENTAS_IVA_INCLUIDO_FACTURA"
+  "VENTAS_IVA_INCLUIDO_FACTURA",
+  "CAJA_PERMITIR_CAMBIAR_FECHA"
   ]
 
 
@@ -29,6 +30,7 @@ export class ConfiguracionesComponent implements OnInit {
   ivaSelect = "00.00"
   checkedIvaIncluidoVentas = false;
   checkedVentasSinSecuencia = false;
+  checkedPermitirChangeFechaMovCaja = false;
 
   idEmpresa: number = 0;
   rucEmpresa: string = '';
@@ -100,6 +102,12 @@ export class ConfiguracionesComponent implements OnInit {
           this.checkedVentasSinSecuencia = false
         }
 
+        const cajaAllowCambiarFecha = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[5]);
+        if(cajaAllowCambiarFecha){
+          this.checkedPermitirChangeFechaMovCaja = (cajaAllowCambiarFecha.con_valor == "1" ? true : false);
+        }else{
+          this.checkedPermitirChangeFechaMovCaja = false
+        }
 
       },
       error: (error) =>{

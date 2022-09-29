@@ -1,0 +1,31 @@
+<div class="main-nuevo-ingreso">
+    <div class="dialog-header">
+        Ingreso De Caja
+    </div>
+    <form [formGroup]="sendDatosFormIngreso" >
+        <div class="container-form-fields">
+            <mat-form-field class="mat-form-field-date">
+                <mat-label>Fecha</mat-label>
+                <input matInput readonly [matDatepicker]="picker" formControlName="fecha" >
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field >
+                <mat-label>Monto</mat-label>
+                <input matInput type="number" formControlName="monto">
+                <span matPrefix>$&nbsp;</span>
+            </mat-form-field>
+
+            <mat-form-field >
+                <mat-label>Concepto</mat-label>
+                <textarea matInput rows="4" formControlName="concepto"></textarea>
+            </mat-form-field>
+
+            <button mat-button mat-raised-button color="btn-icon-accent" (click)="insertIngresoCaja(sendDatosFormIngreso.value);">
+                    Guardar Ingreso
+            </button>
+                    
+        </div>
+    </form>
+</div>

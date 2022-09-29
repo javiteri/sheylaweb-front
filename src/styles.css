@@ -37,7 +37,7 @@ img{
   min-height: 3em;
 }
 .mat-row{
-  height: auto !important; min-height: 3em;
+  height: auto ; min-height: 3em;
 }
 
 .mat-footer-row, .mat-header-row, .mat-row{

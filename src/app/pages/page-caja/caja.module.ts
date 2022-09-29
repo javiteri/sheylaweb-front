@@ -18,6 +18,7 @@ import { PickDateAdapter, PICK_FORMATS } from "../page-ventas/adapter/DatePicker
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { MatSelectModule } from "@angular/material/select";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 @NgModule({
     declarations: [
@@ -30,6 +31,7 @@ import { MatSelectModule } from "@angular/material/select";
         MatCardModule,
         MatSelectModule,
         MatFormFieldModule,
+        MatProgressSpinnerModule,
         MatInputModule,
         MatDatepickerModule,
         MatNativeDateModule,

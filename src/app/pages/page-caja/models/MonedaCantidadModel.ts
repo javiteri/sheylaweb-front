@@ -1,4 +1,5 @@
 export interface MonedaCantidadItem{
     nombre: string;
-    valor: string
+    valor: string,
+    cantidad: string
 }

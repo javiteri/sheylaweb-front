@@ -17,11 +17,11 @@
 }
 
 .container-monedas-values > div{
-    width: 60%;
+    width: 80%;
 }
 .container-monedas-values .mat-card{
     padding: 0;
-    width: 60%;
+    width: 80%;
     box-shadow: 0 5px 20px rgba(0,0,0,.05) !important;
 }
 .container-monedas-values .mat-row{
@@ -32,7 +32,7 @@
     padding-left: 12px;
 }
 
-.mat-row:nth-child(even){
+.container-monedas-values .mat-row:nth-child(even){
     background-color: var(--color-primary-dark-400);
 }
 
@@ -51,6 +51,7 @@ td input, .totales-arqueo input{
     padding-bottom: 3px;
     max-width: 50%;
     min-width: 0;
+    background-color: white;
 }
 td input:focus-visible,.totales-arqueo input:focus-visible {
     border-color: var(--accent-color);
@@ -103,4 +104,169 @@ input[type=number] {
 
 .mat-icon-accent{
     color: var(--accent-color);
+}
+
+table {
+    width: 100%;
+  }
+  
+  tr.example-detail-row {
+    height: auto;
+    min-height: 0;
+  }
+  
+  /*tr.example-element-row:not(.example-expanded-row):hover {
+    background: whitesmoke;
+  }
+  
+  tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+  }*/
+  
+  .example-element-row td {
+    border-bottom-width: 0;
+  }
+  
+  .example-element-detail {
+    overflow: hidden;
+    display: flex;
+  }
+  
+  
+  .example-element-description-attribution {
+    opacity: 0.5;
+  }
+
+  .example-detail-row > td{
+    padding-left: 0;
+  }
+  
+  .text-align-end{
+    justify-content: end;
+    margin-right: 1em;
+  }
+
+
+.example-element-detail tr{
+    height: auto;
+}
+.example-element-row td button{
+    width: 100%;
+}
+
+.container-movimientos-values {
+    flex-grow: 1.5;
+}
+.container-movimientos-values .mat-header-row{
+    min-height: 0;
+    height: 1.3em;
+}
+
+.container-movimientos-values .example-element-row{
+    min-height: 1.3em;
+    height: auto;
+}
+
+.container-movimientos-values .example-element-row{
+    background-color: var(--color-primary-dark-400);
+}
+
+.flex-grow-punto4{
+    flex-grow: .4;
+}
+.flex-grow-1-5{
+    flex-grow: 1.5;
+}
+.justify-content-center{
+    justify-content: center;
+}
+
+.container-options .mat-card{
+    padding: 0 8px;
+}
+.container-options .mat-card > div{
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.container-options .mat-form-field{
+    width: 100%;
+    min-width: 0;
+    margin-bottom: -1em;
+}
+
+.container-options .mat-form-field + .mat-form-field{
+    margin-left: 1em;
+}
+.inner-container-date-filter button{
+    padding: 0;
+    min-width: 0;
+    width: 20%;
+    margin-left: 4px;
+}
+.inner-container-date-filter{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    font-size: 12px;
+}
+.container-total-movimientos{
+    margin-top: .3em;
+    font-size: .4em;
+}
+.container-total-movimientos span{
+    font-weight: 400;
+}
+.container-total-movimientos > div {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+.container-total-movimientos div + div{
+    margin-top: .3em;
+}
+
+.container-total-movimientos span + span{
+    margin-right: 28%;
+}
+
+.text-color-red{
+    color: red !important;
+}
+.text-color-green{
+    color: var(--accent-color);
+}
+
+.mat-card-one td{
+    white-space: nowrap;
+}
+
+.mat-card-one td input{
+    margin-top: .1em;
+    margin-bottom: .1em;
+}
+
+.container-btn-aceptar-valores{
+    justify-content: center !important;
+    align-content: center;
+    align-items: center;
+}
+
+@media screen and (max-width: 1144px){
+    .container-main{
+        flex-flow: column nowrap;
+    }
+    .container-movimientos-values{
+        margin-top: .8em;
+    }
+    .container-monedas-values{
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+    }
 }

@@ -57,7 +57,18 @@
       </mat-card>
     </div>
   
-    <div>
+    <div class="container-btn-ingresos">
+      <button mat-raised-button class="font-weight-300 mat-elevation-z1" 
+            color="btn-icon-accent" 
+            (click)="nuevoIngresoCajaClick();">
+            <mat-icon>add</mat-icon>
+            Nuevo Ingreso
+      </button>
+      <button mat-raised-button class="font-weight-300 mat-elevation-z1" 
+            color="btn-icon-accent" (click)="nuevoEgresoCajaClick();">
+            <mat-icon>add</mat-icon>
+            Nuevo Egreso
+      </button>
       <button class="font-weight-300 mat-elevation-z1" mat-raised-button>
         <mat-icon>file_download</mat-icon>
         Exportar

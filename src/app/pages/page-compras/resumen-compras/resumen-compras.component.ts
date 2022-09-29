@@ -34,10 +34,10 @@ export class ResumenComprasComponent implements OnInit {
   noDocmento = "";
   nombreCiRuc = "";
   
-  calcSubtotal12 = 0.00;
-  calcSubtotal0 = 0.00;
-  calcIva = 0.00;
-  calcTotal = 0.00;
+  calcSubtotal12 = "0.00";
+  calcSubtotal0 = "0.00";
+  calcIva = "0.00";
+  calcTotal = "0.00";
 
   constructor(private loadingService: LoadingService,
     private coreService: ApplicationProvider,
@@ -81,7 +81,12 @@ export class ResumenComprasComponent implements OnInit {
       this.noDocmento, dateInitString, dateFinString,this.tokenValidate).subscribe({
           next: (results: any) => {
             dialogRef.close();
-  
+            
+            let calcSubtotal0 = 0.0;
+            let calcSubtotal12 = 0.0;
+            let calcIva = 0.0;
+            let calcTotal = 0.0;
+
             const listWithThreeDecimals = Array.from(results.data).map((valor: any,index) => {
               
               valor.subtotalIva = (Number(valor.subtotalIva).toFixed(3)).toString();
@@ -89,17 +94,27 @@ export class ResumenComprasComponent implements OnInit {
               valor.valorIva = (Number(valor.valorIva).toFixed(3)).toString();
               valor.total = (Number(valor.total).toFixed(2)).toString();
 
+              calcSubtotal0 += Number(valor.subtotalCero);
+              calcSubtotal12 += Number(valor.subtotalIva);
+              calcIva += Number(valor.valorIva);
+              calcTotal += Number(valor.total);
+
               return valor;
             });
 
             try{    
+
+              this.calcSubtotal0 = calcSubtotal0.toFixed(3);
+              this.calcSubtotal12 = calcSubtotal12.toFixed(3);
+              this.calcIva = calcIva.toFixed(3);
+              this.calcTotal = calcTotal.toFixed(3);
+
               this.showPagination = results.data.length > 0;
               this.showSinDatos = !(results.data.length > 0);
             }catch(error){
               this.showPagination = false;
             }
                           
-            //this.datasource.data = results.data;
             this.datasource.data = listWithThreeDecimals;
             this.ref.detectChanges();
             this.datasource.paginator = this.paginator;

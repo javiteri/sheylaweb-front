@@ -1,0 +1,41 @@
+.main-nuevo-ingreso{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    /*min-height: 100%;
+    height: auto;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;*/
+
+}
+
+.dialog-header{
+    margin-top: .1em;
+    margin-bottom: 2em;
+
+    font-weight: 400;
+    color: var(--grey-600);
+}
+
+.container-form{
+    max-width: 900px;
+    width: 100%;
+}
+
+.container-form-fields{
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.mat-icon-accent{
+    color: var(--accent-color);
+}
+
+textarea{
+    resize: none;
+}

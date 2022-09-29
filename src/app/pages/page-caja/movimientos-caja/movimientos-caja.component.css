@@ -67,6 +67,7 @@
 .container-options div:nth-child(2){
     display: flex;
     justify-content: flex-end;
+    
 }
 
 .container-search-bar{
@@ -253,7 +254,7 @@ td.mat-footer-cell {
     }
 }
 
-@media screen and (max-width: 1294px){
+@media screen and (max-width: 1615px){
     .container-options{
         flex-flow: column-reverse;
     } 
@@ -271,4 +272,11 @@ td.mat-footer-cell {
 
 .justify-content-center{
     justify-content: center;
+}
+
+.container-btn-ingresos{
+    flex-flow: row wrap !important;
+}
+.container-btn-ingresos button + button{
+    margin-left: .3em;
 }

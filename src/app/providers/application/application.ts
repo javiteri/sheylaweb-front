@@ -182,8 +182,18 @@ export class ApplicationProvider {
     fechaFin: any, accessToken: any){
     return this.coreEndPoint.getListaMovimientosCajaByIdEmp(idEmpresa,nombreUsuario,tipo,concepto,fechaIni,fechaFin,accessToken);
   }
-
-
+  getListMovimientosCuadrarCajaByIdEmp(idEmpresa: any, idUsuario: any,fechaIni: any, fechaFin: any, accessToken: any){
+    return this.coreEndPoint.getListaMovimientosCuadrarCajaByIdEmp(idEmpresa,idUsuario,fechaIni,fechaFin,accessToken);
+  }
+  getValorCajaByIdEmp(idEmpresa: any, accessToken: any){
+    return this.coreEndPoint.getValorCajaByIdEmp(idEmpresa,accessToken);
+  }
+  insertCuadreCajaByIdEmp(postData: any, accessToken: any){
+    return this.coreEndPoint.insertCuadreCajaToBD(postData,accessToken);
+  }
+  insertIngresoEgresoByIdEmp(postData: any, accessToken: any){
+    return this.coreEndPoint.insertIngresoEgresoToBD(postData, accessToken);
+  }
 
   //CONFIGURACIONES
   insertListConfigsToBD(postData: any, accessToken: any){

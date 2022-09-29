@@ -1,6 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { NuevoEgresoCajaDialogComponent } from 'src/app/components/nuevo-egreso-caja-dialog/nuevo-egreso-caja-dialog.component';
+import { NuevoIngresoCajaDialogComponent } from 'src/app/components/nuevo-ingreso-caja-dialog/nuevo-ingreso-caja-dialog.component';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
@@ -40,7 +43,8 @@ export class MovimientosCajaComponent implements OnInit {
   constructor(
     private coreService: ApplicationProvider,
     private ref: ChangeDetectorRef,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private matDialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -133,6 +137,31 @@ export class MovimientosCajaComponent implements OnInit {
       },
       error: (error) => {
         console.log('error obteniendo usuarios');
+      }
+    });
+  }
+
+  nuevoIngresoCajaClick(){
+    const dialogRef = this.matDialog.open(NuevoIngresoCajaDialogComponent, {
+      closeOnNavigation: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.getListMovimientosCaja(); 
+      }
+    });
+  }
+
+
+  nuevoEgresoCajaClick(){
+    const dialogRef = this.matDialog.open(NuevoEgresoCajaDialogComponent, {
+      closeOnNavigation: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.getListMovimientosCaja();
       }
     });
   }

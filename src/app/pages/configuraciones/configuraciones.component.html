@@ -47,6 +47,11 @@
               <mat-slide-toggle [(ngModel)]="checkedVentasSinSecuencia"
               (change)="changeToogle(NAMES_CONFIGS[3], checkedVentasSinSecuencia)"></mat-slide-toggle>
             </div>
+            <div>
+              <p class="margin-bottom-cero">PERMITIR CAMBIAR FECHA EN MOV. CAJA</p>
+              <mat-slide-toggle [(ngModel)]="checkedPermitirChangeFechaMovCaja"
+              (change)="changeToogle(NAMES_CONFIGS[5], checkedPermitirChangeFechaMovCaja)"></mat-slide-toggle>
+            </div>
           <!--  <div class="container-form-btn">
                 <button  mat-raised-button class="btn-cancelar" 
                 (mousedown)="cancelarClick();$event.preventDefault();">Cancelar</button>

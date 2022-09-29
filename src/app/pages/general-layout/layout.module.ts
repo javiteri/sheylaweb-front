@@ -23,13 +23,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CrearClienteDialogComponent } from 'src/app/components/crear-cliente-dialog/crear-cliente-dialog.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { CrearProveedorDialogComponent } from 'src/app/components/crear-proveedor-dialog/crear-proveedor-dialog.component';
 import { BuscarProveedorDialogComponent } from 'src/app/components/buscar-proveedor-dialog/buscar-proveedor-dialog.component';
 import { ConfiguracionesComponent } from '../configuraciones/configuraciones.component';
 import { BuscarProductoCompraDialogComponent } from 'src/app/components/buscar-producto-compra-dialog/buscar-producto-compra-dialog.component';
+import { NuevoIngresoCajaDialogComponent } from 'src/app/components/nuevo-ingreso-caja-dialog/nuevo-ingreso-caja-dialog.component';
+import { NuevoEgresoCajaDialogComponent } from 'src/app/components/nuevo-egreso-caja-dialog/nuevo-egreso-caja-dialog.component';
+import { PickDateAdapter, PICK_FORMATS } from '../page-ventas/adapter/DatePickerAdapter';
 
 
 @NgModule({
@@ -41,7 +44,9 @@ import { BuscarProductoCompraDialogComponent } from 'src/app/components/buscar-p
     CrearClienteDialogComponent,
     CrearProveedorDialogComponent,
     BuscarProveedorDialogComponent,
-    ConfiguracionesComponent
+    ConfiguracionesComponent,
+    NuevoIngresoCajaDialogComponent,
+    NuevoEgresoCajaDialogComponent
   ],
   imports: [
     CommonModule,
@@ -65,6 +70,8 @@ import { BuscarProductoCompraDialogComponent } from 'src/app/components/buscar-p
     HttpClientModule,
     MatListModule,
     FormsModule
-  ]
+  ],providers: [
+    {provide: MAT_DATE_FORMATS, useValue: PICK_FORMATS},
+    {provide: DateAdapter, useClass: PickDateAdapter}]
 })
 export class LayoutModule { }

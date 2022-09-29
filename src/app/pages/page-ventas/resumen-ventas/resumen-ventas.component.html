@@ -90,22 +90,22 @@
                 <ng-container matColumnDef="subtotalIva">
                   <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header>Subtotal 12</th>
                   <td mat-cell  *matCellDef="let venta" data-label="subtotalIva"><p class="valor-texto">{{venta.subtotalIva}}</p> </td>
-                  <mat-footer-cell class="justify-centro" *matFooterCellDef>{{calcSubtotal12}}</mat-footer-cell>
+                  <mat-footer-cell class="justify-centro" *matFooterCellDef><p class="valor-texto">{{calcSubtotal12}}</p></mat-footer-cell>
                 </ng-container>
                 <ng-container matColumnDef="subtotalCero">
                   <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header>Subtotal 0</th>
                   <td mat-cell *matCellDef="let venta" data-label="SubtotalCero"> <p class="valor-texto">{{venta.subtotalCero}}</p></td>
-                  <mat-footer-cell class="justify-centro" *matFooterCellDef>{{calcSubtotal0}}</mat-footer-cell>
+                  <mat-footer-cell class="justify-centro" *matFooterCellDef><p class="valor-texto">{{calcSubtotal0}}</p></mat-footer-cell>
                 </ng-container>
                 <ng-container matColumnDef="valorIva">
                   <th mat-header-cell class="justify-centro flex-grow-punto_7" *matHeaderCellDef mat-sort-header>Iva</th>
                   <td mat-cell class="flex-grow-punto_7" *matCellDef="let venta" data-label="Valor Iva"><p class="valor-texto">{{venta.valorIva}}</p></td>
-                  <mat-footer-cell class="justify-centro flex-grow-punto_7" *matFooterCellDef>{{calcIva}}</mat-footer-cell>
+                  <mat-footer-cell class="justify-centro flex-grow-punto_7" *matFooterCellDef><p class="valor-texto">{{calcIva}}</p></mat-footer-cell>
                 </ng-container>
                 <ng-container matColumnDef="total" >
                   <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header  >Total</th>
                   <td mat-cell  *matCellDef="let venta" data-label="Total"> <p class="valor-texto">{{venta.total}}</p> </td>
-                  <mat-footer-cell class="justify-centro" *matFooterCellDef>{{calcTotal}}</mat-footer-cell>
+                  <mat-footer-cell  *matFooterCellDef><p class="valor-texto">{{calcTotal}}</p> </mat-footer-cell>
                 </ng-container>
               <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
               <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

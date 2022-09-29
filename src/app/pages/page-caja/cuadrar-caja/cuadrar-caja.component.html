@@ -19,8 +19,9 @@
                     <!-- Cost Column -->
                     <ng-container matColumnDef="cantidad">
                         <th mat-header-cell *matHeaderCellDef class="margin-left-1em"> Cantidad </th>
-                        <td mat-cell *matCellDef="let monedaCant" class="margin-left-1em">
-                            <input  matInput type="text" ><!--[(ngModel)]="producto.precio"-->
+                        <td mat-cell *matCellDef="let monedaCant;let i = index" class="margin-left-1em">
+                            <input  matInput type="text" [(ngModel)]="monedaCant.cantidad"
+                            (blur)="calcularTotalSumaArqueo(monedaCant.cantidad,i);$event.stopPropagation();">
                         </td>
                     </ng-container>
 
@@ -36,30 +37,168 @@
         <div class="totales-arqueo">
             <div>
                 <span>Total Arqueo</span>
-                <input/>
+                <input [(ngModel)]="totalArqueoCaja"/>
             </div>
             <div>
                 <span>Total Caja</span>
-                <input/>
+                <input [(ngModel)]="totalValorCaja"/>
             </div>
             <div>
                 <span>Resultado</span>
-                <input/>
+                <input class="text-color-green" [class.text-color-red] = "totalResultadoValorArqueo == '0' || totalResultadoValorArqueo.includes('-')" 
+                [(ngModel)]="totalResultadoValorArqueo"/>
             </div>
-            <div>
-                <button mat-button mat-raised-button color="btn-icon-accent" >
+            <div class="container-btn-aceptar-valores" >
+                <button mat-button mat-raised-button color="btn-icon-accent" 
+                (click)="guardarValoresCuadreCaja();$event.stopPropagation();">
                     <mat-icon>local_police</mat-icon>
                     Aceptar Valores Cuadre Caja</button>
             </div>
         </div>
     </div>
 
-    <div class="container-movimientos-values">
+    <div class="container-movimientos-values" style="flex-grow: 1.5;">
         <div>
-            <p>Filtros</p>
-        </div>
+            <div class="container-options" #containerTable>
+                <div>
+                    <mat-card class="mat-card-one">
+                        <mat-card-content>
+                            <div class="inner-container-date-filter">
+                                <mat-form-field class="mat-form-field-date">
+                                    <mat-label>Desde</mat-label>
+                                    <input matInput [matDatepicker]="pickerdesde" [(ngModel)]="dateInicioFilter">
+                                    <mat-datepicker-toggle matSuffix [for]="pickerdesde"></mat-datepicker-toggle>
+                                    <mat-datepicker #pickerdesde></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field class="mat-form-field-date">
+                                    <mat-label>Hasta</mat-label>
+                                    <input matInput [matDatepicker]="pickerhasta" [(ngModel)]="dateFinFilter">
+                                    <mat-datepicker-toggle matSuffix [for]="pickerhasta"></mat-datepicker-toggle>
+                                    <mat-datepicker #pickerhasta></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field class="font-size-12px">
+                                    <mat-label>Usuario</mat-label>
+                                    <mat-select [(ngModel)]="usuarioSelect">
+                                        <mat-option *ngFor="let usuario of listUsuarios" [value]="usuario">
+                                          {{usuario['usu_username']}}
+                                        </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                                <button class="font-weight-300" color="icon-accent" mat-stroked-button
+                                    matTooltip="Buscar"
+                                    (click)="searchListCuadreCaja();$event.preventDefault();">
+                                    <mat-icon>search</mat-icon>
+                                </button>
+                            </div>
+                        
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
         <div>
+            <mat-table [dataSource]="dataSourceListMov" multiTemplateDataRows>
             
+                <ng-container matColumnDef="tipo" >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header >Tipo</th>
+                    <td mat-cell *matCellDef="let element"
+                    [class.text-color-red]="element.tipo == 'EGRESO'"> {{element.tipo}} </td>
+                </ng-container>
+                <ng-container matColumnDef="grupo" >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="flex-grow-1-5">Grupo</th>
+                    <td mat-cell *matCellDef="let element" class="flex-grow-1-5"> {{element.grupo}} </td>
+                </ng-container>
+                <ng-container matColumnDef="monto" >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header >Monto</th>
+                    <td mat-cell *matCellDef="let element" class="text-align-end"> {{element.monto }} </td>
+                </ng-container>
+                <ng-container matColumnDef="fecha" >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="justify-content-center">Fecha</th>
+                    <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="expand">
+                    <th mat-header-cell *matHeaderCellDef aria-label="row actions" class="flex-grow-punto4">&nbsp;</th>
+
+                    <td mat-cell *matCellDef="let element" class="flex-grow-punto4">
+                      <button mat-icon-button aria-label="expand row" (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
+                        <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+                        <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+                      </button>
+                    </td>
+                  </ng-container>
+                
+                  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+                  <ng-container matColumnDef="expandedDetail">
+                    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+                      <div class="example-element-detail"
+                           [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+
+
+                           <table #innerTables mat-table  [dataSource]="element.listDetalle" >
+                            
+                            
+                            <ng-container matColumnDef="tipo" >
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header >Tipo</th>
+                                <td mat-cell *matCellDef="let element"> {{element.tipo}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="grupo" >
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="flex-grow-1-5">Grupo</th>
+                                <td mat-cell *matCellDef="let element" class="flex-grow-1-5"> {{element.grupo}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="monto" >
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header >Monto</th>
+                                <td mat-cell *matCellDef="let element" class="text-align-end"> {{element.monto }} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="fecha" >
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="justify-content-center">Fecha</th>
+                                <td mat-cell *matCellDef="let element"> {{element.fecha | date : 'dd/MM/yyyy hh:mm a'}} </td>
+                            </ng-container>
+
+
+                            <ng-container matColumnDef="expand">
+                                <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+                                <td mat-cell *matCellDef="let element" class="flex-grow-punto4"></td>
+                            </ng-container>
+
+                            <tr mat-row *matRowDef="let row; columns: columnsToDisplayWithExpand;"></tr>
+                          </table>
+
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  
+
+
+                  <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+                  <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;"
+                      class="example-element-row"
+                      [class.example-expanded-row]="expandedElement === element"
+                      (click)="expandedElement = expandedElement === element ? null : element">
+                  </tr>
+                  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+
+            </mat-table>
+
+            <div *ngIf="!showSinMovimientos"
+                  style="display: flex; justify-content: center; align-items: center; 
+                  margin-top: 2rem; margin-bottom: 3rem;font-size: 18px;">
+                <label> No se Encontraron Datos</label>
+            </div>
+        </div>
+        <div class="container-total-movimientos" *ngIf="showSinMovimientos">
+            <div>
+                <span>Total INGRESOS - EGRESOS</span>
+                <span>{{totalIngresosMenosEgresoListMov}}</span>
+            </div>
+            <div>
+                <span>Saldos Anteriores</span>
+                <span>00.00</span>
+            </div>
+            <div>
+                <span>Total Caja</span>
+                <span >{{totalCajaListMov}}</span>
+            </div>
         </div>
     </div>
 </div>

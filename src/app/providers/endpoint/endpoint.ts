@@ -13,8 +13,8 @@ export class EndPointProvider {
     private readonly apiVersion = '1.0.0';
     private readonly appVersion = '1.0.0';
     //private readonly apiUrl = 'http://192.168.1.10:8086/api/';
-    private readonly apiUrl = 'http://localhost:3000/api/';
-    //private readonly apiUrl = 'http://factura.dyndns.info:8086/api/';
+    //private readonly apiUrl = 'http://localhost:3000/api/';
+    private readonly apiUrl = 'http://factura.dyndns.info:8086/api/';
 
     private readonly searchDatosClienteSri = 'http://sheyla2.dyndns.info/SRI/SRI.php';
     //private readonly searchDatosClienteSriLocal = 'http://localhost:4200/SRI';
@@ -747,6 +747,64 @@ export class EndPointProvider {
 
       return this.http.get<T>(endpointUrl, httpOptions);
     }
+
+    private readonly _listaMovimientosCuadrarCajaByIdEmp: string = 'caja/listcuadrecajamovimientosidemp';
+    private get listaMovimientosCuadrarCajaByIdEmp(){
+      return this.apiUrl + this._listaMovimientosCuadrarCajaByIdEmp;
+    }
+    getListaMovimientosCuadrarCajaByIdEmp<T>(idEmpresa: any, idUsuario: any,
+                                  fechaIni: any, fechaFin: any, accessToken: any): Observable<T>{
+      const endpointUrl = this.listaMovimientosCuadrarCajaByIdEmp;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('idUser',idUsuario)
+                            .set('fechaIni',fechaIni).set('fechaFin',fechaFin);
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+    private readonly _valorCajaByIdEmp: string = 'caja/getvalorcajabyidemp';
+    private get valorCajaByIdEmp(){
+      return this.apiUrl + this._valorCajaByIdEmp;
+    }
+    getValorCajaByIdEmp<T>(idEmpresa: any, accessToken: any): Observable<T>{
+      const endpointUrl = this.valorCajaByIdEmp;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa);
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+    private readonly _insertCuadreCajaByIdEmp: string = "caja/cuadrarcaja";
+    private get insertCuadreCajaUrl(){
+      return this.apiUrl + this._insertCuadreCajaByIdEmp;
+    }
+    insertCuadreCajaToBD<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.insertCuadreCajaUrl;   
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
+
+    private readonly _insertBitacoraIngresoEgresoByIdEmp: string = "caja/insertingresoegreso";
+    private get insertIngresoEgresoByIdEmpUrl(){
+      return this.apiUrl + this._insertBitacoraIngresoEgresoByIdEmp;
+    }
+    insertIngresoEgresoToBD<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.insertIngresoEgresoByIdEmpUrl;   
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
+
+
 
     //METHODS FOR CONFIGURACIONES
     private readonly _insertListConfigs: string = "configs/insertarlist";
