@@ -1,0 +1,83 @@
+<div class="titulo">
+    <p>Dashboard</p>
+</div>
+
+<div>
+
+    <div class="grid-dashboard">
+        
+        <div class="grid-item-one" >
+            <mat-card>
+                <mat-card-content>
+                    <div class="container-data-text-value">
+                        <p class="text-values-cards">$ {{ventaDiariaValue | number: '.2'}} </p>
+                        <p >Venta Diaria</p>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            <mat-card>
+                <mat-card-content>
+                    <div class="container-data-text-value">
+                        <p class="text-values-cards">$ {{ventaMensualValue | number: '.2'}}</p>
+                        <p>Venta Mensual</p>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            <mat-card>
+                <mat-card-content>
+                    <div class="container-data-text-value">
+                        <p class="text-values-cards">{{clientesRegistradosValue}}</p>
+                        <p>Clientes Registrados</p>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            <mat-card>
+                <mat-card-content>
+                    <div class="container-data-text-value">
+                        <p class="text-values-cards">{{productosRegistradosValue}}</p>
+                        <p>Productos Registrados</p>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+        </div>
+        <div class="grid-item-two">
+            <mat-card>
+                <mat-card-content>
+                    second card
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="grid-item-three">
+            <mat-card>
+                <mat-card-content>
+                    <div class="container-data-text-value">
+                        <p class="text-values-cards">{{documentosEmitidosValue}}</p>
+                        <p>Documentos Emitidos</p>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            <mat-card>
+                <mat-card-content>
+                    <div class="container-data-text-value">
+                        <p class="text-values-cards">grafico barras</p>
+                        <p>Dias licencia</p>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="grid-item-four" >
+            <mat-card>
+                <mat-card-content>
+                    firts inside card
+                </mat-card-content>
+            </mat-card>
+            <mat-card>
+                <mat-card-content>
+                    second inside card
+                </mat-card-content>
+            </mat-card></div>
+
+    </div>
+
+</div>

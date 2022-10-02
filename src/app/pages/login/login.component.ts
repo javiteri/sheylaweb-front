@@ -89,7 +89,7 @@ export class LoginComponent implements OnInit {
         }
 
         if(response.redirectToHome){
-          this.router.navigate(['/clientes'])
+          this.router.navigate(['/dashboard'])
         }
 
       },

@@ -2,18 +2,23 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { LayoutComponent } from './layout.component';
-import { PageComprasComponent } from '../page-compras/page-compras.component';
 import { ConfiguracionesComponent } from '../configuraciones/configuraciones.component';
+import { AuthGuard } from 'src/app/shared/guard/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'clientes'
+        redirectTo: 'dashboard'
+      },
+      {
+        path: 'dashboard',
+        loadChildren: () => import('../page-dashboard/dashboard.module').then((m) => m.DashboardModule)
       },
       {
         path: 'clientes',
@@ -49,7 +54,7 @@ const routes: Routes = [
       },
       {
         path: 'configuracion',
-        component: ConfiguracionesComponent
+        loadChildren: () => import('../configuraciones/configuraciones.module').then((m) => m.ConfiguracionesModule)
       }
     ]
   }

@@ -13,8 +13,8 @@ export class EndPointProvider {
     private readonly apiVersion = '1.0.0';
     private readonly appVersion = '1.0.0';
     //private readonly apiUrl = 'http://192.168.1.10:8086/api/';
-    //private readonly apiUrl = 'http://localhost:3000/api/';
-    private readonly apiUrl = 'http://factura.dyndns.info:8086/api/';
+    private readonly apiUrl = 'http://localhost:3000/api/';
+    //private readonly apiUrl = 'http://factura.dyndns.info:8086/api/';
 
     private readonly searchDatosClienteSri = 'http://sheyla2.dyndns.info/SRI/SRI.php';
     //private readonly searchDatosClienteSriLocal = 'http://localhost:4200/SRI';
@@ -855,6 +855,101 @@ export class EndPointProvider {
 
       return this.http.get<T>(endpointUrl, httpOptions);
     }
+
+    // DASHBOARD METHODS
+    private readonly _getVentaDiariaValueByIdEmp: string = 'dashboard/getinfoventadiaria';
+    private get getVentaDiariaValueByIdEmp(){
+      return this.apiUrl + this._getVentaDiariaValueByIdEmp;
+    }
+    getValorVentaDiariaByIdEmp<T>(idEmpresa: any,fechaIni:any,fechaFin:any, accessToken: any): Observable<T>{
+      const endpointUrl = this.getVentaDiariaValueByIdEmp;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa)
+                          .set('fechaIni',fechaIni).set('fechaFin',fechaFin)
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+    private readonly _getVentaMensualValueByIdEmp: string = 'dashboard/getinfoventamensual';
+    private get getVentaMensualValueByIdEmp(){
+      return this.apiUrl + this._getVentaMensualValueByIdEmp;
+    }
+    getValorVentaMensualByIdEmp<T>(idEmpresa: any,fechaIni:any,fechaFin:any, accessToken: any): Observable<T>{
+      const endpointUrl = this.getVentaMensualValueByIdEmp;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa)
+                          .set('fechaIni',fechaIni).set('fechaFin',fechaFin)
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+    private readonly _getInfoClientesRegistradosByIdEmp: string = 'dashboard/getinfoclientesregistrados';
+    private get getInfoClientesRegistradosByIdEmp(){
+      return this.apiUrl + this._getInfoClientesRegistradosByIdEmp;
+    }
+    getInfoClientesRegistradosIdEmp<T>(idEmpresa: any,accessToken: any): Observable<T>{
+      const endpointUrl = this.getInfoClientesRegistradosByIdEmp;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa)
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+    private readonly _getInfoProductosRegistradosByIdEmp: string = 'dashboard/getinfoproductosregistrados';
+    private get getInfoProductosRegistradosByIdEmp(){
+      return this.apiUrl + this._getInfoProductosRegistradosByIdEmp;
+    }
+    getInfoProductosRegistradosIdEmp<T>(idEmpresa: any,accessToken: any): Observable<T>{
+      const endpointUrl = this.getInfoProductosRegistradosByIdEmp;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa)
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+    private readonly _getNumDocAndLicenceDaysRucEmp: string = 'dashboard/getnumdocslicencedays';
+    private get getNumDocAndLicenceDaysRucEmp(){
+      return this.apiUrl + this._getNumDocAndLicenceDaysRucEmp;
+    }
+    getNumeroDocsAndLicenceDays<T>(rucEmp: any,accessToken: any): Observable<T>{
+      const endpointUrl = this.getNumDocAndLicenceDaysRucEmp;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('rucEmp', rucEmp)
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+
 
 
 

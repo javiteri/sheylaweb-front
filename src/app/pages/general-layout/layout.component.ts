@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 import {BreakpointObserver} from '@angular/cdk/layout'
-import { NavigationEnd, Router} from '@angular/router';
+import { NavigationEnd, Router, RouterLink} from '@angular/router';
 import { Menu, TokenValidate } from 'src/app/interfaces/IWebData';
 import { DataStoreService } from 'src/app/services/DataStore.Service';
 import { filter } from 'rxjs';
@@ -25,7 +25,7 @@ export class LayoutComponent implements OnInit {
       name: 'Dashboard',
       matIcon: 'dashboard',
       active: false,
-      routerLink: '',
+      routerLink: '/dashboard',
       submenu: []
     },
     {

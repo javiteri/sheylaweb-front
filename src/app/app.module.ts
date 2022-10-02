@@ -8,24 +8,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import { HttpClientModule } from '@angular/common/http';
 
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button'
-import { MatDatepickerModule} from '@angular/material/datepicker'
-import { MatNativeDateModule } from "@angular/material/core";
-import {MatCardModule} from '@angular/material/card'
-import {MatIconModule} from '@angular/material/icon'
-import { MatSelectModule } from "@angular/material/select";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-
-import {LayoutModule} from '@angular/cdk/layout';
 import { AppRoutingModule } from './app-routing.module';
 import { ConfirmDeleteDialogComponent } from './components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { AuthGuard } from './shared/guard';
 import { ApplicationProvider, EndPointProvider } from './providers/provider';
-import { OverlayModule } from '@angular/cdk/overlay';
 import { LoadingService } from './services/Loading.service';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { LayoutModule } from './pages/general-layout/layout.module';
 
 @NgModule({
   declarations: [
@@ -33,24 +21,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ConfirmDeleteDialogComponent
   ],
   imports: [
-    OverlayModule,
-    MatTooltipModule,
-    FormsModule, 
     HttpClientModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCardModule,
-    MatSelectModule,
-    MatIconModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatButtonModule,
     BrowserModule,
     BrowserAnimationsModule,
     MatDialogModule,
-    RouterModule,
     LayoutModule,
+    RouterModule,
     AppRoutingModule,
     ToastrModule.forRoot()
   ],

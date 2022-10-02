@@ -45,6 +45,7 @@ export class ConfiguracionesComponent implements OnInit {
     private loadingService: LoadingService) { }
 
   ngOnInit(): void {
+    console.log('configracion component');
     // GET INITIAL DATA
     const localServiceResponseToken =  
           JSON.parse(sessionStorage.getItem('_valtok') ? sessionStorage.getItem('_valtok')! : '');

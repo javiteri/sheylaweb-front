@@ -205,4 +205,24 @@ export class ApplicationProvider {
   getConfigByNameIdEmp(idEmp: any, nombreConfig: any, accessToken: any){
     return this.coreEndPoint.getConfigByIdEmp(idEmp, nombreConfig, accessToken); 
   }
+
+
+  //DASHBOARD
+  getValueVentaDiaria(idEmp: any, fechaIni: any, fechaFin: any,accessToken: any){
+    return this.coreEndPoint.getValorVentaDiariaByIdEmp(idEmp,fechaIni,fechaFin, accessToken);
+  }
+  getValueVentaMensuual(idEmp: any, fechaIni: any, fechaFin: any,accessToken: any){
+    return this.coreEndPoint.getValorVentaMensualByIdEmp(idEmp,fechaIni,fechaFin, accessToken);
+  }
+  getInfoClientesRegistrados(idEmp: any,accessToken: any){
+    return this.coreEndPoint.getInfoClientesRegistradosIdEmp(idEmp,accessToken);
+  }
+  getInfoProductosRegistrados(idEmp: any,accessToken: any){
+    return this.coreEndPoint.getInfoProductosRegistradosIdEmp(idEmp,accessToken);
+  }
+  getNumDocAndLicenceDays(rucEmp: any,accessToken: any){
+    return this.coreEndPoint.getNumeroDocsAndLicenceDays(rucEmp,accessToken);
+  }
+
+
 }
