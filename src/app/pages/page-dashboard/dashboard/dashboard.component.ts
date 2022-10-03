@@ -69,7 +69,18 @@ export class DashboardComponent implements OnInit {
 
 
   private getVentaDiariaValue(): void {
-     this.coreService.getValueVentaDiaria(this.idEmpresa,'','',this.tokenValidate).subscribe({
+
+    const firstDay = new Date();
+
+    const dateInitString = '' + firstDay.getFullYear() + '-' + ('0' + (firstDay.getMonth()+1)).slice(-2) + 
+                          '-' + ('0' + firstDay.getDate()).slice(-2) + ' ' + 
+                            '00:00:00' ;
+    const dateFinString = '' + firstDay.getFullYear() + '-' + ('0' + (firstDay.getMonth()+1)).slice(-2) + 
+                            '-' + ('0' + firstDay.getDate()).slice(-2) + ' ' + 
+                              '23:59:59' ;
+
+
+     this.coreService.getValueVentaDiaria(this.idEmpresa,dateInitString,dateFinString,this.tokenValidate).subscribe({
       next: (data: any) => {
         if(data.data && data.data[0].total){
           this.ventaDiariaValue = data.data[0].total
