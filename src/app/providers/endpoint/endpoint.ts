@@ -13,7 +13,7 @@ export class EndPointProvider {
     private readonly apiVersion = '1.0.0';
     private readonly appVersion = '1.0.0';
     //private readonly apiUrl = 'http://192.168.1.10:8086/api/';
-    private readonly apiUrl = 'http://localhost:3000/api/';
+    //private readonly apiUrl = 'http://localhost:3000/api/';
     //private readonly apiUrl = 'http://factura.dyndns.info:8086/api/';
 
     private readonly searchDatosClienteSri = 'http://sheyla2.dyndns.info/SRI/SRI.php';
@@ -949,7 +949,42 @@ export class EndPointProvider {
 
       return this.http.get<T>(endpointUrl, httpOptions);
     }
+    private readonly _getProductosDelMes: string = 'dashboard/getproductosdelmes';
+    private get getProductosDelMes(){
+      return this.apiUrl + this._getProductosDelMes;
+    }
+    getProductosDelMesIdEmp<T>(idEmp: any,fechaIni:any,fechaFin:any,accessToken: any): Observable<T>{
+      const endpointUrl = this.getProductosDelMes;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
 
+      let paramsRequest = new HttpParams().set('idEmp', idEmp)
+                        .set('fechaIni', fechaIni).set('fechaFin', fechaFin)
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+    private readonly _getClientesDelMes: string = 'dashboard/getclientesdelmes';
+    private get getClientesDelMes(){
+      return this.apiUrl + this._getClientesDelMes;
+    }
+    getClientesDelMesIdEmp<T>(idEmp: any,fechaIni:any,fechaFin:any,accessToken: any): Observable<T>{
+      const endpointUrl = this.getClientesDelMes;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmp)
+                        .set('fechaIni', fechaIni).set('fechaFin', fechaFin)
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
 
 
 
