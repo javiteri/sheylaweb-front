@@ -223,6 +223,11 @@ export class ApplicationProvider {
   getNumDocAndLicenceDays(rucEmp: any,accessToken: any){
     return this.coreEndPoint.getNumeroDocsAndLicenceDays(rucEmp,accessToken);
   }
-
+  getProductosDelMes(idEmp: any,fechaIni: any,fechaFin: any,accessToken: any){
+    return this.coreEndPoint.getProductosDelMesIdEmp(idEmp,fechaIni,fechaFin,accessToken);
+  }
+  getClientesDelMes(idEmp: any,fechaIni: any,fechaFin: any,accessToken: any){
+    return this.coreEndPoint.getClientesDelMesIdEmp(idEmp,fechaIni,fechaFin,accessToken);
+  }
 
 }

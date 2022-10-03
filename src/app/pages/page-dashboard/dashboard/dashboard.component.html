@@ -44,7 +44,9 @@
         <div class="grid-item-two">
             <mat-card>
                 <mat-card-content>
-                    second card
+                    <div class="grid-donut">
+                        <canvas id="MyChartVentasFormaPago" >{{chartFormasPago}}</canvas>
+                    </div>
                 </mat-card-content>
             </mat-card>
         </div>
@@ -60,8 +62,8 @@
             <mat-card>
                 <mat-card-content>
                     <div class="container-data-text-value">
-                        <p class="text-values-cards">grafico barras</p>
-                        <p>Dias licencia</p>
+                        <p class="text-values-cards">169</p>
+                        <p>Dias Licencia</p>
                     </div>
                 </mat-card-content>
             </mat-card>
@@ -69,12 +71,16 @@
         <div class="grid-item-four" >
             <mat-card>
                 <mat-card-content>
-                    firts inside card
+                    <div class="grid">
+                        <canvas id="MyChartProductos" >{{chartProductos}}</canvas>
+                    </div>
                 </mat-card-content>
             </mat-card>
             <mat-card>
                 <mat-card-content>
-                    second inside card
+                    <div class="grid">
+                        <canvas id="MyChartClientes" >{{chartClientes}}</canvas>
+                    </div>
                 </mat-card-content>
             </mat-card></div>
 

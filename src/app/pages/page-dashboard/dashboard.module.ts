@@ -4,6 +4,7 @@ import { MatCardModule } from "@angular/material/card";
 import { DashboardRoutingModule } from "./dashboard-routing.module";
 import { DashboardComponent } from './dashboard/dashboard.component';
 
+
 @NgModule({
     declarations: [    
     DashboardComponent

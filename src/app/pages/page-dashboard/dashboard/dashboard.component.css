@@ -12,10 +12,13 @@
     grid-gap: 5px;
     grid-template-columns: repeat(4, 1fr);
     grid-auto-rows: minmax(150px, auto);
+    
     grid-auto-flow: row;
-    background-color: #e4e4e4;
     padding-top: 5px;
     padding-bottom: 5px;
+
+    min-height: calc(100vh - 5em);
+    height: auto;
 }
 
 .grid-dashboard .mat-card-content{
@@ -28,7 +31,7 @@
 .grid-item-three .mat-card,
 .grid-item-four .mat-card{
     flex: 1 1 0;
-    min-height: 7rem;
+    
     box-shadow: 0 5px 20px rgb(0 0 0 / 5%) !important
 }
 .grid-item-one .mat-card + .mat-card, 
@@ -48,6 +51,13 @@
     padding: 0 10px;    
     align-content: center;
 }
+.grid-item-one p{
+    margin-bottom: 0;
+}
+.grid-item-one .mat-card{
+    height: 100%;
+}
+
 
 .grid-item-two{
     grid-row: 1 / 3;
@@ -58,6 +68,10 @@
 }
 .grid-item-two .mat-card{
     flex: 1 1 0;
+}
+.grid-item-two .mat-card-content{
+    display: flex;
+    justify-content: center;
 }
 
 
@@ -71,6 +85,7 @@
     padding: 0 10px;    
     align-content: center;
 }
+
 .grid-item-four{
     grid-row: 3 / 5;
     grid-column: 2 / 5;
@@ -80,7 +95,12 @@
     padding-right: 10px ;
 }
 .grid-item-four .mat-card{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
     flex: 1 1 0;
+    
 }
 .grid-item-four .mat-card + .mat-card{
     margin-left: .5rem;
@@ -94,6 +114,9 @@
     align-content: center;
     align-items: center;
 }
+.container-data-text-value p{
+    text-align: center;
+}
 
 .text-values-cards{
     font-size: 1.7em;
@@ -101,7 +124,16 @@
     font-weight: 500;
 }
 
-@media screen and (max-width: 630px){
+.grid {    
+    height: calc(35vh - 2em);
+    width: calc(26vw - 2em);
+}
+/*.grid-donut{
+    height: calc(35vh - 2em);
+    width: calc(30vw - 1em);
+}*/
+
+@media screen and (max-width: 1012px){
     .grid-item-one{
         grid-row: 4;
         grid-column: 1 / 5;
@@ -110,17 +142,18 @@
         justify-content: space-evenly;
         align-content: center;
         align-items: center;
+        margin-top: .2em;
     }
     .grid-item-one .mat-card + .mat-card{
         margin-top: 0;
         margin-left: .5em;
     }
 
-
     .grid-item-two{
         grid-row: 1 / 3;
         grid-column: 1 / 4;
         padding-left: 10px;
+        
     }
     
     .grid-item-three{
@@ -130,12 +163,18 @@
     .grid-item-four{
         grid-row: 3 / 4;
         grid-column: 1 / 5;
-        padding-left: 10px ;
-        
+        padding-left: 10px ;   
+    }
+
+    .grid {    
+        width: calc(30vw - 2em) ; 
+    }
+    .grid-donut{
+        width: calc(42vw - 1em);
     }
 }
 
-@media screen and (max-width: 506px){
+@media screen and (max-width: 600px){
     .grid-item-two{
         grid-row: 1 / 3;
         grid-column: 1 / 5;
@@ -149,6 +188,7 @@
     .grid-item-one{
         flex-flow: column nowrap;
         align-items: unset;
+        
     }
     .grid-item-one .mat-card + .mat-card{
         margin-top: .5rem;
@@ -161,4 +201,20 @@
         margin-top: .5rem;
         margin-left: 0;
     }
+
+    .grid{
+        width: calc(75vw - 1em);
+    }
+
+    .grid-donut{
+        width: calc(60vw - 1em);
+    }
+}
+
+
+@media screen and (max-height: 1220px){
+    .grid-dashboard{
+        min-height: calc(100vh - 6em);
+        height: auto;
+    }   
 }
