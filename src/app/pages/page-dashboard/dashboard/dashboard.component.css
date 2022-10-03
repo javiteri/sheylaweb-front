@@ -28,7 +28,7 @@
 .grid-item-four .mat-card{
     flex: 1 1 0;
     
-    box-shadow: 0 5px 20px rgb(0 0 0 / 5%) !important
+    /*box-shadow: 0 5px 20px rgb(0 0 0 / 5%) !important*/
 }
 .grid-item-one .mat-card + .mat-card, 
 .grid-item-three .mat-card + .mat-card{
