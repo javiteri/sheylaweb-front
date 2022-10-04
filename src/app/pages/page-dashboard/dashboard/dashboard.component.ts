@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit } from '@angular/core';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import {Chart, registerables} from 'chart.js';
@@ -10,13 +10,17 @@ Chart.register(...registerables);
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit{
   
   listLabelProductosMes: any[] = [];
   listLabelProductosMesValue: any[] = [];
   listLabelClientesMes: any[] = [];
   chartProductos: any;
   chartClientes: any;
+  chartRadialDiasLicencia: any;
+
+  listLabelFormaPagoChart: any[] = [];
+  listFormaPagoChartValue: any[] = [];
   chartFormasPago: any;
 
   idEmpresa: number = 0;
@@ -25,13 +29,12 @@ export class DashboardComponent implements OnInit {
   dataUser: any;
   tokenValidate!: TokenValidate;
 
-  
   ventaDiariaValue = "0.00";
   ventaMensualValue = "0.00";
   clientesRegistradosValue = "0";
   productosRegistradosValue = "0";
   documentosEmitidosValue = "0";
-
+  diasLicenciaValue = "0";
 
   
   constructor(
@@ -39,6 +42,7 @@ export class DashboardComponent implements OnInit {
   ) { 
 
   }
+
 
   ngOnInit(): void {
      // GET INITIAL DATA 
@@ -54,6 +58,7 @@ export class DashboardComponent implements OnInit {
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
 
+    this.getVentasDelDiaFormaPago();
     this.getVentaDiariaValue();
     this.getVentaMensualValue();
     this.getClientesRegistradosValue();
@@ -62,9 +67,10 @@ export class DashboardComponent implements OnInit {
     this.getClientesDelMes();
     this.getProductosDelMes();
 
+    //this.createChartRadialDiasLicencia();
     //this.createChartProductos();
     //this.createChartClientes();
-    this.createChartFormaPago();
+    //this.createChartFormaPago();
   }
 
 
@@ -148,6 +154,20 @@ export class DashboardComponent implements OnInit {
  private getNumeroDocsAndLicenceDays(): void{
   this.coreService.getNumDocAndLicenceDays(this.rucEmpresa,this.tokenValidate).subscribe({
     next: (data: any) =>{
+      
+      if(data.data && data.data[0].finfactura){
+        const dateActual = new Date();
+        const dateInit = new Date(data.data[0].finfactura);
+
+        var time = dateInit.getTime() - dateActual.getTime(); 
+        var days = time / (1000 * 3600 * 24); //Diference in Days
+
+        this.diasLicenciaValue = Number(days).toFixed(0);
+
+        this.createChartRadialDiasLicencia();
+      }
+      
+
       if(data.data && data.data[0].emitidos){
         this.documentosEmitidosValue = data.data[0].emitidos;
       }
@@ -174,8 +194,6 @@ export class DashboardComponent implements OnInit {
 
   this.coreService.getProductosDelMes(this.idEmpresa,dateInitString,dateFinString,this.tokenValidate).subscribe({
     next: (data: any) =>{
-      console.log('inside productos del mes');
-      console.log(data);
       if(data.data){
 
         const listLabel = Array.from(data.data).map((valor: any) => valor.ventad_producto.split(' '));
@@ -183,7 +201,7 @@ export class DashboardComponent implements OnInit {
 
         this.listLabelProductosMes = listLabel;
         this.listLabelProductosMesValue = listValue;
-        console.log(listLabel);
+        
         this.createChartProductos();
       }
     },
@@ -209,12 +227,10 @@ export class DashboardComponent implements OnInit {
 
   this.coreService.getClientesDelMes(this.idEmpresa,dateInitString,dateFinString,this.tokenValidate).subscribe({
     next: (data: any) =>{
-      console.log('inside clientes del mes');
-      console.log(data);
       if(data.data){
         const listLabel = Array.from(data.data).map((valor: any) => valor.cli_nombres_natural.split(' '));
         this.listLabelClientesMes = listLabel;
-        console.log(listLabel);
+        
         this.createChartClientes();
       }
     },
@@ -224,7 +240,37 @@ export class DashboardComponent implements OnInit {
   });
  }
 
+ private getVentasDelDiaFormaPago(): void{
 
+  const firstDay = new Date();
+
+    const dateInitString = '' + firstDay.getFullYear() + '-' + ('0' + (firstDay.getMonth()+1)).slice(-2) + 
+                          '-' + ('0' + firstDay.getDate()).slice(-2) + ' ' + 
+                            '00:00:00' ;
+    const dateFinString = '' + firstDay.getFullYear() + '-' + ('0' + (firstDay.getMonth()+1)).slice(-2) + 
+                            '-' + ('0' + firstDay.getDate()).slice(-2) + ' ' + 
+                              '23:59:59' ;
+
+
+  this.coreService.getVentasDelDiaFormaPago(this.idEmpresa,dateInitString,dateFinString,this.tokenValidate).subscribe({
+    next: (data: any) =>{
+      if(data.data){
+
+        const listLabel = Array.from(data.data).map((valor: any) => valor.venta_forma_pago.split(' '));
+        const listValue = Array.from(data.data).map((valor: any) => valor.total);
+
+        this.listLabelFormaPagoChart = listLabel;
+        this.listFormaPagoChartValue = listValue;
+
+        this.createChartFormaPago();
+
+      }
+    },
+    error: (error: any) => {
+      console.log('error inside ventas dia forma pago');
+    }
+  });
+ }
 
 
  // CREATE CHARTS METHODS
@@ -323,11 +369,11 @@ export class DashboardComponent implements OnInit {
   this.chartFormasPago = new Chart("MyChartVentasFormaPago",{
     type: 'doughnut',
     data: {
-      labels: ['Efectivo','Cheque','Transferencia','Voucher','Deposito'],
+      labels: [...this.listLabelFormaPagoChart],
       datasets: [
         {
-          label: '',
-          data: [20,50,20,10,20],
+         
+          data: this.listFormaPagoChartValue,
           backgroundColor: [
             "#DEB887",
             "#A9A9A9",
@@ -351,6 +397,67 @@ export class DashboardComponent implements OnInit {
       },
      
     }
+  });
+ }
+
+ private createChartRadialDiasLicencia(){
+
+  let diasLicenciaValor = this.diasLicenciaValue;
+  let valoresChart: any[] = [];
+
+  const doughtnText = {
+    id: 'chart',
+    beforeDraw(chart: any,args: any,options: any){
+      const {ctx,chartArea:{width,height}} = chart;
+      ctx.save();
+
+      ctx.font = 'bolder 14px Arial';
+      ctx.fillStyle = 'black';
+      ctx.textAlign = 'center';
+      ctx.fillText(diasLicenciaValor,width / 2, height / 2);
+      ctx.fillText("dias licencia",width / 2, (height + 23) / 2);
+      ctx.restore();
+    }
+  }
+
+  if(Number(diasLicenciaValor) <= 365){
+    const restValue = (365 - Number(diasLicenciaValor));
+    valoresChart = [diasLicenciaValor,restValue];
+  }else{
+    valoresChart = [1,0]
+  }
+
+  this.chartFormasPago = new Chart("chart",{
+    type: 'doughnut',
+    data: {
+      datasets: [
+        {
+          label: "Gauge",
+          data: valoresChart,
+          backgroundColor: [
+            "green",
+            "rgba(255,26,104,0)",
+          ],
+          borderColor: [
+            'green',
+            'rgba(100,26,104,0.1)'
+          ]
+        },
+       ]
+    },
+    options: {
+      cutout: '90%',
+      plugins:{
+
+        legend:{
+          display:false
+        },
+        tooltip:{
+          enabled: false
+        }
+      }
+    },
+    plugins: [doughtnText]
   });
  }
 }

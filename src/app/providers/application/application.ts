@@ -47,6 +47,9 @@ export class ApplicationProvider {
   searchClientesByIdEmpText(idEmpresa: any, textSearch: any, accessToken: any){
       return this.coreEndPoint.searchClientesByIdEmpText(idEmpresa, textSearch, accessToken);
   }
+  getExcelListClientes(idEmpresa: any, accesToken: any){
+    return this.coreEndPoint.getClientesExcelById(idEmpresa,accesToken);
+  }
 
   //USUARIOS
   getUsuariosByIdEmp(idEmp: any, accessToken: any){
@@ -67,7 +70,9 @@ export class ApplicationProvider {
   searchUsuariosByIdEmpText(idEmpresa: any, textSearch: any, accessToken: any){
     return this.coreEndPoint.searchUsuariosByIdEmpText(idEmpresa, textSearch, accessToken);
   }
-
+  getExcelListUsuarios(idEmpresa: any, accesToken: any){
+    return this.coreEndPoint.getUsuariosExcelById(idEmpresa,accesToken);
+  }
 
   // PROVEEDORES
   getListProveedoresByIdEmp(idEmpresa: any, accessToken: any){
@@ -87,6 +92,9 @@ export class ApplicationProvider {
   }
   searchProveedoresByIdEmpText(idEmpresa: any, textSearch: any, accessToken: any){
     return this.coreEndPoint.searchProveedoresByIdEmpText(idEmpresa, textSearch, accessToken);
+  }
+  getExcelListProveedores(idEmpresa: any, accesToken: any){
+    return this.coreEndPoint.getProveedoresExcelById(idEmpresa,accesToken);
   }
 
   // PRODUCTOS
@@ -121,7 +129,9 @@ export class ApplicationProvider {
   searchProductosByIdEmpTextActivo(idEmpresa: any, textSearch: any, accessToken: any){
     return this.coreEndPoint.searchProductosByIdEmpTextActivo(idEmpresa, textSearch, accessToken);
   }
-
+  getExcelListProductos(idEmpresa: any, accesToken: any){
+    return this.coreEndPoint.getProductosExcelById(idEmpresa,accesToken);
+  }
 
   //VENTAS FACTURA, TICKET, OTROS
   insertVentaFacturaToBD(postData: any, accessToken: any){
@@ -150,7 +160,14 @@ export class ApplicationProvider {
   getDataByIdVenta(idVenta: any, idEmp: any, accessToken: any){
     return this.coreEndPoint.getDataByIdVenta(idVenta, idEmp,accessToken);
   }
-
+  getExcelListaVentas(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
+                      fechaFin: any,accesToken: any){
+    return this.coreEndPoint.getListaVentasExcelByIdEmp(idEmpresa,nombreCi,noDoc,fechaIni,fechaFin,accesToken);
+  }
+  getExcelListaResumenVentas(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
+    fechaFin: any,accesToken: any){
+    return this.coreEndPoint.getListaResumenVentasExcelByIdEmp(idEmpresa,nombreCi,noDoc,fechaIni,fechaFin,accesToken);
+}
 
   //COMPRAS
   insertCompraFacturaToBD(postData: any, accessToken: any){
@@ -176,6 +193,16 @@ export class ApplicationProvider {
   getDataByIdCompra(idVenta: any, idEmp: any, accessToken: any){
     return this.coreEndPoint.getDataByIdCompra(idVenta, idEmp,accessToken);
   }
+  getExcelListaCompras(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
+    fechaFin: any,accesToken: any){
+    return this.coreEndPoint.getListaComprasExcelByIdEmp(idEmpresa,nombreCi,noDoc,fechaIni,fechaFin,accesToken);
+  }
+  getExcelListaResumenCompras(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
+  fechaFin: any,accesToken: any){
+    return this.coreEndPoint.getListaResumenComprasExcelByIdEmp(idEmpresa,nombreCi,noDoc,fechaIni,fechaFin,accesToken);
+  }
+
+
 
   //CAJA
   getListMovimientosCajaByIdEmp(idEmpresa: any, nombreUsuario: any, tipo: any, concepto: any, fechaIni: any, 
@@ -194,6 +221,11 @@ export class ApplicationProvider {
   insertIngresoEgresoByIdEmp(postData: any, accessToken: any){
     return this.coreEndPoint.insertIngresoEgresoToBD(postData, accessToken);
   }
+  getListMovCajaExcelByIdEmp(idEmpresa: any, nombreUsuario: any, tipo: any, concepto: any, fechaIni: any, 
+    fechaFin: any, accessToken: any){
+    return this.coreEndPoint.getListaMoviCajaExcelByIdEmp(idEmpresa,nombreUsuario,tipo,concepto,fechaIni,fechaFin,accessToken);
+  }
+
 
   //CONFIGURACIONES
   insertListConfigsToBD(postData: any, accessToken: any){
@@ -228,6 +260,9 @@ export class ApplicationProvider {
   }
   getClientesDelMes(idEmp: any,fechaIni: any,fechaFin: any,accessToken: any){
     return this.coreEndPoint.getClientesDelMesIdEmp(idEmp,fechaIni,fechaFin,accessToken);
+  }
+  getVentasDelDiaFormaPago(idEmp: any,fechaIni: any,fechaFin: any,accessToken: any){
+    return this.coreEndPoint.getVentaDelDiaFormaPago(idEmp,fechaIni,fechaFin,accessToken);
   }
 
 }

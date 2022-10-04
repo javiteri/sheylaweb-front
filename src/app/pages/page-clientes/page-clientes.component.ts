@@ -189,4 +189,32 @@ export class PageClientesComponent implements OnInit {
       }
     });
   }
+
+
+  exportarClientes(){
+    let dialogRef = this.loadingService.open();
+
+    this.coreService.getExcelListClientes(this.idEmpresa, this.tokenValidate).subscribe({
+      next: (data: any) => {
+
+        dialogRef.close();
+
+        let downloadUrl = window.URL.createObjectURL(data);
+
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', downloadUrl);
+        link.setAttribute('download','clientes');
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+      },
+      error: (error: any) => {
+        dialogRef.close();
+        console.log('inside error');
+        console.log(error);
+      }
+    });
+  }
 }

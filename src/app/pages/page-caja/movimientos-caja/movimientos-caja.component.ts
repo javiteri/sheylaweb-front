@@ -165,4 +165,49 @@ export class MovimientosCajaComponent implements OnInit {
       }
     });
   }
+
+  exportarListaMovCaja(){
+    let dialogRef = this.loadingService.open();
+
+    if(!(this.dateInicioFilter && this.dateFinFilter)){
+      dialogRef.close();
+      return;
+    }
+
+    const dateInitString = '' + this.dateInicioFilter.getFullYear() + '-' + ('0' + (this.dateInicioFilter.getMonth()+1)).slice(-2) + 
+                          '-' + ('0' + this.dateInicioFilter.getDate()).slice(-2) + ' ' + 
+                            '00:00:00' ;
+    const dateFinString = '' + this.dateFinFilter.getFullYear() + '-' + ('0' + (this.dateFinFilter.getMonth()+1)).slice(-2) + 
+                            '-' + ('0' + this.dateFinFilter.getDate()).slice(-2) + ' ' + 
+                              '23:59:59' ;
+
+    const usuarioName = (this.usuarioSelect.usu_username == 'TODOS') ? 0 : this.usuarioSelect.usu_id;
+    const tipoMovimiento = (this.tipoMovimientoSelect == 'TODOS') ? '' : this.tipoMovimientoSelect;
+
+    this.coreService.getListMovCajaExcelByIdEmp(this.idEmpresa,usuarioName,tipoMovimiento,
+      this.conceptoMovimientoSearch,dateInitString,dateFinString,this.tokenValidate).subscribe({
+      next: (data: any) => {
+
+        dialogRef.close();
+
+        let downloadUrl = window.URL.createObjectURL(data);
+
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', downloadUrl);
+        link.setAttribute('download','movimientos_caja');
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+      },
+      error: (error: any) => {
+        dialogRef.close();
+        console.log('inside error');
+        console.log(error);
+      }
+    });
+  }
+
+
 }

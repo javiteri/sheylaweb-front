@@ -136,6 +136,11 @@
     height: calc(35vh - 2em);
     width: calc(30vw - 1em);
 }
+.grid-radial{
+    height: calc(10vh - 1em);
+    width: calc(10vw - 1em);
+}
+
 
 @media screen and (max-width: 1012px){
     .grid-item-one{
@@ -186,9 +191,13 @@
         padding-right: 10px;
     }
     .grid-item-three{
-        grid-row: 5;
+        grid-row: 5 / 7;
         grid-column: 1 / 5;
     }
+    .grid-radial{
+        width: calc(25vw - 2em) ;
+    }
+
     .grid-item-one{
         flex-flow: column nowrap;
         align-items: unset;

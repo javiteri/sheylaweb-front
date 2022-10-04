@@ -1,8 +1,10 @@
+import { ListKeyManager } from '@angular/cdk/a11y';
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { LineController } from 'chart.js';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
@@ -188,4 +190,31 @@ export class UsuariosComponent implements OnInit {
     });
   }
 
+  exportarUsuarios(){
+    console.log('click exportar usuarios');
+    let dialogRef = this.loadingService.open();
+
+    this.coreService.getExcelListUsuarios(this.idEmpresa, this.tokenValidate).subscribe({
+      next: (data: any) => {
+
+        dialogRef.close();
+
+        let downloadUrl = window.URL.createObjectURL(data);
+
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', downloadUrl);
+        link.setAttribute('download','usuarios');
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+      },
+      error: (error: any) => {
+        dialogRef.close();
+        console.log('inside error');
+        console.log(error);
+      }
+    });
+  }
 }

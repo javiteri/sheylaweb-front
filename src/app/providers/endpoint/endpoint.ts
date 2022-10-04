@@ -45,6 +45,18 @@ export class EndPointProvider {
 
       return this.http.get<T>(endpointUrl, header);
     }
+    private readonly _getClientesExcelIdEmp: string = "clientes/getlistclientesexcel";
+    private get getClientesExcelByIdEmpUrl(){
+      return this.apiUrl + this._getClientesExcelIdEmp;
+    }
+    getClientesExcelById(idEmp: any, accessToken: any): Observable<Blob>{
+        const endPointUrl = this.getClientesExcelByIdEmpUrl;
+
+        const header = this.getRequestHeaderFiles(accessToken)
+        const params1 = new HttpParams().set('idEmp', idEmp);
+
+        return this.http.get(endPointUrl, {responseType: 'blob', params: params1, headers: header});
+    }
 
     //LOGUIN
     private readonly _loginVerify: string = 'loginverify'
@@ -247,6 +259,19 @@ export class EndPointProvider {
 
         return this.http.get<T>(endpointUrl, httpOptions);
     }
+    private readonly _getUsuariosExcelIdEmp: string = "usuarios/getlistusersexcel";
+    private get getUsuariosExcelByIdEmpUrl(){
+      return this.apiUrl + this._getUsuariosExcelIdEmp;
+    }
+    getUsuariosExcelById(idEmp: any, accessToken: any): Observable<Blob>{
+        const endPointUrl = this.getUsuariosExcelByIdEmpUrl;
+
+        const header = this.getRequestHeaderFiles(accessToken)
+        const params1 = new HttpParams().set('idEmp', idEmp);
+
+        return this.http.get(endPointUrl, {responseType: 'blob', params: params1, headers: header});
+    }
+
 
 
     // METHODS FOR PROVEEDORES
@@ -332,6 +357,18 @@ export class EndPointProvider {
         return this.http.get<T>(endpointUrl, httpOptions);
     }
 
+    private readonly _getProveedoresExcelIdEmp: string = "proveedores/getlistproveedoresexcel";
+    private get getProveedoresExcelByIdEmpUrl(){
+      return this.apiUrl + this._getProveedoresExcelIdEmp;
+    }
+    getProveedoresExcelById(idEmp: any, accessToken: any): Observable<Blob>{
+        const endPointUrl = this.getProveedoresExcelByIdEmpUrl;
+
+        const header = this.getRequestHeaderFiles(accessToken)
+        const params1 = new HttpParams().set('idEmp', idEmp);
+
+        return this.http.get(endPointUrl, {responseType: 'blob', params: params1, headers: header});
+    }
 
 
      // METHODS FOR PRODUCTOS
@@ -485,6 +522,20 @@ export class EndPointProvider {
         return this.http.get<T>(endpointUrl, httpOptions);
     }
 
+    private readonly _getProductosExcelIdEmp: string = "productos/getlistproductosexcel";
+    private get getProductosExcelByIdEmpUrl(){
+      return this.apiUrl + this._getProductosExcelIdEmp;
+    }
+    getProductosExcelById(idEmp: any, accessToken: any): Observable<Blob>{
+        const endPointUrl = this.getProductosExcelByIdEmpUrl;
+
+        const header = this.getRequestHeaderFiles(accessToken)
+        const params1 = new HttpParams().set('idEmp', idEmp);
+
+        return this.http.get(endPointUrl, {responseType: 'blob', params: params1, headers: header});
+    }
+
+
     // METHODS FOR VENTAS FACTURA, TICKET , OTROS
     private readonly _insertVenta: string = "ventas/insertar";
     private get insertVentaUrl(){
@@ -607,6 +658,41 @@ export class EndPointProvider {
 
       return this.http.get<T>(endpointUrl, httpOptions);
     }
+    
+    private readonly _listaVentasExcelByIdEmp: string = 'ventas/getlistventasexcel';
+    private get listaVentasExcelByIdEmpUrl(){
+      return this.apiUrl + this._listaVentasExcelByIdEmp;
+    }
+    getListaVentasExcelByIdEmp(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
+      fechaFin: any, accessToken: any): Observable<any>{
+      const endpointUrl = this.listaVentasExcelByIdEmpUrl;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('ciname',nombreCi)
+                            .set('nodoc',noDoc).set('fechaIni',fechaIni)
+                            .set('fechaFin',fechaFin);
+
+      return this.http.get(endpointUrl, {responseType: 'blob', params: paramsRequest, headers: header});      
+    }
+
+    private readonly _listaResumenVentasExcelByIdEmp: string = 'ventas/getlistresumenventasexcel';
+    private get listaResumenVentasExcelByIdEmpUrl(){
+      return this.apiUrl + this._listaResumenVentasExcelByIdEmp;
+    }
+    getListaResumenVentasExcelByIdEmp(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
+      fechaFin: any, accessToken: any): Observable<any>{
+      const endpointUrl = this.listaResumenVentasExcelByIdEmpUrl;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('ciname',nombreCi)
+                            .set('nodoc',noDoc).set('fechaIni',fechaIni)
+                            .set('fechaFin',fechaFin);
+
+      return this.http.get(endpointUrl, {responseType: 'blob', params: paramsRequest, headers: header});
+      
+    }
 
     // METHODS FOR COMPRAS
     private readonly _insertCompra: string = "compras/insertar";
@@ -725,6 +811,43 @@ export class EndPointProvider {
       return this.http.get<T>(endpointUrl, httpOptions);
     }
 
+    private readonly _listaComprasExcelByIdEmp: string = 'compras/getlistcomprasexcel';
+    private get listaComprasExcelByIdEmpUrl(){
+      return this.apiUrl + this._listaComprasExcelByIdEmp;
+    }
+    getListaComprasExcelByIdEmp(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
+      fechaFin: any, accessToken: any): Observable<any>{
+      const endpointUrl = this.listaComprasExcelByIdEmpUrl;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('ciname',nombreCi)
+                            .set('nodoc',noDoc).set('fechaIni',fechaIni)
+                            .set('fechaFin',fechaFin);
+
+      return this.http.get(endpointUrl, {responseType: 'blob', params: paramsRequest, headers: header});      
+    }
+
+    private readonly _listaResumenComprasExcelByIdEmp: string = 'compras/getlistresumencomprasexcel';
+    private get listaResumenComprasExcelByIdEmpUrl(){
+      return this.apiUrl + this._listaResumenComprasExcelByIdEmp;
+    }
+    getListaResumenComprasExcelByIdEmp(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
+      fechaFin: any, accessToken: any): Observable<any>{
+      const endpointUrl = this.listaResumenComprasExcelByIdEmpUrl;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('ciname',nombreCi)
+                            .set('nodoc',noDoc).set('fechaIni',fechaIni)
+                            .set('fechaFin',fechaFin);
+
+
+      return this.http.get(endpointUrl, {responseType: 'blob', params: paramsRequest, headers: header});
+      
+    }
+
+
     //METHODS FOR CAJA REQUEST
     private readonly _listaMovimientosCajaByIdEmp: string = 'caja/listaResumenCajaIdEmp';
     private get listaMovimientosCajaByIdEmp(){
@@ -803,7 +926,24 @@ export class EndPointProvider {
         const endPointUrl = this.insertIngresoEgresoByIdEmpUrl;   
         return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
     }
+    private readonly _listaMovCajaExcelByIdEmp: string = 'caja/getlistmovimientoscajaexcel';
+    private get listaMovCajaExcelByIdEmpUrl(){
+      return this.apiUrl + this._listaMovCajaExcelByIdEmp;
+    }
+    getListaMoviCajaExcelByIdEmp(idEmpresa: any, nombreUsuario: any, tipo: any, 
+      concepto: any, fechaIni: any, fechaFin: any, accessToken: any): Observable<any>{
+      const endpointUrl = this.listaMovCajaExcelByIdEmpUrl;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
 
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('idUsu',nombreUsuario)
+                            .set('tipo',tipo).set('concepto',concepto).set('fechaini',fechaIni)
+                            .set('fechafin',fechaFin);
+
+
+      return this.http.get(endpointUrl, {responseType: 'blob', params: paramsRequest, headers: header});
+      
+    }
 
 
     //METHODS FOR CONFIGURACIONES
@@ -986,6 +1126,24 @@ export class EndPointProvider {
       return this.http.get<T>(endpointUrl, httpOptions);
     }
 
+    private readonly _getVentasDelDiaFormaPago: string = 'dashboard/getventasdeldiaformapago';
+    private get getVentasDelDiaFormaPagoUrl(){
+      return this.apiUrl + this._getVentasDelDiaFormaPago;
+    }
+    getVentaDelDiaFormaPago<T>(idEmp: any,fechaIni:any,fechaFin:any,accessToken: any): Observable<T>{
+      const endpointUrl = this.getVentasDelDiaFormaPagoUrl;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmp)
+                        .set('fechaIni', fechaIni).set('fechaFin', fechaFin)
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
 
 
     //---------------------------------------------------------------
@@ -1029,4 +1187,16 @@ export class EndPointProvider {
       }
     }
 
+    getRequestHeaderFiles(accesToken: any): HttpHeaders | {}{
+      if(new Date(accesToken.expire) > new Date()){
+        const header = new HttpHeaders({
+            'Authorization': 'Bearer ' + accesToken.token,
+            
+        });
+        return header
+      }else{
+        this.router.navigate(['/login']);
+        return {};
+      }
+    }
 }

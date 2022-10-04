@@ -191,4 +191,45 @@ export class ListaVentasComponent implements OnInit {
   copiarVentaClick(venta: any): void{
     this.router.navigate(['/ventas/crearventa', venta.id]); 
   }
+
+
+  exportarListaVentas(){
+    let dialogRef = this.loadingService.open();
+
+    if(!(this.dateInicioFilter && this.dateFinFilter)){
+      dialogRef.close();
+      return;
+    }
+
+    const dateInitString = '' + this.dateInicioFilter.getFullYear() + '-' + ('0' + (this.dateInicioFilter.getMonth()+1)).slice(-2) + 
+                          '-' + ('0' + this.dateInicioFilter.getDate()).slice(-2) + ' ' + 
+                            '00:00:00' ;
+    const dateFinString = '' + this.dateFinFilter.getFullYear() + '-' + ('0' + (this.dateFinFilter.getMonth()+1)).slice(-2) + 
+                            '-' + ('0' + this.dateFinFilter.getDate()).slice(-2) + ' ' + 
+                              '23:59:59' ;
+
+    this.coreService.getExcelListaVentas(this.idEmpresa,this.nombreCiRuc,this.noDocmento,
+                                        dateInitString,dateFinString, this.tokenValidate).subscribe({
+      next: (data: any) => {
+
+        dialogRef.close();
+
+        let downloadUrl = window.URL.createObjectURL(data);
+
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', downloadUrl);
+        link.setAttribute('download','lista_ventas');
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+      },
+      error: (error: any) => {
+        dialogRef.close();
+        console.log('inside error');
+        console.log(error);
+      }
+    });
+  }
 }
