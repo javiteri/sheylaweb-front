@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
@@ -14,6 +14,14 @@ export class CrearNuevaEmpresaDialogComponent implements OnInit {
 
   sendDatosFormNuevaEmpresa : FormGroup;
 
+
+  identificacionInput! : ElementRef<HTMLInputElement>;
+  @ViewChild('identificacionInput') set inputElRef(elRef: ElementRef<HTMLInputElement>){
+    if(elRef){
+      this.identificacionInput = elRef;
+    }
+  }
+  
   constructor(private formBuilder: FormBuilder,
     private coreService: ApplicationProvider,
     private loadingService: LoadingService,
@@ -27,6 +35,7 @@ export class CrearNuevaEmpresaDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.identificacionInput.nativeElement.focus();
   }
 
 
