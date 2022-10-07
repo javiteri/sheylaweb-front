@@ -116,8 +116,13 @@ export class ListaVentasComponent implements OnInit {
   updateEstadoAnulado(idVenta: any, estado: any){
 
     const dialogRef = this.matDialog.open(ConfirmDeleteDialogComponent, {
-      width: '250px',
-      data: {title: 'Va a Anular la Venta, desea continuar?'}
+      minWidth: '0',
+      width: '400px',
+      data: {title: 'Va a Anular la Venta, desea continuar?',
+              header:'Anular Venta',
+              textBtnPositive: 'Anular',
+              textBtnCancelar: 'Cancelar'
+            }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -144,8 +149,12 @@ export class ListaVentasComponent implements OnInit {
   deleteVentaByIdEmp(idVenta: any, estado: any){
 
     const dialogRef = this.matDialog.open(ConfirmDeleteDialogComponent, {
-      width: '250px',
-      data: {title: 'Va a Eliminar la Venta, desea continuar?'}
+      minWidth: '0',
+      width: '400px',
+      data: {
+        title: 'Va a Eliminar la Venta, desea continuar?',
+        header: 'Eliminar Venta'
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {

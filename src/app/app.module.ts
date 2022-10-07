@@ -9,7 +9,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
-import { ConfirmDeleteDialogComponent } from './components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { AuthGuard } from './shared/guard';
 import { ApplicationProvider, EndPointProvider } from './providers/provider';
 import { LoadingService } from './services/Loading.service';
@@ -17,8 +16,7 @@ import { LayoutModule } from './pages/general-layout/layout.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ConfirmDeleteDialogComponent
+    AppComponent
   ],
   imports: [
     HttpClientModule,

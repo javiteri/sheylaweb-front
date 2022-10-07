@@ -78,7 +78,9 @@ export class LoginComponent implements OnInit {
         const dataUserBus = {
           _userId: response.idUsuario,
           _bussId: response.idEmpresa,
-          _ruc: '' + response.rucEmpresa
+          _ruc: '' + response.rucEmpresa,
+          _nameUsr: response.nombreUsuario,
+          _nameEmp: response.nombreEmpresa
         }
 
         sessionStorage.setItem('_valtok', JSON.stringify(tokenAndExpire));

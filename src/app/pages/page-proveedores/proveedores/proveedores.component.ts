@@ -112,8 +112,12 @@ export class ProveedoresComponent implements OnInit {
   }
   eliminarClick(idProv: any){
       const dialogRef = this.matDialog.open(ConfirmDeleteDialogComponent, {
-        width: '250px',
-        data: {title: 'Va a eliminar el proveedor, desea continuar?'}
+        minWidth: '0',
+        width: '400px',
+        data: {
+          title: 'Va a eliminar el proveedor, desea continuar?',
+          header: 'Eliminar Proveedor'
+        }
       });
 
     dialogRef.afterClosed().subscribe(result => {

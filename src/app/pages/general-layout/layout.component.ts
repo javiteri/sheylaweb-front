@@ -115,6 +115,9 @@ export class LayoutComponent implements OnInit {
   dataUser: any;
   tokenValidate!: TokenValidate;
 
+  nombreUserSession: string = '';
+  nombreEmpSession: string = '';
+
   constructor(private observer: BreakpointObserver,
     private router: Router,
     private dataStoreService: DataStoreService,
@@ -123,6 +126,13 @@ export class LayoutComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+
+    const localServiceResponseUsr = 
+          JSON.parse(sessionStorage.getItem('_valuser') ? sessionStorage.getItem('_valuser')! : '');
+    this.nombreUserSession = localServiceResponseUsr._nameUsr;
+    this.nombreEmpSession = localServiceResponseUsr._nameEmp;
+
 
     this.router.events
         // For newer versions or rxjs use a pipe on the filter:

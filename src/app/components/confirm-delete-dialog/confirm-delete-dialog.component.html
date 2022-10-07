@@ -1,7 +1,14 @@
+<div class="container">
+    <h1>{{headertitle}}</h1>
+    <hr>
+
 <div mat-dialog-content>
     <p>{{titleDialog}}</p>
 </div>
+
+<div class="spacer"></div>
 <div mat-dialog-actions>
-    <button mat-button [mat-dialog-close]="false">Cancelar</button>
-    <button mat-button [mat-dialog-close]="true">Eliminar</button>
+    <button mat-button mat-raised-button  class="btn-cancelar" [mat-dialog-close]="true">{{btnTextPositive}}</button>
+    <button mat-button mat-raised-button color="btn-icon-accent" [mat-dialog-close]="false">{{btnTextCancelar}}</button>
+</div>
 </div>

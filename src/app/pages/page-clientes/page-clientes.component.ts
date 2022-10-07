@@ -118,9 +118,13 @@ export class PageClientesComponent implements OnInit {
 
   eliminarClick(idCliente: any): void{
     
-    const dialogRef = this.matDialog.open(ConfirmDeleteDialogComponent, {
-        width: '250px',
-        data: {title: 'Va a eliminar el cliente, desea continuar?'}
+    const dialogRef = this.matDialog.open(ConfirmDeleteDialogComponent, {        
+        
+        minWidth: '0',
+        width: '400px',
+        data: {
+          title: 'Va a eliminar el cliente, desea continuar?',
+          header: 'Eliminar Cliente'}
     });
 
     dialogRef.afterClosed().subscribe(result => {

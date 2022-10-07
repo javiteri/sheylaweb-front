@@ -110,8 +110,11 @@ export class PageInventarioComponent implements OnInit {
   }
   eliminarClick(idProducto: any){
       const dialogRef = this.matDialog.open(ConfirmDeleteDialogComponent, {
-        width: '250px',
-        data: {title: 'Va a eliminar el producto, desea continuar?'}
+        minWidth: '0',
+        width: '400px',
+        data: {
+          title: 'Va a eliminar el producto, desea continuar?',
+          header: 'Eliminar Producto'}
       });
 
     dialogRef.afterClosed().subscribe(result => {

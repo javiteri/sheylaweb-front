@@ -114,8 +114,11 @@ export class ListaComprasComponent implements OnInit {
   deleteCompraByIdEmp(idCompra: any, tipoDoc: any){
 
     const dialogRef = this.matDialog.open(ConfirmDeleteDialogComponent, {
-      width: '250px',
-      data: {title: 'Va a Eliminar la Compra, desea continuar?'}
+      minWidth: '0',
+      width: '400px',
+      data: {title: 'Va a Eliminar la Compra, desea continuar?',
+            header: 'Eliminar Compra'
+          }
     });
 
     dialogRef.afterClosed().subscribe(result => {
