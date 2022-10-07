@@ -91,6 +91,13 @@ export class LayoutComponent implements OnInit {
       ]
     },
     {
+      name: 'Facturacion Electronica',
+      matIcon: 'description',
+      active: false,
+      routerLink: '/documentos-electronicos',
+      submenu: []
+    },
+    {
       name: 'Configurar',
       matIcon: 'settings',
       active: false,

@@ -53,6 +53,10 @@ const routes: Routes = [
         loadChildren: () => import('../page-usuarios/usuarios.module').then((m) => m.UsuariosModule)
       },
       {
+        path: 'documentos-electronicos',
+        loadChildren: () => import('../page-documentos-electronicos/documentoselectronicos.module').then((m) => m.DocumentosElectronicosModule)
+      },
+      {
         path: 'configuracion',
         loadChildren: () => import('../configuraciones/configuraciones.module').then((m) => m.ConfiguracionesModule)
       }

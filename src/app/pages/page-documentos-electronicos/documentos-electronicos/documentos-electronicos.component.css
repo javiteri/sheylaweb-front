@@ -1,0 +1,238 @@
+.titulo{
+    margin-bottom: .5em;
+}
+.titulo p{
+    font-size: .8em;
+    font-weight: 400;
+    color: var(--grey-600);
+}
+.mat-icon-accent{
+    color: var(--accent-color);
+}
+
+.container-options{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+.container-options .mat-card{
+    width: 100%;
+}
+.container-options > div{
+    flex: 1 1 0;
+    width: 100%;
+}
+
+.container-options > div + div{
+    margin-left: 10px;
+}
+
+.container-options div:nth-child(1){
+    flex: 1.5 1.5 40%;
+    display: flex;  
+}
+
+.container-options div:nth-child(2){
+    display: flex;
+    justify-content: flex-end;
+}
+
+.container-search-bar{
+    padding: 3px 6px;
+}
+.container-search-bar div{
+    width: 100%;
+}
+.container-search-bar div:first-child{
+    width: 30%;
+}
+
+.inner-container-search{
+    display: flex;
+    flex-flow: row nowrap;
+}
+.inner-container-search button{
+    padding: 0 0;
+    width: 2em;
+    margin-left: .2em;
+}
+.inner-container-search input{
+    padding: .5rem 1rem;
+    width: 100%;
+    outline: none;
+    font-size: .7rem;
+    border: 1px solid var(--grey-300);
+    box-shadow: 0 5px 20px rgba(0,0,0,.05);
+    border-radius: 4px;
+    color: var(--grey-600);
+    transition: 80ms cubic-bezier(0.33, 1, 0.68, 1);
+    transition-property: color,background-color,box-shadow,border-color;
+}
+.inner-container-search input:focus-visible{
+    border-color: var(--accent-color);
+    outline: none;
+    box-shadow: inset 0 0 0 1px #0969da;
+}
+.inner-container-search input + input{
+    margin-left: .6em;
+}
+
+.container-search-bar{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+
+.container-search-bar div + div{
+    margin-left: .5em;
+}
+
+.inner-container-date-filter{
+    display: flex;
+    flex-flow: row nowrap;
+    font-size: 12px;
+}
+
+.inner-container-date-filter .mat-form-field{
+    width: 100%;
+    min-width: 0;
+    
+}
+.inner-container-date-filter .mat-form-field + .mat-form-field{
+    margin-left: 8px;
+}
+
+
+.mat-card-two{
+    margin-top: .5rem !important;
+    box-shadow: 0 5px 20px rgba(0,0,0,.05) !important;
+}
+
+.mat-card .mat-card-content{
+    padding: 0 !important;
+}
+.mat-card{
+    padding: 0 !important;
+}
+
+.inner-container-search .mat-form-field + .mat-form-field{
+    margin-left: 1em;
+}   
+.container-search-bar .mat-form-field{
+    margin-bottom: -1em;
+}
+.inner-container-search > input{
+    margin-left: 1em;
+}
+.font-size-12px{
+    font-size: 12px;
+}
+
+.mat-footer-row, .mat-header-row, .mat-row{
+    width: auto;
+}
+
+@media screen and (max-width: 1200px){
+    .container-options {
+        flex-flow: column-reverse;
+    }
+}
+
+@media screen and (max-width: 900px){
+    .container-search-bar{
+        flex-flow: column;
+    }
+    .container-search-bar div + div{
+        margin-left: 0;
+    }
+
+    .inner-container-search > input {
+        margin-left: 0;
+    }
+
+    .container-search-bar div:first-child {
+        width: 100%;
+    }
+}
+
+
+.mat-header-row{
+    background-color: var(--color-primary-dark);
+}
+.mat-header-row th{
+    color: white;
+}
+
+th.mat-header-cell,
+td.mat-cell,
+td.mat-footer-cell {
+ 
+ border-bottom-width:0;
+ border-bottom-style:none; 
+}
+
+/* FLEX GROW VALUES*/
+.flex-grow-dot5{
+    flex-grow: .5;
+}
+.flex-grow-dot7{
+    flex-grow: .7;
+}
+.flex-grow-dot5{
+    flex-grow: .5;
+}
+.flex-grow-1dot5{
+    flex-grow: 1.5;
+}
+.justify-content-center{
+    justify-content: center;
+}
+
+.mat-footer-row, .mat-header-row, .mat-row {
+    width: auto;
+}
+
+.container-estate-doc{
+    color: rgb(255 255 255 / 1); 
+    font-size: 12px;
+    
+    padding-left: .625rem;
+    padding-right: .625rem;
+    border-radius: 3px;
+}
+
+.container-estate-doc-pendiente{
+    background-color: rgb(182 173 173 / 1);
+}
+.container-estate-doc-enviado{
+    background-color: rgb(91 197 168 / 1);
+}
+.container-estate-doc-autorizado{
+    background-color: rgb(91 197 168 / 1);
+}
+.container-estate-doc-error{
+    background-color: rgb(223 114 114 / 1);
+}
+
+
+@media screen and (max-width: 960px){
+    .mat-table{
+        overflow-x: auto;
+        overflow-y: hidden
+    }
+    .mat-footer-row, .mat-header-row, .mat-row {
+        width: fit-content;
+    }
+
+    .mat-cell, .mat-footer-cell, .mat-header-cell{
+        min-width: 90px;
+    }
+    /*.mat-table .mat-header-row th:last-child, .mat-table .mat-row td:last-child{
+        min-width: 50px;
+    }*/
+}

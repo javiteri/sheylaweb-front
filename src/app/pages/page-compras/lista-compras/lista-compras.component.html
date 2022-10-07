@@ -27,10 +27,11 @@
                 (keyup.enter)="searchListaComprasWithFilter();"/>
                 <input type="text" placeholder="No Documento" [(ngModel)]="noDocmento"
                 (keyup.enter)="searchListaComprasWithFilter();"/>
-                <button class="font-weight-300" color="icon-accent" mat-stroked-button
+                <button mat-raised-button class="font-weight-300 mat-elevation-z1" color="btn-icon-accent"
                   matTooltip="Buscar"
                   (click)="searchListaComprasWithFilter();$event.preventDefault();">
-                  <mat-icon>search</mat-icon>
+                  <!--<mat-icon>search</mat-icon>-->
+                  Buscar
                 </button>
               </div>
           

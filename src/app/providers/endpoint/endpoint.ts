@@ -14,7 +14,7 @@ export class EndPointProvider {
     private readonly appVersion = '1.0.0';
     //private readonly apiUrl = 'http://192.168.1.10:8086/api/';
     //private readonly apiUrl = 'http://localhost:3000/api/';
-    private readonly apiUrl = 'http://factura.dyndns.info:8086/api/';
+    private readonly apiUrl = 'https://www.sheylaweb.net/api/';
 
     private readonly searchDatosClienteSri = 'http://sheyla2.dyndns.info/SRI/SRI.php';
     //private readonly searchDatosClienteSriLocal = 'http://localhost:4200/SRI';
@@ -1137,6 +1137,31 @@ export class EndPointProvider {
 
       let paramsRequest = new HttpParams().set('idEmp', idEmp)
                         .set('fechaIni', fechaIni).set('fechaFin', fechaFin)
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+
+
+    // DOCUMENTOS ELECTRONICOS
+    private readonly _getDocumentosElectronicosByIdEmp: string = 'documentos_electronicos/getlistdocumentoselectronicos';
+    private get getDocumentosElectronicosByIdEmpURL(){
+      return this.apiUrl + this._getDocumentosElectronicosByIdEmp;
+    }
+    getDocumentosElectronicosByIdEmp<T>(idEmp: any,fechaIni:any,fechaFin:any,
+                        tipo:any,nombresci:any,nodoc:any,accessToken: any): Observable<T>{
+      const endpointUrl = this.getDocumentosElectronicosByIdEmpURL;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmp)
+                        .set('fechaIni', fechaIni).set('fechaFin', fechaFin)
+                        .set('tipo', tipo).set('nodoc', nodoc)
+                        .set('nombresci', nombresci)
+
       const httpOptions = {
         headers: header,
         params: paramsRequest

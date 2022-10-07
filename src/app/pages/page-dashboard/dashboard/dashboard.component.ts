@@ -227,12 +227,13 @@ export class DashboardComponent implements OnInit{
 
   this.coreService.getClientesDelMes(this.idEmpresa,dateInitString,dateFinString,this.tokenValidate).subscribe({
     next: (data: any) =>{
-      if(data.data){
+      if(data.data ){
         const listLabel = Array.from(data.data).map((valor: any) => valor.cli_nombres_natural.split(' '));
         this.listLabelClientesMes = listLabel;
         
         this.createChartClientes();
       }
+      
     },
     error: (error: any) => {
       console.log('error inside clientes del mes');
@@ -254,7 +255,9 @@ export class DashboardComponent implements OnInit{
 
   this.coreService.getVentasDelDiaFormaPago(this.idEmpresa,dateInitString,dateFinString,this.tokenValidate).subscribe({
     next: (data: any) =>{
-      if(data.data){
+
+      console.log('inside');
+      if(data.data && data.data.length > 0){
 
         const listLabel = Array.from(data.data).map((valor: any) => valor.venta_forma_pago.split(' '));
         const listValue = Array.from(data.data).map((valor: any) => valor.total);
@@ -262,9 +265,12 @@ export class DashboardComponent implements OnInit{
         this.listLabelFormaPagoChart = listLabel;
         this.listFormaPagoChartValue = listValue;
 
-        this.createChartFormaPago();
-
+      }else{
+        
+        this.listLabelFormaPagoChart = ["Sin Ventas"];
+        this.listFormaPagoChartValue = [1];
       }
+      this.createChartFormaPago();
     },
     error: (error: any) => {
       console.log('error inside ventas dia forma pago');

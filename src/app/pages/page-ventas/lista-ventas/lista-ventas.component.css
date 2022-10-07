@@ -103,7 +103,7 @@ table{
 }
 
 .container-search-bar{
-    margin-top: 1rem;
+    /*margin-top: 1rem;*/
     padding: 3px 6px;
 }
 .container-search-bar div{
@@ -119,7 +119,7 @@ table{
 }
 .inner-container-search button{
     padding: 0 0;
-    min-width: 3em;
+    /*min-width: 3em;*/
     width: 2em;
     margin-left: .2em;
 }
@@ -272,7 +272,7 @@ td.mat-footer-cell {
     }
 }
 
-@media screen and (max-width: 892px){
+@media screen and (max-width: 984px){
     .container-options{
         flex-flow: column-reverse;
     } 

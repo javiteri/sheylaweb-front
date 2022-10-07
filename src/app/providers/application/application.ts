@@ -265,4 +265,10 @@ export class ApplicationProvider {
     return this.coreEndPoint.getVentaDelDiaFormaPago(idEmp,fechaIni,fechaFin,accessToken);
   }
 
+  //DOCUMENTOS ELECTRONICOS
+  getListDocumentosElectronicosByIdEmp(idEmp: any, fechaIni:any,fechaFin:any,
+    tipo:any,nombresci:any,nodoc: any,accessToken:any){
+
+    return this.coreEndPoint.getDocumentosElectronicosByIdEmp(idEmp,fechaIni,fechaFin,tipo,nombresci,nodoc,accessToken);
+  }
 }

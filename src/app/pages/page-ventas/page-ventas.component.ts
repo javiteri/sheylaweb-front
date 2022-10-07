@@ -682,8 +682,8 @@ private resetControls(){
   private getConfigIvaIncluidoEnVenta(){
     this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_IVA_INCLUIDO_FACTURA', this.tokenValidate).subscribe({
       next: (data: any) => {
-
-        if(data.data){
+       
+        if(data.data && data.data.length > 0){
           
           const configReceive: ConfigReceive = data.data[0];
 

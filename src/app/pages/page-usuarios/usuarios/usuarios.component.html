@@ -10,10 +10,11 @@
         <input type="text" placeholder="Nombre o Identificacion"
                 [(ngModel)]="textSearchUsuarios"
                 (keyup.enter)="searchUsuariosText();"/>
-        <button class="font-weight-300" color="icon-accent" mat-stroked-button
+        <button  class="font-weight-300 mat-elevation-z1" color="btn-icon-accent" mat-raised-button
                 matTooltip="Buscar"
                 (click)="searchUsuariosText();$event.preventDefault();">
-          <mat-icon>search</mat-icon>
+          <!--<mat-icon>search</mat-icon>-->
+          Buscar
         </button>
       </div>
     </div>
