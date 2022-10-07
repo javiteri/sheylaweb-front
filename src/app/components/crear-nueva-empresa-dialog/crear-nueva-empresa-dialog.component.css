@@ -1,0 +1,49 @@
+.main-nuevo-ingreso{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+hr{
+    width: 100%;
+    margin-top: 0;
+    color: var(--grey-400);
+}
+.dialog-header{
+    color: var(--grey-600);
+}
+.dialog-header h1{
+    margin-bottom: 0;
+}
+
+.container-form{
+    margin-top: 2em;
+    max-width: 900px;
+    width: 100%;
+}
+
+
+
+.container-form-fields{
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.mat-icon-accent{
+    color: var(--accent-color);
+}
+
+textarea{
+    resize: none;
+}
+
+.container-btn-crear{
+    text-align: center;
+}
+.container-btn-crear button{
+    margin-top: 2em;
+    background-color: #42b72a;
+    font-size: 16px;
+    width: 50%;
+}

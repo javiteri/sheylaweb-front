@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApplicationProvider } from '../../providers/provider';
 import { LoadingService } from '../../services/Loading.service';
+import { MatDialog } from '@angular/material/dialog';
+import { CrearNuevaEmpresaDialogComponent } from 'src/app/components/crear-nueva-empresa-dialog/crear-nueva-empresa-dialog.component';
 
 @Component({
   selector: 'app-login',
@@ -17,11 +19,15 @@ export class LoginComponent implements OnInit {
   showTextMessageInfo = false;
   textMessage = '';
 
+  showDivCredentials = false;
+  rucDivCredential = '';
+
   constructor(
     public formBuilder: FormBuilder,
     public router: Router,
     private coreService: ApplicationProvider,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private matDialog: MatDialog
   ) {
 
     this.sendLoginForm = this.formBuilder.group({
@@ -56,9 +62,16 @@ export class LoginComponent implements OnInit {
 
     this.coreService.login(sendFormData).subscribe({
       next: (response: any) => {
-        
+                
         overlayRef.close();
 
+        if(response.existEmp == false){
+          this.loading = false;
+
+          this.showMessageInfo('No existe Empresa');
+
+          return;
+        }
         if(response.error){
           this.loading = false;
 
@@ -67,6 +80,12 @@ export class LoginComponent implements OnInit {
           return;
         }
 
+        if(!response.existUser){
+          this.loading = false;
+
+          this.showMessageInfo('No Existe Usuario');
+          return;
+        }
         const Expires = new Date();
         Expires.setSeconds(Expires.getSeconds() + response.expire);
 
@@ -86,8 +105,9 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem('_valtok', JSON.stringify(tokenAndExpire));
         sessionStorage.setItem('_valuser', JSON.stringify(dataUserBus));
 
-        if(response.redirecRegistroEmp){
+        if(response.nombreEmpresa = 'EMPRESA NUEVA'){
           this.router.navigate(['/infoempresa']);
+          return;
         }
 
         if(response.redirectToHome){
@@ -116,5 +136,24 @@ export class LoginComponent implements OnInit {
         setTimeout(() => {
           this.textMessage = '';
         }, 8300);
+  }
+
+
+  nuevaEmpresaClick(){
+    const dialogRef = this.matDialog.open(CrearNuevaEmpresaDialogComponent, {
+      minWidth: '0',
+      width: '400px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        if(result.isCreateEmp){
+          this.showDivCredentials = true;
+          this.rucDivCredential = result.rucEmpresa;
+        }
+      }
+    });
+
   }
 }

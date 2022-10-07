@@ -1,0 +1,23 @@
+<div class="main-nuevo-ingreso">
+    <div class="dialog-header">
+        <h1>
+            Registrar Nueva Empresa
+        </h1>
+    </div>
+    <hr>
+    <div class="container-form">
+        <form [formGroup]="sendDatosFormNuevaEmpresa" >
+            <div class="container-form-fields">
+                <mat-form-field >
+                    <mat-label>Ruc Empresa</mat-label>
+                    <input matInput type="text" formControlName="rucEmpresa">
+                </mat-form-field>
+                <div class="container-btn-crear">
+                    <button mat-button mat-raised-button color="btn-icon-accent" (click)="crearEmpresaClick(sendDatosFormNuevaEmpresa.value);">
+                        Crear Empresa
+                    </button>
+                </div>        
+            </div>
+        </form>
+    </div>
+</div>

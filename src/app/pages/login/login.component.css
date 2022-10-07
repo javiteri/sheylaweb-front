@@ -1,6 +1,6 @@
 
 .container-banner{
-  background-image: url('../../../assets/logo_sheyla/sheyla_software.jpg');
+  background-image: url('../../../assets/logo_sheyla/web2.jpg');
 }
 .cover{
   background-size: cover;
@@ -13,8 +13,12 @@
   display: flex;
   justify-content: center;
 }
+img{
+  fill: var(--color-primary-dark);
+}
 .img-responsive{
-  width: 40%;
+  /*width: 40%;*/
+  max-width: 90%;
   margin-top: 10%;
 }
 
@@ -41,9 +45,7 @@
       display: none !important;
     }
 
-    .img-responsive{
-      max-width: 30%;
-    }
+    
 }
 
 h3, .h3{
@@ -55,12 +57,12 @@ h1, .h1, h2, .h2, h3, .h3 {
 }
 
 .container-form-login{
-  margin-top: 3%;
+  /*margin-top: 3%;*/
   padding: 10px 50px 10px 50px;
 }
 
 .container-form-login h4{
-  color: #116eff;
+  color: var(--color-primary-dark);
   text-align: center;
 }
 
@@ -73,11 +75,30 @@ h1, .h1, h2, .h2, h3, .h3 {
 .container-form-field .mat-form-field{
   width: 100%;
 }
+.container-form-btn{
+  padding: 6px 0;
+}
 .container-form-btn button{
-  margin-top: 8%;
+  margin-top: 1%;
   width: 100%;
   font-size: 16px;
-  background-color: #00AAFF;
+  background-color: var(--color-primary-dark);
+  color: #ffffff;
+  padding: 3px 12px;
+  font-weight: normal;
+}
+
+.container-form-registrar-emp{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.container-form-registrar-emp button{
+  margin-top: 4em;
+  width: 100%;
+  font-size: 15px;
+  background-color: var(--color-primary);
   color: #ffffff;
   padding: 3px 12px;
   font-weight: normal;
@@ -118,4 +139,87 @@ h1, .h1, h2, .h2, h3, .h3 {
 .opacity-one{
   opacity: 1;
   transition: opacity .5s ;
+}
+
+.login-link div{
+  text-align: center;;
+}
+
+.link-recuperar-password{
+  color: #1877f2;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.link-recuperar-password:hover{
+  text-decoration: underline;
+}
+
+.separator-o-span{
+  color: #96999e;
+  display: inline-block;
+  position: relative;
+  font-size: 12px;
+}
+
+span::before, span::after {
+  background: #d7dade;
+}
+
+span::before,span::after {
+  content: '';
+  height: 1px;
+  position: absolute;
+  top: 50%;
+  width: 9999px;
+}
+
+.container-span{
+  width: auto;
+  overflow: hidden;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+span::before {
+  margin-right: 15px;
+  right: 100%;
+}
+
+span::after {
+  margin-left: 15px;
+  left: 100%;
+}
+
+.login-link div:first-child{
+  padding: 10px 0 2px;
+}
+
+.container-nueva-empresa button{
+  background-color: #42b72a;
+  color: #fff;
+  /*line-height: 48px;*/
+  width: 50%;
+  font-weight: normal;
+}
+
+.container-nueva-empresa button:hover {
+  background-color: #36a420;
+  border-color: #36a420;
+}
+
+.container-datos-credentials{
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding: 10px;
+  text-align: center;
+  background-color: var(--accent-color);
+  border-radius: 4px;
+}
+.container-datos-credentials p{
+  margin: 0;
+  font-size: 12px;
+  font-weight: 400;
+  color: white;
 }

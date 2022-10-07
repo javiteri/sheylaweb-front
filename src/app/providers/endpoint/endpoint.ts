@@ -59,14 +59,31 @@ export class EndPointProvider {
     }
 
     //LOGUIN
-    private readonly _loginVerify: string = 'loginverify'
-
+    //private readonly _loginVerify: string = 'loginverify'
+    private readonly _loginVerify: string = 'loginverify2'
     private get loginVerifyUrl(){
       return this.apiUrl + this._loginVerify;
     }
     loginVerify<T>(postData: any): Observable<T>{
       const endPointUrl = this.loginVerifyUrl;
       return this.http.post<T>(endPointUrl, postData);
+    }
+
+
+    private readonly _crearNuevaEmpresaByRuc: string = "crearnuevaempresa"
+    private get crearNuevaEmpresaByRucURL(){
+      return this.apiUrl + this._crearNuevaEmpresaByRuc;
+    }
+    crearNuevaEmpresaByRuc<T>(ruc: any): Observable<any>{
+       const endPointUrl = this.crearNuevaEmpresaByRucURL;
+
+       let paramsRequest = new HttpParams().set('ruc', ruc);
+
+       const httpOptions = {
+         params: paramsRequest
+       }
+
+     return this.http.get<T>(endPointUrl, httpOptions);
     }
 
 
@@ -91,6 +108,9 @@ export class EndPointProvider {
 
       return this.http.post<any>(endPointUrl, postData, this.getRequestHeader(accesToken));
     }
+
+     
+    
 
     // METHODS FOR CLIENTES
     private readonly _insertCliente: string = "clientes/insertar";

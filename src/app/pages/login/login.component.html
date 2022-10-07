@@ -6,12 +6,11 @@
   <div class="container-box-login">
 
     <div class="container-logo">
-      <img class="img-responsive" src="../../../assets/logo_sheyla/logo1.png">
+      <img class="img-responsive" src="../../../assets/sheyla-logo-dark.svg" width="600" height="50">
     </div>
 
     <div class="container-form-login">
-      <h3> Iniciar Sesion</h3>
-      <h4> El mejor Aliado Para Tu Empresa</h4>
+      <h4>La solución ideal para tu Empresa</h4>
 
       <form [formGroup]="sendLoginForm" (ngSubmit)="login(sendLoginForm.value)">
         <div class="all-content">
@@ -41,14 +40,32 @@
                     </mat-form-field>
                 </div>
 
-                <div class="container-form-btn">
-                    <button mat-raised-button [class.spinner]="loading" [disabled]="loading">INGRESAR</button>
+                <div *ngIf="showDivCredentials" class="container-datos-credentials">
+                  <p> Sus credenciales de acceso son:</p>
+                  <p>Ruc: {{rucDivCredential}}</p>
+                  <p>Usuario: ADMIN</p>
+                  <p>Contraseña: ADMIN</p>
                 </div>
-
+                <div class="container-form-btn">
+                    <button mat-raised-button [class.spinner]="loading" [disabled]="loading">Iniciar Sesión</button>
+                </div>
             </div>
         </div>
 
     </form>
+
+    <div class="login-link">
+      <div>
+        <a class="link-recuperar-password">¿Olvidaste tu cuenta?</a>
+      </div>
+      <div class="container-span">
+        <span class="separator-o-span">O</span>
+      </div>
+      <div class="container-nueva-empresa">
+        <button mat-raised-button (click)="nuevaEmpresaClick();$event.preventDefault()">Nueva Empresa</button>
+      </div>
+    </div>
+
 
     </div>
 

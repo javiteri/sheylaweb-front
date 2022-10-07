@@ -15,6 +15,7 @@ export class ApplicationProvider {
       return this.coreEndPoint.loginVerify(postData);
   }
 
+  // EMPRESAS
   empresaByRucAndId(postData: any, accesToken: any){
     return this.coreEndPoint.empresaByRucAndId(postData, accesToken);
   }
@@ -23,11 +24,14 @@ export class ApplicationProvider {
     return this.coreEndPoint.updateDatosEmpresa(postData, accesToken);
   }
 
-  searchClienteByCiRuc(ciRuc: any){
-    return this.coreEndPoint.searchClientByCiRuc(ciRuc);
+  crearNuevaEmpresaByRuc(ruc: any){
+    return this.coreEndPoint.crearNuevaEmpresaByRuc(ruc);
   }
 
   //CLIENTES
+  searchClienteByCiRuc(ciRuc: any){
+    return this.coreEndPoint.searchClientByCiRuc(ciRuc);
+  }
   insertClienteToBD(postData: any, accessToken: any){
       return this.coreEndPoint.insertClienteToBD(postData, accessToken);
   }

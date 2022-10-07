@@ -33,6 +33,7 @@ import { NuevoIngresoCajaDialogComponent } from 'src/app/components/nuevo-ingres
 import { NuevoEgresoCajaDialogComponent } from 'src/app/components/nuevo-egreso-caja-dialog/nuevo-egreso-caja-dialog.component';
 import { PickDateAdapter, PICK_FORMATS } from '../page-ventas/adapter/DatePickerAdapter';
 import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
+import { CrearNuevaEmpresaDialogComponent } from 'src/app/components/crear-nueva-empresa-dialog/crear-nueva-empresa-dialog.component';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-
     BuscarProductoDialogComponent,
     BuscarProductoCompraDialogComponent,
     CrearClienteDialogComponent,
+    CrearNuevaEmpresaDialogComponent,
     CrearProveedorDialogComponent,
     BuscarProveedorDialogComponent,
     NuevoIngresoCajaDialogComponent,

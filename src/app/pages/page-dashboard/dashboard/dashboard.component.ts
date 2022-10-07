@@ -194,7 +194,7 @@ export class DashboardComponent implements OnInit{
 
   this.coreService.getProductosDelMes(this.idEmpresa,dateInitString,dateFinString,this.tokenValidate).subscribe({
     next: (data: any) =>{
-      if(data.data){
+      if(data.data && data.data.length > 0){
 
         const listLabel = Array.from(data.data).map((valor: any) => valor.ventad_producto.split(' '));
         const listValue = Array.from(data.data).map((valor: any) => valor.cantidad);
@@ -202,8 +202,13 @@ export class DashboardComponent implements OnInit{
         this.listLabelProductosMes = listLabel;
         this.listLabelProductosMesValue = listValue;
         
-        this.createChartProductos();
+      }else{
+        
+        this.listLabelProductosMes = ['Producto'];
+        this.listLabelProductosMesValue = [400];
       }
+
+      this.createChartProductos();
     },
     error: (error: any) => {
       console.log('error inside productos del mes');
@@ -227,13 +232,16 @@ export class DashboardComponent implements OnInit{
 
   this.coreService.getClientesDelMes(this.idEmpresa,dateInitString,dateFinString,this.tokenValidate).subscribe({
     next: (data: any) =>{
-      if(data.data ){
+      if(data.data && data.data.length > 0){
         const listLabel = Array.from(data.data).map((valor: any) => valor.cli_nombres_natural.split(' '));
         this.listLabelClientesMes = listLabel;
         
-        this.createChartClientes();
+      }else{
+        this.listLabelClientesMes = ['Cliente'];
       }
-      
+
+      this.createChartClientes();
+
     },
     error: (error: any) => {
       console.log('error inside clientes del mes');
@@ -256,7 +264,6 @@ export class DashboardComponent implements OnInit{
   this.coreService.getVentasDelDiaFormaPago(this.idEmpresa,dateInitString,dateFinString,this.tokenValidate).subscribe({
     next: (data: any) =>{
 
-      console.log('inside');
       if(data.data && data.data.length > 0){
 
         const listLabel = Array.from(data.data).map((valor: any) => valor.venta_forma_pago.split(' '));
