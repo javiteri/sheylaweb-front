@@ -32,6 +32,8 @@ import { BuscarProductoCompraDialogComponent } from 'src/app/components/buscar-p
 import { NuevoIngresoCajaDialogComponent } from 'src/app/components/nuevo-ingreso-caja-dialog/nuevo-ingreso-caja-dialog.component';
 import { NuevoEgresoCajaDialogComponent } from 'src/app/components/nuevo-egreso-caja-dialog/nuevo-egreso-caja-dialog.component';
 import { PickDateAdapter, PICK_FORMATS } from '../page-ventas/adapter/DatePickerAdapter';
+import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
+import { CrearNuevaEmpresaDialogComponent } from 'src/app/components/crear-nueva-empresa-dialog/crear-nueva-empresa-dialog.component';
 
 
 @NgModule({
@@ -41,10 +43,12 @@ import { PickDateAdapter, PICK_FORMATS } from '../page-ventas/adapter/DatePicker
     BuscarProductoDialogComponent,
     BuscarProductoCompraDialogComponent,
     CrearClienteDialogComponent,
+    CrearNuevaEmpresaDialogComponent,
     CrearProveedorDialogComponent,
     BuscarProveedorDialogComponent,
     NuevoIngresoCajaDialogComponent,
-    NuevoEgresoCajaDialogComponent
+    NuevoEgresoCajaDialogComponent,
+    ConfirmDeleteDialogComponent
   ],
   imports: [
     CommonModule,

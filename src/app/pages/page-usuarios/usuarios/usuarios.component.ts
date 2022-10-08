@@ -116,8 +116,12 @@ export class UsuariosComponent implements OnInit {
 
   eliminarClick(idUser: any): void{
     const dialogRef = this.matDialog.open(ConfirmDeleteDialogComponent, {
-        width: '250px',
-        data: {title: 'Va a eliminar el Usuario, desea continuar?'}
+        minWidth: '0',
+        width: '400px',
+        data: {
+          title: 'Va a eliminar el Usuario, desea continuar?',
+          header: 'Eliminar Usuario'
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {

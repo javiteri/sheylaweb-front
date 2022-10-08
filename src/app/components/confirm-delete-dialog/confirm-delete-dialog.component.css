@@ -1,0 +1,35 @@
+.container{
+    height: 100%;
+    width: 100%;
+}
+
+
+.mat-dialog-container{
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+}
+
+h1{
+    font-size: 1.2em !important;
+    margin-bottom: 0 !important;
+}
+hr{
+    margin-top: 0;
+    color: var(--grey-400);
+}
+
+
+.mat-icon-accent{
+    color: var(--accent-color);
+}
+
+.btn-cancelar{
+    background-color: #e71046;
+    color: #ffffff;
+    font-weight: normal;
+}
+
+.mat-dialog-actions{
+    width: 100%;
+    justify-content: flex-end;
+}

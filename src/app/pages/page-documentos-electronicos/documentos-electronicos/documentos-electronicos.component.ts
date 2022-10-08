@@ -76,14 +76,14 @@ export class DocumentosElectronicosComponent implements OnInit {
     this.coreService.getListDocumentosElectronicosByIdEmp(this.idEmpresa,dateInitString,dateFinString,tipo,this.nombreClienteCi,
       this.numeroDocumento,this.tokenValidate).subscribe({
         next: (data: any) => {
-          console.log('inside ok ');
-          console.log(data);
 
           if(data.data && data.data.length > 0){
             
             this.datasource.data = data.data;
+            this.showSinDatos = false;
           }else{
             this.datasource.data = [];
+            this.showSinDatos = true;
           }
 
           loadingRef.close();
