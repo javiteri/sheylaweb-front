@@ -176,7 +176,6 @@ export class CuadrarCajaComponent implements OnInit {
           usu_username: "TODOS",
           usu_id: 0
         }
-        console.log(dataUsers);
 
         dataUsers.data.unshift(valueTodos);
         this.listUsuarios = dataUsers.data;
@@ -255,7 +254,6 @@ export class CuadrarCajaComponent implements OnInit {
         this.coreService.insertCuadreCajaByIdEmp(valueSendBitacora,this.tokenValidate).subscribe({
           next: (data: any) => {
             dialogRef.close();
-            console.log('todo ok insertando cuadre caja');
             this.resetControls();
             
             this.toastr.success('Cuadre de Caja Realizado Correctamente', '', {
@@ -295,8 +293,6 @@ export class CuadrarCajaComponent implements OnInit {
   private getConfigAllowChangeFecha(){
     this.coreService.getConfigByNameIdEmp(this.idEmpresa,'CAJA_PERMITIR_CAMBIAR_FECHA', this.tokenValidate).subscribe({
       next: (data: any) => {
-        console.log('inside config change fecha');
-        console.log(data);
         if(data.data.length > 0){
           const configReceive: ConfigReceive = data.data[0];
 

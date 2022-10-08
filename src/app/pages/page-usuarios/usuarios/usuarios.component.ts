@@ -63,8 +63,6 @@ export class UsuariosComponent implements OnInit {
     this.rucEmpresa = localServiceResponseUsr._ruc;
     this.idUsuario = localServiceResponseUsr._userId;
 
-    console.log(this.idUsuario);
-
     this.getListUsuariosRefresh();
 
   }
@@ -195,7 +193,6 @@ export class UsuariosComponent implements OnInit {
   }
 
   exportarUsuarios(){
-    console.log('click exportar usuarios');
     let dialogRef = this.loadingService.open();
 
     this.coreService.getExcelListUsuarios(this.idEmpresa, this.tokenValidate).subscribe({

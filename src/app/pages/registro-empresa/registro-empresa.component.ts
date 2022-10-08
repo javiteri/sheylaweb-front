@@ -50,7 +50,7 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
         fechaInicio: [''],
         eslogan: ['', [Validators.maxLength(250)]],
         web: ['', [Validators.maxLength(250)]],
-        email: ['', [Validators.required, Validators.maxLength(250), Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/), Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+        email: ['', [Validators.email]],
         telefonos: ['', [Validators.required, Validators.maxLength(250), Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]],
         direccionMatriz: ['', [Validators.required, Validators.maxLength(250), Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]],
         sucursal1: ['', [Validators.maxLength(250)]],
@@ -114,7 +114,14 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
         this.sendDatosEmpresaForm.controls['fechaInicio'].setValue(this.empresaData['fechaInicio']);
         this.sendDatosEmpresaForm.controls['eslogan'].setValue(this.empresaData['slogan']);
         this.sendDatosEmpresaForm.controls['web'].setValue(this.empresaData['web']);
-        this.sendDatosEmpresaForm.controls['email'].setValue(this.empresaData['email']);
+        
+        
+        if(this.empresaData['email'] == ' '){
+          this.sendDatosEmpresaForm.controls['email'].setValue('');
+        }else{
+          this.sendDatosEmpresaForm.controls['email'].setValue(this.empresaData['email']);
+        }
+        
         this.sendDatosEmpresaForm.controls['telefonos'].setValue(this.empresaData['telefono']);
         this.sendDatosEmpresaForm.controls['direccionMatriz'].setValue(this.empresaData['direccionMatriz']);
         this.sendDatosEmpresaForm.controls['sucursal1'].setValue(this.empresaData['direccionSucursal1']);

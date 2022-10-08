@@ -90,7 +90,6 @@ export class MovimientosCajaComponent implements OnInit {
       next: (data: any) => {
 
         dialogRef.close();
-        console.log(data);
         if(data.data){
           const arrayData = Array.from<ItemResumenMovimiento>(data.data);
           const arrayMap = arrayData.map<ItemResumenMovimiento>((valor: ItemResumenMovimiento) => {

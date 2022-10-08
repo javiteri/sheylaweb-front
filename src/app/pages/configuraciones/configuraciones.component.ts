@@ -45,7 +45,6 @@ export class ConfiguracionesComponent implements OnInit {
     private loadingService: LoadingService) { }
 
   ngOnInit(): void {
-    console.log('configracion component');
     // GET INITIAL DATA
     const localServiceResponseToken =  
           JSON.parse(sessionStorage.getItem('_valtok') ? sessionStorage.getItem('_valtok')! : '');
@@ -69,7 +68,6 @@ export class ConfiguracionesComponent implements OnInit {
     this.coreService.getListConfigsByIdEmp(this.idEmpresa, this.tokenValidate).subscribe({
       next: (data: any) => {
         overlayRef.close();
-        console.log('ok listas configs');
 
         const dataArray = Array.from<ConfigReceive>(data.data);
 

@@ -121,7 +121,6 @@ export class ResumenVentasComponent implements OnInit {
               this.ref.detectChanges();
               this.datasource.paginator = this.paginator;
             }
-            console.log(results.data);
             
           },
           error: (error) => {

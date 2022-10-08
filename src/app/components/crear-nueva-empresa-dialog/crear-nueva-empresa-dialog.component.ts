@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
@@ -10,10 +10,9 @@ import { LoadingService } from 'src/app/services/Loading.service';
   templateUrl: './crear-nueva-empresa-dialog.component.html',
   styleUrls: ['./crear-nueva-empresa-dialog.component.css']
 })
-export class CrearNuevaEmpresaDialogComponent implements OnInit {
+export class CrearNuevaEmpresaDialogComponent implements OnInit, AfterViewInit {
 
   sendDatosFormNuevaEmpresa : FormGroup;
-
 
   identificacionInput! : ElementRef<HTMLInputElement>;
   @ViewChild('identificacionInput') set inputElRef(elRef: ElementRef<HTMLInputElement>){
@@ -26,29 +25,43 @@ export class CrearNuevaEmpresaDialogComponent implements OnInit {
     private coreService: ApplicationProvider,
     private loadingService: LoadingService,
     private toastr: ToastrService,
-    public matDialogRef: MatDialogRef<CrearNuevaEmpresaDialogComponent>) { 
+    public matDialogRef: MatDialogRef<CrearNuevaEmpresaDialogComponent>,
+    private ref: ChangeDetectorRef) { 
 
     this.sendDatosFormNuevaEmpresa = this.formBuilder.group({
-      rucEmpresa: ['', [Validators.required, Validators.minLength(13), Validators.maxLength(13)]]
+      rucEmpresa: ['', [Validators.required]]
     });
 
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.identificacionInput.nativeElement.focus();
+    this.ref.detectChanges();
+  }
+  
+  ngOnInit(): void {
   }
 
 
   crearEmpresaClick(sendDatosForm: any){
 
-    if(this.sendDatosFormNuevaEmpresa.invalid){
+    const valorRuc = sendDatosForm['rucEmpresa'];
+    const regexOnlyNumber = new RegExp(/^\d{13}$/);
+  
+    if(!regexOnlyNumber.test(valorRuc)){
+      this.toastr.error('Ingrese Ruc valido', '', {
+        timeOut: 4000,
+        closeButton: true
+      });
       return;
     }
 
+    if(this.sendDatosFormNuevaEmpresa.invalid){
+      return;
+    }
+    
     let overlayRef = this.loadingService.open();
 
-    const valorRuc = sendDatosForm['rucEmpresa'];
-    
     this.coreService.crearNuevaEmpresaByRuc(valorRuc).subscribe({
       next: (res: any) => {
         overlayRef.close();

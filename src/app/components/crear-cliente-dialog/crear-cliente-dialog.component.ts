@@ -64,7 +64,7 @@ export class CrearClienteDialogComponent implements OnInit, AfterViewInit {
         nacionalidad: ['', [Validators.required]],
         nombreNatural: ['', Validators.required],
         razonSocial: [ ''],
-        email: ['', [Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/), Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+        email: ['', [Validators.email]],
         fechaNacimiento: ['', [Validators.required]],
         telefonos: [''],
         celular: [''],
