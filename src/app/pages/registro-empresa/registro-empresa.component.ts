@@ -6,6 +6,7 @@ import {TokenValidate} from '../../interfaces/IWebData';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoadingService } from 'src/app/services/Loading.service';
 import {ToastrService} from 'ngx-toastr';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-registro-empresa',
@@ -41,7 +42,8 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
     public router: Router,
     private loadingService: LoadingService,
     private toastr: ToastrService,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private sanitizer: DomSanitizer
     ) {
 
       this.sendDatosEmpresaForm = this.formBuilder.group({
@@ -88,6 +90,7 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
     }
     this.getDatosEmpresa(postData, this.tokenValidate);
 
+    this.getLogoEmpresa();
   }
 
 
@@ -157,6 +160,21 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
 
   }
 
+  private getLogoEmpresa(): void{
+    this.coreService.getImagenLogoByRucEmp(this.rucEmpresa, this.tokenValidate).subscribe({
+      next: (data: any) => {
+        console.log('ok logo');
+        console.log(data);
+
+        let objectURL = URL.createObjectURL(data);       
+        this.imgURL = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+
+      },
+      error: (error : any) => {
+        console.log('inside error logo');
+      }
+    });
+  }
 
   // SEND DATA TO SERVER
   updateDatosEmpresa(sendDatosEmpresaForm: any){

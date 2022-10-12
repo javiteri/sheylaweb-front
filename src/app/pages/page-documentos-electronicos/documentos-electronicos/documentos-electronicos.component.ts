@@ -96,6 +96,12 @@ export class DocumentosElectronicosComponent implements OnInit {
   }
 
   verPdfVenta(idVenta: any, identificacion: any, tipoVenta: any){
+    
+    console.log(tipoVenta);
+    if(tipoVenta != 'Factura'){
+      console.log('solo se permite para Ventas Factuas');
+      return;
+    }
 
     if(tipoVenta != 'FACTURA'){
       console.log('solo se permite para Ventas Factuas');
