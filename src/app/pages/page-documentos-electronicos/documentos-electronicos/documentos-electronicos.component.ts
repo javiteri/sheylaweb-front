@@ -78,7 +78,7 @@ export class DocumentosElectronicosComponent implements OnInit {
         next: (data: any) => {
 
           if(data.data && data.data.length > 0){
-            
+            console.log(data.data);
             this.datasource.data = data.data;
             this.showSinDatos = false;
           }else{
@@ -93,5 +93,37 @@ export class DocumentosElectronicosComponent implements OnInit {
           loadingRef.close();
         }
       });
+  }
+
+  verPdfVenta(idVenta: any, identificacion: any, tipoVenta: any){
+
+    let loadingRef = this.loadingService.open();
+
+    this.coreService.getPdfFromVentaByIdEmp(this.idEmpresa,identificacion,idVenta,this.tokenValidate).subscribe({
+      next: (data: any) => {
+        loadingRef.close();
+        console.log('todo Ok');
+        console.log(data);
+
+        let downloadUrl = window.URL.createObjectURL(data);
+
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', downloadUrl);
+        //link.setAttribute('href', downloadUrl);
+        link.setAttribute('download','detalle-venta');
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+      },
+      error: (error: any) => {
+        console.log('ocurrio un error');
+        console.log(error);
+
+        loadingRef.close();
+      }
+    });
+    
   }
 } 

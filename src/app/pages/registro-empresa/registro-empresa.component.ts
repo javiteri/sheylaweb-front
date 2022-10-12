@@ -15,7 +15,8 @@ import {ToastrService} from 'ngx-toastr';
 export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
 
   sendDatosEmpresaForm: FormGroup;
-
+  imgURL: any;
+  base64: string = '';
   idEmpresa: number = 0;
   rucEmpresa: string = '';
 
@@ -175,6 +176,8 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
 
     sendDatosEmpresaForm['idEmpresa'] = this.idEmpresa;
     sendDatosEmpresaForm['fechaInicio'] = dateString;
+    sendDatosEmpresaForm['img_base64'] = `data:image/png;base64,${this.base64}`;
+    sendDatosEmpresaForm['ruc'] = this.rucEmpresa;
 
     this.coreService.updateDatosEmpresa(sendDatosEmpresaForm, this.tokenValidate).subscribe({
       next: (data: any) =>{
@@ -204,4 +207,63 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
     });
 
   }
+
+  preview(files: any){
+    if(files.length === 0){
+      console.log('el archivo es vacio');
+    }
+
+    let nameImg = files[0].name;
+    const mimeType = files[0].type;
+    let imagePath = files;
+
+    if (mimeType.match(/image\/*/) == null) {
+      //this.mensajeError = `Error tipo de archivo no valido ${mimeType}`;
+      //this.limpiarImagen();
+      console.log('tipo de archivo no valido');
+      return;
+    }
+
+    if (mimeType !== 'image/png') {
+      //this.mensajeError = `Error tipo: ${mimeType}  no valido`;
+      //this.limpiarImagen();
+      console.log(`Error tipo: ${mimeType}  no valido`);
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.readAsDataURL(files[0]);
+    reader.onload = (_event) => {
+      
+      this.imgURL = reader.result!;
+      const array = this.imgURL.split(',');
+      this.base64 = array[1];
+      console.log(this.base64);
+      const img = new Image();
+      img.src = reader.result as string;
+      img.onload = () => {
+        const height = img.naturalHeight;
+        const width = img.naturalWidth;
+        //this.height = height;
+        if (width !== 415 && height !== 95) {
+            //this.mensajeError = `Error ancho: ${width} y alto: ${height} no valido`;
+            //this.limpiarImagen();
+            return;
+        }
+        if (height !== 95) {
+            //this.mensajeError = `Error ancho: ${width} no valido`;
+            //this.limpiarImagen();
+            return;
+        }
+        if (width !== 415) {
+            //this.mensajeError = `Error alto: ${height} no valido`;
+            //this.limpiarImagen();
+            return;
+        }
+        //this.ErrorImage = false;
+    };
+    }
+
+  } 
+
 }

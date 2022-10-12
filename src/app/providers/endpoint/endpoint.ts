@@ -13,10 +13,11 @@ export class EndPointProvider {
     private readonly apiVersion = '1.0.0';
     private readonly appVersion = '1.0.0';
     //private readonly apiUrl = 'http://192.168.1.10:8086/api/';
-    //private readonly apiUrl = 'http://localhost:3000/api/';
-    private readonly apiUrl = 'http://www.sheylaweb.net:8086/api/';
+    private readonly apiUrl = 'http://localhost:3000/api/';
+    //private readonly apiUrl = 'http://www.sheylaweb.net:8086/api/';
 
-    private readonly searchDatosClienteSri = 'http://sheyla2.dyndns.info/SRI/SRI.php';
+    private readonly searchDatosClienteSri = 'https://sheyla.net/SRI/SRI.php';
+    //private readonly searchDatosClienteSri = 'http://sheyla2.dyndns.info/SRI/SRI.php';
     //private readonly searchDatosClienteSriLocal = 'http://localhost:4200/SRI';
 
     //SEARCH CLIENT BY CI OR RUC
@@ -1190,6 +1191,23 @@ export class EndPointProvider {
       return this.http.get<T>(endpointUrl, httpOptions);
     }
 
+    private readonly _getPDFVentaByIdEmp: string = 'documentos_electronicos/generatepdffromventa';
+    private get getPDFVentaByIdEmpURL(){
+      return this.apiUrl + this._getPDFVentaByIdEmp;
+    }
+    getPDFVentaByIdEmp(idEmp: any,identificacion: any,idVentaCompra: any, accessToken: any): Observable<Blob>{
+      const endpointUrl = this.getPDFVentaByIdEmpURL;
+      
+      const header = this.getRequestHeaderFilesPDF(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmp)
+                            .set('idVentaCompra', idVentaCompra)
+                            .set('identificacion', identificacion)
+
+      return this.http.get(endpointUrl,{responseType: 'blob', params: paramsRequest, headers: header});
+    }
+
+
 
     //---------------------------------------------------------------
     getRequestHeader(accesToken: any): {
@@ -1237,6 +1255,19 @@ export class EndPointProvider {
         const header = new HttpHeaders({
             'Authorization': 'Bearer ' + accesToken.token,
             
+        });
+        return header
+      }else{
+        this.router.navigate(['/login']);
+        return {};
+      }
+    }
+
+    getRequestHeaderFilesPDF(accesToken: any): HttpHeaders | {}{
+      if(new Date(accesToken.expire) > new Date()){
+        const header = new HttpHeaders({
+            'Authorization': 'Bearer ' + accesToken.token,
+            Accept: "application/pdf"
         });
         return header
       }else{

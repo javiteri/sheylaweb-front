@@ -193,4 +193,7 @@ export class ConfiguracionesComponent implements OnInit {
       }
     });
   }
+
+
+  
 }

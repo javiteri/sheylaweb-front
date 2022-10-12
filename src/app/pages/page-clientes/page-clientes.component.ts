@@ -200,7 +200,7 @@ export class PageClientesComponent implements OnInit {
 
     this.coreService.getExcelListClientes(this.idEmpresa, this.tokenValidate).subscribe({
       next: (data: any) => {
-
+        console.log(data);
         dialogRef.close();
 
         let downloadUrl = window.URL.createObjectURL(data);

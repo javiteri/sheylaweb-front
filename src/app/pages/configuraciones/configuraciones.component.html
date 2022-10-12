@@ -93,3 +93,57 @@
 
   </mat-card-content>
 </mat-card>
+
+
+<mat-card>
+  <mat-card-header class="bg-info text-white">
+      <mat-card-title >
+          <label>Facturación Electrónica</label>
+      </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="content-configs">
+
+      <div>
+        <p class="margin-bottom-cero">Agente de Retención:</p>
+        <input matInput type="text">
+      </div>
+
+      <div>
+        <p class="margin-bottom-cero">Contribuyente Especial:</p>
+        <input matInput type="text">
+      </div>
+
+      <div>
+        <p class="margin-bottom-cero">Pertenece al regimen Rimpe?</p>
+        <mat-slide-toggle ></mat-slide-toggle>
+      </div>
+
+      <div>
+        <p class="margin-bottom-cero">Obligado a llevar Contabilidad?</p>
+        <mat-slide-toggle ></mat-slide-toggle>
+      </div>
+
+      <div>
+        <div>
+          <mat-icon>key</mat-icon>
+        <p class="margin-bottom-cero"> Subir Firma Electrónica</p>
+        </div>
+        <input type="file">
+      </div>
+
+      <div>
+        <div>
+          <mat-icon>lock</mat-icon>
+          <p class="margin-bottom-cero">Clave Firma Electrónica:</p>
+        </div>
+        <input matInput type="password">
+      </div>
+
+    <div class="container-btn-save-fac-electronica">
+      <button mat-raised-button class="btn-icon-accent">Guardar</button>
+    </div>
+
+    </div>
+  </mat-card-content>
+</mat-card>

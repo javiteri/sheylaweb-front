@@ -16,6 +16,8 @@ import { LoadingService } from "src/app/services/Loading.service";
 import { RegistroEmpresaRoutingModule } from "./registro-empresa-routing.module";
 import { ApplicationProvider, EndPointProvider } from "../../providers/provider";
 import { RegistroEmpresaComponent } from "./registro-empresa.component";
+import { CommonModule } from "@angular/common";
+import { MatIconModule } from "@angular/material/icon";
 
 
 @NgModule({
@@ -23,11 +25,13 @@ import { RegistroEmpresaComponent } from "./registro-empresa.component";
     RegistroEmpresaComponent
   ],
   imports: [
+    CommonModule,
     RegistroEmpresaRoutingModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MatIconModule,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,

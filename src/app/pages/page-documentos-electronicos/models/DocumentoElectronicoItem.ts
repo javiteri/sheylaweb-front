@@ -5,5 +5,7 @@ export interface DocumentoElectronicoItem {
     cliente: string,
     identificacion: string,
     formaPago: string,
-    estado: string
+    estado: string,
+    id: number,
+    VENTA_TIPO: string
 }

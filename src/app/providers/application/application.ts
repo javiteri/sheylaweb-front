@@ -275,4 +275,8 @@ export class ApplicationProvider {
 
     return this.coreEndPoint.getDocumentosElectronicosByIdEmp(idEmp,fechaIni,fechaFin,tipo,nombresci,nodoc,accessToken);
   }
+
+  getPdfFromVentaByIdEmp(idEmp: any, identificacion: any, idVentaCompra: any, accesToken: any){
+    return this.coreEndPoint.getPDFVentaByIdEmp(idEmp,identificacion,idVentaCompra, accesToken);
+  }
 }

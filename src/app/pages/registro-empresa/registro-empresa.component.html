@@ -11,7 +11,6 @@
 
                 <form [formGroup]="sendDatosEmpresaForm" (ngSubmit)="updateDatosEmpresa(sendDatosEmpresaForm.value)">
                     <div class="all-content">
-
                         <div class="container-form-field">
                             <mat-form-field >
                                 <mat-label>Ruc Empresa</mat-label>
@@ -40,7 +39,6 @@
                             </mat-form-field>
 
                         </div>
-
 
                         <div class="container-form-field">
                             <mat-form-field >
@@ -104,6 +102,19 @@
                                 <mat-label>Comentario</mat-label>
                                 <input matInput type="text" formControlName="comentario" >
                             </mat-form-field>
+                        </div>
+
+
+                        <div class="container-logo-empresa">
+                            <div>
+                              <img [src]="imgURL" height="200" *ngIf="imgURL">
+                            </div>
+                            <div>
+                                <label for="file-upload" class="custom-file-upload">
+                                <mat-icon>file_upload</mat-icon>Logo Empresa
+                                </label>
+                                <input #file id="file-upload" accept='image/png'  type="file"  (change)="preview(file.files);"/>
+                            </div>
                         </div>
 
                         <div class="container-form-btn">
