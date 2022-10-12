@@ -105,7 +105,7 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem('_valtok', JSON.stringify(tokenAndExpire));
         sessionStorage.setItem('_valuser', JSON.stringify(dataUserBus));
 
-        if(response.nombreEmpresa = 'EMPRESA NUEVA'){
+        if(response.nombreEmpresa == 'EMPRESA NUEVA'){
           this.router.navigate(['/infoempresa']);
           return;
         }
