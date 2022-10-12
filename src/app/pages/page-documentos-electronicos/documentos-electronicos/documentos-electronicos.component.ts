@@ -97,6 +97,10 @@ export class DocumentosElectronicosComponent implements OnInit {
 
   verPdfVenta(idVenta: any, identificacion: any, tipoVenta: any){
 
+    if(tipoVenta != 'FACTURA'){
+      console.log('solo se permite para Ventas Factuas');
+      return;
+    }
     let loadingRef = this.loadingService.open();
 
     this.coreService.getPdfFromVentaByIdEmp(this.idEmpresa,identificacion,idVenta,this.tokenValidate).subscribe({
