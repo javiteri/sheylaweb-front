@@ -112,7 +112,18 @@ export class EndPointProvider {
       return this.http.post<any>(endPointUrl, postData, this.getRequestHeader(accesToken));
     }
 
-     
+    private readonly _getLogoEmpresaByRuc: string = "/getimagenlogobyrucempresa";
+    private get getLogoEmpresaByRucURL(){
+      return this.apiUrl + this._getLogoEmpresaByRuc;
+    }
+    getLogoEmpresaByRuc(rucEmp: any, accessToken: any): Observable<Blob>{
+        const endPointUrl = this.getLogoEmpresaByRucURL;
+
+        const header = this.getRequestHeaderFiles(accessToken)
+        const params1 = new HttpParams().set('ruc', rucEmp);
+
+        return this.http.get(endPointUrl, {responseType: 'blob', params: params1, headers: header});
+    } 
     
 
     // METHODS FOR CLIENTES

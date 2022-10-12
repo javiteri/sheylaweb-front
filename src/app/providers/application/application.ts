@@ -28,6 +28,10 @@ export class ApplicationProvider {
     return this.coreEndPoint.crearNuevaEmpresaByRuc(ruc);
   }
 
+  getImagenLogoByRucEmp(rucEmp: any, accesToken: any){
+    return this.coreEndPoint.getLogoEmpresaByRuc(rucEmp, accesToken);
+  }
+
   //CLIENTES
   searchClienteByCiRuc(ciRuc: any){
     return this.coreEndPoint.searchClientByCiRuc(ciRuc);
