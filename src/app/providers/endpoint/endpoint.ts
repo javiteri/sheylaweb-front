@@ -14,8 +14,8 @@ export class EndPointProvider {
     private readonly appVersion = '1.0.0';
     //private readonly apiUrl = 'http://192.168.1.10:8086/api/'; 
 
-    //private readonly apiUrl = 'http://localhost:3000/api/';
-    private readonly apiUrl = 'https://www.sheylaweb.net/api/';
+    private readonly apiUrl = 'http://localhost:3000/api/';
+    //private readonly apiUrl = 'https://www.sheylaweb.net/api/';
 
 
     private readonly searchDatosClienteSri = 'https://sheyla.net/SRI/SRI.php';
@@ -991,6 +991,35 @@ export class EndPointProvider {
         return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
     }
 
+    private readonly _insertListConfigsFacElec: string = "configs/insertarlistconfigfacelec";
+    private get insertListConfigsFacElecURL(){
+      return this.apiUrl + this._insertListConfigsFacElec;
+    }
+    insertListConfigsFacElec<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.insertListConfigsFacElecURL;
+        
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
+
+    private readonly _insertFirmaElectronicaConfig: string = "configsfile/insertfilefirmaelec";
+    private get insertFirmaElectronicaConfigURL(){
+      return this.apiUrl + this._insertFirmaElectronicaConfig;
+    }
+    insertFirmaElectronicaConfig(postData: any, fileFirma: any, accessToken: any): Observable<any>{
+        const endPointUrl = this.insertFirmaElectronicaConfigURL;
+      
+        console.log('postData');
+        console.log(fileFirma);
+
+        let formData = new FormData();
+        formData.append("file", fileFirma);
+        formData.append("claveFirma", postData['claveFirma']);
+        formData.append("ruc", postData['ruc']);
+
+        console.log(formData);
+        return this.http.post(endPointUrl, formData, this.getRequestHeaderMultipart(accessToken));
+    }
+
     private readonly _getListConfigsByIdEmp: string = 'configs/listConfigsIdEmp';
     private get getListConfigByIdEmp(){
       return this.apiUrl + this._getListConfigsByIdEmp;
@@ -1223,6 +1252,24 @@ export class EndPointProvider {
 
 
     //---------------------------------------------------------------
+
+    getRequestHeaderMultipart(accesToken: any): {
+      headers: HttpHeaders | { [header: string]: string | string[];}
+    } | undefined{
+
+        if(new Date(accesToken.expire) > new Date()){
+          const header = new HttpHeaders({
+              'Authorization': 'Bearer ' + accesToken.token,
+              //'Content-Type': 'multipart/form-data'
+          });
+          return { headers: header };
+        }else{
+
+          this.router.navigate(['/login']);
+          return;
+        }
+    }
+
     getRequestHeader(accesToken: any): {
       headers: HttpHeaders | { [header: string]: string | string[];}
     } | undefined{

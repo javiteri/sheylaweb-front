@@ -38,6 +38,14 @@
             (change)="changeToogle(NAMES_CONFIGS[3], checkedVentasSinSecuencia)"></mat-slide-toggle>
           </div>  
 
+          <div>
+            <p class="margin-bottom-cero">IMPRESION DE DOCUMENTOS</p>
+            <mat-radio-group aria-label="Select an option" [(ngModel)]="impresionDocumentosValue" >
+              <mat-radio-button value="1" (change)="changeToogle(NAMES_CONFIGS[7], '1')">Mostrar PDF</mat-radio-button>
+              <mat-radio-button value="2" style="margin-left: 10px;" (change)="changeToogle(NAMES_CONFIGS[7], '2')">PDF Rollo</mat-radio-button>
+            </mat-radio-group>
+            
+          </div>
       </div>
 
   </mat-card-content>
@@ -106,22 +114,22 @@
 
       <div>
         <p class="margin-bottom-cero">Agente de Retención:</p>
-        <input matInput type="text">
+        <input matInput type="text" [(ngModel)]="valueAgenteRetencion">
       </div>
 
       <div>
         <p class="margin-bottom-cero">Contribuyente Especial:</p>
-        <input matInput type="text">
+        <input matInput type="text" [(ngModel)]="valueContribuyenteEspecial">
       </div>
 
       <div>
         <p class="margin-bottom-cero">Pertenece al regimen Rimpe?</p>
-        <mat-slide-toggle ></mat-slide-toggle>
+        <mat-slide-toggle [(ngModel)]="checkedPerteneceRegimenRimpe"></mat-slide-toggle>
       </div>
 
       <div>
         <p class="margin-bottom-cero">Obligado a llevar Contabilidad?</p>
-        <mat-slide-toggle ></mat-slide-toggle>
+        <mat-slide-toggle [(ngModel)]="checkedObligadoLlevarContabilidad"></mat-slide-toggle>
       </div>
 
       <div>
@@ -129,7 +137,7 @@
           <mat-icon>key</mat-icon>
         <p class="margin-bottom-cero"> Subir Firma Electrónica</p>
         </div>
-        <input type="file">
+        <input #file type="file" (change)="onFileChange(file.files)" accept=".p12,.pfx">
       </div>
 
       <div>
@@ -137,11 +145,11 @@
           <mat-icon>lock</mat-icon>
           <p class="margin-bottom-cero">Clave Firma Electrónica:</p>
         </div>
-        <input matInput type="password">
+        <input matInput type="password" [(ngModel)]="claveFirmaElectronica">
       </div>
 
     <div class="container-btn-save-fac-electronica">
-      <button mat-raised-button class="btn-icon-accent">Guardar</button>
+      <button mat-raised-button class="btn-icon-accent" (click)="guardarConfigsFacturacionElectronica()"> Guardar</button>
     </div>
 
     </div>

@@ -229,6 +229,7 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
   preview(files: any){
     if(files.length === 0){
       console.log('el archivo es vacio');
+      return;
     }
 
     let nameImg = files[0].name;

@@ -10,7 +10,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { ConfiguracionesRoutingModule } from "./configuraciones-routing.module";
 import { ConfiguracionesComponent } from "./configuraciones.component";
-
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
     declarations: [
@@ -25,6 +25,7 @@ import { ConfiguracionesComponent } from "./configuraciones.component";
         MatButtonModule,
         MatIconModule,
         FormsModule,
+        MatRadioModule,
         MatSelectModule,
         ConfiguracionesRoutingModule
     ],

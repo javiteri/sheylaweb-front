@@ -107,13 +107,18 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
     });
 
     this.sendDatosFormProducto.get('categoria')!.valueChanges.subscribe(value => {
-      const valueFilter = this.filterCategoria(value || '');
+      if(this.listCategorias){
+        const valueFilter = this.filterCategoria(value || '');
       this.listCategorias = of(valueFilter);
+      }
     });
 
     this.sendDatosFormProducto.get('marca')!.valueChanges.subscribe(value => {    
-      const valueFilter = this.filterMarca(value || '');
-      this.listMarcas = of(valueFilter);
+      if(this.listMarcas){
+        const valueFilter = this.filterMarca(value || '');
+        this.listMarcas = of(valueFilter);
+      }
+      
     });
   }
 

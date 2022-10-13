@@ -239,13 +239,18 @@ export class ApplicationProvider {
   insertListConfigsToBD(postData: any, accessToken: any){
     return this.coreEndPoint.insertListConfigsToBD(postData, accessToken);
   }
+  insertListConfigsFacElecToBD(postData: any, accessToken: any){
+    return this.coreEndPoint.insertListConfigsFacElec(postData, accessToken);
+  }
   getListConfigsByIdEmp(idEmp: any, accessToken: any){
     return this.coreEndPoint.getListConfigsByIdEmp(idEmp, accessToken);
   }
   getConfigByNameIdEmp(idEmp: any, nombreConfig: any, accessToken: any){
     return this.coreEndPoint.getConfigByIdEmp(idEmp, nombreConfig, accessToken); 
   }
-
+  insertFirmaElectronicaConfig(postData: any, file: any, accessToken: any){
+    return this.coreEndPoint.insertFirmaElectronicaConfig(postData, file, accessToken);
+  }
 
   //DASHBOARD
   getValueVentaDiaria(idEmp: any, fechaIni: any, fechaFin: any,accessToken: any){

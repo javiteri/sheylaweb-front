@@ -66,6 +66,8 @@ export class PageVentasComponent implements OnInit{
   permitirVentaSecuenciaIncorrecta = false;
   configIvaIncluidoEnVenta = true;
 
+  configImpresionDocumentos = "1";
+
   constructor(private matDialog: MatDialog,
     public viewContainerRef: ViewContainerRef,
     private toastr: ToastrService,
@@ -97,7 +99,7 @@ export class PageVentasComponent implements OnInit{
     this.getConfigNumDecimalesIdEmp();
     this.getConfigVentaSinSecuencia();
     this.getConfigIvaIncluidoEnVenta();
-
+    this.getConfigImpresionDocumentosVenta();
     
   }
 
@@ -449,7 +451,7 @@ export class PageVentasComponent implements OnInit{
     this.datasource.data.forEach(data => {
 
       let precioTotal = 0.0
-      let precioUnitario = data.precio;//Number(((data.precio) as any).toFixed(this.fixedNumDecimal));
+      let precioUnitario = data.precio;
       let totalSinIva = 0.0;
 
       if(this.configIvaIncluidoEnVenta){
@@ -564,9 +566,9 @@ export class PageVentasComponent implements OnInit{
           closeButton: true
         });
 
-        this.resetControls();
+        //this.resetControls();
 
-
+        this.verPdfVenta(data.ventaid,this.inputIdentificacion.nativeElement.value,this.tipoDocSelect);
       },
       error: (error) => {
         overlayRef.close();
@@ -578,6 +580,46 @@ export class PageVentasComponent implements OnInit{
 
       });
   }
+
+
+  verPdfVenta(idVenta: any, identificacion: any, tipoVenta: any){
+    
+    /*if(tipoVenta != 'Factura'){
+      console.log('solo se permite para Ventas Factuas');
+      return;
+    }*/
+    let loadingRef = this.loadingService.open();
+
+    this.coreService.getPdfFromVentaByIdEmp(this.idEmpresa,identificacion,idVenta,this.tokenValidate).subscribe({
+      next: (data: any) => {
+        loadingRef.close();
+        console.log('todo Ok');
+        console.log(data);
+
+        this.resetControls();
+
+        let downloadUrl = window.URL.createObjectURL(data);
+
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', downloadUrl);
+        //link.setAttribute('href', downloadUrl);
+        link.setAttribute('download','detalle-venta');
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+      },
+      error: (error: any) => {
+        console.log('ocurrio un error');
+        console.log(error);
+
+        loadingRef.close();
+      }
+    });
+    
+  }
+
 
   private validateClienteFac(): boolean{
     return (this.clientFac && this.clientFac['id'] != 0);
@@ -592,110 +634,132 @@ export class PageVentasComponent implements OnInit{
   }
 
 
-changeNumFac(numeroFac: number){
-  
-  const regexOnlyNumber = new RegExp(/^\d+$/);
-
-  if(numeroFac == 1){
-    if(!this.value001 ){
-      this.value001 = "001";
-      return;
-    }
-
-    if(!regexOnlyNumber.test(this.value001)){
-      this.value001 = "001";
-      return;
-    }
-
-    this.value001 = (this.value001.length == 1) ? `00${this.value001}` :  this.value001
-    this.value001 = (this.value001.length == 2) ? `0${this.value001}` :  this.value001
+  changeNumFac(numeroFac: number){
     
-    return;
-  }
+    const regexOnlyNumber = new RegExp(/^\d+$/);
 
-  if(numeroFac == 2){
-    if(!this.value002){
-      this.value002 = "001";
+    if(numeroFac == 1){
+      if(!this.value001 ){
+        this.value001 = "001";
+        return;
+      }
+
+      if(!regexOnlyNumber.test(this.value001)){
+        this.value001 = "001";
+        return;
+      }
+
+      this.value001 = (this.value001.length == 1) ? `00${this.value001}` :  this.value001
+      this.value001 = (this.value001.length == 2) ? `0${this.value001}` :  this.value001
+      
+      return;
     }
 
-    if(!regexOnlyNumber.test(this.value002)){
-      this.value002 = "001";
+    if(numeroFac == 2){
+      if(!this.value002){
+        this.value002 = "001";
+      }
+
+      if(!regexOnlyNumber.test(this.value002)){
+        this.value002 = "001";
+        return;
+      }
+      
+      this.value002 = (this.value002.length == 1) ? `00${this.value002}` :  this.value002
+      this.value002 = (this.value002.length == 2) ? `0${this.value002}` :  this.value002
+
+      return;
+    }
+
+    if(!this.valueSecuencia){
+      this.valueSecuencia = "1";
       return;
     }
     
-    this.value002 = (this.value002.length == 1) ? `00${this.value002}` :  this.value002
-    this.value002 = (this.value002.length == 2) ? `0${this.value002}` :  this.value002
-
-    return;
   }
 
-  if(!this.valueSecuencia){
-    this.valueSecuencia = "1";
-    return;
+  private resetControls(){
+
+        this.tipoDocSelect = 'Factura';
+        this.dateFac = new Date();
+        this.formaPagoSelect = 'Efectivo';
+        this.datasource.data = [];
+
+        this.total = "00.0";
+        this.subtotal = "00.0";
+        this.subtotalIva0 = "00.0";
+        this.subtotalIva12 = "00.0";
+        this.Iva12 = "00.0";
+        this.cantItems = 0;
+        this.observacion = '';
+
+        this.getConsumidorFinalApi();
+        this.getNextNumeroSecuencial();
   }
-  
-}
-
-private resetControls(){
-
-      this.tipoDocSelect = 'Factura';
-      this.dateFac = new Date();
-      this.formaPagoSelect = 'Efectivo';
-      this.datasource.data = [];
-
-      this.total = "00.0";
-      this.subtotal = "00.0";
-      this.subtotalIva0 = "00.0";
-      this.subtotalIva12 = "00.0";
-      this.Iva12 = "00.0";
-      this.cantItems = 0;
-      this.observacion = '';
-
-      this.getConsumidorFinalApi();
-      this.getNextNumeroSecuencial();
-}
 
   cancelarClick(): void{
-    this.location.back();    
+      this.location.back();    
   }
 
   changeTipoDoc(){
-    this.getNextNumeroSecuencial();
+      this.getNextNumeroSecuencial();
   }
 
   private getConfigVentaSinSecuencia(){
-    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_PERMITIR_INGRESAR_SIN_SECUENCIA', this.tokenValidate).subscribe({
-      next: (data: any) => {
+      this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_PERMITIR_INGRESAR_SIN_SECUENCIA', this.tokenValidate).subscribe({
+        next: (data: any) => {
 
-        if(data.data.length > 0) {
-          const configReceive: ConfigReceive = data.data[0];
-          this.permitirVentaSecuenciaIncorrecta = configReceive.con_valor === "1" ? true : false;
+          if(data.data.length > 0) {
+            const configReceive: ConfigReceive = data.data[0];
+            this.permitirVentaSecuenciaIncorrecta = configReceive.con_valor === "1" ? true : false;
+          }
+        },
+        error: (error) => {
+          console.log('error get num decimales');
+          console.log(error);
         }
-      },
-      error: (error) => {
-        console.log('error get num decimales');
-        console.log(error);
-      }
-    });
+      });
   }
 
   private getConfigIvaIncluidoEnVenta(){
-    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_IVA_INCLUIDO_FACTURA', this.tokenValidate).subscribe({
-      next: (data: any) => {
-       
-        if(data.data && data.data.length > 0){
-          
-          const configReceive: ConfigReceive = data.data[0];
+      this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_IVA_INCLUIDO_FACTURA', this.tokenValidate).subscribe({
+        next: (data: any) => {
+        
+          if(data.data && data.data.length > 0){
+            
+            const configReceive: ConfigReceive = data.data[0];
 
-          this.configIvaIncluidoEnVenta = configReceive.con_valor === "1" ? true : false;
+            this.configIvaIncluidoEnVenta = configReceive.con_valor === "1" ? true : false;
+          }
+
+          this.getDataRoutedMap();
+        },
+        error: (error) => {
+          console.log('error get num decimales');
+          console.log(error);
         }
-
-        this.getDataRoutedMap();
-      },
-      error: (error) => {
-        console.log('error get num decimales');
-        console.log(error);
-      }
-    });
+      });
   }
+
+  private getConfigImpresionDocumentosVenta(){
+      this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_IMPRESION_DOCUMENTOS', this.tokenValidate).subscribe({
+        next: (data: any) => {
+        
+          if(data.data && data.data.length > 0){
+            
+            const configReceive: ConfigReceive = data.data[0];
+
+            this.configImpresionDocumentos = configReceive.con_valor; 
+            //this.configIvaIncluidoEnVenta = configReceive.con_valor === "1" ? true : false;
+          }
+
+          //this.getDataRoutedMap();
+        },
+        error: (error) => {
+          console.log('error get impresion documentos');
+          console.log(error);
+        }
+      });
+  }
+
 }
