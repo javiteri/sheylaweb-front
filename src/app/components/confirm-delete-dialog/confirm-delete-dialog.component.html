@@ -8,7 +8,7 @@
 
 <div class="spacer"></div>
 <div mat-dialog-actions>
-    <button mat-button mat-raised-button  class="btn-cancelar" [mat-dialog-close]="true">{{btnTextPositive}}</button>
-    <button mat-button mat-raised-button color="btn-icon-accent" [mat-dialog-close]="false">{{btnTextCancelar}}</button>
+    <button mat-button mat-raised-button  [ngClass]="{'btn-cancelar': isNormalColors, 'btn-aceptar': isNormalColors == false }" [mat-dialog-close]="true">{{btnTextPositive}}</button>
+    <button mat-button mat-raised-button   [ngClass]="isNormalColors ? 'btn-aceptar' : 'btn-cancelar'"  [mat-dialog-close]="false">{{btnTextCancelar}}</button>
 </div>
 </div>

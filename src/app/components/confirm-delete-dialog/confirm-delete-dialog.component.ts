@@ -6,6 +6,7 @@ export interface DialogData {
   header: string,
   textBtnPositive?: string,
   textBtnCancelar?: string,
+  isNormalColors?: boolean
 }
 
 
@@ -21,6 +22,8 @@ export class ConfirmDeleteDialogComponent implements OnInit{
 
   btnTextPositive: string = 'Eliminar';
   btnTextCancelar: string = 'Cancelar';
+
+  isNormalColors = true
 
   constructor(public dialogRef: MatDialogRef<ConfirmDeleteDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public dialogData: DialogData) { }
@@ -40,6 +43,13 @@ export class ConfirmDeleteDialogComponent implements OnInit{
 
       if(this.dialogData['textBtnCancelar']){
         this.btnTextCancelar = this.dialogData['textBtnCancelar'];
+      }
+
+      console.log(this.dialogData['isNormalColors']);
+      if(this.dialogData['isNormalColors'] == false){
+        console.log('inside is normal colors');
+        this.isNormalColors = this.dialogData['isNormalColors'];
+        console.log(this.isNormalColors);
       }
     }
 }

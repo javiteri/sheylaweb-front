@@ -5,6 +5,7 @@ import { ApplicationProvider } from '../../providers/provider';
 import { LoadingService } from '../../services/Loading.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CrearNuevaEmpresaDialogComponent } from 'src/app/components/crear-nueva-empresa-dialog/crear-nueva-empresa-dialog.component';
+import { RecuperarCuentaDialogComponent } from 'src/app/components/recuperar-cuenta-dialog/recuperar-cuenta-dialog.component';
 
 @Component({
   selector: 'app-login',
@@ -155,5 +156,22 @@ export class LoginComponent implements OnInit {
       }
     });
 
+  }
+
+  recoveryAccountClick(){
+    const dialogRef = this.matDialog.open(RecuperarCuentaDialogComponent, {
+      minWidth: '0',
+      width: '400px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        if(result.isCreateEmp){
+          this.showDivCredentials = true;
+          this.rucDivCredential = result.rucEmpresa;
+        }
+      }
+    });
   }
 }

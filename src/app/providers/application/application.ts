@@ -27,6 +27,9 @@ export class ApplicationProvider {
   crearNuevaEmpresaByRuc(ruc: any){
     return this.coreEndPoint.crearNuevaEmpresaByRuc(ruc);
   }
+  recuperarCuenta(ruc: any,email: any){
+    return this.coreEndPoint.recuperarCuenta(ruc, email);
+  }
 
   getImagenLogoByRucEmp(rucEmp: any, accesToken: any){
     return this.coreEndPoint.getLogoEmpresaByRuc(rucEmp, accesToken);

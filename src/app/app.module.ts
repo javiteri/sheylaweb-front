@@ -13,6 +13,7 @@ import { AuthGuard } from './shared/guard';
 import { ApplicationProvider, EndPointProvider } from './providers/provider';
 import { LoadingService } from './services/Loading.service';
 import { LayoutModule } from './pages/general-layout/layout.module';
+import { RecuperarCuentaDialogComponent } from './components/recuperar-cuenta-dialog/recuperar-cuenta-dialog.component';
 
 @NgModule({
   declarations: [

@@ -14,8 +14,8 @@ export class EndPointProvider {
     private readonly appVersion = '1.0.0';
     //private readonly apiUrl = 'http://192.168.1.10:8086/api/'; 
 
-    //private readonly apiUrl = 'http://localhost:3000/api/';
-    private readonly apiUrl = 'https://www.sheylaweb.net/api/';
+    private readonly apiUrl = 'http://localhost:3000/api/';
+    //private readonly apiUrl = 'https://www.sheylaweb.net/api/';
 
 
     private readonly searchDatosClienteSri = 'https://sheyla.net/SRI/SRI.php';
@@ -81,6 +81,22 @@ export class EndPointProvider {
        const endPointUrl = this.crearNuevaEmpresaByRucURL;
 
        let paramsRequest = new HttpParams().set('ruc', ruc);
+
+       const httpOptions = {
+         params: paramsRequest
+       }
+
+     return this.http.get<T>(endPointUrl, httpOptions);
+    }
+
+    private readonly _recuperarCuenta: string = "recoverypassword"
+    private get _recuperarCuentaURL(){
+      return this.apiUrl + this._recuperarCuenta;
+    }
+    recuperarCuenta<T>(ruc: any, email: any): Observable<any>{
+       const endPointUrl = this._recuperarCuentaURL;
+
+       let paramsRequest = new HttpParams().set('ruc', ruc).set('email',email);
 
        const httpOptions = {
          params: paramsRequest

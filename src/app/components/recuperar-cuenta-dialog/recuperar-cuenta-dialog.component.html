@@ -1,0 +1,31 @@
+<div class="main-nuevo-ingreso">
+    <div class="dialog-header">
+        <h1>
+            Recuperar Cuenta
+        </h1>
+    </div>
+    <hr>
+    <div class="container-explain-text">
+        <p>Ingrese RUC e E-mail para recuperar su cuenta</p>
+    </div>
+
+    <div class="container-form">
+        <form [formGroup]="sendDatosFormRecuperarCuenta" >
+            <div class="container-form-fields">
+                <mat-form-field >
+                    <mat-label>Ruc Empresa</mat-label>
+                    <input #identificacionInput matInput type="number" formControlName="rucEmpresa">
+                </mat-form-field>
+                <mat-form-field >
+                    <mat-label>Email</mat-label>
+                    <input  matInput type="text" formControlName="email">
+                </mat-form-field>
+                <div class="container-btn-crear">
+                    <button mat-button mat-raised-button color="btn-icon-accent" (click)="recoveryAccuntClick(sendDatosFormRecuperarCuenta.value);$event.preventDefault();">
+                        Recuperar
+                    </button>
+                </div>        
+            </div>
+        </form>
+    </div>
+</div>

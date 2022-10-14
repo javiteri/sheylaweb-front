@@ -22,6 +22,11 @@ hr{
 .mat-icon-accent{
     color: var(--accent-color);
 }
+.btn-aceptar{
+    background-color: var(--accent-color);
+    color: #ffffff;
+    font-weight: normal;
+}
 
 .btn-cancelar{
     background-color: #e71046;

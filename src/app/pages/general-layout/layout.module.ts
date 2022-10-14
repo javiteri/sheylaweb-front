@@ -34,6 +34,7 @@ import { NuevoEgresoCajaDialogComponent } from 'src/app/components/nuevo-egreso-
 import { PickDateAdapter, PICK_FORMATS } from '../page-ventas/adapter/DatePickerAdapter';
 import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { CrearNuevaEmpresaDialogComponent } from 'src/app/components/crear-nueva-empresa-dialog/crear-nueva-empresa-dialog.component';
+import { RecuperarCuentaDialogComponent } from 'src/app/components/recuperar-cuenta-dialog/recuperar-cuenta-dialog.component';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { CrearNuevaEmpresaDialogComponent } from 'src/app/components/crear-nueva
     BuscarProveedorDialogComponent,
     NuevoIngresoCajaDialogComponent,
     NuevoEgresoCajaDialogComponent,
-    ConfirmDeleteDialogComponent
+    ConfirmDeleteDialogComponent,
+    RecuperarCuentaDialogComponent
   ],
   imports: [
     CommonModule,

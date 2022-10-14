@@ -221,7 +221,13 @@ export class CuadrarCajaComponent implements OnInit {
         
         const dialogRef = this.matDialog.open(ConfirmDeleteDialogComponent, {
           width: '250px',
-          data: {title: 'Esta seguro que desea guardar los valores de Cuadre de Caja?'}
+          data: {
+            title: 'Esta seguro que desea guardar los valores de Cuadre de Caja?',
+            header:'Cuadrar Caja',
+            textBtnPositive: 'Aceptar',
+            textBtnCancelar: 'Cancelar',
+            isNormalColors: false
+          }
         });
     
         dialogRef.afterClosed().subscribe(result => {

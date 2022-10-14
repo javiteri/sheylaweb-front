@@ -122,7 +122,7 @@ export class ConfiguracionesComponent implements OnInit {
 
         const impresionDocumentosVentas = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[7]);
         if(impresionDocumentosVentas){
-          this.impresionDocumentosValue = impresionDocumentosVentas.con_valor
+          this.impresionDocumentosValue = impresionDocumentosVentas.con_valor;
         }
 
         const cajaAllowCambiarFecha = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[5]);
