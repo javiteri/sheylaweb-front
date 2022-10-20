@@ -47,7 +47,7 @@ export class CrearNuevaEmpresaDialogComponent implements OnInit, AfterViewInit {
 
     const valorRuc = sendDatosForm['rucEmpresa'];
     const regexOnlyNumber = new RegExp(/^\d{13}$/);
-  
+
     if(!regexOnlyNumber.test(valorRuc)){
       this.toastr.error('Ingrese Ruc valido', '', {
         timeOut: 4000,
