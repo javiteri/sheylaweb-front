@@ -419,7 +419,12 @@ export class PageVentasComponent implements OnInit{
 
   // GUARDAR DATOS FACTURA
   guardarFactura(){
-    
+
+    if(this.clientFac.ciRuc == '9999999999' && Number(this.total) >= 200){
+      this.toastr.error('No se puede guardar una venta mayor a $200 a Consumidor Final.');
+      return;
+    }
+
     if(!this.validateClienteFac()){
       this.toastr.error('Verifique que los datos de Cliente sean correctos', '', {
         timeOut: 4000,

@@ -97,8 +97,8 @@
             <div class="container-estate-doc container-estate-doc-pendiente" *ngIf="docElectronico.estado == 0" >
                 Pendiente
             </div>
-            <div  class="container-estate-doc" *ngIf="docElectronico.estado == 1">Enviado</div>
-            <div  class="container-estate-doc" *ngIf="docElectronico.estado == 2">Autorizado / Error</div>
+            <div  class="container-estate-doc container-estate-doc-error" *ngIf="docElectronico.estado == 1">Error</div>
+            <div  class="container-estate-doc container-estate-doc-autorizado" *ngIf="docElectronico.estado == 2">Autorizado</div>
             <div  class="container-estate-doc" *ngIf="docElectronico.estado == 3">Cliente Creado en Hosting</div>
             <div  class="container-estate-doc" *ngIf="docElectronico.estado == 4">Documento creado en hosting</div>
             <div  class="container-estate-doc" *ngIf="docElectronico.estado == 5">Autorizado</div>
@@ -109,7 +109,9 @@
           <th mat-header-cell *matHeaderCellDef class="flex-grow-dot5">Opciones</th>
           <td mat-cell *matCellDef="let row" data-label="Opciones" class="flex-grow-dot5 justify-content-center">
             <div>
-              <button matTooltip="Autorizar" mat-icon-button color="icon-accent" aria-label="boton autorizar documento" >
+              <button matTooltip="Autorizar" mat-icon-button color="icon-accent" aria-label="boton autorizar documento" 
+              (click)="autorizarDoc(row.id,row.identificacion,row.VENTA_TIPO);"
+              [disabled]="row.estado == 2 ? 'disabled' : null">
                 <mat-icon>check_circle</mat-icon>
               </button>
             </div>

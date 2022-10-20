@@ -291,4 +291,8 @@ export class ApplicationProvider {
   getPdfFromVentaByIdEmp(idEmp: any, identificacion: any, idVentaCompra: any, accesToken: any){
     return this.coreEndPoint.getPDFVentaByIdEmp(idEmp,identificacion,idVentaCompra, accesToken);
   }
+  autorizarDocumentoElectronico(idEmp: any, idVentaCompra: number, identificacion: string, tipo: string, accesToken: any){
+    return this.coreEndPoint.autorizarDocumentosElectronicosByIdEmp(idEmp,idVentaCompra,identificacion,tipo,accesToken);
+  }
+
 }

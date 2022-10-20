@@ -14,8 +14,8 @@ export class EndPointProvider {
     private readonly appVersion = '1.0.0';
     //private readonly apiUrl = 'http://192.168.1.10:8086/api/'; 
 
-    //private readonly apiUrl = 'http://localhost:3000/api/';
-    private readonly apiUrl = 'https://www.sheylaweb.net/api/';
+    private readonly apiUrl = 'http://localhost:3000/api/';
+    //private readonly apiUrl = 'https://www.sheylaweb.net/api/';
 
 
     private readonly searchDatosClienteSri = 'https://sheyla.net/SRI/SRI.php';
@@ -1264,7 +1264,26 @@ export class EndPointProvider {
 
       return this.http.get(endpointUrl,{responseType: 'blob', params: paramsRequest, headers: header});
     }
+    private readonly _autorizarDocumentoElectronicaByIdEmp: string = 'documentos_electronicos/autorizardocumentoelectronico';
+    private get autorizarDocumentoElectronicaByIdEmpURL(){
+      return this.apiUrl + this._autorizarDocumentoElectronicaByIdEmp;
+    }
+    autorizarDocumentosElectronicosByIdEmp<T>(idEmp: any,idVentaCompra: number,identificacion: string,tipo: any,accessToken: any): Observable<T>{
+      const endpointUrl = this.autorizarDocumentoElectronicaByIdEmpURL;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
 
+      let paramsRequest = new HttpParams().set('idEmp', idEmp)
+                        .set('idVentaCompra', idVentaCompra).set('identificacion', identificacion)
+                        .set('tipo', tipo)
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
 
 
     //---------------------------------------------------------------

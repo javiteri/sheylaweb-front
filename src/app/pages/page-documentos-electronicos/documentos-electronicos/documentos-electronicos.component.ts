@@ -130,4 +130,28 @@ export class DocumentosElectronicosComponent implements OnInit {
     });
     
   }
+
+  autorizarDoc(idVentaCompra: number,identificacion: string,tipo: string): void{
+
+    console.log(idVentaCompra);
+    console.log(identificacion);
+    console.log(tipo);
+
+    const loadingRef = this.loadingService.open();
+    this.coreService.autorizarDocumentoElectronico(this.idEmpresa,idVentaCompra,identificacion,tipo,this.tokenValidate)
+      .subscribe({
+        next: (data: any) => {
+          loadingRef.close();
+          console.log('autorizando documento');
+          console.log(data);
+        },
+        error: (error: any) => {
+          loadingRef.close();
+          console.log('error al autorizar documento');
+          console.log(error);
+        }
+      });
+
+  }
+
 } 
