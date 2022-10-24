@@ -159,8 +159,8 @@ export class DashboardComponent implements OnInit{
         const dateActual = new Date();
         const dateInit = new Date(data.data[0].finfactura);
 
-        var time = dateInit.getTime() - dateActual.getTime(); 
-        var days = time / (1000 * 3600 * 24); //Diference in Days
+        let time = dateInit.getTime() - dateActual.getTime(); 
+        let days = time / (1000 * 3600 * 24); //Diference in Days
 
         this.diasLicenciaValue = Number(days).toFixed(0);
 

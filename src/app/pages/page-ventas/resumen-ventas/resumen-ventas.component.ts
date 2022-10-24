@@ -67,7 +67,6 @@ export class ResumenVentasComponent implements OnInit {
     
     if(!(this.dateInicioFilter && this.dateFinFilter)){
       dialogRef.close();
-      console.log('verifique que las fechas sean correctas');
       return;
     }
 

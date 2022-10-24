@@ -54,7 +54,7 @@ export class PageVentasComponent implements OnInit{
 
   clientFac: ClienteFactura = new ClienteFactura(0, '999999999', 'CONSUMIDOR FINAL', '','','0999999999');
 
-  listFormaPago = ['Efectivo', 'Cheque', 'Transferencia', 'Voucher', 'Credito'];
+  listFormaPago = ['Efectivo', 'Cheque', 'Transferencia', 'Deposito','Voucher', 'Credito'];
   listTipoDocumento = ['Factura', 'Nota de Venta', 'Otros'];
 
   tipoDocSelect = 'Factura';
@@ -487,7 +487,7 @@ export class PageVentasComponent implements OnInit{
     
     const sendFacturaJsonModel = {
       empresaId: this.idEmpresa,
-      tipoVenta: this.tipoDocSelect,
+      tipoVenta: this.tipoDocSelect.toUpperCase(),
       venta001: this.value001,
       venta002: this.value002,
       ventaNumero: this.valueSecuencia,
@@ -498,7 +498,7 @@ export class PageVentasComponent implements OnInit{
       subtotal0: this.subtotalIva0,
       valorIva: this.Iva12,
       ventaTotal: this.total,
-      formaPago: this.formaPagoSelect,
+      formaPago: this.formaPagoSelect.toUpperCase(),
       obs: this.observacion,
       ventaDetalles: detallesVenta
     }

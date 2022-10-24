@@ -163,7 +163,6 @@ export class ListaComprasComponent implements OnInit {
 
 
   copiarCompraClick(compra: any): void{
-    console.log(compra);
     this.router.navigate(['/compras/crearcompra', compra.id]); 
   }
 

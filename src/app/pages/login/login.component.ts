@@ -66,6 +66,14 @@ export class LoginComponent implements OnInit {
                 
         overlayRef.close();
 
+        console.log(response);
+
+        if(response.sinLicencia == true){
+          this.showMessageInfo('El acceso se encuentra suspendido por falta de pago.');
+          this.loading = false;
+          return;
+        }
+
         if(response.existEmp == false){
           this.loading = false;
 

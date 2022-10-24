@@ -78,7 +78,6 @@ export class DocumentosElectronicosComponent implements OnInit {
         next: (data: any) => {
 
           if(data.data && data.data.length > 0){
-            console.log(data.data);
             this.datasource.data = data.data;
             this.showSinDatos = false;
           }else{
@@ -106,8 +105,6 @@ export class DocumentosElectronicosComponent implements OnInit {
     this.coreService.getPdfFromVentaByIdEmp(this.idEmpresa,identificacion,idVenta,this.tokenValidate).subscribe({
       next: (data: any) => {
         loadingRef.close();
-        console.log('todo Ok');
-        console.log(data);
 
         let downloadUrl = window.URL.createObjectURL(data);
 
@@ -133,10 +130,6 @@ export class DocumentosElectronicosComponent implements OnInit {
 
   autorizarDoc(idVentaCompra: number,identificacion: string,tipo: string): void{
 
-    console.log(idVentaCompra);
-    console.log(identificacion);
-    console.log(tipo);
-
     const loadingRef = this.loadingService.open();
     this.coreService.autorizarDocumentoElectronico(this.idEmpresa,idVentaCompra,identificacion,tipo,this.tokenValidate)
       .subscribe({
@@ -154,4 +147,43 @@ export class DocumentosElectronicosComponent implements OnInit {
 
   }
 
+
+  //-----------------------------------------------------------------------------------------
+  exportExcelListDocumentos(){
+
+    const dateInitString = '' + this.dateInicioFilter.getFullYear() + '-' + ('0' + (this.dateInicioFilter.getMonth()+1)).slice(-2) + 
+                          '-' + ('0' + this.dateInicioFilter.getDate()).slice(-2) + ' ' + 
+                            '00:00:00' ;
+    const dateFinString = '' + this.dateFinFilter.getFullYear() + '-' + ('0' + (this.dateFinFilter.getMonth()+1)).slice(-2) + 
+                            '-' + ('0' + this.dateFinFilter.getDate()).slice(-2) + ' ' + 
+                              '23:59:59' ;
+
+    const tipo = (this.tipoDocumentoSelect == 'TODOS') ? '' : this.tipoDocumentoSelect;
+
+    let loadingRef = this.loadingService.open();
+
+    this.coreService.getExcelListDocElectronic(this.idEmpresa,dateInitString,dateFinString,tipo,this.nombreClienteCi,
+      this.numeroDocumento,this.tokenValidate).subscribe({
+        next: (data: any) => {
+
+          console.log(data);
+          loadingRef.close();
+
+          let downloadUrl = window.URL.createObjectURL(data);
+
+          const link = document.createElement('a');
+          link.setAttribute('target', '_blank');
+          link.setAttribute('href', downloadUrl);
+          link.setAttribute('download','documentos_electronicos');
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+        },
+        error: (error: any) => {
+          loadingRef.close();
+          console.log('inside error');
+          console.log(error);
+        }
+      });
+  }
 } 

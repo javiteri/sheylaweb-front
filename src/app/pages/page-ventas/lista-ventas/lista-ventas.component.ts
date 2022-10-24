@@ -97,7 +97,6 @@ export class ListaVentasComponent implements OnInit {
           this.showPagination = false;
         }
 
-
         const arrayProducts: ItemListaVenta[] = results.data;
         const arrayWithDecimal = arrayProducts.map((itemListVenta: ItemListaVenta) => {
           itemListVenta.total = Number(itemListVenta.total).toFixed(this.fixedNumDecimal);

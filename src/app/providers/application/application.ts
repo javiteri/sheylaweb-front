@@ -295,4 +295,8 @@ export class ApplicationProvider {
     return this.coreEndPoint.autorizarDocumentosElectronicosByIdEmp(idEmp,idVentaCompra,identificacion,tipo,accesToken);
   }
 
+  getExcelListDocElectronic(idEmp: any, fechaIni:any,fechaFin:any,
+                        tipo:any,nombresci:any,nodoc: any, accesToken: any){
+    return this.coreEndPoint.getDocElectronicosExcelIdEmp(idEmp,fechaIni,fechaFin,tipo,nombresci,nodoc,accesToken);
+  }
 }
