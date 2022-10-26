@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
+import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
@@ -38,7 +41,9 @@ export class DocumentosElectronicosComponent implements OnInit {
 
 
   constructor(private coreService: ApplicationProvider,
-    private loadingService: LoadingService) { }
+    private loadingService: LoadingService,
+    private matDialog: MatDialog,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
 
@@ -58,6 +63,29 @@ export class DocumentosElectronicosComponent implements OnInit {
     this.getListaDocumentosElectronicos();    
   }
 
+  getListDocumentosElectronicosNoAutorizados(){
+    
+    let loadingRef = this.loadingService.open();
+
+    this.coreService.getListDocumentosElectronicosByIdEmpNoAutorizados(this.idEmpresa,this.tokenValidate).subscribe({
+    next: (data: any) => {
+
+      if(data.data && data.data.length > 0){
+        this.datasource.data = data.data;
+        this.showSinDatos = false;
+      }else{
+        this.datasource.data = [];
+        this.showSinDatos = true;
+      }
+
+      loadingRef.close();
+    },
+    error: (error: any) => {
+      console.log('inside error ');
+      loadingRef.close();
+    }
+    });
+  }
 
   getListaDocumentosElectronicos(){
 
@@ -74,13 +102,12 @@ export class DocumentosElectronicosComponent implements OnInit {
     let loadingRef = this.loadingService.open();
 
     this.coreService.getListDocumentosElectronicosByIdEmp(this.idEmpresa,dateInitString,dateFinString,tipo,this.nombreClienteCi,
-      this.numeroDocumento,this.tokenValidate).subscribe({
+                                                          this.numeroDocumento,this.tokenValidate).subscribe({
         next: (data: any) => {
 
           if(data.data && data.data.length > 0){
             this.datasource.data = data.data;
             this.showSinDatos = false;
-            console.log(data.data);
           }else{
             this.datasource.data = [];
             this.showSinDatos = true;
@@ -137,8 +164,6 @@ export class DocumentosElectronicosComponent implements OnInit {
       .subscribe({
         next: (data: any) => {
           loadingRef.close();
-          console.log('autorizando documento');
-          console.log(data);
         },
         error: (error: any) => {
           loadingRef.close();
@@ -149,7 +174,58 @@ export class DocumentosElectronicosComponent implements OnInit {
 
   }
 
+  autorizarListDocumentos(): void{
+    const dialogRef = this.matDialog.open(ConfirmDeleteDialogComponent, {
+      minWidth: '0',
+      width: '400px',
+      data: {
+        title: 'Se enviaran los documentos para su autorización, desea continuar?',
+        header: 'Autorizar Documentos',
+        textBtnPositive: 'Autorizar',
+        textBtnCancelar: 'Cancelar',
+        isNormalColors: false
+      }
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.sendDocumentosAutorizar();
+      }
+    });
+
+  }  
+
+  sendDocumentosAutorizar(){
+    const listSend = this.datasource.data.filter((documento: any) => {
+      return documento.estado == 0
+    });
+    
+    listSend.forEach((documento) => {
+      documento.idEmp = this.idEmpresa;
+    });
+
+    if(listSend.length == 0){
+      return;
+    }
+    const loadingRef = this.loadingService.open();
+    this.coreService.autorizarListDocumentoElectronico(listSend,this.tokenValidate)
+      .subscribe({
+        next: (data: any) => {
+          loadingRef.close();
+          if(data.isSucess){
+            this.toastr.success('Se autorizarán todos los documentos,por favor espere.', '', {
+              timeOut: 10000,
+              closeButton: true
+            });
+          }
+        },
+        error: (error: any) => {
+          loadingRef.close();
+          console.log('error al autorizar documento');
+          console.log(error);
+        }
+    });
+  }
   //-----------------------------------------------------------------------------------------
   exportExcelListDocumentos(){
 

@@ -9,6 +9,10 @@
 .mat-icon-accent{
     color: var(--accent-color);
 }
+.mat-icon-warning{
+    background-color: var(--red-bold);
+    color: white;
+}
 
 .container-options{
     display: flex;
@@ -135,6 +139,25 @@
 
 .mat-footer-row, .mat-header-row, .mat-row{
     width: auto;
+}
+
+.container-btn-autorizar{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+.container-btn-autorizar button{
+    font-size: .4em;
+}
+.container-btn-autorizar button + button {
+    margin-left: 10px;    
+}
+
+hr{
+    color: #d7dade;
+    margin-bottom: 0;
+    margin-top: 10px;
 }
 
 @media screen and (max-width: 1200px){

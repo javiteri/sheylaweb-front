@@ -47,17 +47,29 @@
           </div>
           </mat-card-content>
         </mat-card>
-      </div>
+    </div>
     
-      <div class="container-btn-ingresos">
+    <div class="container-btn-ingresos">
         <button class="font-weight-300 mat-elevation-z1" mat-raised-button 
         (click)="exportExcelListDocumentos();">
           <mat-icon>file_download</mat-icon>
           Exportar
         </button>
-      </div>
+    </div>
 
-  
+</div>
+
+<hr>
+<div class="container-btn-autorizar">
+  <button mat-raised-button class="font-weight-300 mat-elevation-z1 mat-icon-warning"
+  (click)="getListDocumentosElectronicosNoAutorizados();">
+    Mostrar - No Autorizados
+  </button>
+
+  <button mat-raised-button class="font-weight-300 mat-elevation-z1" color="btn-icon-accent"
+                  matTooltip="Autorizar Todos" (click)="autorizarListDocumentos();">
+                  Autorizar Todos
+  </button>
 </div>
 
 <mat-card class="mat-card-two">

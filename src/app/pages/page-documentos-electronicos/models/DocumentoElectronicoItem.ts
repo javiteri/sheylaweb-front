@@ -7,5 +7,6 @@ export interface DocumentoElectronicoItem {
     formaPago: string,
     estado: string,
     id: number,
-    VENTA_TIPO: string
+    VENTA_TIPO: string,
+    idEmp: number
 }

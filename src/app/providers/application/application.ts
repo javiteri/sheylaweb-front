@@ -287,12 +287,19 @@ export class ApplicationProvider {
 
     return this.coreEndPoint.getDocumentosElectronicosByIdEmp(idEmp,fechaIni,fechaFin,tipo,nombresci,nodoc,accessToken);
   }
+  getListDocumentosElectronicosByIdEmpNoAutorizados(idEmp: any,accessToken:any){
+    return this.coreEndPoint.getDocumentosElectronicosByIdEmpNoAutorizados(idEmp,accessToken);
+  }
+
 
   getPdfFromVentaByIdEmp(idEmp: any, identificacion: any, idVentaCompra: any, accesToken: any){
     return this.coreEndPoint.getPDFVentaByIdEmp(idEmp,identificacion,idVentaCompra, accesToken);
   }
   autorizarDocumentoElectronico(idEmp: any, idVentaCompra: number, identificacion: string, tipo: string, accesToken: any){
     return this.coreEndPoint.autorizarDocumentosElectronicosByIdEmp(idEmp,idVentaCompra,identificacion,tipo,accesToken);
+  }
+  autorizarListDocumentoElectronico(postData: any, accesToken: any){
+    return this.coreEndPoint.autorizarListDocumentoElectronicaByIdEmp(postData,accesToken);
   }
 
   getExcelListDocElectronic(idEmp: any, fechaIni:any,fechaFin:any,

@@ -1249,6 +1249,25 @@ export class EndPointProvider {
       return this.http.get<T>(endpointUrl, httpOptions);
     }
 
+    private readonly _getDocumentosElectronicosByIdEmpNoAutorizados: string = 'documentos_electronicos/getlistdocumentoselectronicosnoautorizados';
+    private get getDocumentosElectronicosByIdEmpNoAutorizadosURL(){
+      return this.apiUrl + this._getDocumentosElectronicosByIdEmpNoAutorizados;
+    }
+    getDocumentosElectronicosByIdEmpNoAutorizados<T>(idEmp: any,accessToken: any): Observable<T>{
+      const endpointUrl = this.getDocumentosElectronicosByIdEmpNoAutorizadosURL;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmp)
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+
     private readonly _getPDFVentaByIdEmp: string = 'documentos_electronicos/generatepdffromventa';
     private get getPDFVentaByIdEmpURL(){
       return this.apiUrl + this._getPDFVentaByIdEmp;
@@ -1284,6 +1303,18 @@ export class EndPointProvider {
 
       return this.http.get<T>(endpointUrl, httpOptions);
     }
+
+    private readonly _autorizarListDocumentoElectronicaByIdEmp: string = "documentos_electronicos/autorizarlistdocumentosbyid";
+    private get autorizarListDocumentoElectronicaByIdEmpURL(){
+      return this.apiUrl + this._autorizarListDocumentoElectronicaByIdEmp;
+    }
+    autorizarListDocumentoElectronicaByIdEmp<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.autorizarListDocumentoElectronicaByIdEmpURL;
+        
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
+
+
     private readonly _getDocElectronicosExcelIdEmp: string = "documentos_electronicos/getlistdocumentoselectronicosexcel";
     private get getDocElectronicosExcelIdEmpURL(){
       return this.apiUrl + this._getDocElectronicosExcelIdEmp;

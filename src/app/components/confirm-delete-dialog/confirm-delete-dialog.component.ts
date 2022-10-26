@@ -47,9 +47,7 @@ export class ConfirmDeleteDialogComponent implements OnInit{
 
       console.log(this.dialogData['isNormalColors']);
       if(this.dialogData['isNormalColors'] == false){
-        console.log('inside is normal colors');
         this.isNormalColors = this.dialogData['isNormalColors'];
-        console.log(this.isNormalColors);
       }
     }
 }
