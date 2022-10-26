@@ -80,6 +80,7 @@ export class DocumentosElectronicosComponent implements OnInit {
           if(data.data && data.data.length > 0){
             this.datasource.data = data.data;
             this.showSinDatos = false;
+            console.log(data.data);
           }else{
             this.datasource.data = [];
             this.showSinDatos = true;
@@ -96,7 +97,8 @@ export class DocumentosElectronicosComponent implements OnInit {
 
   verPdfVenta(idVenta: any, identificacion: any, tipoVenta: any){
     
-    if(tipoVenta != 'Factura'){
+    console.log(tipoVenta);
+    if(tipoVenta != 'Factura' && tipoVenta != 'FACTURA'){
       console.log('solo se permite para Ventas Factuas');
       return;
     }
