@@ -14,8 +14,8 @@ export class EndPointProvider {
     private readonly appVersion = '1.0.0';
     //private readonly apiUrl = 'http://192.168.1.10:8086/api/'; 
 
-    private readonly apiUrl = 'http://localhost:3000/api/';
-    //private readonly apiUrl = 'https://www.sheylaweb.net/api/';
+    //private readonly apiUrl = 'http://localhost:3000/api/';
+    private readonly apiUrl = 'https://www.sheylaweb.net/api/';
 
 
     private readonly searchDatosClienteSri = 'https://sheyla.net/SRI/SRI.php';
@@ -1024,15 +1024,11 @@ export class EndPointProvider {
     insertFirmaElectronicaConfig(postData: any, fileFirma: any, accessToken: any): Observable<any>{
         const endPointUrl = this.insertFirmaElectronicaConfigURL;
       
-        console.log('postData');
-        console.log(fileFirma);
-
         let formData = new FormData();
         formData.append("file", fileFirma);
         formData.append("claveFirma", postData['claveFirma']);
         formData.append("ruc", postData['ruc']);
 
-        console.log(formData);
         return this.http.post(endPointUrl, formData, this.getRequestHeaderMultipart(accessToken));
     }
 
@@ -1046,6 +1042,25 @@ export class EndPointProvider {
       const header = this.getRequestHeaderClientes(accessToken);
 
       let paramsRequest = new HttpParams().set('idEmp', idEmpresa)
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+
+    private readonly _getListConfigsFirmaElectronicaByIdEmp: string = 'configs/getConfigFirmaNameAndClaveByRuc';
+    private get getListConfigsFirmaElectronicaByIdEmpURL(){
+      return this.apiUrl + this._getListConfigsFirmaElectronicaByIdEmp;
+    }
+    getListConfigsFirmaElectronicaByIdEmp<T>(rucEmpresa: any,accessToken: any): Observable<T>{
+      const endpointUrl = this.getListConfigsFirmaElectronicaByIdEmpURL;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('ruc', rucEmpresa)
 
       const httpOptions = {
         headers: header,

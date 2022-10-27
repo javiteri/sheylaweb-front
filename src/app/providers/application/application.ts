@@ -248,6 +248,9 @@ export class ApplicationProvider {
   getListConfigsByIdEmp(idEmp: any, accessToken: any){
     return this.coreEndPoint.getListConfigsByIdEmp(idEmp, accessToken);
   }
+  getListConfigsFirmaElectronicaByIdEmp(ruc: any, accessToken: any){
+    return this.coreEndPoint.getListConfigsFirmaElectronicaByIdEmp(ruc, accessToken);
+  }
   getConfigByNameIdEmp(idEmp: any, nombreConfig: any, accessToken: any){
     return this.coreEndPoint.getConfigByIdEmp(idEmp, nombreConfig, accessToken); 
   }

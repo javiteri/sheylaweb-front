@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { combineLatestWith } from 'rxjs';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
@@ -55,7 +56,10 @@ export class ConfiguracionesComponent implements OnInit {
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
-  
+
+  isUploadFirmaElectronica = false;
+  textUploadFirmaElectronica = '';
+
   constructor(private location: Location,
     private coreService: ApplicationProvider,
     private loadingService: LoadingService,
@@ -76,6 +80,7 @@ export class ConfiguracionesComponent implements OnInit {
     this.rucEmpresa = localServiceResponseUsr._ruc;
 
     this.getListConfigInit();
+    this.getListDatosConfigNameFirmaElectronicaAndClave();
   }
 
   private getListConfigInit(){
@@ -175,6 +180,28 @@ export class ConfiguracionesComponent implements OnInit {
     });
   }
 
+  private getListDatosConfigNameFirmaElectronicaAndClave(){
+    this.coreService.getListConfigsFirmaElectronicaByIdEmp(this.rucEmpresa, this.tokenValidate).subscribe({
+      next: (datos: any) =>{
+        console.log('todo ok datos firma electronica');
+        console.log(datos);
+        if(datos.data.EMPRESA_RUTA_FIRMA){
+          this.isUploadFirmaElectronica = true;
+          this.textUploadFirmaElectronica = `(Registrada)`;
+          console.log('firma electronica registrada');
+        }
+        if(datos.data.EMPRESA_CLAVE_FIRMA){
+          this.claveFirmaElectronica = datos.data.EMPRESA_CLAVE_FIRMA;
+        }
+      },
+      error:(error) =>{
+        console.log('error inside datos firma electronica');
+        console.log(error);
+      }
+  });
+  }
+
+
   changeValorIva(): void{
     const regexOnlyNumber = new RegExp(/^\d+(\.\d{1,2})?$/);
     
@@ -243,26 +270,14 @@ export class ConfiguracionesComponent implements OnInit {
 
 
   guardarConfigsFacturacionElectronica(){
-
     //const dialogRef = this.loadingService.open();
     const postData = {
       claveFirma: this.claveFirmaElectronica,
       ruc: this.rucEmpresa
     }
     const dialogRef = this.loadingService.open();
-    this.coreService.insertFirmaElectronicaConfig(postData, this.firmaElectronicaFile, this.tokenValidate)
-      .subscribe({
-        next: (data: any) => {
-          dialogRef.close();
-          console.log('insert firma electronica corectamente');
-          console.log(data);
-        },
-        error: (error) => {
-          dialogRef.close();
-          console.log('error insertando firma electronica');
-          console.log(error);
-        }
-      });
+    let $observable = this.coreService.insertFirmaElectronicaConfig(postData, this.firmaElectronicaFile, this.tokenValidate);
+      
 
     const data = [[
       this.idEmpresa,this.NAMES_CONFIGS_VENTAS[0], this.valueAgenteRetencion
@@ -274,21 +289,18 @@ export class ConfiguracionesComponent implements OnInit {
       this.idEmpresa,this.NAMES_CONFIGS_VENTAS[3],this.checkedObligadoLlevarContabilidad
     ]]
 
-    //const dialogRef = this.loadingService.open();
+    let $observable1 = this.coreService.insertListConfigsFacElecToBD(data, this.tokenValidate);
 
-    this.coreService.insertListConfigsFacElecToBD(data, this.tokenValidate).subscribe({
-      next: (data: any) => {
-        //dialogRef.close();
-        console.log('config list fac insertada corectamente');
-        console.log(data);
-      },
-      error: (error) => {
-        //dialogRef.close();
-        console.log('error insertando config');
-        console.log(error);
-      }
-    });
-
+    $observable.pipe(
+      combineLatestWith($observable1)
+    )
+    .subscribe(([result1,result2]) => {
+      dialogRef.close();
+      this.toastr.success('Datos Guardados', '', {
+        timeOut: 3000,
+        closeButton: true
+      });
+    })
 
   }
 
