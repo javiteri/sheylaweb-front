@@ -305,8 +305,8 @@ export class ApplicationProvider {
     return this.coreEndPoint.autorizarListDocumentoElectronicaByIdEmp(postData,accesToken);
   }
 
-  getExcelListDocElectronic(idEmp: any, fechaIni:any,fechaFin:any,
+  getExcelListDocElectronic(idEmp: any,rucEmpresa:any, fechaIni:any,fechaFin:any,
                         tipo:any,nombresci:any,nodoc: any, accesToken: any){
-    return this.coreEndPoint.getDocElectronicosExcelIdEmp(idEmp,fechaIni,fechaFin,tipo,nombresci,nodoc,accesToken);
+    return this.coreEndPoint.getDocElectronicosExcelIdEmp(idEmp,rucEmpresa, fechaIni,fechaFin,tipo,nombresci,nodoc,accesToken);
   }
 }

@@ -1334,13 +1334,13 @@ export class EndPointProvider {
     private get getDocElectronicosExcelIdEmpURL(){
       return this.apiUrl + this._getDocElectronicosExcelIdEmp;
     }
-    getDocElectronicosExcelIdEmp(idEmp: any,fechaIni:any,fechaFin:any,
+    getDocElectronicosExcelIdEmp(idEmp: any,rucEmpresa: any, fechaIni:any,fechaFin:any,
                                 tipo:any,nombresci:any,nodoc:any, accessToken: any): Observable<Blob>{
                                   
         const endPointUrl = this.getDocElectronicosExcelIdEmpURL;
 
         const header = this.getRequestHeaderFiles(accessToken)
-        const params1 = new HttpParams().set('idEmp', idEmp).set('fechaIni', fechaIni)
+        const params1 = new HttpParams().set('idEmp', idEmp).set('rucEmp', rucEmpresa) .set('fechaIni', fechaIni)
           .set('fechaFin', fechaFin).set('tipo', tipo).set('nodoc', nodoc).set('nombresci', nombresci);
 
         return this.http.get(endPointUrl, {responseType: 'blob', params: params1, headers: header});

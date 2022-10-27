@@ -240,7 +240,7 @@ export class DocumentosElectronicosComponent implements OnInit {
 
     let loadingRef = this.loadingService.open();
 
-    this.coreService.getExcelListDocElectronic(this.idEmpresa,dateInitString,dateFinString,tipo,this.nombreClienteCi,
+    this.coreService.getExcelListDocElectronic(this.idEmpresa,this.rucEmpresa ,dateInitString,dateFinString,tipo,this.nombreClienteCi,
       this.numeroDocumento,this.tokenValidate).subscribe({
         next: (data: any) => {
 
