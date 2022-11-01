@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatChip } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -75,7 +75,8 @@ export class PageVentasComponent implements OnInit{
     private loadingService: LoadingService,
     private location: Location,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    public ref: ChangeDetectorRef) {
 
   }
   
@@ -215,10 +216,13 @@ export class PageVentasComponent implements OnInit{
       next: (response: any) => {
         this.loadingSecuencial = false;
         this.valueSecuencia = response.data;
+
+        this.ref.detectChanges();
       },
       error: (error) => {
         this.loadingSecuencial = false;
         console.log(error);
+        this.ref.detectChanges();
       }
     });
   }
@@ -299,6 +303,7 @@ export class PageVentasComponent implements OnInit{
   }
 
   agregarProductoClick(){
+
     const dialogRef = this.matDialog.open(BuscarProductoDialogComponent, {
       width: '100%',
       closeOnNavigation: true,
@@ -566,14 +571,28 @@ export class PageVentasComponent implements OnInit{
           return;
         }
 
-        this.toastr.success('Venta Guardada Correctamente', '', {
+        /*this.toastr.success('Venta Guardada Correctamente', '', {
           timeOut: 4000,
           closeButton: true
-        });
+        });*/
+
+        this.router.navigate([
+          { outlets: {
+            'print': ['print','receipt',data.ventaid]
+        }}]);
+
+        this.resetControls();
+
+        /*setTimeout(() =>{
+          //NAVIGATE TO ROUTE FOR PRINT RECEIPT 
+         
+        },200);*/
+        
+        //this.router.navigate(['ventas/crearventa']);
 
         //this.resetControls();
 
-        this.verPdfVenta(data.ventaid,this.inputIdentificacion.nativeElement.value,this.tipoDocSelect);
+        //this.verPdfVenta(data.ventaid,this.inputIdentificacion.nativeElement.value,this.tipoDocSelect);
       },
       error: (error) => {
         overlayRef.close();
@@ -703,7 +722,7 @@ export class PageVentasComponent implements OnInit{
   }
 
   cancelarClick(): void{
-      this.location.back();    
+      this.location.back();
   }
 
   changeTipoDoc(){

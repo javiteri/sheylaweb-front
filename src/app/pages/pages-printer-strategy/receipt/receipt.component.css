@@ -1,0 +1,56 @@
+* {
+    font-size: 12px;
+    
+}
+
+.text-center{
+    text-align: center;
+}
+
+p, span{
+    word-break: break-all;
+}
+header, .header-space { height: 110px; }
+.header {  top: 0; }
+.footer { bottom: 0;}
+
+p{
+    margin: 0;
+}
+
+.container-detalle p{
+    display: inline-block;
+}
+
+.container-totales div p{
+    display: inline-block;
+}
+
+td.description,
+th.description {
+    width: 130px;
+    max-width: 130px;
+}
+
+td.quantity,
+th.quantity {
+    width: 40px;
+    max-width: 40px;
+    word-break: break-all;
+}
+
+td.price,
+th.price {
+    width: 40px;
+    max-width: 40px;
+    text-align: end;
+    word-break: break-all;
+}
+
+td.total,
+th.total {
+    width: 50px;
+    max-width: 50px;
+    text-align: end;
+    word-break: break-all;
+}

@@ -108,6 +108,7 @@ export class DocumentosElectronicosComponent implements OnInit {
           if(data.data && data.data.length > 0){
             this.datasource.data = data.data;
             this.showSinDatos = false;
+            console.log(data.data);
           }else{
             this.datasource.data = [];
             this.showSinDatos = true;
