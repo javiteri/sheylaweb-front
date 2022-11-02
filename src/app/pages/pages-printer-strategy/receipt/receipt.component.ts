@@ -168,6 +168,7 @@ export class ReceiptComponent implements OnInit {
       window.onfocus = () => {
         console.log('inside on focus');
         this.router.navigateByUrl('/ventas/crearventa');
+        window.onfocus = () =>{}
       }
 
       window.print();
