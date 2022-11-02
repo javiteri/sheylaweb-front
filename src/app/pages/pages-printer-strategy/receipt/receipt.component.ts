@@ -53,6 +53,10 @@ export class ReceiptComponent implements OnInit {
   textCanItems = `Detalle `;
 
   textNumeroAutorizacion = `CA/AUTORIZACION: `;
+  textTipoDocumento = '';
+  showFooterFacElectronica = true;
+
+
   constructor(route: ActivatedRoute,
     private router: Router,
     private coreService: ApplicationProvider,
@@ -149,11 +153,17 @@ export class ReceiptComponent implements OnInit {
       (Number(result1.data['subtotal0']) + Number(result1.data['subtotal12'])).toString();
       this.textIva12 = result1.data['valorIva'];
       this.textValorTotal = result1.data['total'];
-      this.textNumeroAutorizacion += result1.data['numeroautorizacion'];
 
-      console.log(this.textNumeroAutorizacion)
+      if(result1.data['documento'].toUpperCase() == 'FACTURA'){
+        this.textTipoDocumento = 'FACTURA ELECTRONICA';
+        this.textNumeroAutorizacion += result1.data['numeroautorizacion'];
+      }else{
+        this.textTipoDocumento = result1.data['documento'];
+        this.textNumeroAutorizacion = '';
+        this.showFooterFacElectronica = false;
+      }
+
       this.ref.detectChanges();
-      console.log(this.listaVentaDetalle);
     
       window.onfocus = () => {
         console.log('inside on focus');

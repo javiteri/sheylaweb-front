@@ -1,7 +1,8 @@
 <div class="header">
     <div>
       <p>****************************************************</p>
-      <p class="text-center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F A C T U R A &nbsp; &nbsp;E L E C T R O N I C A&nbsp;&nbsp;&nbsp;&nbsp;</p>
+      <!--<p class="text-center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F A C T U R A &nbsp; &nbsp;E L E C T R O N I C A&nbsp;&nbsp;&nbsp;&nbsp;</p>-->
+      <p class="text-center">{{textTipoDocumento}}</p>
       <p class="text-center">** DOCUMENTO SIN VALOR TRIBUTARIO **</p>
     </div>
   
@@ -85,7 +86,7 @@
 
 </div>
 
-<div class="footer">
+<div class="footer" *ngIf="showFooterFacElectronica">
     <p>****************************************************</p>
     <div>
       <p>FACTURA ELECTRONICA, ingrese a: </p>
