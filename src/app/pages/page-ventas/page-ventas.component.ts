@@ -115,7 +115,7 @@ export class PageVentasComponent implements OnInit{
       let idVenta = params.get('idventa');
       
       if(idVenta){
-        this.coreService.getDataByIdVenta(idVenta, this.idEmpresa, this.tokenValidate).subscribe({
+        this.coreService.getDataByIdVenta(idVenta, this.idEmpresa,this.rucEmpresa, this.tokenValidate).subscribe({
           next: (data: any) =>{
 
             this.clientFac.id = data.data['clienteId'];
