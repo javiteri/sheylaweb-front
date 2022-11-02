@@ -78,6 +78,11 @@ export class PageVentasComponent implements OnInit{
     private router: Router,
     public ref: ChangeDetectorRef) {
 
+      if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(window.navigator.userAgent)){
+        console.log('executed in mobile');
+      }else{
+        console.log('executed in desktop');
+      }
   }
   
 
@@ -571,28 +576,26 @@ export class PageVentasComponent implements OnInit{
           return;
         }
 
-        /*this.toastr.success('Venta Guardada Correctamente', '', {
-          timeOut: 4000,
-          closeButton: true
-        });*/
+        if(this.configImpresionDocumentos == '1'){
+          this.toastr.success('Venta Guardada Correctamente', '', {
+            timeOut: 4000,
+            closeButton: true
+          });
 
-        this.router.navigate([
-          { outlets: {
-            'print': ['print','receipt',data.ventaid]
-        }}]);
+          this.verPdfVenta(data.ventaid,this.inputIdentificacion.nativeElement.value,this.tipoDocSelect);
 
+        }else{
+
+          this.router.navigate([
+            { outlets: {
+              'print': ['print','receipt',data.ventaid]
+          }}]);
+
+
+        }
+      
         this.resetControls();
 
-        /*setTimeout(() =>{
-          //NAVIGATE TO ROUTE FOR PRINT RECEIPT 
-         
-        },200);*/
-        
-        //this.router.navigate(['ventas/crearventa']);
-
-        //this.resetControls();
-
-        //this.verPdfVenta(data.ventaid,this.inputIdentificacion.nativeElement.value,this.tipoDocSelect);
       },
       error: (error) => {
         overlayRef.close();
@@ -768,16 +771,15 @@ export class PageVentasComponent implements OnInit{
   private getConfigImpresionDocumentosVenta(){
       this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_IMPRESION_DOCUMENTOS', this.tokenValidate).subscribe({
         next: (data: any) => {
-        
+          
+          console.log('impresion documentoos venta');
+          console.log(data.data);
           if(data.data && data.data.length > 0){
             
             const configReceive: ConfigReceive = data.data[0];
 
             this.configImpresionDocumentos = configReceive.con_valor; 
-            //this.configIvaIncluidoEnVenta = configReceive.con_valor === "1" ? true : false;
           }
-
-          //this.getDataRoutedMap();
         },
         error: (error) => {
           console.log('error get impresion documentos');

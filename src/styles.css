@@ -106,6 +106,9 @@ th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:la
 
 
 @media print {
+  #toast-container{
+    display: none !important;
+  }
   app-layout > *{
     display: none !important;
   }

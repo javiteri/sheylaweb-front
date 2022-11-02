@@ -283,19 +283,12 @@ export class ReceiptComponent implements OnInit {
 
       this.ref.detectChanges();
       console.log(this.listaVentaDetalle);
-      
-
-
-      const afterPrint = () => {
-        window.setTimeout(() => {
-          console.log('inside after printttttttttttttttttttttttttttttttttttttttttttttt');
-          window.removeEventListener('afterprint', afterPrint);
-          this.router.navigateByUrl('/ventas/crearventa');
-      }, 1);
-  
-      };
     
-      window.addEventListener('afterprint', afterPrint);
+      window.onfocus = () => {
+        console.log('inside on focus');
+        this.router.navigateByUrl('/ventas/crearventa');
+      }
+
       window.print();
 
     });
