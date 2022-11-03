@@ -54,11 +54,11 @@ export class PageVentasComponent implements OnInit{
 
   clientFac: ClienteFactura = new ClienteFactura(0, '999999999', 'CONSUMIDOR FINAL', '','','0999999999');
 
-  listFormaPago = ['Efectivo', 'Cheque', 'Transferencia', 'Deposito','Voucher', 'Credito'];
+  listFormaPago = ['EFECTIVO', 'CHEQUE', 'TRANSFERENCIA', 'DEPOSITO','VOUCHER', 'CREDITO'];
   listTipoDocumento = ['Factura', 'Nota de Venta', 'Otros'];
 
   tipoDocSelect = 'Factura';
-  formaPagoSelect = 'Efectivo';
+  formaPagoSelect = 'EFECTIVO';
   dateFac = new Date();
 
   cantItems = 0;
@@ -119,7 +119,8 @@ export class PageVentasComponent implements OnInit{
             this.clientFac.direccion = data.data['clienteDir'];
             this.clientFac.email = data.data['clienteEmail'];
 
-            this.formaPagoSelect = data.data['forma_pago']
+            this.formaPagoSelect = data.data['forma_pago'];
+            console.log(data.data['forma_pago'].toLowerCase());
             const mDate = new Date(data.data['fechaHora']);
             this.dateFac = mDate;
 

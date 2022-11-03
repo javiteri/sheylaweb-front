@@ -106,6 +106,7 @@ export class DocumentosElectronicosComponent implements OnInit {
         next: (data: any) => {
 
           if(data.data && data.data.length > 0){
+            console.log(data.data);
             this.datasource.data = data.data;
             this.showSinDatos = false;
           }else{
@@ -119,7 +120,7 @@ export class DocumentosElectronicosComponent implements OnInit {
           console.log('inside error ');
           loadingRef.close();
         }
-      });
+    });
   }
 
   verPdfVenta(idVenta: any, identificacion: any, tipoVenta: any){
