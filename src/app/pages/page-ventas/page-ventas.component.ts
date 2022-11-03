@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatChip } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -75,13 +75,20 @@ export class PageVentasComponent implements OnInit{
     private loadingService: LoadingService,
     private location: Location,
     private route: ActivatedRoute,
-    private router: Router) {
-
+    private router: Router,
+    public ref: ChangeDetectorRef) {
   }
   
 
   ngOnInit(): void {
 
+
+    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(window.navigator.userAgent)){
+      console.log('executed in mobile');
+    }else{
+      console.log('executed in desktop');
+    }
+    
     // GET INITIAL DATA 
     const localServiceResponseToken =  
           JSON.parse(sessionStorage.getItem('_valtok') ? sessionStorage.getItem('_valtok')! : '');
@@ -109,7 +116,7 @@ export class PageVentasComponent implements OnInit{
       let idVenta = params.get('idventa');
       
       if(idVenta){
-        this.coreService.getDataByIdVenta(idVenta, this.idEmpresa, this.tokenValidate).subscribe({
+        this.coreService.getDataByIdVenta(idVenta, this.idEmpresa,this.rucEmpresa, this.tokenValidate).subscribe({
           next: (data: any) =>{
 
             this.clientFac.id = data.data['clienteId'];
@@ -216,10 +223,13 @@ export class PageVentasComponent implements OnInit{
       next: (response: any) => {
         this.loadingSecuencial = false;
         this.valueSecuencia = response.data;
+
+        this.ref.detectChanges();
       },
       error: (error) => {
         this.loadingSecuencial = false;
         console.log(error);
+        this.ref.detectChanges();
       }
     });
   }
@@ -300,6 +310,7 @@ export class PageVentasComponent implements OnInit{
   }
 
   agregarProductoClick(){
+
     const dialogRef = this.matDialog.open(BuscarProductoDialogComponent, {
       width: '100%',
       closeOnNavigation: true,
@@ -567,14 +578,26 @@ export class PageVentasComponent implements OnInit{
           return;
         }
 
-        this.toastr.success('Venta Guardada Correctamente', '', {
-          timeOut: 4000,
-          closeButton: true
-        });
+        if(this.configImpresionDocumentos == '1'){
+          this.toastr.success('Venta Guardada Correctamente', '', {
+            timeOut: 4000,
+            closeButton: true
+          });
 
-        //this.resetControls();
+          this.verPdfVenta(data.ventaid,this.inputIdentificacion.nativeElement.value,this.tipoDocSelect);
 
-        this.verPdfVenta(data.ventaid,this.inputIdentificacion.nativeElement.value,this.tipoDocSelect);
+        }else{
+
+          this.router.navigate([
+            { outlets: {
+              'print': ['print','receipt',data.ventaid]
+          }}]);
+
+
+        }
+      
+        this.resetControls();
+
       },
       error: (error) => {
         overlayRef.close();
@@ -704,7 +727,7 @@ export class PageVentasComponent implements OnInit{
   }
 
   cancelarClick(): void{
-      this.location.back();    
+      this.location.back();
   }
 
   changeTipoDoc(){
@@ -750,16 +773,15 @@ export class PageVentasComponent implements OnInit{
   private getConfigImpresionDocumentosVenta(){
       this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_IMPRESION_DOCUMENTOS', this.tokenValidate).subscribe({
         next: (data: any) => {
-        
+          
+          console.log('impresion documentoos venta');
+          console.log(data.data);
           if(data.data && data.data.length > 0){
             
             const configReceive: ConfigReceive = data.data[0];
 
             this.configImpresionDocumentos = configReceive.con_valor; 
-            //this.configIvaIncluidoEnVenta = configReceive.con_valor === "1" ? true : false;
           }
-
-          //this.getDataRoutedMap();
         },
         error: (error) => {
           console.log('error get impresion documentos');

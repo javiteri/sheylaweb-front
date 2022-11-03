@@ -1,0 +1,19 @@
+p, span{
+  word-break: break-all;
+}
+header, .header-space { height: 110px; }
+.header { position: fixed; top: 0; }
+.footer { position: fixed; bottom: 0;}
+
+@media screen {
+  :host {
+    display: none;
+  }
+}
+
+.footer p{
+  margin: 0;
+}
+.header p{
+  margin: 0;
+}

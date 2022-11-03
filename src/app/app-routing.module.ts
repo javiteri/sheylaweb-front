@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PrintLayoutComponent } from './pages/pages-printer-strategy/print-layout/print-layout.component';
 import { AuthGuard } from './shared/guard';
 
 

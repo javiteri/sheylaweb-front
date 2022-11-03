@@ -29,6 +29,8 @@ import { MatChipsModule } from "@angular/material/chips";
 import { ListaVentasComponent } from './lista-ventas/lista-ventas.component'
 import { PickDateAdapter, PICK_FORMATS} from "./adapter/DatePickerAdapter";
 import { ResumenVentasComponent } from './resumen-ventas/resumen-ventas.component';
+import { PrintLayoutComponent } from "../pages-printer-strategy/print-layout/print-layout.component";
+import { ReceiptComponent } from "../pages-printer-strategy/receipt/receipt.component";
 
 @NgModule({
     declarations: [
@@ -38,6 +40,7 @@ import { ResumenVentasComponent } from './resumen-ventas/resumen-ventas.componen
     ],
     imports: [
         CommonModule,
+        RouterModule,
         MatTooltipModule,
         VentasRoutingModule,
         MatSelectModule,

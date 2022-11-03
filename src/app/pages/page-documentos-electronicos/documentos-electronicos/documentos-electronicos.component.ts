@@ -109,6 +109,7 @@ export class DocumentosElectronicosComponent implements OnInit {
             console.log(data.data);
             this.datasource.data = data.data;
             this.showSinDatos = false;
+            console.log(data.data);
           }else{
             this.datasource.data = [];
             this.showSinDatos = true;

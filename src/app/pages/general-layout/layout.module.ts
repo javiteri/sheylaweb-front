@@ -35,6 +35,8 @@ import { PickDateAdapter, PICK_FORMATS } from '../page-ventas/adapter/DatePicker
 import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { CrearNuevaEmpresaDialogComponent } from 'src/app/components/crear-nueva-empresa-dialog/crear-nueva-empresa-dialog.component';
 import { RecuperarCuentaDialogComponent } from 'src/app/components/recuperar-cuenta-dialog/recuperar-cuenta-dialog.component';
+import { PrintLayoutComponent } from '../pages-printer-strategy/print-layout/print-layout.component';
+import { ReceiptComponent } from '../pages-printer-strategy/receipt/receipt.component';
 
 
 @NgModule({
@@ -50,7 +52,9 @@ import { RecuperarCuentaDialogComponent } from 'src/app/components/recuperar-cue
     NuevoIngresoCajaDialogComponent,
     NuevoEgresoCajaDialogComponent,
     ConfirmDeleteDialogComponent,
-    RecuperarCuentaDialogComponent
+    RecuperarCuentaDialogComponent,
+    PrintLayoutComponent,
+    ReceiptComponent
   ],
   imports: [
     CommonModule,

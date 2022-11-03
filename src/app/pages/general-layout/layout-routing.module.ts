@@ -4,6 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './layout.component';
 import { ConfiguracionesComponent } from '../configuraciones/configuraciones.component';
 import { AuthGuard } from 'src/app/shared/guard/auth.guard';
+import { PrintLayoutComponent } from '../pages-printer-strategy/print-layout/print-layout.component';
+import { ReceiptComponent } from '../pages-printer-strategy/receipt/receipt.component';
 
 const routes: Routes = [
   {
@@ -59,7 +61,14 @@ const routes: Routes = [
       {
         path: 'configuracion',
         loadChildren: () => import('../configuraciones/configuraciones.module').then((m) => m.ConfiguracionesModule)
-      }
+      },
+      { path: 'print',
+        outlet: 'print',
+        component: PrintLayoutComponent,
+        children: [
+          { path: 'receipt/:id', component: ReceiptComponent }
+        ]
+      },
     ]
   }
 ]

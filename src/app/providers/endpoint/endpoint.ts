@@ -638,12 +638,12 @@ export class EndPointProvider {
     private get dataByIdVenta(){
       return this.apiUrl + this._dataByIdVenta;
     }
-    getDataByIdVenta<T>(idVenta: any, idEmpresa: any,accessToken: any): Observable<T>{
+    getDataByIdVenta<T>(idVenta: any, idEmpresa: any,rucEmpresa: any, accessToken: any): Observable<T>{
       const endpointUrl = this.dataByIdVenta;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
-      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('id', idVenta);
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('id', idVenta).set('ruc',rucEmpresa);
 
       const httpOptions = {
         headers: header,

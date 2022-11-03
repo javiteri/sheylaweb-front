@@ -168,8 +168,8 @@ export class ApplicationProvider {
   getNextNumeroSecuencialByIdEmp(idEmp: any, tipoDoc: any, fac001: any, fac002: any, accessToken: any){
     return this.coreEndPoint.getNextNumeroSecuencialByIdEmp(idEmp,tipoDoc,fac001,fac002,accessToken);
   }
-  getDataByIdVenta(idVenta: any, idEmp: any, accessToken: any){
-    return this.coreEndPoint.getDataByIdVenta(idVenta, idEmp,accessToken);
+  getDataByIdVenta(idVenta: any, idEmp: any,rucEmpresa: any, accessToken: any){
+    return this.coreEndPoint.getDataByIdVenta(idVenta, idEmp,rucEmpresa, accessToken);
   }
   getExcelListaVentas(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
                       fechaFin: any,accesToken: any){
