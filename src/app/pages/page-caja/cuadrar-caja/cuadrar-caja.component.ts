@@ -129,11 +129,11 @@ export class CuadrarCajaComponent implements OnInit {
           
           if(valor.tipo == 'INGRESO'){
             valorIngresosMenosEgreso += Number(valor.monto);
+            valorTotalCajaSum += Number(valor.monto)
           }else{
             valorIngresosMenosEgreso -= Number(valor.monto);
+            valorTotalCajaSum -= Number(valor.monto)
           }
-
-          valorTotalCajaSum += Number(valor.monto)
 
         });
         
