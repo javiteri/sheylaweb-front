@@ -45,7 +45,6 @@ export class ConfirmDeleteDialogComponent implements OnInit{
         this.btnTextCancelar = this.dialogData['textBtnCancelar'];
       }
 
-      console.log(this.dialogData['isNormalColors']);
       if(this.dialogData['isNormalColors'] == false){
         this.isNormalColors = this.dialogData['isNormalColors'];
       }

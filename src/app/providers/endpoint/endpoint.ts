@@ -708,7 +708,27 @@ export class EndPointProvider {
 
       return this.http.get<T>(endpointUrl, httpOptions);
     }
-    
+    private readonly _nextNoPuntoVentaByUsr: string = 'ventas/getNoPuntoVentaByIdUsr';
+    private get nextNoPuntoVentaByUsrURL(){
+      return this.apiUrl + this._nextNoPuntoVentaByUsr;
+    }
+    getNextNoPuntoVentaByUsr<T>(idEmpresa: any,tipoDoc: any,idUsuario: any, accessToken: any): Observable<T>{
+      const endpointUrl = this.nextNoPuntoVentaByUsrURL;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('tipoDoc',tipoDoc).set('idUsuario', idUsuario)
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+
+
+
     private readonly _listaVentasExcelByIdEmp: string = 'ventas/getlistventasexcel';
     private get listaVentasExcelByIdEmpUrl(){
       return this.apiUrl + this._listaVentasExcelByIdEmp;

@@ -109,7 +109,8 @@
             <div class="container-estate-doc container-estate-doc-pendiente" *ngIf="docElectronico.estado == 0" >
                 Pendiente
             </div>
-            <div  class="container-estate-doc container-estate-doc-error" *ngIf="docElectronico.estado == 1">Error</div>
+            <div  class="container-estate-doc container-estate-doc-error" *ngIf="docElectronico.estado == 1"
+            matTooltip="{{docElectronico.venta_electronica_observacion}}">Error</div>
             <div  class="container-estate-doc container-estate-doc-autorizado" *ngIf="docElectronico.estado == 2">Autorizado</div>
             <div  class="container-estate-doc" *ngIf="docElectronico.estado == 3">Cliente Creado en Hosting</div>
             <div  class="container-estate-doc" *ngIf="docElectronico.estado == 4">Documento creado en hosting</div>

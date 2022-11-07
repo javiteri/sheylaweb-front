@@ -13,6 +13,14 @@ import { AuthGuard } from './shared/guard';
 import { ApplicationProvider, EndPointProvider } from './providers/provider';
 import { LoadingService } from './services/Loading.service';
 import { LayoutModule } from './pages/general-layout/layout.module';
+import { MatTooltipDefaultOptions, MAT_TOOLTIP_DEFAULT_OPTIONS } from '@angular/material/tooltip';
+
+export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
+  showDelay: 0,
+  hideDelay: 0,
+  touchendHideDelay: 1500,
+  disableTooltipInteractivity:true 
+};
 
 @NgModule({
   declarations: [
@@ -29,7 +37,8 @@ import { LayoutModule } from './pages/general-layout/layout.module';
     ToastrModule.forRoot()
   ],
   providers: [AuthGuard, ApplicationProvider, 
-    EndPointProvider, LoadingService],
+    EndPointProvider, LoadingService,
+    {provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: myCustomTooltipDefaults}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

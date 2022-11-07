@@ -168,6 +168,9 @@ export class ApplicationProvider {
   getNextNumeroSecuencialByIdEmp(idEmp: any, tipoDoc: any, fac001: any, fac002: any, accessToken: any){
     return this.coreEndPoint.getNextNumeroSecuencialByIdEmp(idEmp,tipoDoc,fac001,fac002,accessToken);
   }
+  getNextNumeroPuntoVentaByUsuario(idEmp: any, tipoDoc: any, idUsuario: any, accessToken: any){
+    return this.coreEndPoint.getNextNoPuntoVentaByUsr(idEmp,tipoDoc,idUsuario,accessToken);
+  }
   getDataByIdVenta(idVenta: any, idEmp: any,rucEmpresa: any, accessToken: any){
     return this.coreEndPoint.getDataByIdVenta(idVenta, idEmp,rucEmpresa, accessToken);
   }

@@ -216,9 +216,28 @@ export class PageVentasComponent implements OnInit{
 
   private getNextNumeroSecuencial(){
 
-    this.loadingSecuencial = !this.loadingSecuencial
+    this.loadingSecuencial = true;
 
-    this.coreService.getNextNumeroSecuencialByIdEmp(this.idEmpresa, this.tipoDocSelect, 
+    this.coreService.getNextNumeroPuntoVentaByUsuario(this.idEmpresa, this.tipoDocSelect,
+                                                      this.idUser, this.tokenValidate).subscribe({
+        next:(response: any) => {
+          console.log('respuesta numero punto de venta');
+
+          console.log(response);
+
+          this.valueSecuencia = response.secuencial;
+          this.value001 = (response.valor001).toString().padStart(3,'0');
+          this.value002 = (response.valor002).toString().padStart(3,'0');
+          this.ref.detectChanges();
+
+          this.loadingSecuencial = false;
+        },
+        error: (error: any) => {
+          console.log('error obteniendo no punto de venta');
+        }
+    });
+
+    /*this.coreService.getNextNumeroSecuencialByIdEmp(this.idEmpresa, this.tipoDocSelect, 
                         this.value001, this.value002,this.tokenValidate).subscribe({
       next: (response: any) => {
         this.loadingSecuencial = false;
@@ -231,7 +250,7 @@ export class PageVentasComponent implements OnInit{
         console.log(error);
         this.ref.detectChanges();
       }
-    });
+    });*/
   }
 
 

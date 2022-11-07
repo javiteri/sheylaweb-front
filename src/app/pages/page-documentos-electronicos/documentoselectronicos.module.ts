@@ -10,11 +10,13 @@ import { MatInputModule } from "@angular/material/input";
 import { MatPaginatorIntl, MatPaginatorModule } from "@angular/material/paginator";
 import { MatSelectModule } from "@angular/material/select";
 import { MatTableModule } from "@angular/material/table";
-import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatTooltipDefaultOptions, MatTooltipModule, MAT_TOOLTIP_DEFAULT_OPTIONS } from "@angular/material/tooltip";
 import { CustomPaginator } from "../page-clientes/CustomPaginator";
 import { PickDateAdapter, PICK_FORMATS } from "../page-ventas/adapter/DatePickerAdapter";
 import { DocumentosElectronicosRoutingModule } from "./documentos-electronicos-routing.module";
 import { DocumentosElectronicosComponent } from './documentos-electronicos/documentos-electronicos.component';
+
+
 
 @NgModule({
     declarations: [    
@@ -35,9 +37,11 @@ import { DocumentosElectronicosComponent } from './documentos-electronicos/docum
         MatPaginatorModule,
         MatTooltipModule
     ],
-    providers: [{provide: MAT_DATE_FORMATS, useValue: PICK_FORMATS},
+    providers: [
+        {provide: MAT_DATE_FORMATS, useValue: PICK_FORMATS},
         {provide: DateAdapter, useClass: PickDateAdapter},
-        {provide: MatPaginatorIntl, useValue: CustomPaginator()}]
+        {provide: MatPaginatorIntl, useValue: CustomPaginator()}
+    ]
 })
 export class DocumentosElectronicosModule{
 
