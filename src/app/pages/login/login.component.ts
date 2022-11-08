@@ -23,6 +23,8 @@ export class LoginComponent implements OnInit {
   showDivCredentials = false;
   rucDivCredential = '';
 
+  isDefaultAdminUser = false;
+
   constructor(
     public formBuilder: FormBuilder,
     public router: Router,
@@ -114,13 +116,17 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem('_valtok', JSON.stringify(tokenAndExpire));
         sessionStorage.setItem('_valuser', JSON.stringify(dataUserBus));
 
+        if(this.isDefaultAdminUser){
+          this.router.navigate(['/usuarios/editar',response.idUsuario]);
+          return;
+        }
         if(response.nombreEmpresa == 'EMPRESA NUEVA'){
           this.router.navigate(['/infoempresa']);
           return;
         }
 
         if(response.redirectToHome){
-          this.router.navigate(['/dashboard'])
+          this.router.navigate(['/dashboard']);
         }
 
       },
@@ -182,4 +188,38 @@ export class LoginComponent implements OnInit {
       }
     });
   }
+
+
+  // VERIFY IF EXIST RUC WITH USER AND PASSWORD
+  verifyExistAdminByRuc(ruc: string){
+    const regexOnlyNumber = new RegExp(/^\d{13}$/);
+    if(regexOnlyNumber.test(ruc)){
+      console.log('ruc tiene 13 digitos');
+
+      let overlayRef = this.loadingService.open();
+      this.coreService.validateDefaultUser(ruc).subscribe({
+        next: (res: any) => {
+          overlayRef.close();      
+
+          if(!res.isSuccess){
+            this.isDefaultAdminUser = false;
+            return;
+          }
+
+          this.showDivCredentials = true;
+          this.rucDivCredential = ruc;
+          this.isDefaultAdminUser = true;
+        },
+        error:(error: any) => {
+          overlayRef.close();
+          console.log('error consulutando');
+          console.log(error);
+          this.isDefaultAdminUser = false;
+        }
+      });
+
+    }
+  }
+
+
 }

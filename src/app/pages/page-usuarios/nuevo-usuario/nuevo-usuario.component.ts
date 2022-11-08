@@ -155,6 +155,12 @@ export class NuevoUsuarioComponent implements OnInit, AfterViewInit {
           this.sendDatosFormUsuario.controls['password'].setValue(datosUsuario['usu_password']);
           this.sendDatosFormUsuario.controls['permisoEscritura'].setValue(datosUsuario['usu_permiso_escritura']);
 
+          if(datosUsuario['usu_username'].toUpperCase() == 'ADMIN' && datosUsuario['usu_password'].toUpperCase() == 'ADMIN'){
+            this.toastr.info('Le recomendamos que por seguridad modifique los datos del usuario por defecto', '', {
+              timeOut: 6000,
+              closeButton: true
+            });
+          }
         },
         error: (error) => {
           dialogRef.close();

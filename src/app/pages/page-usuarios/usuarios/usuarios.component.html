@@ -69,10 +69,11 @@
                           <button matTooltip="Editar" mat-icon-button color="icon-accent" aria-label="boton editar Usuario" (click)="editarClick(row.usu_id)">
                             <mat-icon>edit</mat-icon>
                           </button>
-                          <button matTooltip="Eliminar" mat-icon-button color="icon-red" aria-label="boton eliminar Usuario"  [disabled]="row.usu_id == idUsuario ? 'disabled' : null"
+                          <button matTooltip="Eliminar" mat-icon-button color="icon-red" aria-label="boton eliminar Usuario"  
+                          [disabled]="row.usu_id == idUsuario ? 'disabled' : null"
                           (click)="eliminarClick(row.usu_id)">
                             <mat-icon >delete</mat-icon>
-                          </button>
+                          </button><!-- [disabled]="row.usu_id == idUsuario ? 'disabled' : null" -->
                         </div>
   
                       </td>

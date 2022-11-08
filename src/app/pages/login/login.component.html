@@ -15,14 +15,14 @@
       <form [formGroup]="sendLoginForm" (ngSubmit)="login(sendLoginForm.value)">
         <div class="all-content">
 
-
             <div class="content-login-container">
 
                 <div class="container-form-field">
                   <mat-icon>domain</mat-icon>
                     <mat-form-field >
                         <mat-label>Ruc Empresa</mat-label>
-                        <input matInput type="text" formControlName="ruc" >
+                        <input #inputruc matInput type="text" formControlName="ruc" 
+                        (blur)="verifyExistAdminByRuc(inputruc.value)">
                     </mat-form-field>
                 </div>
 

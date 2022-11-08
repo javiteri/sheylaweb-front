@@ -185,12 +185,12 @@ export class ConfiguracionesComponent implements OnInit {
       next: (datos: any) =>{
         console.log('todo ok datos firma electronica');
         console.log(datos);
-        if(datos.data.EMPRESA_RUTA_FIRMA){
+        if(datos.data.EMPRESA_RUTA_FIRMA && datos.data.EMPRESA_RUTA_FIRMA.length > 5){
           this.isUploadFirmaElectronica = true;
           this.textUploadFirmaElectronica = `(Registrada)`;
           console.log('firma electronica registrada');
         }
-        if(datos.data.EMPRESA_CLAVE_FIRMA){
+        if(datos.data.EMPRESA_CLAVE_FIRMA && datos.data.EMPRESA_CLAVE_FIRMA.length > 5){
           this.claveFirmaElectronica = datos.data.EMPRESA_CLAVE_FIRMA;
         }
       },

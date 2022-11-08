@@ -73,6 +73,23 @@ export class EndPointProvider {
     }
 
 
+    private readonly _validateUserDefaultByRuc: string = "verifyExistAdminByRucEmp"
+    private get validateUserDefaultByRucURL(){
+      return this.apiUrl + this._validateUserDefaultByRuc;
+    }
+    validateUserDefaultByRuc<T>(ruc: any): Observable<T>{
+       const endPointUrl = this.validateUserDefaultByRucURL;
+
+       let paramsRequest = new HttpParams().set('ruc', ruc);
+
+       const httpOptions = {
+         params: paramsRequest
+       }
+
+     return this.http.get<T>(endPointUrl, httpOptions);
+    }
+
+
     private readonly _crearNuevaEmpresaByRuc: string = "crearnuevaempresa"
     private get crearNuevaEmpresaByRucURL(){
       return this.apiUrl + this._crearNuevaEmpresaByRuc;

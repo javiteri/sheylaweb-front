@@ -24,7 +24,8 @@
 
                                 <mat-form-field class="identificacion">
                                     <mat-label>Identificacion</mat-label>
-                                    <input  #identificacionInput matInput type="text" formControlName="documentoIdentidad" (blur)="searchDatosClienteSri(sendDatosFormCliente.value.documentoIdentidad);">
+                                    <input  #identificacionInput matInput type="text" formControlName="documentoIdentidad" 
+                                        (blur)="searchDatosClienteSri(sendDatosFormCliente.value.documentoIdentidad);">
                                 </mat-form-field>
 
                                 <button (click)="searchDatosClienteSri(sendDatosFormCliente.value.documentoIdentidad);$event.preventDefault();" 
