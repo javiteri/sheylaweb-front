@@ -82,13 +82,6 @@ export class PageVentasComponent implements OnInit{
 
   ngOnInit(): void {
 
-
-    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(window.navigator.userAgent)){
-      console.log('executed in mobile');
-    }else{
-      console.log('executed in desktop');
-    }
-    
     // GET INITIAL DATA 
     const localServiceResponseToken =  
           JSON.parse(sessionStorage.getItem('_valtok') ? sessionStorage.getItem('_valtok')! : '');

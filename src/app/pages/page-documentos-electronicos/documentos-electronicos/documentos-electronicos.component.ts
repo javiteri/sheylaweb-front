@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
+import { map, Subscription, timer } from 'rxjs';
 import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/provider';
@@ -39,6 +40,7 @@ export class DocumentosElectronicosComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  timerSubscription?: Subscription;
 
   constructor(private coreService: ApplicationProvider,
     private loadingService: LoadingService,
@@ -60,7 +62,12 @@ export class DocumentosElectronicosComponent implements OnInit {
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
 
-    this.getListaDocumentosElectronicos();    
+    this.getListaDocumentosElectronicos();
+    /*this.timerSubscription = timer(0,10000).pipe(
+      map(() => {
+        this.getListaDocumentosElectronicos();
+      })
+    ).subscribe();*/
   }
 
   getListDocumentosElectronicosNoAutorizados(){
@@ -89,6 +96,7 @@ export class DocumentosElectronicosComponent implements OnInit {
 
   getListaDocumentosElectronicos(){
 
+    console.log('inside get List Documentos Electronicos');
     const dateInitString = '' + this.dateInicioFilter.getFullYear() + '-' + ('0' + (this.dateInicioFilter.getMonth()+1)).slice(-2) + 
                           '-' + ('0' + this.dateInicioFilter.getDate()).slice(-2) + ' ' + 
                             '00:00:00' ;
@@ -265,5 +273,11 @@ export class DocumentosElectronicosComponent implements OnInit {
           console.log(error);
         }
       });
+  }
+
+  ngOnDestroy(): void{
+    if(this.timerSubscription !== undefined){
+      this.timerSubscription.unsubscribe();
+    }
   }
 } 
