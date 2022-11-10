@@ -62,12 +62,12 @@ export class DocumentosElectronicosComponent implements OnInit {
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
 
-    this.getListaDocumentosElectronicos();
-    /*this.timerSubscription = timer(0,10000).pipe(
+    //this.getListaDocumentosElectronicos();
+    this.timerSubscription = timer(0,10000).pipe(
       map(() => {
         this.getListaDocumentosElectronicos();
       })
-    ).subscribe();*/
+    ).subscribe();
   }
 
   getListDocumentosElectronicosNoAutorizados(){
@@ -206,14 +206,16 @@ export class DocumentosElectronicosComponent implements OnInit {
   }  
 
   sendDocumentosAutorizar(){
-    const listSend = this.datasource.data.filter((documento: any) => {
+    /*const listSend = this.datasource.data.filter((documento: any) => {
       return documento.estado == 0
-    });
-    
+    });*/
+    const listSend = this.datasource.data;
     listSend.forEach((documento) => {
       documento.idEmp = this.idEmpresa;
     });
 
+    console.log('list send');
+    console.log(listSend);
     if(listSend.length == 0){
       return;
     }

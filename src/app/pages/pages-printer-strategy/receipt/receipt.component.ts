@@ -165,21 +165,19 @@ export class ReceiptComponent implements OnInit {
 
       this.ref.detectChanges();
     
-      console.log('window user agent');
-      console.log(window.navigator.userAgent);
       if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(window.navigator.userAgent)){
         //console.log('executed in mobile');
       }else{
         //console.log('executed in desktop');
         window.onafterprint = (event) => {
-          console.log('inside after print event');
+          //console.log('inside after print event');
           this.router.navigateByUrl('/ventas/crearventa');
           window.onafterprint = () =>{}
         };
       }
 
       window.onfocus = () => {
-        console.log('inside on focus');
+        //console.log('inside on focus');
         this.router.navigateByUrl('/ventas/crearventa');
         window.onfocus = () =>{}
       }
