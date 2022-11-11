@@ -451,8 +451,8 @@ export class PageVentasComponent implements OnInit{
   // GUARDAR DATOS FACTURA
   guardarFactura(){
 
-    if(this.clientFac.ciRuc == '9999999999' && Number(this.total) >= 200){
-      this.toastr.error('No se puede guardar una venta mayor a $200 a Consumidor Final.');
+    if(this.clientFac.ciRuc == '9999999999' && Number(this.total) >= 50){
+      this.toastr.error('No se puede guardar una venta mayor a $50 a Consumidor Final.');
       return;
     }
 
@@ -547,7 +547,10 @@ export class PageVentasComponent implements OnInit{
 
             const dialogRef = this.matDialog.open(ConfirmDeleteDialogComponent, {
               width: '250px',
-              data: {title: 'Esta seguro que desea registrar ese secuencial?'}
+              data: {
+                title: 'Esta seguro que desea registrar ese secuencial?',
+                textBtnPositive: 'Aceptar'
+              }
             });
         
             dialogRef.afterClosed().subscribe(result => {
@@ -565,6 +568,7 @@ export class PageVentasComponent implements OnInit{
               timeOut: 4000,
               closeButton: true
             });
+            this.getNextNumeroSecuencialtwo();
           }
 
         }else{
@@ -687,12 +691,15 @@ export class PageVentasComponent implements OnInit{
     const regexOnlyNumber = new RegExp(/^\d+$/);
 
     if(numeroFac == 1){
+
       if(!this.value001 ){
         this.value001 = "001";
+        this.getNextNumeroSecuencialtwo();
         return;
       }
 
-      if(!regexOnlyNumber.test(this.value001)){
+      if(!regexOnlyNumber.test(this.value001) || this.value001 == '0'){
+        this.getNextNumeroSecuencialtwo();
         this.value001 = "001";
         return;
       }
@@ -700,15 +707,19 @@ export class PageVentasComponent implements OnInit{
       this.value001 = (this.value001.length == 1) ? `00${this.value001}` :  this.value001
       this.value001 = (this.value001.length == 2) ? `0${this.value001}` :  this.value001
       
+      this.getNextNumeroSecuencialtwo();
       return;
     }
 
     if(numeroFac == 2){
       if(!this.value002){
         this.value002 = "001";
+        this.getNextNumeroSecuencialtwo();
+        return;
       }
 
-      if(!regexOnlyNumber.test(this.value002)){
+      if(!regexOnlyNumber.test(this.value002) || this.value002 == '0'){
+        this.getNextNumeroSecuencialtwo();
         this.value002 = "001";
         return;
       }

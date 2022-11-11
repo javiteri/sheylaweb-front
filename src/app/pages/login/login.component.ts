@@ -69,8 +69,6 @@ export class LoginComponent implements OnInit {
                 
         overlayRef.close();
 
-        console.log(response);
-
         if(response.sinLicencia == true){
           this.showMessageInfo('El acceso se encuentra suspendido por falta de pago.');
           this.loading = false;
@@ -204,8 +202,6 @@ export class LoginComponent implements OnInit {
   verifyExistAdminByRuc(ruc: string){
     const regexOnlyNumber = new RegExp(/^\d{13}$/);
     if(regexOnlyNumber.test(ruc)){
-      console.log('ruc tiene 13 digitos');
-
       let overlayRef = this.loadingService.open();
       this.coreService.validateDefaultUser(ruc).subscribe({
         next: (res: any) => {
@@ -222,8 +218,6 @@ export class LoginComponent implements OnInit {
         },
         error:(error: any) => {
           overlayRef.close();
-          console.log('error consulutando');
-          console.log(error);
           this.isDefaultAdminUser = false;
         }
       });
