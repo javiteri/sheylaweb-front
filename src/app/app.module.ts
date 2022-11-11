@@ -36,9 +36,11 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
     AppRoutingModule,
     ToastrModule.forRoot()
   ],
-  providers: [AuthGuard, ApplicationProvider, 
+  providers: [
+    AuthGuard, ApplicationProvider, 
     EndPointProvider, LoadingService,
-    {provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: myCustomTooltipDefaults}],
+    {provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: myCustomTooltipDefaults}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

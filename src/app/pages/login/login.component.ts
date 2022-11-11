@@ -6,6 +6,7 @@ import { LoadingService } from '../../services/Loading.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CrearNuevaEmpresaDialogComponent } from 'src/app/components/crear-nueva-empresa-dialog/crear-nueva-empresa-dialog.component';
 import { RecuperarCuentaDialogComponent } from 'src/app/components/recuperar-cuenta-dialog/recuperar-cuenta-dialog.component';
+import { FormPlanesComponent } from 'src/app/components/form-planes/form-planes.component';
 
 @Component({
   selector: 'app-login',
@@ -73,6 +74,15 @@ export class LoginComponent implements OnInit {
         if(response.sinLicencia == true){
           this.showMessageInfo('El acceso se encuentra suspendido por falta de pago.');
           this.loading = false;
+
+          /*const dialogRef = this.matDialog.open(FormPlanesComponent, {
+            backdropClass: 'blurred',            
+          });
+      
+          dialogRef.afterClosed().subscribe(result => {
+            
+          });*/
+
           return;
         }
 

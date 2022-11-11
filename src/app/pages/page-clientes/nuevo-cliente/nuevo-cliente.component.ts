@@ -57,7 +57,7 @@ export class NuevoClienteComponent implements OnInit, AfterViewInit{
       nacionalidad: ['', [Validators.required]],
       nombreNatural: ['', Validators.required],
       razonSocial: [ ''],
-      email: ['', [Validators.email]],
+      email: ['', []],
       fechaNacimiento: [''],
       telefonos: [''],
       celular: [''],

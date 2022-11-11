@@ -230,7 +230,14 @@ export class PageVentasComponent implements OnInit{
         }
     });
 
-    /*this.coreService.getNextNumeroSecuencialByIdEmp(this.idEmpresa, this.tipoDocSelect, 
+  }
+
+
+  private getNextNumeroSecuencialtwo(){
+
+    this.loadingSecuencial = true;
+
+    this.coreService.getNextNumeroSecuencialByIdEmp(this.idEmpresa, this.tipoDocSelect, 
                         this.value001, this.value002,this.tokenValidate).subscribe({
       next: (response: any) => {
         this.loadingSecuencial = false;
@@ -243,7 +250,7 @@ export class PageVentasComponent implements OnInit{
         console.log(error);
         this.ref.detectChanges();
       }
-    });*/
+    });
   }
 
 
@@ -709,6 +716,7 @@ export class PageVentasComponent implements OnInit{
       this.value002 = (this.value002.length == 1) ? `00${this.value002}` :  this.value002
       this.value002 = (this.value002.length == 2) ? `0${this.value002}` :  this.value002
 
+      this.getNextNumeroSecuencialtwo();
       return;
     }
 

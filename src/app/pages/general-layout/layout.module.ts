@@ -37,6 +37,8 @@ import { CrearNuevaEmpresaDialogComponent } from 'src/app/components/crear-nueva
 import { RecuperarCuentaDialogComponent } from 'src/app/components/recuperar-cuenta-dialog/recuperar-cuenta-dialog.component';
 import { PrintLayoutComponent } from '../pages-printer-strategy/print-layout/print-layout.component';
 import { ReceiptComponent } from '../pages-printer-strategy/receipt/receipt.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { FormPlanesComponent } from 'src/app/components/form-planes/form-planes.component';
 
 
 @NgModule({
@@ -53,6 +55,7 @@ import { ReceiptComponent } from '../pages-printer-strategy/receipt/receipt.comp
     NuevoEgresoCajaDialogComponent,
     ConfirmDeleteDialogComponent,
     RecuperarCuentaDialogComponent,
+    FormPlanesComponent,
     PrintLayoutComponent,
     ReceiptComponent
   ],
@@ -77,7 +80,8 @@ import { ReceiptComponent } from '../pages-printer-strategy/receipt/receipt.comp
     LayoutRoutingModule,
     HttpClientModule,
     MatListModule,
-    FormsModule
+    FormsModule,
+    MatTooltipModule
   ],providers: [
     {provide: MAT_DATE_FORMATS, useValue: PICK_FORMATS},
     {provide: DateAdapter, useClass: PickDateAdapter}]

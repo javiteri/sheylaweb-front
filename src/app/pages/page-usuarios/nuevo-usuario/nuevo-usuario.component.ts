@@ -45,7 +45,7 @@ export class NuevoUsuarioComponent implements OnInit, AfterViewInit {
     this.sendDatosFormUsuario = this.formBuilder.group({
       identificacion: ['', Validators.required],
       nombreNatural: ['', [Validators.required, Validators.maxLength(250)]],
-      telefono: ['', Validators.maxLength(250)],
+      telefono: ['', [Validators.required,Validators.maxLength(250)]],
       direccion: ['', Validators.maxLength(250)],
       email: ['', [Validators.maxLength(250), Validators.required, Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/), Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       fechaNacimiento: [''],

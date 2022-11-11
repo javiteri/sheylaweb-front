@@ -96,7 +96,6 @@ export class DocumentosElectronicosComponent implements OnInit {
 
   getListaDocumentosElectronicos(){
 
-    console.log('inside get List Documentos Electronicos');
     const dateInitString = '' + this.dateInicioFilter.getFullYear() + '-' + ('0' + (this.dateInicioFilter.getMonth()+1)).slice(-2) + 
                           '-' + ('0' + this.dateInicioFilter.getDate()).slice(-2) + ' ' + 
                             '00:00:00' ;
@@ -114,10 +113,8 @@ export class DocumentosElectronicosComponent implements OnInit {
         next: (data: any) => {
 
           if(data.data && data.data.length > 0){
-            console.log(data.data);
             this.datasource.data = data.data;
             this.showSinDatos = false;
-            console.log(data.data);
           }else{
             this.datasource.data = [];
             this.showSinDatos = true;
@@ -174,6 +171,10 @@ export class DocumentosElectronicosComponent implements OnInit {
       .subscribe({
         next: (data: any) => {
           loadingRef.close();
+          this.toastr.success('Se envio el documento para su autorizacion,por favor espere.', '', {
+            timeOut: 10000,
+            closeButton: true
+          });
         },
         error: (error: any) => {
           loadingRef.close();

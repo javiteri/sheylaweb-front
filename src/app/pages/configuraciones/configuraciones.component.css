@@ -128,3 +128,9 @@ input[type=number] {
     background-color: var(--accent-color) !important;
     /* Sets inner circle color */
 }
+
+@media screen and (max-width: 485px){
+    div  .mat-radio-group{
+        text-align: end;
+    }
+}

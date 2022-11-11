@@ -15,7 +15,13 @@
   </a>
   <div>
   <!--<span class="span-dias-restantes">15 Dias restantes</span>-->
-  <button mat-icon-button (click)="logout()" >
+  <button matTooltip="Soporte Tecnico" mat-icon-button (click)="clickSoporteTecnico()" >
+    <mat-icon>help</mat-icon>
+  </button>
+  <button matTooltip="Realizar Pago" mat-icon-button (click)="clickShowFormPlanes()">
+    <mat-icon>payments</mat-icon>
+  </button>
+  <button matTooltip="Salir" mat-icon-button (click)="logout()" >
     <mat-icon>logout</mat-icon>
   </button>
   </div>
@@ -37,7 +43,9 @@
           <li *ngFor="let menu of menus; let i = index"  [class.active]="menu.active"
               (click)="selectMenu(menu)">
             <a class="a-btn" >
-              <mat-icon>{{menu.matIcon}}</mat-icon>
+              <mat-icon *ngIf="menu.matIcon != 'description'">{{menu.matIcon}}</mat-icon>
+              
+
               <span>{{menu.name}}</span>
               <mat-icon class="chevron-icon" *ngIf="menu.submenu.length > 0">chevron_right</mat-icon>
             </a>

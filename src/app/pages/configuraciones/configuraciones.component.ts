@@ -170,7 +170,7 @@ export class ConfiguracionesComponent implements OnInit {
           this.checkedObligadoLlevarContabilidad = false;
         }
 
-
+        
       },
       error: (error) =>{
         overlayRef.close();
@@ -187,7 +187,7 @@ export class ConfiguracionesComponent implements OnInit {
         console.log(datos);
         if(datos.data.EMPRESA_RUTA_FIRMA && datos.data.EMPRESA_RUTA_FIRMA.length > 5){
           this.isUploadFirmaElectronica = true;
-          this.textUploadFirmaElectronica = `(Registrada)`;
+          this.textUploadFirmaElectronica = datos.data.EMPRESA_RUTA_FIRMA;//`(Registrada)`;
           console.log('firma electronica registrada');
         }
         if(datos.data.EMPRESA_CLAVE_FIRMA && datos.data.EMPRESA_CLAVE_FIRMA.length > 5){

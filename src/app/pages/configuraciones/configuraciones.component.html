@@ -135,11 +135,13 @@
       <div>
         <div>
           <mat-icon>key</mat-icon>
-          <p class="margin-bottom-cero">Subir Firma Electrónica {{textUploadFirmaElectronica}}</p>
+          <p class="margin-bottom-cero">Subir Firma Electrónica</p>
         </div>
         <input #file type="file" (change)="onFileChange(file.files)" accept=".p12,.pfx">
       </div>
-
+      <div style="margin-top: 5px;justify-content:flex-end;">
+        <p style="margin-bottom: 0;color:var(--accent-color)">{{textUploadFirmaElectronica}}</p>
+      </div>
       <div>
         <div>
           <mat-icon>lock</mat-icon>
