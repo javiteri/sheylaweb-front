@@ -214,9 +214,6 @@ export class PageVentasComponent implements OnInit{
     this.coreService.getNextNumeroPuntoVentaByUsuario(this.idEmpresa, this.tipoDocSelect,
                                                       this.idUser, this.tokenValidate).subscribe({
         next:(response: any) => {
-          console.log('respuesta numero punto de venta');
-
-          console.log(response);
 
           this.valueSecuencia = response.secuencial;
           this.value001 = (response.valor001).toString().padStart(3,'0');
@@ -645,8 +642,6 @@ export class PageVentasComponent implements OnInit{
     this.coreService.getPdfFromVentaByIdEmp(this.idEmpresa,identificacion,idVenta,this.tokenValidate).subscribe({
       next: (data: any) => {
         loadingRef.close();
-        console.log('todo Ok');
-        console.log(data);
 
         this.resetControls();
 

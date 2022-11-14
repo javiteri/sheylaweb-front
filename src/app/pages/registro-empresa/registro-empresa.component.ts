@@ -179,7 +179,6 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
   // SEND DATA TO SERVER
   updateDatosEmpresa(sendDatosEmpresaForm: any){
 
-    
     this.loading = true;
 
     if(this.sendDatosEmpresaForm.invalid){
@@ -194,7 +193,12 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
 
     sendDatosEmpresaForm['idEmpresa'] = this.idEmpresa;
     sendDatosEmpresaForm['fechaInicio'] = dateString;
-    sendDatosEmpresaForm['img_base64'] = `data:image/png;base64,${this.base64}`;
+    console.log(this.base64);
+    if(this.base64){
+      sendDatosEmpresaForm['img_base64'] = `data:image/png;base64,${this.base64}`;
+    }else{
+      sendDatosEmpresaForm['img_base64'] = ``;
+    }
     sendDatosEmpresaForm['ruc'] = this.rucEmpresa;
 
     this.coreService.updateDatosEmpresa(sendDatosEmpresaForm, this.tokenValidate).subscribe({

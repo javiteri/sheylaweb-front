@@ -150,7 +150,7 @@ export class ReceiptComponent implements OnInit {
 
       this.listaVentaDetalle = dataInSource;
       this.textSubtotal = 
-      (Number(result1.data['subtotal0']) + Number(result1.data['subtotal12'])).toString();
+      (Number(result1.data['subtotal0']) + Number(result1.data['subtotal12'])).toFixed(2).toString();
       this.textIva12 = result1.data['valorIva'];
       this.textValorTotal = result1.data['total'];
 
