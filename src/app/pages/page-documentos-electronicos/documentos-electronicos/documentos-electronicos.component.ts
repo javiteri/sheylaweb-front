@@ -207,16 +207,14 @@ export class DocumentosElectronicosComponent implements OnInit {
   }  
 
   sendDocumentosAutorizar(){
-    /*const listSend = this.datasource.data.filter((documento: any) => {
-      return documento.estado == 0
-    });*/
-    const listSend = this.datasource.data;
+    //const listSend = this.datasource.data;
+    const listSend = this.datasource.data.filter((documento: any) => {
+      return documento.estado != 2
+    });
     listSend.forEach((documento) => {
       documento.idEmp = this.idEmpresa;
     });
 
-    console.log('list send');
-    console.log(listSend);
     if(listSend.length == 0){
       return;
     }
