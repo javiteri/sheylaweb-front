@@ -315,12 +315,16 @@ export class PageVentasComponent implements OnInit{
         return;
       }
 
+      console.log(result);
+        console.log('inside result cliente');
+
+        console.log(result);
       this.clientFac.id = result['cli_id'];
       this.clientFac.ciRuc = result['cli_documento_identidad'];
       this.clientFac.nombre = result['cli_nombres_natural'];
       this.clientFac.direccion = result['cli_direccion'];
       this.clientFac.email = result['cli_email'];
-
+      this.clientFac.telefono = `${result['cli_celular']}  ${result['cli_teleono'] ? '-' : ''} ${result['cli_teleono']}`; 
     }
   });
   }
@@ -595,6 +599,7 @@ export class PageVentasComponent implements OnInit{
           });
           
           this.secuencial.nativeElement.focus();
+          this.getNextNumeroSecuencial();
           return;
         }
 

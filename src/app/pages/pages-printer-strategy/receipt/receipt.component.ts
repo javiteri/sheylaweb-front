@@ -23,7 +23,6 @@ export class ReceiptComponent implements OnInit {
   dataUser: any;
   tokenValidate!: TokenValidate;
   
-
   NAMES_CONFIGS_VENTAS = [
     "FAC_ELECTRONICA_AGENTE_RETENCION",
     "FAC_ELECTRONICA_CONTRIBUYENTE_ESPECIAL",
@@ -33,6 +32,8 @@ export class ReceiptComponent implements OnInit {
 
   valueAgenteRetencion = '';
   valueContribuyenteEspecial = '';
+  checkedAgenteDeRetencion = false;
+  checkedContribuyenteEspecial = false;
   checkedPerteneceRegimenRimpe = false;
   checkedObligadoLlevarContabilidad = false;
 
@@ -56,6 +57,7 @@ export class ReceiptComponent implements OnInit {
   textTipoDocumento = '';
   showFooterFacElectronica = true;
 
+  isMobileDevice = false;
 
   constructor(route: ActivatedRoute,
     private router: Router,
@@ -98,10 +100,32 @@ export class ReceiptComponent implements OnInit {
     $observableDatosVenta.pipe(
       combineLatestWith($observableDatosConfigFacElec)
     ).subscribe(([result1, result2]: any) => {
-      console.log('datos venta');
-      console.log(result1);
-      console.log('datos configs');
+
       console.log(result2);
+
+      let configObligadoContabilidad = result2.data.find((element: any) => element.con_nombre_config == 'FAC_ELECTRONICA_OBLIGADO_LLEVAR_CONTABILIDAD');
+      let configPerteneceRegimenRimpe = result2.data.find((element: any) => element.con_nombre_config == 'FAC_ELECTRONICA_PERTENECE_REGIMEN_RIMPE');
+      let configContribuyenteEspecial = result2.data.find((element: any) => element.con_nombre_config == 'FAC_ELECTRONICA_CONTRIBUYENTE_ESPECIAL');
+      let configAgenteRetencion = result2.data.find((element: any) => element.con_nombre_config == 'FAC_ELECTRONICA_AGENTE_RETENCION');
+
+      if(configObligadoContabilidad){
+        this.checkedObligadoLlevarContabilidad = configObligadoContabilidad.con_valor == 1;
+      }else{
+        this.checkedObligadoLlevarContabilidad = false;
+      }
+
+      if(configPerteneceRegimenRimpe){
+        this.checkedPerteneceRegimenRimpe = configPerteneceRegimenRimpe.con_valor == 1;
+      }
+      if(configAgenteRetencion && configAgenteRetencion.con_valor != ''){
+        this.checkedAgenteDeRetencion = true;
+        this.valueAgenteRetencion = configAgenteRetencion.con_valor;
+      }
+      if(configContribuyenteEspecial && configContribuyenteEspecial.con_valor != ''){
+        this.checkedContribuyenteEspecial = true;
+        this.valueContribuyenteEspecial = configContribuyenteEspecial.con_valor;
+      }
+
 
       let ciRuc = result1.data['cc_ruc_pasaporte'];
       let nombre = result1.data['cliente'];
@@ -166,9 +190,9 @@ export class ReceiptComponent implements OnInit {
       this.ref.detectChanges();
     
       if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(window.navigator.userAgent)){
-        //console.log('executed in mobile');
+        this.isMobileDevice = true;
       }else{
-        //console.log('executed in desktop');
+        this.isMobileDevice = false;
         window.onafterprint = (event) => {
           //console.log('inside after print event');
           this.router.navigateByUrl('/ventas/crearventa');
