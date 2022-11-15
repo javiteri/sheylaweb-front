@@ -197,6 +197,7 @@ export class ReceiptComponent implements OnInit {
           //console.log('inside after print event');
           this.router.navigateByUrl('/ventas/crearventa');
           window.onafterprint = () =>{}
+          window.onfocus = () =>{}
         };
       }
 
