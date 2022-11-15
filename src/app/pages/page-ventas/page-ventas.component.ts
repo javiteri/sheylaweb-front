@@ -315,10 +315,6 @@ export class PageVentasComponent implements OnInit{
         return;
       }
 
-      console.log(result);
-        console.log('inside result cliente');
-
-        console.log(result);
       this.clientFac.id = result['cli_id'];
       this.clientFac.ciRuc = result['cli_documento_identidad'];
       this.clientFac.nombre = result['cli_nombres_natural'];
