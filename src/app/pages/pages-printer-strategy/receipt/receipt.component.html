@@ -2,11 +2,13 @@
 
     <div class="header">
         <div>
+          <p class="text-center">**{{nombreEmpresa}}**</p>
+          <p class="text-center">**{{razonSocial}}**</p>
           <p *ngIf="checkedContribuyenteEspecial">Contribuyente Especial Nro: {{valueContribuyenteEspecial}}</p>
           <p *ngIf="checkedPerteneceRegimenRimpe">CONTRIBUYENTE RÉGIMEN MICROEMPRESAS</p>
           <p *ngIf="checkedAgenteDeRetencion">Agente de Retención Resolucion No: {{valueAgenteRetencion}}</p>
           <p>Obligado a llevar contabilidad: {{(checkedObligadoLlevarContabilidad) ? 'SI' : 'NO'}}</p>
-          <p>****************************************************</p>
+          <p class="text-center">************************************************</p>
           <!--<p class="text-center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F A C T U R A &nbsp; &nbsp;E L E C T R O N I C A&nbsp;&nbsp;&nbsp;&nbsp;</p>-->
           <p class="text-center">{{textTipoDocumento}}</p>
           <p class="text-center">** DOCUMENTO SIN VALOR TRIBUTARIO **</p>
@@ -14,7 +16,7 @@
       
         <div>
           <p >{{textNumeroAutorizacion}}</p>
-          <p>****************************************************</p>
+          <p class="text-center">************************************************</p>
         </div>
     </div>
     
@@ -29,9 +31,7 @@
         <div>
             <p>{{textUsuario}}</p>
         </div>
-    
-        <br>
-    
+        <div style="height: 10px;"></div>
         <div>
             <p>{{textCliente}}</p>
         </div>
@@ -52,18 +52,18 @@
         </div>
     
         <div>
-            <p>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</p>
+            <p class="text-center">_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ </p>
         </div>
     
         <table>
             <thead> 
             </thead>
             <tbody>
-                <tr *ngFor="let detalle of listaVentaDetalle">
-                    <td class="quantity">{{detalle.cantidad}}</td>
+                <tr *ngFor="let detalle of listaVentaDetalle" style="line-height: 1;">
+                    <td class="quantity">{{(detalle.cantidad.toFixed(2))}}</td>
                     <td class="description">{{detalle.nombre}}</td>
                     <td class="price">{{detalle.precio}}</td>
-                    <td class="total">{{detalle.precio * detalle.cantidad}}</td>
+                    <td class="total">{{(detalle.precio * detalle.cantidad).toFixed(2).toString()}}</td>
                 </tr>
             
             </tbody>
@@ -71,7 +71,7 @@
         
     
         <div>
-            <p>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</p>
+            <p class="text-center">_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</p>
         </div>
     </div>
     
@@ -92,8 +92,13 @@
     
     </div>
     
+    <div *ngIf="showObservaciones" style="line-height: 1">
+        <p class="text-center">************************************************</p>
+        <p>{{observacionValue}}</p>
+    </div>
+
     <div class="footer" *ngIf="showFooterFacElectronica">
-        <p>****************************************************</p>
+        <p class="text-center">************************************************</p>
         <div>
           <p>FACTURA ELECTRONICA, ingrese a: </p>
           <p>{{textFacturaElectronicaFooter}}</p>
@@ -104,15 +109,18 @@
         <div>
           <span>Clave:</span><span> '{{textOnlyRucCi}}'</span>
         </div>
-        <p>****************************************************</p>
+        <p class="text-center">************************************************</p>
       
         <div>
           <br>
-          <span>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</span>
+          <span class="text-center">_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ </span>
           <p>FIRMA CLIENTE</p>
         </div>
         
     </div>
-
+    <div class="block">
+        <p>*</p>
+        <p>*</p>
+    </div>
 </div>
 

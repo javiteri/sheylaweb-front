@@ -2,8 +2,11 @@
     font-size: 12px;
     
 }*/
+table{
+    border-spacing: 0;
+}
 .font-12-px{
-    font-size: 12px;
+    font-size: 11px;
 }
 .font-8-px{
     font-size: 8px;
@@ -22,12 +25,17 @@ header, .header-space { height: 110px; }
 .header {  top: 0; }
 .footer { bottom: 0;}
 
+.header div p{
+    line-height: 1.3;
+}
+
 p{
     margin: 0;
 }
 
 .container-detalle p{
     display: inline-block;
+    line-height: 1;
 }
 
 .container-totales div p{
@@ -36,8 +44,8 @@ p{
 
 td.description,
 th.description {
-    width: 130px;
-    max-width: 130px;
+    width: 120px;
+    max-width: 120px;
 }
 
 td.quantity,
@@ -49,16 +57,32 @@ th.quantity {
 
 td.price,
 th.price {
-    width: 40px;
-    max-width: 40px;
+    width: 70px;
+    max-width: 70px;
     text-align: end;
     word-break: break-all;
 }
 
 td.total,
 th.total {
-    width: 50px;
-    max-width: 50px;
+    width: 70px;
+    max-width: 70px;
     text-align: end;
     word-break: break-all;
+}
+
+.container-datos-fac-cliente div p{
+    line-height: 1;
+}
+.container-totales div{
+    line-height: 1.5;
+}
+.footer div{
+    line-height: 1.3;
+}
+.footer p{
+    line-height: 1;
+}
+.block p{
+    color: white;
 }

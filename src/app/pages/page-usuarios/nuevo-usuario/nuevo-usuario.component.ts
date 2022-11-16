@@ -262,6 +262,7 @@ export class NuevoUsuarioComponent implements OnInit, AfterViewInit {
       error: (error) => {
         overlayRef.close();
 
+        console.log('inside error update usuario');
         this.toastr.error(error.error.message, '', {
           timeOut: 3000,
           closeButton: true

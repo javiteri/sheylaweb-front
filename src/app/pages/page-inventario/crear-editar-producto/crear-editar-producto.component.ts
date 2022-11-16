@@ -16,6 +16,11 @@ import { ConfigReceive } from '../../configuraciones/models/ConfigReceive';
 })
 export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
 
+  tiposId = [
+    {valor: 1, valorMostrar: 'INVENTARIO'},
+    {valor: 0, valorMostrar: 'SERVICIO'}
+  ]
+  
   sendDatosFormProducto : FormGroup;
   
   idProductoEdit: number = 0;
@@ -55,6 +60,7 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
     private location: Location) {
 
       this.sendDatosFormProducto = formBuilder.group({
+        tipoProducto: ['', Validators.required],
         codigo: ['', Validators.required],
         codigoBarras: [''],
         nombre: ['', Validators.required],
@@ -76,6 +82,8 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.sendDatosFormProducto.controls['tipoProducto'].setValue(1);
+
     // GET INITIAL DATA 
     const localServiceResponseToken =  
           JSON.parse(sessionStorage.getItem('_valtok') ? sessionStorage.getItem('_valtok')! : '');
@@ -195,7 +203,7 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
           this.sendDatosFormProducto.controls['iva'].setValue(datosProveedor['prod_iva_si_no']);
           this.sendDatosFormProducto.controls['activo'].setValue(datosProveedor['prod_activo_si_no']);
           this.sendDatosFormProducto.controls['observacion'].setValue(datosProveedor['prod_observaciones']);
-
+          this.sendDatosFormProducto.controls['tipoProducto'].setValue(datosProveedor['prod_fisico']);
         },
         error: (error) => {
           dialogRef.close();
@@ -337,6 +345,7 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
     this.sendDatosFormProducto.controls['observacion'].setValue('');
     this.sendDatosFormProducto.controls['iva'].setValue(true);
     this.sendDatosFormProducto.controls['activo'].setValue(true);
+    this.sendDatosFormProducto.controls['tipoProducto'].setValue(1);
 
     this.codigoInput.nativeElement.focus();
     this.ref.detectChanges();

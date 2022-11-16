@@ -59,6 +59,13 @@
                                 <mat-label>Unidad Medida</mat-label>
                                 <input matInput type="text" formControlName="unidadMedida" >
                             </mat-form-field>
+                            <mat-form-field >
+                                <mat-select placeholder="Tipo Producto" formControlName="tipoProducto">
+                                    <mat-option *ngFor="let tipo of tiposId" [value]="tipo.valor">
+                                        {{tipo.valorMostrar}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
                         </div>
 
                         <div class="container-form-field">
