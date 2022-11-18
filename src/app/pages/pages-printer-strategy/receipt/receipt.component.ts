@@ -49,6 +49,8 @@ export class ReceiptComponent implements OnInit {
   listaVentaDetalle: ProductFactura[] = [];
 
   textSubtotal = '0.00';
+  textSubtotalIva0 = '0.00';
+  textSubtotalIva12 = '0.00';
   textIva12 = '0.00';
   textValorTotal = '0.00';
   textCanItems = `Detalle `;
@@ -74,9 +76,7 @@ export class ReceiptComponent implements OnInit {
    
   }
 
-  ngOnInit(): void {
-    console.log('inside receipt component');
-
+  ngOnInit(): void {    
     // GET INITIAL DATA 
     const localServiceResponseToken =  
           JSON.parse(sessionStorage.getItem('_valtok') ? sessionStorage.getItem('_valtok')! : '');
@@ -142,7 +142,6 @@ export class ReceiptComponent implements OnInit {
               this.checkedContribuyenteEspecial = true;
               this.valueContribuyenteEspecial = configContribuyenteEspecial.con_valor;
             }
-            console.log(result1);
 
             let ciRuc = result1.data['cc_ruc_pasaporte'];
             let nombre = result1.data['cliente'];
@@ -198,6 +197,8 @@ export class ReceiptComponent implements OnInit {
             this.listaVentaDetalle = dataInSource;
             this.textSubtotal = 
             (Number(result1.data['subtotal0']) + Number(result1.data['subtotal12'])).toFixed(2).toString();
+            this.textSubtotalIva0 = Number(result1.data['subtotal0']).toFixed(2);
+            this.textSubtotalIva12 = Number(result1.data['subtotal12']).toFixed(2);
             this.textIva12 = result1.data['valorIva'];
             this.textValorTotal = result1.data['total'];
 

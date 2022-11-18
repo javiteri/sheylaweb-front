@@ -164,10 +164,11 @@ export class DocumentosElectronicosComponent implements OnInit {
     
   }
 
-  autorizarDoc(idVentaCompra: number,identificacion: string,tipo: string): void{
+  autorizarDoc(idVentaCompra: number,identificacion: string,tipo: string, estado: string): void{
 
     const loadingRef = this.loadingService.open();
-    this.coreService.autorizarDocumentoElectronico(this.idEmpresa,idVentaCompra,identificacion,tipo,this.tokenValidate)
+    this.coreService.autorizarDocumentoElectronico(this.idEmpresa,idVentaCompra,identificacion,tipo,
+      this.tokenValidate, estado)
       .subscribe({
         next: (data: any) => {
           loadingRef.close();
@@ -180,6 +181,12 @@ export class DocumentosElectronicosComponent implements OnInit {
           loadingRef.close();
           console.log('error al autorizar documento');
           console.log(error);
+          if(error.error.isAllowAutorizar == false){
+            this.toastr.error('Error, ya se supero el numero de documentos permitidos.', '', {
+              timeOut: 5000,
+              closeButton: true
+            });
+          }
         }
       });
 

@@ -1339,14 +1339,14 @@ export class EndPointProvider {
     private get autorizarDocumentoElectronicaByIdEmpURL(){
       return this.apiUrl + this._autorizarDocumentoElectronicaByIdEmp;
     }
-    autorizarDocumentosElectronicosByIdEmp<T>(idEmp: any,idVentaCompra: number,identificacion: string,tipo: any,accessToken: any): Observable<T>{
+    autorizarDocumentosElectronicosByIdEmp<T>(idEmp: any,idVentaCompra: number,identificacion: string,tipo: any,accessToken: any, estado: any): Observable<T>{
       const endpointUrl = this.autorizarDocumentoElectronicaByIdEmpURL;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
       let paramsRequest = new HttpParams().set('idEmp', idEmp)
                         .set('idVentaCompra', idVentaCompra).set('identificacion', identificacion)
-                        .set('tipo', tipo)
+                        .set('tipo', tipo).set('estado', estado)
 
       const httpOptions = {
         headers: header,
