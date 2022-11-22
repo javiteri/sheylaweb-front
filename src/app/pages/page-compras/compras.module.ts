@@ -29,12 +29,14 @@ import { PageComprasComponent } from "./page-compras.component";
 import { ComprasRoutingModule } from "./compras-routing.module";
 import { ListaComprasComponent } from './lista-compras/lista-compras.component';
 import { ResumenComprasComponent } from './resumen-compras/resumen-compras.component';
+import { XmlDocumentoElectronicoComponent } from './xml-documento-electronico/xml-documento-electronico.component';
 
 @NgModule({
     declarations: [
         PageComprasComponent,
         ListaComprasComponent,
-        ResumenComprasComponent
+        ResumenComprasComponent,
+        XmlDocumentoElectronicoComponent
     ],
     imports: [
         CommonModule,

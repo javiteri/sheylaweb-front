@@ -7,16 +7,27 @@
         <div class="container-datos">
             <div class="container-btn-cliente">
               <button mat-raised-button class="font-weight-300 mat-elevation-z1" 
-                color="btn-icon-accent" 
+                color="btn-icon-accent"  style="font-size: 12px; min-width: 0;"
                 (click)="nuevoProveedorClick();$event.preventDefault();">
                 <mat-icon>add</mat-icon>
                 Nuevo Proveedor
               </button>
               <button mat-raised-button class="font-weight-300 mat-elevation-z1" 
-                color="btn-icon-accent" 
+                color="btn-icon-accent" style="font-size: 12px; min-width: 0;"
                 (click)="buscarProveedorClick();$event.preventDefault();">
                 <mat-icon>search</mat-icon>
                 Buscar Proveedor
+              </button>
+              <button mat-raised-button class="font-weight-300 mat-elevation-z1" 
+                color="btn-icon-accent" style="font-size: 12px; min-width: 0;"
+                (click)="toXmlPage();$event.preventDefault();">
+                XML
+              </button>
+              <button mat-raised-button class="font-weight-300 mat-elevation-z1"
+                style="font-size: 12px; min-width: 0;" 
+                color="btn-icon-accent" 
+               >
+                SRI
               </button>
             </div>
     

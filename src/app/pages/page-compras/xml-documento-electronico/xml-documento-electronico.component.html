@@ -1,0 +1,128 @@
+<div class="titulo">
+    <p>XML Documento Electrónico</p>
+</div>
+
+<div style="text-align: end;">
+    <input #file type="file"  accept=".p12,.pfx">
+</div>
+
+<mat-card>
+    <mat-card-header class="bg-info text-white">
+      <mat-card-title class="clientes">
+        <label>Datos Proveedor</label>
+      </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="container-datos-cliente">
+
+          <mat-form-field >
+            <mat-label>CI/RUC</mat-label>
+            <input matInput type="text" disabled #identificacion >
+        </mat-form-field>
+
+        <mat-form-field >
+          <mat-label>Nombre</mat-label>
+          <input matInput type="text" disabled #nombreCliente>
+        </mat-form-field>
+
+        <mat-form-field >
+          <mat-label>Telefono</mat-label>
+          <input matInput type="text" disabled #telCliente >
+        </mat-form-field>
+
+        </div>
+       
+        
+        <div class="container-datos-cliente">
+            <mat-form-field >
+                <mat-label>CI/RUC</mat-label>
+                <input matInput type="text" disabled #identificacion >
+            </mat-form-field>
+    
+            <mat-form-field >
+              <mat-label>Nombre</mat-label>
+              <input matInput type="text" disabled #nombreCliente>
+            </mat-form-field>
+        </div>
+        <div class="container-datos-cliente">
+            <mat-form-field >
+                <mat-label>CI/RUC</mat-label>
+                <input matInput type="text" disabled #identificacion >
+            </mat-form-field>
+    
+            <mat-form-field >
+              <mat-label>Nombre</mat-label>
+              <input matInput type="text" disabled #nombreCliente>
+            </mat-form-field>
+        </div>
+
+      </mat-card-content>
+</mat-card>
+
+<div>
+    <mat-card>
+        <mat-card-content>
+            <mat-table [dataSource]="datasource" role="grid" >
+                
+                <ng-container matColumnDef="#" >
+                    <th mat-header-cell class="flex-grow-punto_5" *matHeaderCellDef mat-sort-header >#</th>
+                    <td mat-cell class="flex-grow-punto_5" *matCellDef="let producto" data-label="#"> {{producto.cli_documento_identidad}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Codigo" >
+                    <th mat-header-cell  *matHeaderCellDef mat-sort-header > Codigo </th>
+                    <td mat-cell  *matCellDef="let producto" data-label="Codigo"> {{producto.codigo}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Articulo" >
+                    <th mat-header-cell class="flex-grow-1_5" *matHeaderCellDef mat-sort-header > Articulo </th>
+                    <td mat-cell  class="flex-grow-1_5" *matCellDef="let producto" data-label="Articulo"> {{producto.nombre}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Cantidad" >
+                  <th mat-header-cell class="flex-grow-punto_5" *matHeaderCellDef mat-sort-header  >Cant</th>
+                  <td mat-cell class="flex-grow-punto_5" *matCellDef="let producto" data-label="Cantidad"> 
+                    <input  matInput type="number" min="1" max="999999" [(ngModel)]="producto.cantidad" 
+                    >
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="P Unitario">
+                  <th mat-header-cell  *matHeaderCellDef mat-sort-header> P Unitario </th>
+                  <td mat-cell  *matCellDef="let producto" data-label="P Unitario" class="precio-unitario-td">
+                    <input  matInput type="text" [(ngModel)]="producto.precio"
+                    ></td>
+                </ng-container>
+                <ng-container matColumnDef="descuento" >
+                  <th mat-header-cell class="flex-grow-punto_5" *matHeaderCellDef mat-sort-header  >Desc %</th>
+                  <td mat-cell class="flex-grow-punto_5" *matCellDef="let producto" data-label="Desc %">
+                    <input  matInput type="number" min="0" max="100" [(ngModel)]="producto.descuento" 
+                    >
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="P Total" >
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> P Total </th>
+                  <td mat-cell *matCellDef="let producto" data-label="P Total">
+                    $ {{ ((producto.cantidad * producto.precio) - 
+                      ((producto.cantidad * producto.precio) * producto.descuento / 100)).toFixed(2) }} 
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                  <th mat-header-cell class="flex-grow-punto_5" *matHeaderCellDef> </th>
+                  <td mat-cell class="flex-grow-punto_5" *matCellDef="let row; let i = index" data-label="Opciones">
+                    <div>
+                      <button mat-icon-button color="icon-red" aria-label="boton eliminar producto" 
+                        >
+                        <a class="wrapper-mat-icon-delete">
+                          <mat-icon >clear</mat-icon>
+                        </a>
+                      </button>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;" style="height: auto !important; min-height: 3em;"></mat-row>
+
+            </mat-table>
+        </mat-card-content>
+    </mat-card>
+</div>
+

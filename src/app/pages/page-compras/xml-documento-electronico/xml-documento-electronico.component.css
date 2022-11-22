@@ -1,0 +1,110 @@
+.titulo{
+    margin-bottom: .5em;
+}
+.titulo p{
+    font-size: .8em;
+    font-weight: 400;
+    color: var(--grey-600);
+}
+
+.bg-info{
+    background-color: var(--color-primary-dark);
+}
+.text-white{
+    color: white;
+}
+
+
+.container-datos-cliente{
+    display: flex;
+    flex-flow: row nowrap;
+    padding: 3px 10px 0 10px;
+}
+.container-datos-cliente-dir{
+    display: inherit;
+    width: 100%;
+    padding: 0 10px;
+}
+.container-datos-cliente-dir .mat-form-field{
+    flex: 1 1 0;    
+    width: 100%;
+    min-width: 0;
+    text-align: start;
+    font-size: .9em;
+}
+
+.container-datos-cliente .mat-form-field {
+    flex: 1 1 0;        
+    min-width: 0;
+    width: 100% ;
+    text-align: start;
+    font-size: .9em;
+}
+.container-datos-cliente .mat-form-field + .mat-form-field{
+    margin-left: 10px;
+}
+
+.container-datos .container-btn-cliente{
+    margin-bottom: .1em;   
+}
+.container-btn-cliente button, .container-btn-add-item button{
+    font-size: 13px;
+}
+.container-btn-cliente button + button{
+    margin-left: 8px;
+}
+
+.flex-grow-1_5{
+    flex-grow: 3;
+}
+
+.flex-grow-punto_5{
+    flex-grow: .5;
+}
+
+.mat-card{
+    transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+    display: block;
+    position: relative;
+    padding: 0 !important;
+    border-radius: 4px;
+}
+.mat-card .mat-card-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px !important;
+    border-radius: 4px 4px 0 0;   
+}
+
+.mat-card .mat-card-header .mat-card-title{
+    margin-bottom: 0 !important;
+    font-size: 13px;
+}
+
+input[type='file']{
+    padding: 8px;
+    font-size: 12px;
+    border: 1px solid var(--grey-400);
+    border-radius: 4px;
+    margin-bottom: 4px;   
+}
+
+/*------------------------------*/
+.mat-header-row{
+    background-color: var(--color-primary-dark);
+}
+.mat-header-row th{
+    color: white;
+}
+
+.mat-footer-row, .mat-header-row, .mat-row{
+    width: auto;
+}
+
+th.mat-header-cell,
+td.mat-cell,
+td.mat-footer-cell {
+ border-bottom-width:0;
+ border-bottom-style:none; 
+}

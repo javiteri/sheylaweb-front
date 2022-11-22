@@ -132,7 +132,8 @@ textarea.mat-input-element {
 }
 
 .container-datos .container-btn-cliente{
-    margin-bottom: .1em;   
+    margin-bottom: .1em;
+    
 }
 .container-btn-cliente button, .container-btn-add-item button{
     font-size: 13px;

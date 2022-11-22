@@ -408,6 +408,11 @@ export class PageComprasComponent implements OnInit {
     });
   }
 
+  toXmlPage(){
+    this.router.navigate(['/compras/xml-documento-electronico']);
+  }
+
+
   private validateProveedorFac(): boolean{
     return (this.proveedorFac && this.proveedorFac['id'] != 0);
   }
