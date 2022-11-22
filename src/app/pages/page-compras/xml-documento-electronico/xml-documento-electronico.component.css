@@ -108,3 +108,10 @@ td.mat-footer-cell {
  border-bottom-width:0;
  border-bottom-style:none; 
 }
+
+.container-bottom-btn{
+    position: absolute;
+    bottom: 20px;
+    display: flex;
+    flex-flow: row wrap;
+}
