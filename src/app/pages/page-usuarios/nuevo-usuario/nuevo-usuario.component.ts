@@ -157,7 +157,7 @@ export class NuevoUsuarioComponent implements OnInit, AfterViewInit {
 
           if(datosUsuario['usu_username'].toUpperCase() == 'ADMIN' && datosUsuario['usu_password'].toUpperCase() == 'ADMIN'){
             this.toastr.info('Le recomendamos que por seguridad modifique los datos del usuario por defecto', '', {
-              timeOut: 6000,
+              timeOut: 4000,
               closeButton: true
             });
           }
