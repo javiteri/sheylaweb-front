@@ -18,11 +18,11 @@
               </ng-container>
               <ng-container matColumnDef="nombre" >
                 <th mat-header-cell  class="flex-grow-1_5" *matHeaderCellDef mat-sort-header >Nombre </th>
-                <td mat-cell class="flex-grow-1_5" *matCellDef="let proveedor" data-label="Nombre">{{proveedor.pro_nombre_natural}}</td>
+                <td mat-cell class="flex-grow-1_5 text-two-lines" *matCellDef="let proveedor" data-label="Nombre">{{proveedor.pro_nombre_natural}}</td>
               </ng-container>
               <ng-container matColumnDef="direccion" >
                 <th  mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header >Direccion </th>
-                <td mat-cell class="justify-centro" *matCellDef="let proveedor" data-label="Direccion">{{proveedor.pro_direccion}}</td>
+                <td mat-cell class="justify-centro text-two-lines" *matCellDef="let proveedor" data-label="Direccion">{{proveedor.pro_direccion}}</td>
               </ng-container>
         
               <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>

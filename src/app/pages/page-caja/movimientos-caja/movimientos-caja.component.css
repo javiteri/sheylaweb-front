@@ -189,7 +189,7 @@ td.mat-footer-cell {
         height: 1em;
     }
     .total-valor{
-        padding-right: 0;
+        padding-right: 0 !important;
     }
 }
 
