@@ -383,11 +383,6 @@ td.mat-footer-cell {
 }
 
 
-@media screen and (max-width: 1100px){
-    .inner-container-total-values{
-        /*max-width: 90%;*/
-    }
-}
 
 @media screen and (max-width: 930px){
     .mat-table {
