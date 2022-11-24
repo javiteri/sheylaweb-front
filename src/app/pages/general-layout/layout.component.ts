@@ -94,7 +94,7 @@ export class LayoutComponent implements OnInit {
     },
     {
       name: 'Autorizar Documentos',
-      matIcon: 'description',
+      matIcon: 'doc_electronicos',
       active: false,
       routerLink: '/documentos-electronicos',
       submenu: []

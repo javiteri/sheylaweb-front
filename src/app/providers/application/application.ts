@@ -219,7 +219,9 @@ export class ApplicationProvider {
   fechaFin: any,accesToken: any){
     return this.coreEndPoint.getListaResumenComprasExcelByIdEmp(idEmpresa,nombreCi,noDoc,fechaIni,fechaFin,accesToken);
   }
-
+  verifyProductsXml(postData: any, accesToken: any){
+      return this.coreEndPoint.verifyProductsXml(postData, accesToken);
+  }
 
 
   //CAJA

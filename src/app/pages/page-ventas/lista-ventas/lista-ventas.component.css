@@ -1,3 +1,12 @@
+.text-two-lines {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
 .titulo{
     margin-bottom: .5em;
   }
@@ -40,7 +49,7 @@
     padding: 6px;
   }
   .mat-table{
-    width: 100%;
+    
   }
   
 .total-valor{
@@ -191,14 +200,14 @@ td.mat-footer-cell {
 }
 
 
-.mat-footer-row::after, .mat-header-row::after, .mat-row::after {
+/*.mat-footer-row::after, .mat-header-row::after, .mat-row::after {
     display: inline-block;
     min-height: inherit;
     content: '';
-}
+}*/
 
 /*MEDIA QUERIES*/
-@media screen and (max-width: 767px){
+/*@media screen and (max-width: 767px){
     .mat-table .mat-row {
         display: block;
     }
@@ -210,9 +219,9 @@ td.mat-footer-cell {
     .total-valor{
         padding-right: 0;
     }
-}
+}*/
 
-@media screen and (max-width: 767px){
+/*@media screen and (max-width: 767px){
     .mat-table .mat-header-row th {
         border: 10px solid;
         clip: rect(0 0 0 0);
@@ -222,8 +231,8 @@ td.mat-footer-cell {
         position: absolute;
         width: 1px;
     }
-}
-@media screen and (max-width: 767px){
+}*/
+/*@media screen and (max-width: 767px){
     .mat-table td::before{
         content: attr(data-label);
         float: left;
@@ -231,9 +240,9 @@ td.mat-footer-cell {
         font-weight: 400;
         font-size: .85em;
     }
-}
+}*/
 
-@media screen and (max-width: 767px){
+/*@media screen and (max-width: 767px){
     .mat-table .mat-cell {
         border-bottom: 1px solid #ddd;
         display: block;
@@ -248,7 +257,8 @@ td.mat-footer-cell {
         margin-top: 1%;
         padding-left: 0;
     }   
-}
+}*/
+
 @media screen and (max-width: 767px){
     .inner-container-search div + div {
         margin-left: .3em;
@@ -287,4 +297,18 @@ td.mat-footer-cell {
 }
 .mat-row:hover{
     background-color: var(--grey-300);
-  }
+}
+
+@media screen and (max-width: 1300px){
+    .mat-table {
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+    .mat-cell, .mat-footer-cell, .mat-header-cell{
+        min-width: 90px;
+    }
+    .mat-footer-row, .mat-header-row, .mat-row{
+        width: fit-content;
+    }
+    
+}

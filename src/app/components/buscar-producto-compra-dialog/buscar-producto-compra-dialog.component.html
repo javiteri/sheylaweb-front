@@ -19,7 +19,7 @@
               </ng-container>
               <ng-container matColumnDef="nombre" >
                 <th mat-header-cell  class="flex-grow-1_5" *matHeaderCellDef mat-sort-header >Nombre </th>
-                <td mat-cell class="flex-grow-1_5" *matCellDef="let producto" data-label="Nombre">{{producto.prod_nombre}}</td>
+                <td mat-cell class="flex-grow-1_5 text-two-lines" *matCellDef="let producto" data-label="Nombre">{{producto.prod_nombre}}</td>
               </ng-container>
               <ng-container matColumnDef="marca" >
                 <th mat-header-cell *matHeaderCellDef mat-sort-header >Marca</th>

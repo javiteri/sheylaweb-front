@@ -1,3 +1,13 @@
+.text-two-lines {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+
 .titulo{
     margin-bottom: .5em;
 }
@@ -5,6 +15,10 @@
     font-size: .8em;
     font-weight: 400;
     color: var(--grey-600);
+}
+
+.mat-icon-accent{
+    color: var(--accent-color);
 }
 
 .bg-info{
@@ -55,7 +69,7 @@
 }
 
 .flex-grow-1_5{
-    flex-grow: 3;
+    flex-grow: 2;
 }
 
 .flex-grow-punto_5{
@@ -110,8 +124,42 @@ td.mat-footer-cell {
 }
 
 .container-bottom-btn{
-    position: absolute;
-    bottom: 20px;
+    margin-top: 2rem;
     display: flex;
     flex-flow: row wrap;
+}
+
+.container-bottom-btn div + div{
+    margin-left: 4px;
+   
+}
+
+.container-bottom-btn div{
+    flex: 1 1 0;
+}
+
+
+
+.first button + button {
+    margin-left: 4px;
+}
+.second button + button {
+    margin-left: 4px;
+}
+.second{
+    text-align: end;
+}
+
+@media screen and (max-width: 1200px){
+    .mat-table {
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+    .mat-cell, .mat-footer-cell, .mat-header-cell{
+        min-width: 90px;
+    }
+    .mat-footer-row, .mat-header-row, .mat-row{
+        width: fit-content;
+    }
+    
 }

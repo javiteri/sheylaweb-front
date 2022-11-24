@@ -50,7 +50,7 @@
                     </ng-container>
                     <ng-container matColumnDef="nombre" >
                       <th mat-header-cell class="flex-grow-1_5" *matHeaderCellDef mat-sort-header > Nombre </th>
-                      <td mat-cell class="flex-grow-1_5" *matCellDef="let producto" data-label="Nombre"
+                      <td mat-cell class="flex-grow-1_5 text-two-lines " *matCellDef="let producto" data-label="Nombre"
                       [ngClass]="producto.prod_activo_si_no == 0 ? 'text-decoration-troght' : ''"> {{producto.prod_nombre}} </td>
                     </ng-container>
                     <ng-container matColumnDef="stock" >

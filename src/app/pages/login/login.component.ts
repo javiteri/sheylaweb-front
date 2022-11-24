@@ -73,14 +73,6 @@ export class LoginComponent implements OnInit {
           this.showMessageInfo('El acceso se encuentra suspendido por falta de pago.');
           this.loading = false;
 
-          /*const dialogRef = this.matDialog.open(FormPlanesComponent, {
-            backdropClass: 'blurred',            
-          });
-      
-          dialogRef.afterClosed().subscribe(result => {
-            
-          });*/
-
           return;
         }
 
@@ -207,7 +199,7 @@ export class LoginComponent implements OnInit {
         next: (res: any) => {
           overlayRef.close();      
 
-          if(!res.isSuccess){
+          if(!res.isSuccess || res.existDefaultUser == false){
             this.isDefaultAdminUser = false;
             return;
           }

@@ -14,8 +14,8 @@ export class EndPointProvider {
     private readonly appVersion = '1.0.0';
     //private readonly apiUrl = 'http://192.168.1.10:8086/api/'; 
 
-    private readonly apiUrl = 'http://localhost:3000/api/';
-    //private readonly apiUrl = 'https://www.sheylaweb.net/api/';
+    //private readonly apiUrl = 'http://localhost:3000/api/';
+    private readonly apiUrl = 'https://www.sheylaweb.net/api/';
 
 
     private readonly searchDatosClienteSri = 'https://sheyla.net/SRI/SRI.php';
@@ -790,6 +790,15 @@ export class EndPointProvider {
         const endPointUrl = this.insertCompraUrl;   
         return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
     }
+    private readonly _verifyProductsXml: string = "compras/verifylistproductxml";
+    private get verifyProductsXmlURL(){
+      return this.apiUrl + this._verifyProductsXml;
+    }
+    verifyProductsXml<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.verifyProductsXmlURL;
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
+
 
     private readonly _listaComprasByIdEmp: string = 'compras/listaComprasByIdEmp';
     private get listaComprasByIdEmp(){
