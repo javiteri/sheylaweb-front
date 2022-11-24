@@ -44,8 +44,7 @@
               (click)="selectMenu(menu)">
             <a class="a-btn" >
               <mat-icon *ngIf="menu.matIcon != 'doc_electronicos'">{{menu.matIcon}}</mat-icon>
-              
-              <img *ngIf="menu.matIcon == 'doc_electronicos'" src="../../../assets/logo_sheyla/sri.png" style="width: 32px;height: 26px;clip-path: circle(65%);"> 
+              <mat-icon *ngIf="menu.matIcon == 'doc_electronicos'" style="width: 32px;">outgoing_mail</mat-icon>
               <span>{{menu.name}}</span>
               <mat-icon class="chevron-icon" *ngIf="menu.submenu.length > 0">chevron_right</mat-icon>
             </a>

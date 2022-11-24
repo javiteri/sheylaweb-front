@@ -93,7 +93,7 @@ export class LayoutComponent implements OnInit {
       ]
     },
     {
-      name: 'Autorizar Documentos',
+      name: 'SRI-Autorizar Documentos',
       matIcon: 'doc_electronicos',
       active: false,
       routerLink: '/documentos-electronicos',
