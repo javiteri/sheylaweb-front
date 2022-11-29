@@ -186,8 +186,9 @@ export class PageComprasComponent implements OnInit, OnDestroy {
         this.value001 = arraySecuencial[0];
         this.value002 = arraySecuencial[1];
         this.valueSecuencia = arraySecuencial[2];
-        
-        const mDate = new Date(proveedor.fecha);
+
+        const [day,month, year] = proveedor.fecha.split('/');
+        const mDate = new Date(+year, +month - 1, +day);
         this.dateFac = mDate;
 
         this.sendDatosFormCompra.controls['numeroAutorizacionn'].setValue(proveedor.autorizacion);

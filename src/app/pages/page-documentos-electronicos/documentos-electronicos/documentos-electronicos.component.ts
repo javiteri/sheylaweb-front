@@ -131,9 +131,7 @@ export class DocumentosElectronicosComponent implements OnInit {
 
   verPdfVenta(idVenta: any, identificacion: any, tipoVenta: any){
     
-    console.log(tipoVenta);
     if(tipoVenta != 'Factura' && tipoVenta != 'FACTURA'){
-      console.log('solo se permite para Ventas Factuas');
       return;
     }
     let loadingRef = this.loadingService.open();
@@ -179,8 +177,7 @@ export class DocumentosElectronicosComponent implements OnInit {
         },
         error: (error: any) => {
           loadingRef.close();
-          console.log('error al autorizar documento');
-          console.log(error);
+
           if(error.error.isAllowAutorizar == false){
             this.toastr.error('Error, ya se supero el numero de documentos permitidos.', '', {
               timeOut: 5000,
@@ -225,8 +222,14 @@ export class DocumentosElectronicosComponent implements OnInit {
     if(listSend.length == 0){
       return;
     }
+    
+    const sendData = {
+      list: listSend,
+      rucEmpresa: this.rucEmpresa
+    }
+
     const loadingRef = this.loadingService.open();
-    this.coreService.autorizarListDocumentoElectronico(listSend,this.tokenValidate)
+    this.coreService.autorizarListDocumentoElectronico(sendData,this.tokenValidate)
       .subscribe({
         next: (data: any) => {
           loadingRef.close();
@@ -239,8 +242,13 @@ export class DocumentosElectronicosComponent implements OnInit {
         },
         error: (error: any) => {
           loadingRef.close();
-          console.log('error al autorizar documento');
-          console.log(error);
+
+          if(error.error.isDenyAutorizar == true){
+            this.toastr.error('Error, ya se supero el número de documentos permitidos.', '', {
+              timeOut: 5000,
+              closeButton: true
+            });
+          }
         }
     });
   }
@@ -262,7 +270,6 @@ export class DocumentosElectronicosComponent implements OnInit {
       this.numeroDocumento,this.tokenValidate).subscribe({
         next: (data: any) => {
 
-          console.log(data);
           loadingRef.close();
 
           let downloadUrl = window.URL.createObjectURL(data);
@@ -277,8 +284,6 @@ export class DocumentosElectronicosComponent implements OnInit {
         },
         error: (error: any) => {
           loadingRef.close();
-          console.log('inside error');
-          console.log(error);
         }
       });
   }

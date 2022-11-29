@@ -420,7 +420,7 @@ td.mat-footer-cell {
         margin-top: .2em;
     }   
 }
-@media screen and (max-width: 1200px){
+@media screen and (max-width: 1280px){
     .container-info{
         display: flex;
         flex-flow: column nowrap;

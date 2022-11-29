@@ -4,10 +4,14 @@
         <p>XML Documento Electrónico</p>
     </div>
     
-    <div style="text-align: end; margin-left: auto;width: fit-content;">
-        <input #file type="file" accept=".xml" (change)="onFileChange(file.files)" style="width: 100%;">
+    <div style="justify-content: flex-end;
+              display: flex;">
+        <div class="upload-btn-wrapper">
+          <button class="boton">Subir Archivo XML</button>
+          <input class="inputfile" #file type="file" accept=".xml" (change)="onFileChange(file.files)" >
+        </div>
     </div>
-    
+
     <mat-card>
         <mat-card-header class="bg-info text-white">
           <mat-card-title class="clientes">
@@ -78,7 +82,9 @@
                     </ng-container>
                     <ng-container matColumnDef="Articulo" >
                         <th mat-header-cell class="flex-grow-1_5" *matHeaderCellDef mat-sort-header > Articulo </th>
-                        <td mat-cell  class="flex-grow-1_5 text-two-lines" *matCellDef="let producto" data-label="Articulo"> {{producto.descripcion}} </td>
+                        <td mat-cell  class="flex-grow-1_5" *matCellDef="let producto" data-label="Articulo"> 
+                          <p class="text-two-lines" style="margin: 0;">{{producto.descripcion}}</p>
+                        </td>
                     </ng-container>
                     <ng-container matColumnDef="Cantidad" >
                       <th mat-header-cell class="flex-grow-punto_5" *matHeaderCellDef mat-sort-header  style="justify-content: center;">Cant</th>
@@ -129,8 +135,8 @@
                     </ng-container>
                     <ng-container matColumnDef="Descripcion Interna" >
                       <th class="flex-grow-punto_5" mat-header-cell *matHeaderCellDef mat-sort-header> Desc Interna </th>
-                      <td class="flex-grow-punto_5 text-two-lines" mat-cell *matCellDef="let producto" data-label="Descripcion Interna">
-                        {{producto.descripcionInterna}}
+                      <td class="flex-grow-punto_5" mat-cell *matCellDef="let producto" data-label="Descripcion Interna">
+                        <p class="text-two-lines" style="margin: 0;">{{producto.descripcionInterna}}</p>
                       </td>
                     </ng-container>
 

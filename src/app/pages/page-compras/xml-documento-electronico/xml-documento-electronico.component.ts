@@ -85,7 +85,6 @@ export class XmlDocumentoElectronicoComponent implements OnInit {
 
   onFileChange(file: any){
     if(file.length === 0){
-      console.log('el archivo es valido');
       return;
     }
 
@@ -162,7 +161,6 @@ export class XmlDocumentoElectronicoComponent implements OnInit {
         });
 
       }catch(exception: any){
-        console.log('error leyendo el archivo, no cumple estructura');
         this.toastr.error('El archivo seleccionado es inválido', '', {
           timeOut: 3000,
           closeButton: true
@@ -174,6 +172,7 @@ export class XmlDocumentoElectronicoComponent implements OnInit {
   }
 
   private setDataInForm(data: any){
+    
     console.log(data);
     this.formDatosDocumentoProveedor.controls['identificacion'].setValue(data['ci']);
     this.formDatosDocumentoProveedor.controls['fecha'].setValue(data['fecha']);
@@ -186,7 +185,7 @@ export class XmlDocumentoElectronicoComponent implements OnInit {
     // GET LIST PRINCIPAL CODE TO REQUEST TO API IF EXIST IN DB
     let postData = {
       idEmp: this.idEmpresa,
-      listProducts: data.listDetalle
+      listProducts: (data.listDetalle.length == undefined)? [data.listDetalle]: data.listDetalle 
     }
 
     this.coreService.verifyProductsXml(postData, this.tokenValidate).subscribe({
@@ -276,7 +275,7 @@ export class XmlDocumentoElectronicoComponent implements OnInit {
             console.log('error consultando servicio SRI');
             return;
           }
-          console.log(data);
+          
           this.xmlFacCompraString = data.dataXml;
           this.isXmlFileLocal = false;
 
@@ -332,8 +331,6 @@ export class XmlDocumentoElectronicoComponent implements OnInit {
             let json1 = JSON.stringify(result);
             let json = JSON.parse(json1);
             
-            console.log(json);
-
             const dataProveeAndDocu = {
               ci: json['factura']['infoFactura'].identificacionComprador,
               fecha: json['factura']['infoFactura'].fechaEmision,
@@ -370,6 +367,10 @@ export class XmlDocumentoElectronicoComponent implements OnInit {
 
 
   generateXmlFile(){
+    if(!this.xmlFacCompraString){
+      return;
+    }
+
     let file = new Blob([this.xmlFacCompraString], {type: '.txt'});
 
     let downloadUrl = window.URL.createObjectURL(file);
@@ -387,6 +388,10 @@ export class XmlDocumentoElectronicoComponent implements OnInit {
 
 
   convertirEnCompra(){
+
+    if(!this.xmlFacCompraString){
+      return;
+    }
 
     //GET DATOS PROVEEDOR AND FACTURA
     const proveedorResp = {
@@ -409,15 +414,12 @@ export class XmlDocumentoElectronicoComponent implements OnInit {
         if(Number(elemento.descuento) > 0){
           // convertir valor de dinero a porcentaje en descuento
           let valorTmp = ((Number(elemento.descuento) / ( Number(elemento.cantidad) * Number(elemento.precioUnitario))) * 100).toFixed(2);
-          console.log(valorTmp);
           elemento.descuento = valorTmp
         }
       }catch(exception: any){
         elemento.descuento = '0'
       }
     });
-
-    console.log(listProductExist);
     
     this.productService.setProductList(listProductExist);
     this.productService.setProveedor(proveedorResp);
@@ -435,10 +437,6 @@ export class XmlDocumentoElectronicoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-
-        console.log(this.datasource.data[index]);
-        console.log('result select producto');
-        console.log(result);
 
         const data = this.datasource.data;
         data[index].codigoInterno = result.prod_codigo;
@@ -484,8 +482,6 @@ export class XmlDocumentoElectronicoComponent implements OnInit {
         });
         parser.parseString(this.xmlFacCompraString, function(err, result) {
           if(err){
-            console.log('error');
-            console.log(err);
             return;
           }
 
@@ -530,8 +526,6 @@ export class XmlDocumentoElectronicoComponent implements OnInit {
         let indexEnd = this.xmlFacCompraString.indexOf('</autorizacion>');
         let xmlFinal = this.xmlFacCompraString.slice(indexStart, indexEnd + 15);
         
-        console.log('before return value');
-        
         parser.parseString(`${xmlFinal}`.replace(/&gt;/g,">"), function(err, result) {
           
             let json1 = JSON.stringify(result);
@@ -560,8 +554,6 @@ export class XmlDocumentoElectronicoComponent implements OnInit {
 
     this.coreService.generatePdfXmlCompra(datosFactura, this.tokenValidate).subscribe({
       next: (data: any) => {
-        console.log('data ok');
-        console.log(data);
 
         let downloadUrl = window.URL.createObjectURL(data);
 

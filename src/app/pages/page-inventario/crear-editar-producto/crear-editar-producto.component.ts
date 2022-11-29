@@ -3,7 +3,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewCh
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { map, Observable, startWith, of, observable } from 'rxjs';
+import { Observable, of} from 'rxjs';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
@@ -252,6 +252,9 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
   }
   private updateDatosProductoApi(sendFormProducto: any){
     let overlayRef = this.loadingService.open();
+
+    console.log('update producto db');
+    console.log(sendFormProducto);
 
     this.coreService.updateProductoToBD(sendFormProducto, this.tokenValidate).subscribe({
       next: (data: any) => {
