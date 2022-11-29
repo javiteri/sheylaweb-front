@@ -1,19 +1,25 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { Producto } from 'src/app/interfaces/Productos';
 import { ConfigReceive } from 'src/app/pages/configuraciones/models/ConfigReceive';
+import { ListCompraItemsService } from 'src/app/pages/page-compras/services/list-compra-items.service';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
 import { BuscarProductoDialogComponent } from '../buscar-producto-dialog/buscar-producto-dialog.component';
+
+
+export interface DialogData {
+  selectInOneClick: boolean;
+}
 
 @Component({
   selector: 'app-buscar-producto-compra-dialog',
   templateUrl: './buscar-producto-compra-dialog.component.html',
   styleUrls: ['./buscar-producto-compra-dialog.component.css']
 })
-export class BuscarProductoCompraDialogComponent implements OnInit {
+export class BuscarProductoCompraDialogComponent implements OnInit, OnDestroy {
 
   displayedColumns: string[] = ['codigo', 'nombre','marca','categoria' ,'costo'];
   datasource = new MatTableDataSource<Producto>();
@@ -31,18 +37,22 @@ export class BuscarProductoCompraDialogComponent implements OnInit {
   showSinDatos = false;
 
   fixedNumDecimal = 2;
+  
+  selectInOneClick = false;
 
   constructor(private coreService: ApplicationProvider,
     public matDialogRef: MatDialogRef<BuscarProductoDialogComponent>,
     private loadingService: LoadingService,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private productService: ListCompraItemsService,
+    @Inject(MAT_DIALOG_DATA) public dialogData: DialogData
   ) { 
 
   }
 
   ngOnInit(): void {
 
-    //this.matDialogRef.disableClose = true;
+    this.selectInOneClick = this.dialogData['selectInOneClick'];
 
     // GET INITIAL DATA 
     const localServiceResponseToken =  
@@ -59,6 +69,10 @@ export class BuscarProductoCompraDialogComponent implements OnInit {
 
     //this.getListaProductosRefresh();
     this.getConfigNumDecimalesIdEmp();
+  }
+
+  ngOnDestroy(): void{
+
   }
 
   searchProductosText(): void{
@@ -126,7 +140,12 @@ export class BuscarProductoCompraDialogComponent implements OnInit {
   }
 
   clickSelectItem(dataProducto: any){
-    this.matDialogRef.close(dataProducto);
+    if(this.selectInOneClick == true){
+      this.matDialogRef.close(dataProducto);
+      return;
+    }
+    this.productService.setProduct(dataProducto);
+    //this.matDialogRef.close(dataProducto);
   }
 
 

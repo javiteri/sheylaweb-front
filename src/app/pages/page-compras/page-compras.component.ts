@@ -1,10 +1,11 @@
 import { Location } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 import { BuscarProductoCompraDialogComponent } from 'src/app/components/buscar-producto-compra-dialog/buscar-producto-compra-dialog.component';
 import { BuscarProveedorDialogComponent } from 'src/app/components/buscar-proveedor-dialog/buscar-proveedor-dialog.component';
 import { CrearProveedorDialogComponent } from 'src/app/components/crear-proveedor-dialog/crear-proveedor-dialog.component';
@@ -14,13 +15,14 @@ import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
 import { ConfigReceive } from '../configuraciones/models/ConfigReceive';
 import { ProveedorFactura } from './models/ProveedorFac';
+import { ListCompraItemsService } from './services/list-compra-items.service';
 
 @Component({
   selector: 'app-page-compras',
   templateUrl: './page-compras.component.html',
   styleUrls: ['./page-compras.component.css']
 })
-export class PageComprasComponent implements OnInit {
+export class PageComprasComponent implements OnInit, OnDestroy {
 
   displayedColumns: string[] = ['#', 'Codigo', 'Articulo', 'Cantidad', 'costo','descuento', 'P Total', 'actions'];
   datasource = new MatTableDataSource<ProductCompra>();
@@ -81,7 +83,9 @@ export class PageComprasComponent implements OnInit {
 
   proveedorFac: ProveedorFactura = new ProveedorFactura(0, '999999999', 'PROVEEDOR GENERICO', 'PROVEEDOR GENERICO','','0999999999');
 
-  //@ViewChild('numeroAutorizacionEl') numeroAutorizacionEl = ElementRef<HTMLInputElement>;
+  subscription1$?: Subscription
+  subscription2$?: Subscription
+  datosProvsubscription$?: Subscription
 
   constructor(private matDialog: MatDialog,
     private toastr: ToastrService,
@@ -90,7 +94,8 @@ export class PageComprasComponent implements OnInit {
     private location: Location,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private productService: ListCompraItemsService) {
 
       this.sendDatosFormCompra = this.formBuilder.group({
         numeroAutorizacionn: ['', [Validators.pattern(/^[0-9]*$/), Validators.minLength(9),Validators.required]]
@@ -113,9 +118,100 @@ export class PageComprasComponent implements OnInit {
     this.rucEmpresa = localServiceResponseUsr._ruc;
     this.idUser = localServiceResponseUsr._userId;
 
-    this.getDataRoutedMap();
+
+    this.subscription1$ = this.productService.productList$.subscribe((listProductos: any) => {
+      if(!(Object.entries(listProductos).length === 0)){
+
+        const data = this.datasource.data;
+        listProductos.forEach((elemento: any) => {
+          const productItemAdd = {
+            id: 0,
+            codigo: elemento.codigoInterno,
+            nombre: elemento.descripcionInterna,
+            costo: elemento.precioUnitario,
+            precio: elemento.precioUnitario,
+            cantidad: elemento.cantidad,
+            descuento: elemento.descuento,
+            iva: (elemento.impuestos['impuesto']['codigoPorcentaje'] == '2') ? "1" : "0"
+          }
+          
+          data.push(productItemAdd);
+
+        });
+
+        this.datasource.data = data;
+        
+        this.calculateTotalItems();
+      }
+
+    });
+
+    this.subscription2$ = this.productService.selectedProduct$.subscribe((producto: any) => {
+
+      if(!(Object.entries(producto).length === 0)){
+
+        const data = this.datasource.data;
+        const productItemAdd = {
+          id: producto.prod_id,
+          codigo: producto.prod_codigo,
+          nombre: producto.prod_nombre,
+          costo: producto.prod_costo,
+          precio: producto.prod_pvp,
+          cantidad: 1,
+          descuento: 0,
+          iva: producto.prod_iva_si_no
+        }
+
+        data.push(productItemAdd);
+        this.datasource.data = data;
+
+        this.cantItems = this.datasource.data.length;
+        // CALCULATE TOTAL VALUE IN ITEMS LIST
+        this.calculateTotalItems();
+
+      }
+    });
+
+    this.datosProvsubscription$ = this.productService.datosProveedor$.subscribe((proveedor: any) => {
+      if(!(Object.entries(proveedor).length === 0)){
+
+        this.proveedorFac.id = proveedor.dataInServer.id;
+        this.proveedorFac.ciRuc = proveedor.identificacion;
+        this.proveedorFac.nombre = proveedor.proveedor;
+        this.proveedorFac.direccion = proveedor.direccion;
+        this.proveedorFac.email = '';
+        this.proveedorFac.telefono = proveedor.dataInServer.telefono;
+
+        const arraySecuencial = proveedor.numero.split('-');
+        this.value001 = arraySecuencial[0];
+        this.value002 = arraySecuencial[1];
+        this.valueSecuencia = arraySecuencial[2];
+        
+        const mDate = new Date(proveedor.fecha);
+        this.dateFac = mDate;
+
+        this.sendDatosFormCompra.controls['numeroAutorizacionn'].setValue(proveedor.autorizacion);
+
+        this.loadingSecuencial = false;
+
+      }else{
+        // SI NO SE OBTIENE DETALLES EN LA LISTA ENTONCES CRAGAR LOS DATOS POR DEFECTO
+        this.getDataRoutedMap();
+      }
+    })
+    
     this.getConfigNumDecimalesIdEmp();
 
+  }
+
+  ngOnDestroy(): void {
+    this.productService.setProductList([]);
+    this.productService.setProveedor([]);
+    this.productService.setProduct([]);
+
+    this.subscription1$?.unsubscribe();
+    this.subscription2$?.unsubscribe();
+    this.datosProvsubscription$?.unsubscribe();
   }
 
 
@@ -192,7 +288,8 @@ export class PageComprasComponent implements OnInit {
   agregarProductoClick(){
     const dialogRef = this.matDialog.open(BuscarProductoCompraDialogComponent, {
       width: '100%',
-      closeOnNavigation: true
+      closeOnNavigation: true,
+      data: {selectInOneClick: false}
     });
 
   dialogRef.afterClosed().subscribe(result => {
@@ -221,6 +318,7 @@ export class PageComprasComponent implements OnInit {
   }
 
   private calculateTotalItems(){
+    
     let valorTotal = 0.0;
     let subtotal = 0.0;
     let subtotalIva0 = 0.0;
@@ -230,11 +328,6 @@ export class PageComprasComponent implements OnInit {
 
     this.datasource.data.forEach((item: ProductCompra, index: number) => {
 
-        /*if(item.iva == "1"){
-          result = ((item.cantidad * item.costo) / 1.12);
-        }else{
-          result = (item.cantidad * item.costo);
-        }*/
         result = (item.cantidad * item.costo);
         const totalConDescuento = (result - ((result * item.descuento) / 100));
 
@@ -288,7 +381,7 @@ export class PageComprasComponent implements OnInit {
 
 
   cancelarClick(): void{
-    this.location.back();    
+    this.location.back();
   }
 
   // GUARDAR DATOS DE LA COMPRA
@@ -485,7 +578,6 @@ export class PageComprasComponent implements OnInit {
     this.sendDatosFormCompra.controls['numeroAutorizacionn'].setValue('');
 
     this.getProveedorGenericoApi();
-    //this.getNextNumeroSecuencial();
 }
 
   changeNumFac(numeroFac: number){
@@ -541,7 +633,6 @@ export class PageComprasComponent implements OnInit {
         this.coreService.getDataByIdCompra(idCompra, this.idEmpresa, this.tokenValidate).subscribe({
           next: (data: any) =>{
 
-            console.log(data);
             this.loadingSecuencial = false;
 
             this.proveedorFac.id = data.data['proveedorId'];
@@ -592,13 +683,9 @@ export class PageComprasComponent implements OnInit {
             this.Iva12 = Number(data.data['valorIva']).toFixed(this.fixedNumDecimal);
             this.subtotal = (Number(this.subtotalIva12) + Number(this.subtotalIva0)).toFixed(this.fixedNumDecimal);
             this.total = Number(data.data['total']).toFixed(2);
-            /*
-            
-            */
+
           },
           error: (error: any) =>{
-            console.log('error');
-            console.log(error);
             if(error.error['notExist']){
               this.loadingSecuencial = false;
               this.toastr.error('No existe Compra', '', {
@@ -612,11 +699,8 @@ export class PageComprasComponent implements OnInit {
           }
         });
 
-
       }else{
         this.getProveedorGenericoApi();
-        /*this.getNextNumeroSecuencial();
-        this.getConsumidorFinalApi();*/
       }
 
     });

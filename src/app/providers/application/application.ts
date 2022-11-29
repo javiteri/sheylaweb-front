@@ -222,6 +222,12 @@ export class ApplicationProvider {
   verifyProductsXml(postData: any, accesToken: any){
       return this.coreEndPoint.verifyProductsXml(postData, accesToken);
   }
+  getXmlSriByNumAutorizacion(numeroAutorizacion: any, accesToken: any){
+    return this.coreEndPoint.getxmlCompraSriNumAutorizacion(numeroAutorizacion, accesToken);
+  }
+  generatePdfXmlCompra(datosFactura: any, accessToken: any){
+    return this.coreEndPoint.generatePdfByXmlCompra(datosFactura, accessToken);
+  }
 
 
   //CAJA

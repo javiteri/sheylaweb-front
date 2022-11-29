@@ -466,3 +466,7 @@ div.mat-chip-list {
     font-size: 13px;
     margin-bottom: -1em;
 }
+
+.mat-cell{
+    display: flex;
+}

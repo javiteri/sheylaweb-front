@@ -1,12 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { Component, OnInit, ViewContainerRef, ɵɵsetComponentScope } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
+import { BuscarProductoCompraDialogComponent } from 'src/app/components/buscar-producto-compra-dialog/buscar-producto-compra-dialog.component';
+import { SriBuscarDocumentoXmlComponent } from 'src/app/components/sri-buscar-documento-xml/sri-buscar-documento-xml.component';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
-import { ProductFactura } from 'src/app/interfaces/ProductFactura';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import xml2js from 'xml2js';
 import { ItemCompraXml } from '../models/ItemCompraXml';
+import { ListCompraItemsService } from '../services/list-compra-items.service';
 
 @Component({
   selector: 'app-xml-documento-electronico',
@@ -16,7 +20,7 @@ import { ItemCompraXml } from '../models/ItemCompraXml';
 export class XmlDocumentoElectronicoComponent implements OnInit {
 
   displayedColumns: string[] = ['Codigo', 'Articulo', 'Cantidad', 'P Unitario','descuento', 'P Total', 'Iva','Existe',
-                               'Codigo Interno','Descripcion Interna', 'action1', 'action2'];
+                               'Codigo Interno','Descripcion Interna', /*'action1',*/ 'action2'];
   datasource = new MatTableDataSource<ItemCompraXml>();
 
   idEmpresa: number = 0;
@@ -27,13 +31,27 @@ export class XmlDocumentoElectronicoComponent implements OnInit {
   tokenValidate!: TokenValidate;
 
   xmlFacCompraFile!: File;
+  xmlFacCompraString: string = ``;
 
   formDatosDocumentoProveedor: FormGroup;
+  datosProveedorXml: any;
+
+  //DATOS PARA LA GENERACION DEL RIDE
+  infoTributaria: any;
+  infoFactura: any;
+  infoAdicional: any;
+  infoListDetalle: any;
+
+  isXmlFileLocal = true;
 
   constructor(
+    private matDialog: MatDialog,
+    public viewContainerRef: ViewContainerRef,
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
-    private coreService: ApplicationProvider
+    private coreService: ApplicationProvider,
+    private productService: ListCompraItemsService,
+    private location: Location
   ) { 
     this.formDatosDocumentoProveedor = this.formBuilder.group({
       identificacion: [{value: '', disabled: true}, ],
@@ -97,6 +115,10 @@ export class XmlDocumentoElectronicoComponent implements OnInit {
         let contenido = e.target.result;
         const result = await this.parseXMLData(contenido);
 
+        //Set string in xml file
+        this.xmlFacCompraString = contenido as any;
+        this.isXmlFileLocal = true;
+
         this.setDataInForm(result);
       }
 
@@ -155,15 +177,13 @@ export class XmlDocumentoElectronicoComponent implements OnInit {
     console.log(data);
     this.formDatosDocumentoProveedor.controls['identificacion'].setValue(data['ci']);
     this.formDatosDocumentoProveedor.controls['fecha'].setValue(data['fecha']);
-    this.formDatosDocumentoProveedor.controls['documento'].setValue(data['ci']);
+    this.formDatosDocumentoProveedor.controls['documento'].setValue('01 FACTURA');
     this.formDatosDocumentoProveedor.controls['proveedor'].setValue(data['proveedor']);
     this.formDatosDocumentoProveedor.controls['numero'].setValue(data['numero']);
     this.formDatosDocumentoProveedor.controls['direccion'].setValue(data['direccion']);
     this.formDatosDocumentoProveedor.controls['autorizacion'].setValue(data['autorizacion']);
 
     // GET LIST PRINCIPAL CODE TO REQUEST TO API IF EXIST IN DB
-    let arrayValores = data.listDetalle.map((a: any) => a.codigoPrincipal);
-
     let postData = {
       idEmp: this.idEmpresa,
       listProducts: data.listDetalle
@@ -171,17 +191,395 @@ export class XmlDocumentoElectronicoComponent implements OnInit {
 
     this.coreService.verifyProductsXml(postData, this.tokenValidate).subscribe({
       next: (data: any) =>{
-        /*console.log('respuesta ok verificando productos');
-        console.log(data);*/
-
         this.datasource.data = data.listProductosXml;
-        console.log(this.datasource.data);
-
       },
       error: (error: any) =>{
         console.log('error verifiycando productos');
         console.log(error);
       }
     });
+
+    this.coreService.searchProveedoresByIdEmpText(this.idEmpresa, data['ci'], this.tokenValidate).subscribe({
+      next: (dataResult: any) => {
+        if(dataResult.data[0]){
+          
+          this.datosProveedorXml = {
+            id: dataResult.data[0].pro_id,
+            identificacion: dataResult.data[0].pro_documento_identidad,
+            telefono: dataResult.data[0].pro_telefono
+          }
+
+        }else{
+          // INSERT PROVEEDOR IN DB AND GET ID VALUES
+          let proveedorInsert = {
+            tipoIdentificacion: 'RUC',
+            documentoIdentidad: data['ci'],
+            nombreNatural: data['proveedor'],
+            razonSocial: data['proveedor'],
+            direccion: data['direccion'],
+            telefono: '',
+            celular: '',
+            email: '',
+            paginaWeb: '',
+            observacion: '',
+            identificacionRepre: '',
+            nombreRepre: '',
+            telefonoRepre: '',
+            emailRepre: '',
+            direccionRepre: '',
+            idEmpresa: 0
+          }
+          proveedorInsert['idEmpresa'] = this.idEmpresa;
+
+          this.coreService.insertProveedorToBD(proveedorInsert, this.tokenValidate).subscribe({
+            next: (dataProvInsert: any) => {
+              if(dataProvInsert.code == 400){
+                return;
+              }
+              if(dataProvInsert.isSucess == true){
+                this.datosProveedorXml = {
+                  id: dataProvInsert.data.id,
+                  identificacion: dataProvInsert.data.ciRuc,
+                  telefono: dataProvInsert.data.telefono
+                } 
+              }
+            },
+            error: (error) => {
+              console.log('error insertando proveedor');
+            }
+          });
+          
+        }
+
+      },
+      error: (error: any) => {
+        
+      }
+    });
+  }
+
+  async consultaXmlByAutorizacion(){
+
+    const dialogRef = this.matDialog.open(SriBuscarDocumentoXmlComponent, {
+      closeOnNavigation: true,
+      viewContainerRef: this.viewContainerRef,
+      width: '450px'
+    });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if(result){
+
+      this.coreService.getXmlSriByNumAutorizacion(result.claveAcceso, this.tokenValidate).subscribe({
+        next: async (data: any) =>{
+
+          if(!data.dataXml){
+            console.log('error consultando servicio SRI');
+            return;
+          }
+          console.log(data);
+          this.xmlFacCompraString = data.dataXml;
+          this.isXmlFileLocal = false;
+
+          const indexStart = data.dataXml.indexOf('<factura id="comprobante" version="2.0.0">');
+          const indexEnd = data.dataXml.indexOf('</factura>') + 10;
+          
+          const result = await this.parseXMLSoapService(data.dataXml.substring(indexStart, indexEnd));
+          if((result as any).isSucces == false){
+            
+            this.toastr.error('El archivo es inválido', '', {
+              timeOut: 3000,
+              closeButton: true
+            });
+
+            this.xmlFacCompraString = '';
+
+          }else{
+
+            this.setDataInForm(result);
+  
+            this.toastr.success('XML cargado correctamente', '', {
+              timeOut: 3000,
+              closeButton: true
+            });
+          }
+          
+        },
+        error: (error: any) => {
+          console.log('error consultando XML');
+        }
+      });
+
+    }
+  });
+  }
+
+  private async parseXMLSoapService(stringXml: string){
+
+    return new Promise((resolve, reject) => {
+      try{
+        
+        let parser = new xml2js.Parser({
+          trim: true,
+          explicitArray: false
+        });
+        
+        let indexEnd = stringXml.indexOf('</infoAdicional>');
+        let xmlFinal = stringXml.slice(0, indexEnd + 16);
+        
+        parser.parseString(`${xmlFinal}</factura>`.replace(/&gt;/g,">"), function(err, result) {
+          
+          try{
+            let json1 = JSON.stringify(result);
+            let json = JSON.parse(json1);
+            
+            console.log(json);
+
+            const dataProveeAndDocu = {
+              ci: json['factura']['infoFactura'].identificacionComprador,
+              fecha: json['factura']['infoFactura'].fechaEmision,
+              proveedor: json['factura']['infoFactura'].razonSocialComprador,
+              numero: `${json['factura']['infoTributaria'].estab}-${json['factura']['infoTributaria'].ptoEmi}-${json['factura']['infoTributaria'].secuencial}`,
+              direccion: json['factura']['infoFactura'].direccionComprador,
+              autorizacion: json['factura']['infoTributaria'].claveAcceso,
+              listDetalle: json['factura']['detalles'].detalle
+            }
+    
+            resolve(dataProveeAndDocu);
+
+          }catch(errores){
+            console.log(errores);
+            resolve({
+              isSucces: false
+            });
+          }
+          
+        });
+  
+      }catch(exception: any){
+        this.toastr.error('El archivo seleccionado es inválido', '', {
+          timeOut: 3000,
+          closeButton: true
+        });
+        
+        resolve({
+          isSucces: false
+        });
+      } 
+    });
+  }
+
+
+  generateXmlFile(){
+    let file = new Blob([this.xmlFacCompraString], {type: '.txt'});
+
+    let downloadUrl = window.URL.createObjectURL(file);
+
+    const link = document.createElement('a');
+    link.setAttribute('target', '_blank');
+    link.setAttribute('href', downloadUrl);
+    //link.setAttribute('href', downloadUrl);
+    link.setAttribute('download','factura-xml');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+  }
+
+
+  convertirEnCompra(){
+
+    //GET DATOS PROVEEDOR AND FACTURA
+    const proveedorResp = {
+      identificacion: this.formDatosDocumentoProveedor.controls['identificacion'].value,
+      fecha: this.formDatosDocumentoProveedor.controls['fecha'].value,
+      documento: this.formDatosDocumentoProveedor.controls['documento'].value,
+      proveedor: this.formDatosDocumentoProveedor.controls['proveedor'].value,
+      numero: this.formDatosDocumentoProveedor.controls['numero'].value,
+      direccion: this.formDatosDocumentoProveedor.controls['direccion'].value,
+      autorizacion: this.formDatosDocumentoProveedor.controls['autorizacion'].value,
+      dataInServer: this.datosProveedorXml
+    }
+
+    const listProductExist = this.datasource.data.filter((data: any) => {
+      return  data.exist == true
+    });
+
+    listProductExist.forEach((elemento: any) => {
+      try{
+        if(Number(elemento.descuento) > 0){
+          // convertir valor de dinero a porcentaje en descuento
+          let valorTmp = ((Number(elemento.descuento) / ( Number(elemento.cantidad) * Number(elemento.precioUnitario))) * 100).toFixed(2);
+          console.log(valorTmp);
+          elemento.descuento = valorTmp
+        }
+      }catch(exception: any){
+        elemento.descuento = '0'
+      }
+    });
+
+    console.log(listProductExist);
+    
+    this.productService.setProductList(listProductExist);
+    this.productService.setProveedor(proveedorResp);
+    this.location.back();
+  }
+
+  buscarProducto(index: number){
+    const dialogRef = this.matDialog.open(BuscarProductoCompraDialogComponent, {
+      width: '100%',
+      closeOnNavigation: true,
+      data: {
+        selectInOneClick: true
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+
+        console.log(this.datasource.data[index]);
+        console.log('result select producto');
+        console.log(result);
+
+        const data = this.datasource.data;
+        data[index].codigoInterno = result.prod_codigo;
+        data[index].descripcionInterna = result.prod_nombre;
+
+        this.datasource.data = data;
+      }
+    });
+  }
+
+  cancelarClick(){
+    this.location.back();
+  }
+
+  async verRideClick(){
+
+    if(!this.xmlFacCompraString){
+      return;
+    }
+
+    if(this.isXmlFileLocal){
+      const responseValues =  await this.getValuesFromXmlToPDF();
+      if(responseValues){
+          this.generatePdfByXmlCompra(responseValues);
+      }
+
+    }else{
+      const responseValues = await this.getValuesFromXmlToPDFSoap();
+      if(responseValues){
+        this.generatePdfByXmlCompra(responseValues);
+      }
+    }
+
+  }
+
+  private getValuesFromXmlToPDF(){
+    return new Promise((resolve, reject) => {
+      try{
+
+        let parser = new xml2js.Parser({
+          trim: true,
+          explicitArray: false
+        });
+        parser.parseString(this.xmlFacCompraString, function(err, result) {
+          if(err){
+            console.log('error');
+            console.log(err);
+            return;
+          }
+
+          //READ CDATA IN XML FILE
+          let json1 = JSON.stringify(result);
+          let json = JSON.parse(json1);
+          let comprobanteData = json['autorizacion']['comprobante'];
+
+          //READ CDATA IN XML FILE
+          parser.parseString(comprobanteData, function(err1, result1){
+
+            const dataResponseVentaPdf = {
+              infoTributaria: result1['factura']['infoTributaria'],
+              infoFactura: result1['factura']['infoFactura'],
+              infoAdicional: result1['factura']['infoAdicional'],
+              detalles: result1['factura']['detalles'].detalle,
+              fechaAutorizacion: json['autorizacion']['fechaAutorizacion']
+            }
+
+            resolve(dataResponseVentaPdf);
+          });
+
+        });
+
+      }catch(exception: any){
+        reject();
+      }
+        
+    });
+  }
+
+  private getValuesFromXmlToPDFSoap(){
+    return new Promise((resolve, reject) => {
+      try{
+        
+        let parser = new xml2js.Parser({
+          trim: true,
+          explicitArray: false
+        });
+        
+        let indexStart = this.xmlFacCompraString.indexOf('<autorizacion>'); 
+        let indexEnd = this.xmlFacCompraString.indexOf('</autorizacion>');
+        let xmlFinal = this.xmlFacCompraString.slice(indexStart, indexEnd + 15);
+        
+        console.log('before return value');
+        
+        parser.parseString(`${xmlFinal}`.replace(/&gt;/g,">"), function(err, result) {
+          
+            let json1 = JSON.stringify(result);
+            let json = JSON.parse(json1);
+            
+            const dataResponseVentaPdf = {
+              infoTributaria: json['autorizacion']['comprobante']['factura']['infoTributaria'],
+              infoFactura: json['autorizacion']['comprobante']['factura']['infoFactura'],
+              infoAdicional: json['autorizacion']['comprobante']['factura']['infoAdicional'],
+              detalles: json['autorizacion']['comprobante']['factura']['detalles'].detalle,
+              fechaAutorizacion: json['autorizacion']['fechaAutorizacion']
+            }
+            
+            resolve(dataResponseVentaPdf);
+          
+        });
+  
+      }catch(exception: any){
+        reject();
+      } 
+    });
+  }
+
+
+  private generatePdfByXmlCompra(datosFactura: any){
+
+    this.coreService.generatePdfXmlCompra(datosFactura, this.tokenValidate).subscribe({
+      next: (data: any) => {
+        console.log('data ok');
+        console.log(data);
+
+        let downloadUrl = window.URL.createObjectURL(data);
+
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', downloadUrl);
+        //link.setAttribute('href', downloadUrl);
+        link.setAttribute('download','detalle-venta');
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+      },
+      error: (error: any) => {
+        console.log('data error');
+        console.log(error);
+      }
+    });
+
   }
 }

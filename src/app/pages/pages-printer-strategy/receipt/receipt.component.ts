@@ -164,7 +164,7 @@ export class ReceiptComponent implements OnInit {
 
             this._textNumeroFactura = `${value001}-${value002}-${valueSecuencia} (${formaPagoSelect})`;
             this.textUsuario += result1.data['usuario'];
-            this.textFechaFactura = `${dateFac.getDay()}/${dateFac.getMonth() + 1}/${dateFac.getFullYear()} ${dateFac.getHours()}:${dateFac.getMinutes()}:${dateFac.getSeconds()}`;
+            this.textFechaFactura = `${dateFac.getDate()}/${dateFac.getMonth() + 1}/${dateFac.getFullYear()} ${dateFac.getHours()}:${dateFac.getMinutes()}:${dateFac.getSeconds()}`;
             this.textCliente += `${nombre}`;
             this.textRucCi += `${ciRuc}`;
             this.textOnlyRucCi = `${ciRuc}`;

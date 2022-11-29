@@ -1,0 +1,22 @@
+<div class="main-container-dialog">
+
+    <div class="container-title">
+        <img src="../../../assets/logo_sheyla/sri.png" width="32px">
+        <h4 style="margin-left: 8px;">Consulta de Documentos Electronicos</h4>
+    </div>
+
+    <div style="margin-top: 16px;margin-bottom:8px">
+        <mat-form-field class="example-form-field" style="width: 100%;">
+            <mat-label>Clave de Acceso</mat-label>
+            <input matInput type="text" [(ngModel)]="claveAcceso">
+        </mat-form-field>
+          
+    </div>
+
+    <div style="text-align: end;">
+        <button class="btn btn-primary" style="line-height: 1.2;
+            font-size: .9rem;" (click)="continuarClick();">
+              Continuar
+        </button>
+    </div>
+</div>

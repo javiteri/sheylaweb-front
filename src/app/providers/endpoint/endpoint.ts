@@ -14,8 +14,8 @@ export class EndPointProvider {
     private readonly appVersion = '1.0.0';
     //private readonly apiUrl = 'http://192.168.1.10:8086/api/'; 
 
-    //private readonly apiUrl = 'http://localhost:3000/api/';
-    private readonly apiUrl = 'https://www.sheylaweb.net/api/';
+    private readonly apiUrl = 'http://localhost:3000/api/';
+    //private readonly apiUrl = 'https://www.sheylaweb.net/api/';
 
 
     private readonly searchDatosClienteSri = 'https://sheyla.net/SRI/SRI.php';
@@ -799,6 +799,24 @@ export class EndPointProvider {
         return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
     }
 
+    private readonly _xmlCompraSriNumAutorizacion: string = 'compras/getxmlsoapservice';
+    private get xmlCompraSriNumAutorizacionURL(){
+      return this.apiUrl + this._xmlCompraSriNumAutorizacion;
+    }
+    getxmlCompraSriNumAutorizacion<T>(numeroAutorizacion: any, accessToken: any): Observable<T>{
+      const endpointUrl = this.xmlCompraSriNumAutorizacionURL;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('autorizacion', numeroAutorizacion)
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
 
     private readonly _listaComprasByIdEmp: string = 'compras/listaComprasByIdEmp';
     private get listaComprasByIdEmp(){
@@ -941,6 +959,18 @@ export class EndPointProvider {
 
       return this.http.get(endpointUrl, {responseType: 'blob', params: paramsRequest, headers: header});
       
+    }
+
+    private readonly _generatePdfByXmlCompra: string = "compras/generatepdfxmlcompra";
+    private get generatePdfByXmlCompraURL(){
+      return this.apiUrl + this._generatePdfByXmlCompra;
+    }
+    generatePdfByXmlCompra<T>(postData: any, accessToken: any): Observable<Blob>{
+      
+        const header = this.getRequestHeaderFilesPDF(accessToken);
+        const endPointUrl = this.generatePdfByXmlCompraURL;
+
+        return this.http.post(endPointUrl, postData,{responseType: 'blob', headers: header});
     }
 
 

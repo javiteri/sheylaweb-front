@@ -19,12 +19,12 @@
                 Buscar Proveedor
               </button>
               <button mat-raised-button class="font-weight-300 mat-elevation-z1" 
-                color="btn-icon-accent" style="font-size: 12px; min-width: 0; display: none;"
+                color="btn-icon-accent" style="font-size: 12px; min-width: 0;"
                 (click)="toXmlPage();$event.preventDefault();">
                 XML
               </button>
               <button mat-raised-button class="font-weight-300 mat-elevation-z1"
-                style="font-size: 12px; min-width: 0;display: none;" 
+                style="font-size: 12px; min-width: 0;" 
                 color="btn-icon-accent" 
                >
                 SRI
@@ -172,7 +172,7 @@
                     </ng-container>
                     <ng-container matColumnDef="Articulo" >
                         <th mat-header-cell class="flex-grow-1_5" *matHeaderCellDef mat-sort-header > Articulo </th>
-                        <td mat-cell  class="flex-grow-1_5" *matCellDef="let producto" data-label="Articulo"> {{producto.nombre}} </td>
+                        <td mat-cell  class="flex-grow-1_5 text-two-lines" *matCellDef="let producto" data-label="Articulo"> {{producto.nombre}} </td>
                     </ng-container>
                     <ng-container matColumnDef="Cantidad" >
                       <th mat-header-cell class="flex-grow-punto_5" *matHeaderCellDef mat-sort-header  >Cant</th>

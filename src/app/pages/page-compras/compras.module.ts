@@ -31,12 +31,18 @@ import { ListaComprasComponent } from './lista-compras/lista-compras.component';
 import { ResumenComprasComponent } from './resumen-compras/resumen-compras.component';
 import { XmlDocumentoElectronicoComponent } from './xml-documento-electronico/xml-documento-electronico.component';
 
+import {SriBuscarDocumentoXmlComponent} from '../../components/sri-buscar-documento-xml/sri-buscar-documento-xml.component';
+import { ListCompraItemsService } from "./services/list-compra-items.service";
+import { BuscarProductoCompraDialogComponent } from "src/app/components/buscar-producto-compra-dialog/buscar-producto-compra-dialog.component";
+
 @NgModule({
     declarations: [
         PageComprasComponent,
         ListaComprasComponent,
         ResumenComprasComponent,
-        XmlDocumentoElectronicoComponent
+        XmlDocumentoElectronicoComponent,
+        SriBuscarDocumentoXmlComponent,
+        BuscarProductoCompraDialogComponent
     ],
     imports: [
         CommonModule,
@@ -61,7 +67,8 @@ import { XmlDocumentoElectronicoComponent } from './xml-documento-electronico/xm
     providers: [LoadingService, ApplicationProvider,
         {provide: MatPaginatorIntl, useValue: CustomPaginator()},
         {provide: MAT_DATE_FORMATS, useValue: PICK_FORMATS},
-        {provide: DateAdapter, useClass: PickDateAdapter}
+        {provide: DateAdapter, useClass: PickDateAdapter},
+        ListCompraItemsService
       ]
 })
 export class ComprasModule {}

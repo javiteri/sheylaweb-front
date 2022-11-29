@@ -164,7 +164,6 @@ export class CreateEditProveedorComponent implements OnInit, AfterViewInit{
 
     this.coreService.insertProveedorToBD(sendFormProveedor, this.tokenValidate).subscribe({
       next: (data: any) => {
-
         overlayRef.close();
         if(data.code == 400){
           return;
@@ -197,6 +196,7 @@ export class CreateEditProveedorComponent implements OnInit, AfterViewInit{
       }
     });
   }
+
   private updateDatosProveedorApi(sendFormProveedor: any){
     let overlayRef = this.loadingService.open();
 

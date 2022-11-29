@@ -25,6 +25,7 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
 @NgModule({
   declarations: [
     AppComponent
+    
   ],
   imports: [
     HttpClientModule,

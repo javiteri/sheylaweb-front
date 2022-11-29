@@ -28,7 +28,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { CrearProveedorDialogComponent } from 'src/app/components/crear-proveedor-dialog/crear-proveedor-dialog.component';
 import { BuscarProveedorDialogComponent } from 'src/app/components/buscar-proveedor-dialog/buscar-proveedor-dialog.component';
-import { BuscarProductoCompraDialogComponent } from 'src/app/components/buscar-producto-compra-dialog/buscar-producto-compra-dialog.component';
 import { NuevoIngresoCajaDialogComponent } from 'src/app/components/nuevo-ingreso-caja-dialog/nuevo-ingreso-caja-dialog.component';
 import { NuevoEgresoCajaDialogComponent } from 'src/app/components/nuevo-egreso-caja-dialog/nuevo-egreso-caja-dialog.component';
 import { PickDateAdapter, PICK_FORMATS } from '../page-ventas/adapter/DatePickerAdapter';
@@ -46,7 +45,6 @@ import { FormPlanesComponent } from 'src/app/components/form-planes/form-planes.
     LayoutComponent,
     BuscarClienteDialogComponent,
     BuscarProductoDialogComponent,
-    BuscarProductoCompraDialogComponent,
     CrearClienteDialogComponent,
     CrearNuevaEmpresaDialogComponent,
     CrearProveedorDialogComponent,
