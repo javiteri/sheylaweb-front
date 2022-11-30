@@ -179,7 +179,7 @@ export class DocumentosElectronicosComponent implements OnInit {
           loadingRef.close();
 
           if(error.error.isAllowAutorizar == false){
-            this.toastr.error('Error, ya se supero el numero de documentos permitidos.', '', {
+            this.toastr.error('Error, ya supero el numero de documentos permitidos.', '', {
               timeOut: 5000,
               closeButton: true
             });
@@ -244,7 +244,7 @@ export class DocumentosElectronicosComponent implements OnInit {
           loadingRef.close();
 
           if(error.error.isDenyAutorizar == true){
-            this.toastr.error('Error, ya se supero el número de documentos permitidos.', '', {
+            this.toastr.error('Error, ya supero el número de documentos permitidos.', '', {
               timeOut: 5000,
               closeButton: true
             });

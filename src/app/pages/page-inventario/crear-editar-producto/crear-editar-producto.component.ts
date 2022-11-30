@@ -214,8 +214,6 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
   private insertDatosProductoApi(sendFormProducto: any){
     let overlayRef = this.loadingService.open();
 
-    console.log(sendFormProducto);
-    console.log('inside insert');
     this.coreService.insertProductoToBD(sendFormProducto, this.tokenValidate).subscribe({
       next: (data: any) => {
 
@@ -252,9 +250,6 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
   }
   private updateDatosProductoApi(sendFormProducto: any){
     let overlayRef = this.loadingService.open();
-
-    console.log('update producto db');
-    console.log(sendFormProducto);
 
     this.coreService.updateProductoToBD(sendFormProducto, this.tokenValidate).subscribe({
       next: (data: any) => {

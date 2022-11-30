@@ -503,9 +503,12 @@ export class PageComprasComponent implements OnInit, OnDestroy {
   }
 
   toXmlPage(){
-    this.router.navigate(['/compras/xml-documento-electronico']);
+    this.router.navigate(['/compras/xml-documento-electronico'], {state: {name: true}});
   }
 
+  toXmlPageSri(){
+    this.router.navigate(['/compras/xml-documento-electronico'], {state: {openSri: true}});
+  }
 
   private validateProveedorFac(): boolean{
     return (this.proveedorFac && this.proveedorFac['id'] != 0);

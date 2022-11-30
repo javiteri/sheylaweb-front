@@ -1,8 +1,9 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, ViewContainerRef, ɵɵsetComponentScope } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewContainerRef, ɵɵsetComponentScope } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { BuscarProductoCompraDialogComponent } from 'src/app/components/buscar-producto-compra-dialog/buscar-producto-compra-dialog.component';
 import { SriBuscarDocumentoXmlComponent } from 'src/app/components/sri-buscar-documento-xml/sri-buscar-documento-xml.component';
@@ -17,7 +18,7 @@ import { ListCompraItemsService } from '../services/list-compra-items.service';
   templateUrl: './xml-documento-electronico.component.html',
   styleUrls: ['./xml-documento-electronico.component.css']
 })
-export class XmlDocumentoElectronicoComponent implements OnInit {
+export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['Codigo', 'Articulo', 'Cantidad', 'P Unitario','descuento', 'P Total', 'Iva','Existe',
                                'Codigo Interno','Descripcion Interna', /*'action1',*/ 'action2'];
@@ -43,6 +44,23 @@ export class XmlDocumentoElectronicoComponent implements OnInit {
   infoListDetalle: any;
 
   isXmlFileLocal = true;
+  
+  fileInput! : ElementRef<HTMLInputElement>;
+  @ViewChild('file') set inputElRef(elRef: ElementRef<HTMLInputElement>){
+    if(elRef){
+      this.fileInput = elRef;
+    }
+  }
+
+  btnsri! : ElementRef<HTMLInputElement>;
+  @ViewChild('btnsri') set inputButton(elRef: ElementRef<HTMLInputElement>){
+    if(elRef){
+      this.btnsri = elRef;
+    }
+  }
+
+  openFileInput = false;
+  openSriAutorizacion = false;
 
   constructor(
     private matDialog: MatDialog,
@@ -51,7 +69,8 @@ export class XmlDocumentoElectronicoComponent implements OnInit {
     private formBuilder: FormBuilder,
     private coreService: ApplicationProvider,
     private productService: ListCompraItemsService,
-    private location: Location
+    private location: Location,
+    private router: Router
   ) { 
     this.formDatosDocumentoProveedor = this.formBuilder.group({
       identificacion: [{value: '', disabled: true}, ],
@@ -62,6 +81,29 @@ export class XmlDocumentoElectronicoComponent implements OnInit {
       direccion: [{value: '', disabled: true},],
       autorizacion: [{value: '', disabled: true}]
     });
+
+    if(this.router.getCurrentNavigation()?.extras.state?.['name'] == true){
+      this.openFileInput = true;
+    }
+
+    if(this.router.getCurrentNavigation()?.extras.state?.['openSri'] == true){
+      this.openSriAutorizacion = true;
+    }
+
+  }
+
+
+  ngAfterViewInit(): void{
+
+    if(this.openFileInput){
+      this.fileInput.nativeElement.click();
+    } 
+
+    if(this.openSriAutorizacion){
+      setTimeout(() => {
+        this.btnsri.nativeElement.click();
+      }, 300);
+    }
   }
 
   ngOnInit(): void {
