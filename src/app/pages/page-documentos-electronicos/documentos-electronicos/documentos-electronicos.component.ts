@@ -43,6 +43,10 @@ export class DocumentosElectronicosComponent implements OnInit {
   timerSubscription?: Subscription;
   isShowMostrarNoAutorizados = false;
 
+  isShowLoadingAutorizandoDoc = false;
+  textShowLoadingAutorizandoDoc = 'Autorizando Documentos';
+  isFirstOpenPage = true;
+
   constructor(private coreService: ApplicationProvider,
     private loadingService: LoadingService,
     private matDialog: MatDialog,
@@ -67,18 +71,24 @@ export class DocumentosElectronicosComponent implements OnInit {
     this.timerSubscription = timer(0,10000).pipe(
       map(() => {
         if(this.isShowMostrarNoAutorizados){
-          this.getListDocumentosElectronicosNoAutorizados();
+          this.getListDocumentosElectronicosNoAutorizados(this.isFirstOpenPage);
         }else{
-          this.getListaDocumentosElectronicos();
+          this.getListaDocumentosElectronicos(this.isFirstOpenPage);
         }
       })
     ).subscribe();
   }
 
-  getListDocumentosElectronicosNoAutorizados(){
+  getListDocumentosElectronicosNoAutorizados(firstOpenPage: boolean){
     
     this.isShowMostrarNoAutorizados = true;
-    let loadingRef = this.loadingService.open();
+
+
+    let loadingRef: any;
+    if(firstOpenPage){
+      loadingRef = this.loadingService.open()
+      this.isFirstOpenPage = false;
+    }
 
     this.coreService.getListDocumentosElectronicosByIdEmpNoAutorizados(this.idEmpresa,this.tokenValidate).subscribe({
     next: (data: any) => {
@@ -91,16 +101,20 @@ export class DocumentosElectronicosComponent implements OnInit {
         this.showSinDatos = true;
       }
 
-      loadingRef.close();
+      if(loadingRef != null){
+        loadingRef.close();
+      }
+      
     },
     error: (error: any) => {
-      console.log('inside error ');
-      loadingRef.close();
+      if(loadingRef != null){
+        loadingRef.close();
+      }
     }
     });
   }
 
-  getListaDocumentosElectronicos(){
+  getListaDocumentosElectronicos(firstOpenPage: boolean){
 
     this.isShowMostrarNoAutorizados = false;
 
@@ -113,7 +127,12 @@ export class DocumentosElectronicosComponent implements OnInit {
 
     const tipo = (this.tipoDocumentoSelect == 'TODOS') ? '' : this.tipoDocumentoSelect;
 
-    let loadingRef = this.loadingService.open();
+    let loadingRef: any = null;
+
+    if(firstOpenPage){
+      loadingRef = this.loadingService.open()
+      this.isFirstOpenPage = false;
+    }
 
     this.coreService.getListDocumentosElectronicosByIdEmp(this.idEmpresa,dateInitString,dateFinString,tipo,this.nombreClienteCi,
                                                           this.numeroDocumento,this.tokenValidate).subscribe({
@@ -127,11 +146,15 @@ export class DocumentosElectronicosComponent implements OnInit {
             this.showSinDatos = true;
           }
 
-          loadingRef.close();
+          if(loadingRef != null){
+            loadingRef.close();
+          }
+          
         },
         error: (error: any) => {
-          console.log('inside error ');
-          loadingRef.close();
+          if(loadingRef != null){
+            loadingRef.close();
+          }
         }
     });
   }
@@ -169,7 +192,8 @@ export class DocumentosElectronicosComponent implements OnInit {
     
   }
 
-  autorizarDoc(idVentaCompra: number,identificacion: string,tipo: string, estado: string): void{
+  autorizarDoc(idVentaCompra: number,identificacion: string,tipo: string, estado: string, 
+    numeroFactura: string): void{
 
     let arrayListSend = [{
       idEmp: this.idEmpresa,
@@ -183,6 +207,8 @@ export class DocumentosElectronicosComponent implements OnInit {
       list: arrayListSend,
       rucEmpresa: this.rucEmpresa
     }
+
+    this.textShowLoadingAutorizandoDoc = `Autorizando Documento`;
 
     this.sendListDocAutorizarObserver(sendData);
 
@@ -203,6 +229,9 @@ export class DocumentosElectronicosComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
+
+        this.textShowLoadingAutorizandoDoc = `Autorizando Documentos `;
+
         this.sendDocumentosAutorizar();
       }
     });
@@ -230,6 +259,9 @@ export class DocumentosElectronicosComponent implements OnInit {
   }
 
 private sendListDocAutorizarObserver(sendData: any){
+
+  this.isShowLoadingAutorizandoDoc = true;
+
     const loadingRef = this.loadingService.open();
     this.coreService.autorizarListDocumentoElectronico(sendData,this.tokenValidate)
       .subscribe({
@@ -246,6 +278,8 @@ private sendListDocAutorizarObserver(sendData: any){
           loadingRef.close();
 
           if(error.error.isDenyAutorizar == true){
+
+            this.isShowLoadingAutorizandoDoc = false;
             this.toastr.error('Error, ya supero el número de documentos permitidos.', '', {
               timeOut: 5000,
               closeButton: true

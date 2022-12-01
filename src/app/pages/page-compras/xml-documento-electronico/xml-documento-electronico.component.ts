@@ -187,8 +187,6 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
           //READ CDATA IN XML FILE
           parser.parseString(comprobanteData, function(err1, result1){
 
-            console.log(result1);
-
             const dataProveeAndDocu = {
               ci: result1['factura']['infoTributaria'].ruc,
               fecha: result1['factura']['infoFactura'].fechaEmision,

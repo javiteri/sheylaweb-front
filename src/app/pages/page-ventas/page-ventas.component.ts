@@ -120,7 +120,6 @@ export class PageVentasComponent implements OnInit{
             this.clientFac.email = data.data['clienteEmail'];
 
             this.formaPagoSelect = data.data['forma_pago'];
-            console.log(data.data['forma_pago'].toLowerCase());
             const mDate = new Date(data.data['fechaHora']);
             this.dateFac = mDate;
 
@@ -802,8 +801,6 @@ export class PageVentasComponent implements OnInit{
       this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_IMPRESION_DOCUMENTOS', this.tokenValidate).subscribe({
         next: (data: any) => {
           
-          console.log('impresion documentoos venta');
-          console.log(data.data);
           if(data.data && data.data.length > 0){
             
             const configReceive: ConfigReceive = data.data[0];

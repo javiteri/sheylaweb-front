@@ -142,9 +142,8 @@
 }
 
 .container-btn-autorizar{
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-end;
+    flex: 1 1 0;
+    text-align: end;
     margin-top: 8px;
 }
 .container-btn-autorizar button{
@@ -258,4 +257,83 @@ td.mat-footer-cell {
     /*.mat-table .mat-header-row th:last-child, .mat-table .mat-row td:last-child{
         min-width: 50px;
     }*/
+}
+
+
+.div-wrapper-loading {
+    flex: 1 1 0;
+    margin-top: 8px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+  }
+.div-wrapper-loading p{
+    margin: 0;
+    font-size: .8rem;
+    margin-left: 8px;
+}
+
+
+  @keyframes top-clip {
+      0%{}
+      50%{transform: translateY(21px);}
+      100%{transform: translateY(21px);}
+  }
+  
+  @keyframes bottom-sand-path {
+      0%{}
+      50%{transform: translateY(0);}
+      100%{transform: translateY(0);}
+  }
+  
+  @keyframes bottom-sand-g {
+      0%{}
+      85%{transform: translateY(0);}
+      100%{transform: translateY(-9px);}
+  }
+  
+  @keyframes hourglass-rotation {
+      50%{transform: rotateZ(0);}
+      100%{transform: rotateZ(180deg);}
+  }
+  
+  
+  #top-sand #top-clip-path rect,
+  #bottom-sand path,
+  #bottom-sand g,
+  .svg-loading {
+      animation-duration: 5s;
+      animation-delay: 1s;
+      animation-iteration-count: infinite;
+  }
+  
+  #top-sand #top-clip-path rect {
+      animation-name: top-clip;
+  }
+  
+  #bottom-sand path {
+      transform: translateY(21px);
+      animation-name: bottom-sand-path;
+  }
+  
+  #bottom-sand g {
+      animation-name: bottom-sand-g;
+  }
+  
+  .svg-loading {
+      animation-name: hourglass-rotation;
+  }
+
+.wrapper-content-loading{
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+@media screen and (max-width: 884px){
+    .wrapper-content-loading{
+        flex-flow: column;
+    }
+    .div-wrapper-loading{
+        flex: 1 1 0;
+    }
 }

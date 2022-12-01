@@ -57,6 +57,7 @@ export class CrearNuevaEmpresaDialogComponent implements OnInit, AfterViewInit {
     }
 
     if(this.sendDatosFormNuevaEmpresa.invalid){
+      console.log('insside datos invalid');
       return;
     }
     
@@ -66,6 +67,13 @@ export class CrearNuevaEmpresaDialogComponent implements OnInit, AfterViewInit {
       next: (res: any) => {
         overlayRef.close();
 
+        if(res.isError){
+          this.toastr.error(`Esta empresa no puede ser creada`, '', {
+            timeOut: 4000,
+            closeButton: true
+          });
+          return;
+        }
         if(res.existEmp){
           this.toastr.error('La empresa ya se encuentra registrada', '', {
             timeOut: 4000,
