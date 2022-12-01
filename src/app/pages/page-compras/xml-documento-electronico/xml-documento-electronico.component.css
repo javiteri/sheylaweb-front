@@ -187,8 +187,8 @@ td.mat-footer-cell {
     background-color: transparent;
     border: 1px solid transparent;
     padding: .4rem 1.25rem;
-    font-size: 1rem;
-    line-height: 1.5rem;
+    font-size: .9rem;
+    line-height: 1.2;
     border-radius: .35rem;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
@@ -242,7 +242,6 @@ td.mat-footer-cell {
     position: relative;
     overflow: hidden;
     display: inline-block;
-    margin-bottom: 4px;
   }
   
   .boton {
@@ -262,6 +261,20 @@ td.mat-footer-cell {
     top: 0;
     opacity: 0;
   }
+
+@media screen and (max-width: 440px) {
+    .container-bottom-btn{
+        flex-flow: column;
+    }
+    .first{
+        justify-content: center;
+    }
+    .second{
+        margin-top: 4px;
+        display: flex;
+        justify-content: center;
+    }
+}
 
 /*.inputfile{
     width: 0.1px;

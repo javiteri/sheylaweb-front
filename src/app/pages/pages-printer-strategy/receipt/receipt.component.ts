@@ -155,6 +155,7 @@ export class ReceiptComponent implements OnInit {
             }
 
             let formaPagoSelect = result1.data['forma_pago'];
+            console.log(result1.data['fechaHora']);
             const mDate = new Date(result1.data['fechaHora']);
             let dateFac = mDate;
 

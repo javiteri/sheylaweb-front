@@ -512,6 +512,8 @@ export class PageVentasComponent implements OnInit{
                           '-' + ('0' + this.dateFac.getDate()).slice(-2) + ' ' + 
                           actualDateHours.getHours() + ':' + actualDateHours.getMinutes() + ':' + actualDateHours.getSeconds();
     
+    console.log(dateString);
+
     const sendFacturaJsonModel = {
       empresaId: this.idEmpresa,
       tipoVenta: this.tipoDocSelect.toUpperCase(),

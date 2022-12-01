@@ -187,12 +187,14 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
           //READ CDATA IN XML FILE
           parser.parseString(comprobanteData, function(err1, result1){
 
+            console.log(result1);
+
             const dataProveeAndDocu = {
-              ci: result1['factura']['infoFactura'].identificacionComprador,
+              ci: result1['factura']['infoTributaria'].ruc,
               fecha: result1['factura']['infoFactura'].fechaEmision,
-              proveedor: result1['factura']['infoFactura'].razonSocialComprador,
+              proveedor: result1['factura']['infoTributaria'].razonSocial.replace(/\uFFFD/g, ''),
               numero: `${result1['factura']['infoTributaria'].estab}-${result1['factura']['infoTributaria'].ptoEmi}-${result1['factura']['infoTributaria'].secuencial}`,
-              direccion: result1['factura']['infoFactura'].direccionComprador,
+              direccion: result1['factura']['infoTributaria'].dirMatriz,
               autorizacion: result1['factura']['infoTributaria'].claveAcceso,
               listDetalle: result1['factura']['detalles'].detalle
             }
@@ -215,7 +217,6 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
 
   private setDataInForm(data: any){
     
-    console.log(data);
     this.formDatosDocumentoProveedor.controls['identificacion'].setValue(data['ci']);
     this.formDatosDocumentoProveedor.controls['fecha'].setValue(data['fecha']);
     this.formDatosDocumentoProveedor.controls['documento'].setValue('01 FACTURA');
@@ -374,15 +375,16 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
             let json = JSON.parse(json1);
             
             const dataProveeAndDocu = {
-              ci: json['factura']['infoFactura'].identificacionComprador,
+              ci: json['factura']['infoTributaria'].ruc,
               fecha: json['factura']['infoFactura'].fechaEmision,
-              proveedor: json['factura']['infoFactura'].razonSocialComprador,
+              proveedor:  json['factura']['infoTributaria'].razonSocial.replace(/\uFFFD/g, ''),
               numero: `${json['factura']['infoTributaria'].estab}-${json['factura']['infoTributaria'].ptoEmi}-${json['factura']['infoTributaria'].secuencial}`,
-              direccion: json['factura']['infoFactura'].direccionComprador,
+              direccion: json['factura']['infoTributaria'].dirMatriz,
               autorizacion: json['factura']['infoTributaria'].claveAcceso,
               listDetalle: json['factura']['detalles'].detalle
             }
-    
+            
+            
             resolve(dataProveeAndDocu);
 
           }catch(errores){
@@ -615,5 +617,9 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
       }
     });
 
+  }
+
+  private removeAccentDiactricsFromString(texto: string){
+    return texto.normalize("NFD").replace(/[\u0300-\u036f]/g,"");
   }
 }

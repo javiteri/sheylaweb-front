@@ -172,18 +172,18 @@ export class LayoutComponent implements OnInit {
   }
 
   clickShowFormPlanes(){
-    /*const dialogRef = this.matDialog.open(FormPlanesComponent, {
+    const dialogRef = this.matDialog.open(FormPlanesComponent, {
       backdropClass: 'blurred',      
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        if(result.isCreateEmp){
+        /*if(result.isCreateEmp){
           this.showDivCredentials = true;
           this.rucDivCredential = result.rucEmpresa;
-        }
+        }*/
       }
-    });*/
+    });
   }
 
   selectMenu(parentMenu: {name: string, routerLink: string; }): void{

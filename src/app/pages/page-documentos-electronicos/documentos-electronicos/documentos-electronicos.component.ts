@@ -41,6 +41,7 @@ export class DocumentosElectronicosComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   timerSubscription?: Subscription;
+  isShowMostrarNoAutorizados = false;
 
   constructor(private coreService: ApplicationProvider,
     private loadingService: LoadingService,
@@ -65,13 +66,18 @@ export class DocumentosElectronicosComponent implements OnInit {
     //this.getListaDocumentosElectronicos();
     this.timerSubscription = timer(0,10000).pipe(
       map(() => {
-        this.getListaDocumentosElectronicos();
+        if(this.isShowMostrarNoAutorizados){
+          this.getListDocumentosElectronicosNoAutorizados();
+        }else{
+          this.getListaDocumentosElectronicos();
+        }
       })
     ).subscribe();
   }
 
   getListDocumentosElectronicosNoAutorizados(){
     
+    this.isShowMostrarNoAutorizados = true;
     let loadingRef = this.loadingService.open();
 
     this.coreService.getListDocumentosElectronicosByIdEmpNoAutorizados(this.idEmpresa,this.tokenValidate).subscribe({
@@ -96,6 +102,8 @@ export class DocumentosElectronicosComponent implements OnInit {
 
   getListaDocumentosElectronicos(){
 
+    this.isShowMostrarNoAutorizados = false;
+
     const dateInitString = '' + this.dateInicioFilter.getFullYear() + '-' + ('0' + (this.dateInicioFilter.getMonth()+1)).slice(-2) + 
                           '-' + ('0' + this.dateInicioFilter.getDate()).slice(-2) + ' ' + 
                             '00:00:00' ;
@@ -104,7 +112,6 @@ export class DocumentosElectronicosComponent implements OnInit {
                               '23:59:59' ;
 
     const tipo = (this.tipoDocumentoSelect == 'TODOS') ? '' : this.tipoDocumentoSelect;
-    /*const tipoMovimiento = (this.tipoMovimientoSelect == 'TODOS') ? '' : this.tipoMovimientoSelect;*/
 
     let loadingRef = this.loadingService.open();
 
@@ -164,28 +171,20 @@ export class DocumentosElectronicosComponent implements OnInit {
 
   autorizarDoc(idVentaCompra: number,identificacion: string,tipo: string, estado: string): void{
 
-    const loadingRef = this.loadingService.open();
-    this.coreService.autorizarDocumentoElectronico(this.idEmpresa,idVentaCompra,identificacion,tipo,
-      this.tokenValidate, estado)
-      .subscribe({
-        next: (data: any) => {
-          loadingRef.close();
-          this.toastr.success('Se envio el documento para su autorizacion,por favor espere.', '', {
-            timeOut: 10000,
-            closeButton: true
-          });
-        },
-        error: (error: any) => {
-          loadingRef.close();
+    let arrayListSend = [{
+      idEmp: this.idEmpresa,
+      identificacion: identificacion,
+      id: idVentaCompra,
+      VENTA_TIPO: tipo,
+      estado: estado
+    }];
+    
+    const sendData = {
+      list: arrayListSend,
+      rucEmpresa: this.rucEmpresa
+    }
 
-          if(error.error.isAllowAutorizar == false){
-            this.toastr.error('Error, ya supero el numero de documentos permitidos.', '', {
-              timeOut: 5000,
-              closeButton: true
-            });
-          }
-        }
-      });
+    this.sendListDocAutorizarObserver(sendData);
 
   }
 
@@ -211,7 +210,6 @@ export class DocumentosElectronicosComponent implements OnInit {
   }  
 
   sendDocumentosAutorizar(){
-    //const listSend = this.datasource.data;
     const listSend = this.datasource.data.filter((documento: any) => {
       return documento.estado != 2
     });
@@ -228,6 +226,10 @@ export class DocumentosElectronicosComponent implements OnInit {
       rucEmpresa: this.rucEmpresa
     }
 
+    this.sendListDocAutorizarObserver(sendData);
+  }
+
+private sendListDocAutorizarObserver(sendData: any){
     const loadingRef = this.loadingService.open();
     this.coreService.autorizarListDocumentoElectronico(sendData,this.tokenValidate)
       .subscribe({
@@ -251,7 +253,10 @@ export class DocumentosElectronicosComponent implements OnInit {
           }
         }
     });
-  }
+
+}
+
+
   //-----------------------------------------------------------------------------------------
   exportExcelListDocumentos(){
 
