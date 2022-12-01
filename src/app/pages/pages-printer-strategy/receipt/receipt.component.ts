@@ -134,11 +134,11 @@ export class ReceiptComponent implements OnInit {
             if(configPerteneceRegimenRimpe){
               this.checkedPerteneceRegimenRimpe = configPerteneceRegimenRimpe.con_valor == 1;
             }
-            if(configAgenteRetencion && configAgenteRetencion.con_valor != ''){
+            if(configAgenteRetencion && configAgenteRetencion.con_valor != '' && configAgenteRetencion.con_valor.toUpperCase() != 'NO'){
               this.checkedAgenteDeRetencion = true;
               this.valueAgenteRetencion = configAgenteRetencion.con_valor;
             }
-            if(configContribuyenteEspecial && configContribuyenteEspecial.con_valor != ''){
+            if(configContribuyenteEspecial && configContribuyenteEspecial.con_valor != '' && configContribuyenteEspecial.con_valor.toUpperCase() != 'NO'){
               this.checkedContribuyenteEspecial = true;
               this.valueContribuyenteEspecial = configContribuyenteEspecial.con_valor;
             }

@@ -37,8 +37,6 @@
   /*==================== REUSABLE CSS CLASSES ====================*/
   .container {
     max-width: 1024px;
-    /*margin-left: var(--mb-1-5);*/
-    /*margin-right: var(--mb-1-5);*/
   }
   
   .grid {
@@ -47,7 +45,6 @@
   
   /*==================== CARD PRICING ====================*/
   .card {
-    /*padding: 3rem 0;*/
     height: 90vh;
   }
   

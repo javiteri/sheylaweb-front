@@ -97,9 +97,8 @@
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="P Unitario">
-                      <th mat-header-cell  *matHeaderCellDef mat-sort-header style="margin-right: 10px;"> Costo Unitario </th>
-                      <td mat-cell  *matCellDef="let producto" data-label="P Unitario" class="precio-unitario-td" style="justify-content: flex-end;
-                      margin-right: 10px;">
+                      <th mat-header-cell  *matHeaderCellDef mat-sort-header style="justify-content: center;" class="flex-grow-_7"> Costo Unitario </th>
+                      <td mat-cell  *matCellDef="let producto" data-label="P Unitario" class="flex-grow-_7" style="justify-content: flex-end;">
                         {{producto.precioUnitario}}
                       </td>
                     </ng-container>
@@ -110,8 +109,9 @@
                       </td>
                     </ng-container>
                     <ng-container matColumnDef="P Total" >
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header style="margin-right: 10px;"> Costo Total </th>
-                      <td mat-cell *matCellDef="let producto" data-label="P Total" style="justify-content: end;margin-right: 10px;">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header style="justify-content: center;" class="flex-grow-_7"> Costo Total </th>
+                      <td mat-cell *matCellDef="let producto" data-label="P Total" style="justify-content: end;"
+                          class="flex-grow-_7">
                         {{producto.precioTotalSinImpuesto}}
                       </td>
                     </ng-container>
@@ -131,14 +131,14 @@
                     </ng-container>
 
                     <ng-container matColumnDef="Codigo Interno" >
-                      <th class="flex-grow-punto_5" mat-header-cell *matHeaderCellDef mat-sort-header> Cod Interno </th>
-                      <td class="flex-grow-punto_5" mat-cell *matCellDef="let producto" data-label="Codigo Interno">
+                      <th  mat-header-cell *matHeaderCellDef mat-sort-header> Cod Interno </th>
+                      <td  mat-cell *matCellDef="let producto" data-label="Codigo Interno">
                         {{producto.codigoInterno}}
                       </td>
                     </ng-container>
                     <ng-container matColumnDef="Descripcion Interna" >
-                      <th class="flex-grow-punto_5" mat-header-cell *matHeaderCellDef mat-sort-header> Desc Interna </th>
-                      <td class="flex-grow-punto_5" mat-cell *matCellDef="let producto" data-label="Descripcion Interna">
+                      <th  mat-header-cell *matHeaderCellDef mat-sort-header> Desc Interna </th>
+                      <td mat-cell *matCellDef="let producto" data-label="Descripcion Interna">
                         <p class="text-two-lines" style="margin: 0;">{{producto.descripcionInterna}}</p>
                       </td>
                     </ng-container>
