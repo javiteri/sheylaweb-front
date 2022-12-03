@@ -66,10 +66,13 @@ export class ReceiptComponent implements OnInit {
   showObservaciones = false;
   observacionValue :string = '';
 
+  textRouteBack = `/ventas/listaventas`;
+
   constructor(route: ActivatedRoute,
     private router: Router,
     private coreService: ApplicationProvider,
-    private ref: ChangeDetectorRef) { 
+    private ref: ChangeDetectorRef,
+    private location: Location) { 
 
     this.idVenta = route.snapshot.params['id'];
     this.textFacturaElectronicaFooter += "www.misfacturas.efacturas.net";
@@ -220,7 +223,8 @@ export class ReceiptComponent implements OnInit {
               this.isMobileDevice = false;
               window.onafterprint = (event) => {
                 //console.log('inside after print event');
-                this.router.navigateByUrl('/ventas/crearventa');
+                this.router.navigateByUrl(this.textRouteBack);
+                this.location.back();
                 window.onafterprint = () =>{}
                 window.onfocus = () =>{}
               };
@@ -228,7 +232,8 @@ export class ReceiptComponent implements OnInit {
 
             window.onfocus = () => {
               //console.log('inside on focus');
-              this.router.navigateByUrl('/ventas/crearventa');
+              this.router.navigateByUrl(this.textRouteBack);
+              this.location.back();
               window.onfocus = () =>{}
             }
 

@@ -103,6 +103,7 @@ export class ListaVentasComponent implements OnInit {
           return itemListVenta;
         });
 
+        console.log(arrayWithDecimal);
         this.datasource.data = arrayWithDecimal;
         this.ref.detectChanges();
       },
@@ -197,7 +198,11 @@ export class ListaVentasComponent implements OnInit {
 
 
   copiarVentaClick(venta: any): void{
-    this.router.navigate(['/ventas/crearventa', venta.id]); 
+    this.router.navigate([
+      { outlets: {
+        'print': ['print','receipt',venta.id]
+    }}]);
+    //this.router.navigate(['/ventas/crearventa', venta.id]); 
   }
 
 
@@ -239,5 +244,38 @@ export class ListaVentasComponent implements OnInit {
         console.log(error);
       }
     });
+  }
+
+  verPdfVenta(idVenta: any, identificacion: any, tipoVenta: any){
+    
+    if(tipoVenta.toUpperCase() != 'FACTURA'){
+      return;
+    }
+    let loadingRef = this.loadingService.open();
+
+    this.coreService.getPdfFromVentaByIdEmp(this.idEmpresa,identificacion,idVenta,this.tokenValidate).subscribe({
+      next: (data: any) => {
+        loadingRef.close();
+
+        let downloadUrl = window.URL.createObjectURL(data);
+
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', downloadUrl);
+        //link.setAttribute('href', downloadUrl);
+        link.setAttribute('download','detalle-venta');
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+      },
+      error: (error: any) => {
+        console.log('ocurrio un error');
+        console.log(error);
+
+        loadingRef.close();
+      }
+    });
+    
   }
 }

@@ -296,6 +296,16 @@ td.mat-footer-cell {
     background-color: var(--grey-300);
 }
 
+.btn-container button{
+    width: 32px;
+}
+
+@media screen and (max-width: 1500px) {
+    .btn-container button{
+        width: 22px;
+    }
+}
+
 @media screen and (max-width: 1300px){
     .mat-table {
         overflow-x: auto;
@@ -305,7 +315,6 @@ td.mat-footer-cell {
         min-width: 90px;
     }
     
-    
 }
 
 @media screen and (max-width: 1086px){
@@ -313,3 +322,4 @@ td.mat-footer-cell {
         width: fit-content;
     }
 }
+

@@ -82,8 +82,8 @@ img{
   border-style: solid;
   align-items: center;
   border-bottom-color: rgba(0,0,0,.12);
-  
 }
+
 .mat-cell, .mat-footer-cell, .mat-header-cell{
  display: flex;
  flex: 1;
