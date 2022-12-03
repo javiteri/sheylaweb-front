@@ -198,10 +198,10 @@ export class ListaVentasComponent implements OnInit {
 
 
   copiarVentaClick(venta: any): void{
-    this.router.navigate([
+    /*this.router.navigate([
       { outlets: {
         'print': ['print','receipt',venta.id]
-    }}]);
+    }}]);*/
     //this.router.navigate(['/ventas/crearventa', venta.id]); 
   }
 
