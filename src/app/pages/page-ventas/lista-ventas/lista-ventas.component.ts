@@ -103,7 +103,6 @@ export class ListaVentasComponent implements OnInit {
           return itemListVenta;
         });
 
-        console.log(arrayWithDecimal);
         this.datasource.data = arrayWithDecimal;
         this.ref.detectChanges();
       },
@@ -202,7 +201,7 @@ export class ListaVentasComponent implements OnInit {
       { outlets: {
         'print': ['print','receipt',venta.id]
     }}]);*/
-    //this.router.navigate(['/ventas/crearventa', venta.id]); 
+    this.router.navigate(['/ventas/crearventa', venta.id]); 
   }
 
 
