@@ -163,8 +163,6 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
   private getLogoEmpresa(): void{
     this.coreService.getImagenLogoByRucEmp(this.rucEmpresa, this.tokenValidate).subscribe({
       next: (data: any) => {
-        console.log('ok logo');
-        console.log(data);
 
         let objectURL = URL.createObjectURL(data);       
         this.imgURL = this.sanitizer.bypassSecurityTrustUrl(objectURL);

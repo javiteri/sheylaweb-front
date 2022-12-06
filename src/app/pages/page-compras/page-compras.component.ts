@@ -24,7 +24,7 @@ import { ListCompraItemsService } from './services/list-compra-items.service';
 })
 export class PageComprasComponent implements OnInit, OnDestroy {
 
-  displayedColumns: string[] = ['#', 'Codigo', 'Articulo', 'Cantidad', 'costo','descuento', 'P Total', 'actions'];
+  displayedColumns: string[] = [/*'#',*/ 'Codigo', 'Articulo', 'Cantidad', 'costo','descuento', 'P Total', 'actions'];
   datasource = new MatTableDataSource<ProductCompra>();
 
   sendDatosFormCompra : FormGroup;
@@ -49,7 +49,7 @@ export class PageComprasComponent implements OnInit, OnDestroy {
   subtotalIva12: string = "00.0";
   Iva12: string = "00.0";
   
-  listFormaPago = ['Efectivo', 'Cheque', 'Transferencia', 'Voucher', 'Credito'];
+  listFormaPago = ['EFECTIVO', 'CHEQUE', 'TRANSFERENCIA', 'VOUCHER', 'CREDITO'];
   listTipoDocumento = ['01 Factura','02 Nota de Venta','03 Liquidación de compra de Bienes o Prestación de servicios', 
     '04 Nota de crédito','05 Nota de débito','08 Boletos o entradas a espectáculos públicos','09 Tiquetes o vales emitidos por máquinas registradoras'
     ,'11 Pasajes expedidos por empresas de aviación','12 Documentos emitidos por instituciones financieras','15 Comprobante de Venta emitido en el exterior',
@@ -75,7 +75,7 @@ export class PageComprasComponent implements OnInit, OnDestroy {
 
   tipoDocSelect = '01 Factura';
   sustentoTributarioSelect = '00 - Casos especiales cuyo sustento no aplica en las opciones anteriores';
-  formaPagoSelect = 'Efectivo';
+  formaPagoSelect = 'EFECTIVO';
   dateFac = new Date();
   cantItems = 0;
 
@@ -569,7 +569,7 @@ export class PageComprasComponent implements OnInit, OnDestroy {
 
     this.tipoDocSelect = '01 Factura';
     this.dateFac = new Date();
-    this.formaPagoSelect = 'Efectivo';
+    this.formaPagoSelect = 'EFECTIVO';
     this.datasource.data = [];
 
     this.total = "00.0";

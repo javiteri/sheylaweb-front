@@ -291,10 +291,10 @@ td.mat-footer-cell {
  border-bottom-style:none; 
 }
 
-.mat-table .mat-header-row th:nth-child(n + 4), .mat-table .mat-row td:nth-child(n + 4){
+.mat-table .mat-header-row th:nth-child(n + 3), .mat-table .mat-row td:nth-child(n + 3){
     margin-right: .7rem;
 }
-.mat-table .mat-header-row th:nth-child(n + 5), .mat-table .mat-row td:nth-child(n + 5){
+.mat-table .mat-header-row th:nth-child(n + 4), .mat-table .mat-row td:nth-child(n + 4){
     justify-content: center;
 }
 

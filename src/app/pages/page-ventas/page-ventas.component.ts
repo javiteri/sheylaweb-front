@@ -23,7 +23,7 @@ import { ClienteFactura } from './models/ClientFac';
 })
 export class PageVentasComponent implements OnInit{
 
-  displayedColumns: string[] = ['#', 'Codigo', 'Articulo', 'Cantidad', 'P Unitario','descuento', 'P Total', 'actions'];
+  displayedColumns: string[] = [/*'#',*/ 'Codigo', 'Articulo', 'Cantidad', 'P Unitario','descuento', 'P Total', 'actions'];
   datasource = new MatTableDataSource<ProductFactura>();
 
   @ViewChild('identificacion') inputIdentificacion: any; 
@@ -738,7 +738,7 @@ export class PageVentasComponent implements OnInit{
 
         this.tipoDocSelect = 'Factura';
         this.dateFac = new Date();
-        this.formaPagoSelect = 'Efectivo';
+        this.formaPagoSelect = 'EFECTIVO';
         this.datasource.data = [];
 
         this.total = "00.0";
