@@ -66,7 +66,7 @@ export class ReceiptComponent implements OnInit {
   showObservaciones = false;
   observacionValue :string = '';
 
-  textRouteBack = `/ventas/listaventas`;
+  textRouteBack = `/ventas/crearventa`;
 
   constructor(route: ActivatedRoute,
     private router: Router,
@@ -224,7 +224,7 @@ export class ReceiptComponent implements OnInit {
               window.onafterprint = (event) => {
                 //console.log('inside after print event');
                 this.router.navigateByUrl(this.textRouteBack);
-                this.location.back();
+                //this.location.back();
                 window.onafterprint = () =>{}
                 window.onfocus = () =>{}
               };
@@ -233,7 +233,7 @@ export class ReceiptComponent implements OnInit {
             window.onfocus = () => {
               //console.log('inside on focus');
               this.router.navigateByUrl(this.textRouteBack);
-              this.location.back();
+              //this.location.back();
               window.onfocus = () =>{}
             }
 
