@@ -25,6 +25,7 @@ export class DashboardComponent implements OnInit{
 
   idEmpresa: number = 0;
   rucEmpresa: string = '';
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -57,6 +58,7 @@ export class DashboardComponent implements OnInit{
 
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
+    this.nombreBd = localServiceResponseUsr._nombreBd;
 
     this.getVentasDelDiaFormaPago();
     this.getVentaDiariaValue();
@@ -67,10 +69,6 @@ export class DashboardComponent implements OnInit{
     this.getClientesDelMes();
     this.getProductosDelMes();
 
-    //this.createChartRadialDiasLicencia();
-    //this.createChartProductos();
-    //this.createChartClientes();
-    //this.createChartFormaPago();
   }
 
 
@@ -86,7 +84,8 @@ export class DashboardComponent implements OnInit{
                               '23:59:59' ;
 
 
-     this.coreService.getValueVentaDiaria(this.idEmpresa,dateInitString,dateFinString,this.tokenValidate).subscribe({
+     this.coreService.getValueVentaDiaria(this.idEmpresa,dateInitString,dateFinString,
+                                            this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
         if(data.data && data.data[0].total){
           this.ventaDiariaValue = data.data[0].total
@@ -112,7 +111,8 @@ export class DashboardComponent implements OnInit{
                             '-' + ('0' + lastDay.getDate()).slice(-2) + ' ' + 
                               '23:59:59' ;
 
-    this.coreService.getValueVentaMensuual(this.idEmpresa,dateInitString,dateFinString,this.tokenValidate).subscribe({
+    this.coreService.getValueVentaMensuual(this.idEmpresa,dateInitString,dateFinString,
+                                            this.tokenValidate, this.nombreBd).subscribe({
      next: (data: any) => {
        if(data.data && data.data[0].total){
          this.ventaMensualValue = data.data[0].total         
@@ -126,7 +126,7 @@ export class DashboardComponent implements OnInit{
  }
 
  private getClientesRegistradosValue(): void{
-  this.coreService.getInfoClientesRegistrados(this.idEmpresa,this.tokenValidate).subscribe({
+  this.coreService.getInfoClientesRegistrados(this.idEmpresa,this.tokenValidate, this.nombreBd).subscribe({
     next: (data: any) =>{
       if(data.data && data.data[0].total){
         this.clientesRegistradosValue = data.data[0].total;
@@ -139,7 +139,7 @@ export class DashboardComponent implements OnInit{
  }
 
  private getProductosRegistradosValue(): void{
-  this.coreService.getInfoProductosRegistrados(this.idEmpresa,this.tokenValidate).subscribe({
+  this.coreService.getInfoProductosRegistrados(this.idEmpresa,this.tokenValidate, this.nombreBd).subscribe({
     next: (data: any) =>{
       if(data.data && data.data[0].total){
         this.productosRegistradosValue = data.data[0].total;
@@ -152,7 +152,7 @@ export class DashboardComponent implements OnInit{
  }
 
  private getNumeroDocsAndLicenceDays(): void{
-  this.coreService.getNumDocAndLicenceDays(this.rucEmpresa,this.tokenValidate).subscribe({
+  this.coreService.getNumDocAndLicenceDays(this.rucEmpresa,this.tokenValidate, this.nombreBd).subscribe({
     next: (data: any) =>{
       
       if(data.data && data.data[0].finfactura){
@@ -192,7 +192,7 @@ export class DashboardComponent implements OnInit{
                               '23:59:59' ;
 
 
-  this.coreService.getProductosDelMes(this.idEmpresa,dateInitString,dateFinString,this.tokenValidate).subscribe({
+  this.coreService.getProductosDelMes(this.idEmpresa,dateInitString,dateFinString,this.tokenValidate, this.nombreBd).subscribe({
     next: (data: any) =>{
       if(data.data && data.data.length > 0){
 
@@ -230,7 +230,7 @@ export class DashboardComponent implements OnInit{
                               '23:59:59' ;
 
 
-  this.coreService.getClientesDelMes(this.idEmpresa,dateInitString,dateFinString,this.tokenValidate).subscribe({
+  this.coreService.getClientesDelMes(this.idEmpresa,dateInitString,dateFinString,this.tokenValidate, this.nombreBd).subscribe({
     next: (data: any) =>{
       if(data.data && data.data.length > 0){
         const listLabel = Array.from(data.data).map((valor: any) => valor.cli_nombres_natural.split(' '));
@@ -261,7 +261,7 @@ export class DashboardComponent implements OnInit{
                               '23:59:59' ;
 
 
-  this.coreService.getVentasDelDiaFormaPago(this.idEmpresa,dateInitString,dateFinString,this.tokenValidate).subscribe({
+  this.coreService.getVentasDelDiaFormaPago(this.idEmpresa,dateInitString,dateFinString,this.tokenValidate,this.nombreBd).subscribe({
     next: (data: any) =>{
 
       if(data.data && data.data.length > 0){

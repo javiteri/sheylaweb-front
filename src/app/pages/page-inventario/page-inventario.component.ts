@@ -27,6 +27,7 @@ export class PageInventarioComponent implements OnInit {
 
   idEmpresa: number = 0;
   rucEmpresa: string = '';
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -56,6 +57,7 @@ export class PageInventarioComponent implements OnInit {
 
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
+    this.nombreBd = localServiceResponseUsr._nombreBd;
 
     this.getListaProductosRefresh();
   }
@@ -66,7 +68,7 @@ export class PageInventarioComponent implements OnInit {
 
     let dialogRef = this.loadingService.open();
 
-    this.coreService.getListProductosByIdEmp(this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.getListProductosByIdEmp(this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
 
         dialogRef.close();
@@ -126,7 +128,7 @@ export class PageInventarioComponent implements OnInit {
   private deleteProductoApi(idProducto: any): void{
     let dialogRef = this.loadingService.open();
 
-    this.coreService.deleteProductoByIdEmp(idProducto, this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.deleteProductoByIdEmp(idProducto, this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
         dialogRef.close();
 
@@ -155,7 +157,7 @@ export class PageInventarioComponent implements OnInit {
 
     let dialogRef = this.loadingService.open();
 
-    this.coreService.searchProductosByIdEmpText(this.idEmpresa, this.textSearchProductos, this.tokenValidate).subscribe({
+    this.coreService.searchProductosByIdEmpText(this.idEmpresa, this.textSearchProductos, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
         dialogRef.close();
         this.isLoading = !this.isLoading;
@@ -187,7 +189,7 @@ export class PageInventarioComponent implements OnInit {
   exportarProductos(){
     let dialogRef = this.loadingService.open();
 
-    this.coreService.getExcelListProductos(this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.getExcelListProductos(this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
 
         dialogRef.close();

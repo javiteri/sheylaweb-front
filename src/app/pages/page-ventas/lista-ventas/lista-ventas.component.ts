@@ -22,6 +22,7 @@ export class ListaVentasComponent implements OnInit {
 
   idEmpresa: number = 0;
   rucEmpresa: string = '';
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -59,7 +60,8 @@ export class ListaVentasComponent implements OnInit {
 
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
-    
+    this.nombreBd = localServiceResponseUsr._nombreBd;
+
     //this.searchListaVentasWithFilter();
     this.getConfigNumDecimalesIdEmp();
   }
@@ -86,7 +88,7 @@ export class ListaVentasComponent implements OnInit {
                               '23:59:59' ;
 
     this.coreService.getListaVentasByIdEmp(this.idEmpresa, this.nombreCiRuc, 
-      this.noDocmento, dateInitString, dateFinString,this.tokenValidate).subscribe({
+      this.noDocmento, dateInitString, dateFinString,this.tokenValidate, this.nombreBd).subscribe({
       next: (results: any) => {
         dialogRef.close();
 
@@ -129,7 +131,7 @@ export class ListaVentasComponent implements OnInit {
         
         let dialogReff = this.loadingService.open();
 
-        this.coreService.updateEstadoVentaByIdEmp(this.idEmpresa,idVenta,estado, this.tokenValidate).subscribe({
+        this.coreService.updateEstadoVentaByIdEmp(this.idEmpresa,idVenta,estado, this.tokenValidate, this.nombreBd).subscribe({
           next: (results: any) => {
             dialogReff.close();
             this.searchListaVentasWithFilter();
@@ -160,7 +162,7 @@ export class ListaVentasComponent implements OnInit {
       if(result){
         let dialogRef = this.loadingService.open();
 
-        this.coreService.deleteVentaByIdEmp(this.idEmpresa,idVenta,estado, this.tokenValidate).subscribe({
+        this.coreService.deleteVentaByIdEmp(this.idEmpresa,idVenta,estado, this.tokenValidate, this.nombreBd).subscribe({
           next: (results: any) => {
             dialogRef.close();
             this.searchListaVentasWithFilter();
@@ -176,7 +178,7 @@ export class ListaVentasComponent implements OnInit {
   }
 
   private getConfigNumDecimalesIdEmp(){
-    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTA_NUMERODECIMALES', this.tokenValidate).subscribe({
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTA_NUMERODECIMALES', this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
         if(data.data.length > 0){
           const configReceive: ConfigReceive = data.data[0];
@@ -221,7 +223,7 @@ export class ListaVentasComponent implements OnInit {
                               '23:59:59' ;
 
     this.coreService.getExcelListaVentas(this.idEmpresa,this.nombreCiRuc,this.noDocmento,
-                                        dateInitString,dateFinString, this.tokenValidate).subscribe({
+                                        dateInitString,dateFinString, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
 
         dialogRef.close();
@@ -252,7 +254,7 @@ export class ListaVentasComponent implements OnInit {
     }
     let loadingRef = this.loadingService.open();
 
-    this.coreService.getPdfFromVentaByIdEmp(this.idEmpresa,identificacion,idVenta,this.tokenValidate).subscribe({
+    this.coreService.getPdfFromVentaByIdEmp(this.idEmpresa,identificacion,idVenta,this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
         loadingRef.close();
 

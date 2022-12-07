@@ -38,6 +38,7 @@ export class CuadrarCajaComponent implements OnInit {
   idEmpresa: number = 0;
   idUser: number = 0;
   rucEmpresa: string = '';
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -65,7 +66,6 @@ export class CuadrarCajaComponent implements OnInit {
     private toastr: ToastrService,
     private matDialog: MatDialog) { 
     
-
   }
 
   ngOnInit(): void {
@@ -85,6 +85,7 @@ export class CuadrarCajaComponent implements OnInit {
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
     this.idUser = localServiceResponseUsr._userId;
+    this.nombreBd = localServiceResponseUsr._nombreBd;
 
     this.listUsuarios.push(this.usuarioSelect);
 
@@ -114,7 +115,7 @@ export class CuadrarCajaComponent implements OnInit {
                               '23:59:59' ;
 
     this.coreService.getListMovimientosCuadrarCajaByIdEmp(this.idEmpresa, this.usuarioSelect.usu_id,
-                  dateInitString,dateFinString, this.tokenValidate).subscribe({
+                  dateInitString,dateFinString, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
         dialogRef.close();
 
@@ -151,7 +152,7 @@ export class CuadrarCajaComponent implements OnInit {
   }
 
   private getValorCajaByIdEmp(): void{
-    this.coreService.getValorCajaByIdEmp(this.idEmpresa,this.tokenValidate).subscribe({
+    this.coreService.getValorCajaByIdEmp(this.idEmpresa,this.tokenValidate, this.nombreBd).subscribe({
       next: (valor: any) => {
 
         this.totalValorCaja = Number(valor.data.valorcaja).toFixed(3);
@@ -169,7 +170,7 @@ export class CuadrarCajaComponent implements OnInit {
   }
 
   private getUsuariosByIdEmpresa(){
-    this.coreService.getUsuariosByIdEmp(this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.getUsuariosByIdEmp(this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
       next: (dataUsers: any) => {
 
         const valueTodos = {
@@ -253,7 +254,8 @@ export class CuadrarCajaComponent implements OnInit {
           concepto: valorConceptoPlus,
           idUser: this.idUser,
           grupo: 'CAJA CUADRADADA',
-          monto: this.totalResultadoValorArqueo
+          monto: this.totalResultadoValorArqueo,
+          nombreBd: this.nombreBd
         }
 
         const dialogRef = this.loadingService.open();
@@ -297,7 +299,7 @@ export class CuadrarCajaComponent implements OnInit {
   }
 
   private getConfigAllowChangeFecha(){
-    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'CAJA_PERMITIR_CAMBIAR_FECHA', this.tokenValidate).subscribe({
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'CAJA_PERMITIR_CAMBIAR_FECHA', this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
         if(data.data.length > 0){
           const configReceive: ConfigReceive = data.data[0];
@@ -314,7 +316,7 @@ export class CuadrarCajaComponent implements OnInit {
   }
 
   private getConfigAllowChangeUsarioCaja(){
-    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'CAJA_PERMITIR_CAMBIAR_USUARIO', this.tokenValidate).subscribe({
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'CAJA_PERMITIR_CAMBIAR_USUARIO', this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
 
         if(data.data.length > 0){

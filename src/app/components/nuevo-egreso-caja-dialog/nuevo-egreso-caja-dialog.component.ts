@@ -20,6 +20,7 @@ export class NuevoEgresoCajaDialogComponent implements OnInit {
   idEmpresa: number = 0;
   idUsuario: number = 0;
   rucEmpresa: string = '';
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -56,6 +57,7 @@ export class NuevoEgresoCajaDialogComponent implements OnInit {
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
     this.idUsuario = localServiceResponseUsr._userId;
+    this.nombreBd = localServiceResponseUsr._nombreBd;
 
     this.validateChangeDate();
     this.getConfigAllowChangeFecha();
@@ -96,13 +98,10 @@ export class NuevoEgresoCajaDialogComponent implements OnInit {
       sendFormValue['fecha'] = dateString;
     }
 
-    console.log(sendFormValue);
+    sendFormValue['nombreBd'] = this.nombreBd;
 
     this.coreService.insertIngresoEgresoByIdEmp(sendFormValue, this.tokenValidate).subscribe({
       next: (data: any) => {
-        console.log(data);
-        console.log('inside todo ok ingreso');
-
         this.matDialogRef.close(true);
       },
       error: (exception) => {
@@ -115,7 +114,7 @@ export class NuevoEgresoCajaDialogComponent implements OnInit {
   }
 
   private getConfigAllowChangeFecha(){
-    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'CAJA_PERMITIR_CAMBIAR_FECHA', this.tokenValidate).subscribe({
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'CAJA_PERMITIR_CAMBIAR_FECHA', this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
         console.log('inside config change fecha');
         console.log(data);

@@ -6,7 +6,6 @@ import { LoadingService } from '../../services/Loading.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CrearNuevaEmpresaDialogComponent } from 'src/app/components/crear-nueva-empresa-dialog/crear-nueva-empresa-dialog.component';
 import { RecuperarCuentaDialogComponent } from 'src/app/components/recuperar-cuenta-dialog/recuperar-cuenta-dialog.component';
-import { FormPlanesComponent } from 'src/app/components/form-planes/form-planes.component';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +24,8 @@ export class LoginComponent implements OnInit {
   rucDivCredential = '';
 
   isDefaultAdminUser = false;
-
+  hide = true;
+  
   constructor(
     public formBuilder: FormBuilder,
     public router: Router,
@@ -110,7 +110,8 @@ export class LoginComponent implements OnInit {
           _bussId: response.idEmpresa,
           _ruc: '' + response.rucEmpresa,
           _nameUsr: response.nombreUsuario,
-          _nameEmp: response.nombreEmpresa
+          _nameEmp: response.nombreEmpresa,
+          _nombreBd: response.nombreBd
         }
 
         sessionStorage.setItem('_valtok', JSON.stringify(tokenAndExpire));

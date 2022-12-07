@@ -27,6 +27,7 @@ export class PageClientesComponent implements OnInit {
 
   idEmpresa: number = 0;
   rucEmpresa: string = '';
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -56,6 +57,7 @@ export class PageClientesComponent implements OnInit {
 
       this.idEmpresa = localServiceResponseUsr._bussId;
       this.rucEmpresa = localServiceResponseUsr._ruc;
+      this.nombreBd = localServiceResponseUsr._nombreBd;
 
       this.getListaClientesRefresh();      
 
@@ -68,7 +70,7 @@ export class PageClientesComponent implements OnInit {
 
     let dialogRef = this.loadingService.open();
 
-    this.coreService.getListClientesByIdEmp(this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.getListClientesByIdEmp(this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
 
         dialogRef.close();
@@ -137,7 +139,7 @@ export class PageClientesComponent implements OnInit {
   private deleteClienteApi(idCliente: any): void{
     let dialogRef = this.loadingService.open();
 
-    this.coreService.deleteClienteByIdEmp(idCliente, this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.deleteClienteByIdEmp(idCliente, this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
         dialogRef.close();
         if(data.isSucess){
@@ -165,7 +167,7 @@ export class PageClientesComponent implements OnInit {
 
     let dialogRef = this.loadingService.open();
 
-    this.coreService.searchClientesByIdEmpText(this.idEmpresa, this.textSearchClientes, this.tokenValidate).subscribe({
+    this.coreService.searchClientesByIdEmpText(this.idEmpresa, this.textSearchClientes, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
         dialogRef.close();
         this.isLoading = !this.isLoading;
@@ -198,7 +200,7 @@ export class PageClientesComponent implements OnInit {
   exportarClientes(){
     let dialogRef = this.loadingService.open();
 
-    this.coreService.getExcelListClientes(this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.getExcelListClientes(this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
         console.log(data);
         dialogRef.close();

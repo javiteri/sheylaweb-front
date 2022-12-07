@@ -33,6 +33,7 @@ export class PageComprasComponent implements OnInit, OnDestroy {
   idEmpresa: number = 0;
   rucEmpresa: string = '';
   idUser: number = 0;
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -117,7 +118,7 @@ export class PageComprasComponent implements OnInit, OnDestroy {
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
     this.idUser = localServiceResponseUsr._userId;
-
+    this.nombreBd = localServiceResponseUsr._nombreBd;
 
     this.subscription1$ = this.productService.productList$.subscribe((listProductos: any) => {
       if(!(Object.entries(listProductos).length === 0)){
@@ -217,7 +218,7 @@ export class PageComprasComponent implements OnInit, OnDestroy {
 
 
   private getConfigNumDecimalesIdEmp(){
-    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'COMPRA_NUMERODECIMALES', this.tokenValidate).subscribe({
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'COMPRA_NUMERODECIMALES', this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
 
         if(data.data.length > 0){
@@ -465,7 +466,8 @@ export class PageComprasComponent implements OnInit, OnDestroy {
       sriSustento: this.sustentoTributarioSelect,
       compraAutorizacionSri: this.sendDatosFormCompra.controls['numeroAutorizacionn'].value,
       compraDetalles: detallesCompra,
-      compraNcId: 0
+      compraNcId: 0,
+      nombreBd: this.nombreBd
     }
 
     let overlayRef = this.loadingService.open();
@@ -526,7 +528,7 @@ export class PageComprasComponent implements OnInit, OnDestroy {
   }
 
   private getProveedorGenericoApi(){
-    this.coreService.getProveedorGenericoOrCreate(this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.getProveedorGenericoOrCreate(this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
       next: (response: any) => {
 
         const datosConsuFinal = response['data'];
@@ -550,7 +552,7 @@ export class PageComprasComponent implements OnInit, OnDestroy {
     this.loadingSecuencial = !this.loadingSecuencial
 
     this.coreService.getNextNumeroSecuencialCompraByIdEmp(this.idEmpresa, this.tipoDocSelect, 
-                        this.proveedorFac.id,`${this.value001}-${this.value002}`,this.tokenValidate).subscribe({
+                        this.proveedorFac.id,`${this.value001}-${this.value002}`,this.tokenValidate, this.nombreBd).subscribe({
       next: (response: any) => {
         this.loadingSecuencial = false;
         this.valueSecuencia = response.data;
@@ -634,7 +636,7 @@ export class PageComprasComponent implements OnInit, OnDestroy {
       let idCompra = params.get('id');
       
       if(idCompra){
-        this.coreService.getDataByIdCompra(idCompra, this.idEmpresa, this.tokenValidate).subscribe({
+        this.coreService.getDataByIdCompra(idCompra, this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
           next: (data: any) =>{
 
             this.loadingSecuencial = false;

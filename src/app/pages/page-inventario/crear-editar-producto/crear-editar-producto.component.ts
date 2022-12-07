@@ -26,6 +26,7 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
   idProductoEdit: number = 0;
   idEmpresa: number = 0;
   rucEmpresa: string = '';
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -96,6 +97,7 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
 
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
+    this.nombreBd = localServiceResponseUsr._nombreBd;
 
     this.getListCategoriasByIdEmpresa(this.idEmpresa, this.tokenValidate);
     this.getListMarcasByIdEmpresa(this.idEmpresa, this.tokenValidate);
@@ -132,7 +134,7 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
 
 
   private getListCategoriasByIdEmpresa(idEmpresa: any, accessToken: any){
-    this.coreService.getCategoriasProductosByIdEmp(idEmpresa, accessToken).subscribe({
+    this.coreService.getCategoriasProductosByIdEmp(idEmpresa, accessToken, this.nombreBd).subscribe({
       next: (result: any) => {
         this.listCategorias = of(result.data);
         this.listCategoriasData = result.data;
@@ -143,7 +145,7 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
   }
 
   private getListMarcasByIdEmpresa(idEmpresa: any, accessToken: any){
-    this.coreService.getMarcasProductosByIdEmp(idEmpresa, accessToken).subscribe({
+    this.coreService.getMarcasProductosByIdEmp(idEmpresa, accessToken, this.nombreBd).subscribe({
       next: (result: any) => {
         this.listMarcas = of(result.data);
         this.listMarcasData = result.data;
@@ -164,6 +166,7 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
     }
 
     sendFormProducto['idEmpresa'] = this.idEmpresa;
+    sendFormProducto['nombreBd'] = this.nombreBd;
 
     if(!this.validateIsNumber(sendFormProducto['costo'])){
       sendFormProducto['costo'] = '0';
@@ -184,7 +187,7 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
   private getProductoById(idProducto: any){
     let dialogRef = this.loadingService.open();
 
-    this.coreService.getProductoByIdEmp(idProducto, this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.getProductoByIdEmp(idProducto, this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
         next: (data: any) =>{
           dialogRef.close();
 
@@ -360,7 +363,7 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
 
 
   private getConfigNumDecimalesIdEmp(){
-    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTA_NUMERODECIMALES', this.tokenValidate).subscribe({
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTA_NUMERODECIMALES', this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
 
         if(data.data && data.data.length > 0){
@@ -371,7 +374,6 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
         }
 
 
-        //this.searchListaVentasWithFilter();
       },
       error: (error) => {
         console.log('error get num decimales');

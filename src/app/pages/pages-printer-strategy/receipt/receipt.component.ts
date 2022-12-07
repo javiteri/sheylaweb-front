@@ -19,6 +19,7 @@ export class ReceiptComponent implements OnInit {
   idEmpresa: number = 0;
   rucEmpresa: string = '';
   idUser: number = 0;
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -93,10 +94,12 @@ export class ReceiptComponent implements OnInit {
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
     this.idUser = localServiceResponseUsr._userId;
+    this.nombreBd = localServiceResponseUsr._nombreBd;
 
     let postDataGetEmp = {
       ruc: this.rucEmpresa,
-      idEmpresa: this.idEmpresa
+      idEmpresa: this.idEmpresa,
+      nombreBd: this.nombreBd
     } 
 
     this.getDataFromIdVenta(postDataGetEmp);
@@ -105,10 +108,10 @@ export class ReceiptComponent implements OnInit {
 
   getDataFromIdVenta(postDataGetEmp: any): void{
 
-    let $observableDatosVenta = this.coreService.getDataByIdVenta(this.idVenta, this.idEmpresa, this.rucEmpresa, this.tokenValidate);
+    let $observableDatosVenta = this.coreService.getDataByIdVenta(this.idVenta, this.idEmpresa, this.rucEmpresa, this.tokenValidate, this.nombreBd);
     
 
-    let $observableDatosConfigFacElec = this.coreService.getListConfigsByIdEmp(this.idEmpresa, this.tokenValidate);
+    let $observableDatosConfigFacElec = this.coreService.getListConfigsByIdEmp(this.idEmpresa, this.tokenValidate, this.nombreBd);
 
     $observableDatosVenta.pipe(
       combineLatestWith($observableDatosConfigFacElec)

@@ -33,6 +33,7 @@ export class CrearClienteDialogComponent implements OnInit, AfterViewInit {
   idClienteEdit: number = 0;
   idEmpresa: number = 0;
   rucEmpresa: string = '';
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -100,6 +101,7 @@ export class CrearClienteDialogComponent implements OnInit, AfterViewInit {
 
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
+    this.nombreBd = localServiceResponseUsr._nombreBd;
 
     this.sendDatosFormCliente.controls['tipoIdentificacion'].setValue(this.tiposId[1].valor);
     
@@ -136,6 +138,7 @@ export class CrearClienteDialogComponent implements OnInit, AfterViewInit {
 
       sendDatosCliente['idEmpresa'] = this.idEmpresa;
       sendDatosCliente['fechaNacimiento'] = dateString;
+      sendDatosCliente['nombreBd'] = this.nombreBd;
 
       this.insertDatosClienteApi(sendDatosCliente);
 

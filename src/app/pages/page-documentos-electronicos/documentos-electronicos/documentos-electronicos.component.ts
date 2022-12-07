@@ -28,6 +28,7 @@ export class DocumentosElectronicosComponent implements OnInit {
   
   idEmpresa: number = 0;
   rucEmpresa: string = '';
+  nombreBd: string = ''
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -66,8 +67,8 @@ export class DocumentosElectronicosComponent implements OnInit {
 
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
-
-    //this.getListaDocumentosElectronicos();
+    this.nombreBd = localServiceResponseUsr._nombreBd;
+    
     this.timerSubscription = timer(0,10000).pipe(
       map(() => {
         if(this.isShowMostrarNoAutorizados){
@@ -90,7 +91,7 @@ export class DocumentosElectronicosComponent implements OnInit {
       this.isFirstOpenPage = false;
     }
 
-    this.coreService.getListDocumentosElectronicosByIdEmpNoAutorizados(this.idEmpresa,this.tokenValidate).subscribe({
+    this.coreService.getListDocumentosElectronicosByIdEmpNoAutorizados(this.idEmpresa,this.tokenValidate, this.nombreBd).subscribe({
     next: (data: any) => {
 
       if(data.data && data.data.length > 0){
@@ -135,7 +136,7 @@ export class DocumentosElectronicosComponent implements OnInit {
     }
 
     this.coreService.getListDocumentosElectronicosByIdEmp(this.idEmpresa,dateInitString,dateFinString,tipo,this.nombreClienteCi,
-                                                          this.numeroDocumento,this.tokenValidate).subscribe({
+                                                          this.numeroDocumento,this.tokenValidate, this.nombreBd).subscribe({
         next: (data: any) => {
 
           if(data.data && data.data.length > 0){
@@ -166,7 +167,7 @@ export class DocumentosElectronicosComponent implements OnInit {
     }
     let loadingRef = this.loadingService.open();
 
-    this.coreService.getPdfFromVentaByIdEmp(this.idEmpresa,identificacion,idVenta,this.tokenValidate).subscribe({
+    this.coreService.getPdfFromVentaByIdEmp(this.idEmpresa,identificacion,idVenta,this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
         loadingRef.close();
 
@@ -205,7 +206,8 @@ export class DocumentosElectronicosComponent implements OnInit {
     
     const sendData = {
       list: arrayListSend,
-      rucEmpresa: this.rucEmpresa
+      rucEmpresa: this.rucEmpresa,
+      nombreBd: this.nombreBd
     }
 
     this.textShowLoadingAutorizandoDoc = `Autorizando Documento`;
@@ -252,7 +254,8 @@ export class DocumentosElectronicosComponent implements OnInit {
     
     const sendData = {
       list: listSend,
-      rucEmpresa: this.rucEmpresa
+      rucEmpresa: this.rucEmpresa,
+      nombreBd: this.nombreBd
     }
 
     this.sendListDocAutorizarObserver(sendData);
@@ -306,7 +309,7 @@ private sendListDocAutorizarObserver(sendData: any){
     let loadingRef = this.loadingService.open();
 
     this.coreService.getExcelListDocElectronic(this.idEmpresa,this.rucEmpresa ,dateInitString,dateFinString,tipo,this.nombreClienteCi,
-      this.numeroDocumento,this.tokenValidate).subscribe({
+      this.numeroDocumento,this.tokenValidate, this.nombreBd).subscribe({
         next: (data: any) => {
 
           loadingRef.close();

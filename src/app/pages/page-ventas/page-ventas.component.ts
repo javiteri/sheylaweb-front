@@ -36,6 +36,7 @@ export class PageVentasComponent implements OnInit{
   idEmpresa: number = 0;
   rucEmpresa: string = '';
   idUser: number = 0;
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -95,6 +96,7 @@ export class PageVentasComponent implements OnInit{
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
     this.idUser = localServiceResponseUsr._userId;
+    this.nombreBd = localServiceResponseUsr._nombreBd;
 
     this.getConfigNumDecimalesIdEmp();
     this.getConfigVentaSinSecuencia();
@@ -109,7 +111,7 @@ export class PageVentasComponent implements OnInit{
       let idVenta = params.get('idventa');
       
       if(idVenta){
-        this.coreService.getDataByIdVenta(idVenta, this.idEmpresa,this.rucEmpresa, this.tokenValidate).subscribe({
+        this.coreService.getDataByIdVenta(idVenta, this.idEmpresa,this.rucEmpresa, this.tokenValidate, this.nombreBd).subscribe({
           next: (data: any) =>{
 
             this.clientFac.id = data.data['clienteId'];
@@ -188,7 +190,7 @@ export class PageVentasComponent implements OnInit{
   }
 
   private getConsumidorFinalApi(){
-    this.coreService.getConsumidorFinalOrCreate(this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.getConsumidorFinalOrCreate(this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
       next: (response: any) => {
 
         const datosConsuFinal = response['data'];
@@ -211,7 +213,7 @@ export class PageVentasComponent implements OnInit{
     this.loadingSecuencial = true;
 
     this.coreService.getNextNumeroPuntoVentaByUsuario(this.idEmpresa, this.tipoDocSelect,
-                                                      this.idUser, this.tokenValidate).subscribe({
+                                                      this.idUser, this.tokenValidate, this.nombreBd).subscribe({
         next:(response: any) => {
 
           this.valueSecuencia = response.secuencial;
@@ -234,7 +236,7 @@ export class PageVentasComponent implements OnInit{
     this.loadingSecuencial = true;
 
     this.coreService.getNextNumeroSecuencialByIdEmp(this.idEmpresa, this.tipoDocSelect, 
-                        this.value001, this.value002,this.tokenValidate).subscribe({
+                        this.value001, this.value002,this.tokenValidate, this.nombreBd).subscribe({
       next: (response: any) => {
         this.loadingSecuencial = false;
         this.valueSecuencia = response.data;
@@ -251,7 +253,7 @@ export class PageVentasComponent implements OnInit{
 
 
   private getConfigNumDecimalesIdEmp(){
-    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTA_NUMERODECIMALES', this.tokenValidate).subscribe({
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTA_NUMERODECIMALES', this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
         if(data.data.length > 0) {
           const configReceive: ConfigReceive = data.data[0];
@@ -510,8 +512,6 @@ export class PageVentasComponent implements OnInit{
     const dateString = '' + this.dateFac.getFullYear() + '-' + ('0' + (this.dateFac.getMonth()+1)).slice(-2) + 
                           '-' + ('0' + this.dateFac.getDate()).slice(-2) + ' ' + 
                           actualDateHours.getHours() + ':' + actualDateHours.getMinutes() + ':' + actualDateHours.getSeconds();
-    
-    console.log(dateString);
 
     const sendFacturaJsonModel = {
       empresaId: this.idEmpresa,
@@ -528,13 +528,14 @@ export class PageVentasComponent implements OnInit{
       ventaTotal: this.total,
       formaPago: this.formaPagoSelect.toUpperCase(),
       obs: this.observacion,
-      ventaDetalles: detallesVenta
+      ventaDetalles: detallesVenta,
+      nombreBd: this.nombreBd
     }
 
     let overlayRef = this.loadingService.open();
 
     this.coreService.getNextNumeroSecuencialByIdEmp(this.idEmpresa, this.tipoDocSelect, 
-      this.value001, this.value002,this.tokenValidate).subscribe({
+      this.value001, this.value002,this.tokenValidate, this.nombreBd).subscribe({
       next: (response: any) => {
 
         const valorSecuencial = response.data;
@@ -640,7 +641,7 @@ export class PageVentasComponent implements OnInit{
     }*/
     let loadingRef = this.loadingService.open();
 
-    this.coreService.getPdfFromVentaByIdEmp(this.idEmpresa,identificacion,idVenta,this.tokenValidate).subscribe({
+    this.coreService.getPdfFromVentaByIdEmp(this.idEmpresa,identificacion,idVenta,this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
         loadingRef.close();
 
@@ -762,7 +763,7 @@ export class PageVentasComponent implements OnInit{
   }
 
   private getConfigVentaSinSecuencia(){
-      this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_PERMITIR_INGRESAR_SIN_SECUENCIA', this.tokenValidate).subscribe({
+      this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_PERMITIR_INGRESAR_SIN_SECUENCIA', this.tokenValidate, this.nombreBd).subscribe({
         next: (data: any) => {
 
           if(data.data.length > 0) {
@@ -778,7 +779,7 @@ export class PageVentasComponent implements OnInit{
   }
 
   private getConfigIvaIncluidoEnVenta(){
-      this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_IVA_INCLUIDO_FACTURA', this.tokenValidate).subscribe({
+      this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_IVA_INCLUIDO_FACTURA', this.tokenValidate, this.nombreBd).subscribe({
         next: (data: any) => {
         
           if(data.data && data.data.length > 0){
@@ -798,7 +799,7 @@ export class PageVentasComponent implements OnInit{
   }
 
   private getConfigImpresionDocumentosVenta(){
-      this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_IMPRESION_DOCUMENTOS', this.tokenValidate).subscribe({
+      this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_IMPRESION_DOCUMENTOS', this.tokenValidate, this.nombreBd).subscribe({
         next: (data: any) => {
           
           if(data.data && data.data.length > 0){

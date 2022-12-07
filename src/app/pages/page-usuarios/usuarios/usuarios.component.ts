@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { LineController } from 'chart.js';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
@@ -30,6 +29,7 @@ export class UsuariosComponent implements OnInit {
   idEmpresa: number = 0;
   rucEmpresa: string = '';
   idUsuario: number = 0;
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -62,6 +62,7 @@ export class UsuariosComponent implements OnInit {
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
     this.idUsuario = localServiceResponseUsr._userId;
+    this.nombreBd = localServiceResponseUsr._nombreBd;
 
     this.getListUsuariosRefresh();
 
@@ -77,7 +78,7 @@ export class UsuariosComponent implements OnInit {
 
     let dialogRef = this.loadingService.open();
 
-    this.coreService.getUsuariosByIdEmp(this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.getUsuariosByIdEmp(this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
       next: (dataUsers: any) => {
         dialogRef.close();
 
@@ -133,7 +134,7 @@ export class UsuariosComponent implements OnInit {
   private deleteUserBD(idUser: any): void{
     let dialogRef = this.loadingService.open();
 
-    this.coreService.deleteUsuarioByIdEmp(idUser, this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.deleteUsuarioByIdEmp(idUser, this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
         dialogRef.close();
         if(data.isSucess){
@@ -162,7 +163,7 @@ export class UsuariosComponent implements OnInit {
 
     let dialogRef = this.loadingService.open();
 
-    this.coreService.searchUsuariosByIdEmpText(this.idEmpresa, this.textSearchUsuarios, this.tokenValidate).subscribe({
+    this.coreService.searchUsuariosByIdEmpText(this.idEmpresa, this.textSearchUsuarios, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
 
         dialogRef.close();
@@ -195,7 +196,7 @@ export class UsuariosComponent implements OnInit {
   exportarUsuarios(){
     let dialogRef = this.loadingService.open();
 
-    this.coreService.getExcelListUsuarios(this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.getExcelListUsuarios(this.idEmpresa, this.tokenValidate,this.nombreBd).subscribe({
       next: (data: any) => {
 
         dialogRef.close();

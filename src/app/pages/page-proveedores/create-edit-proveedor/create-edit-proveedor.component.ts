@@ -24,6 +24,7 @@ export class CreateEditProveedorComponent implements OnInit, AfterViewInit{
   idProveedorEdit: number = 0;
   idEmpresa: number = 0;
   rucEmpresa: string = '';
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -85,6 +86,7 @@ export class CreateEditProveedorComponent implements OnInit, AfterViewInit{
 
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
+    this.nombreBd = localServiceResponseUsr._nombreBd;
 
     this.route.paramMap.subscribe((params: any) => {
 
@@ -107,7 +109,7 @@ export class CreateEditProveedorComponent implements OnInit, AfterViewInit{
   private getProveedorById(idProveedor: any){
     let dialogRef = this.loadingService.open();
 
-    this.coreService.getProveedorByIdProvIdEmp(idProveedor, this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.getProveedorByIdProvIdEmp(idProveedor, this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
         next: (data: any) =>{
           dialogRef.close();
 
@@ -150,6 +152,7 @@ export class CreateEditProveedorComponent implements OnInit, AfterViewInit{
     }
 
     sendFormProveedor['idEmpresa'] = this.idEmpresa;
+    sendFormProveedor['nombreBd'] = this.nombreBd;
 
     if(this.editMode){
       sendFormProveedor['idProveedor'] = this.idProveedorEdit;

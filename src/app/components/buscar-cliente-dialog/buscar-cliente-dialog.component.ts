@@ -19,6 +19,7 @@ export class BuscarClienteDialogComponent implements OnInit {
   
   idEmpresa: number = 0;
   rucEmpresa: string = '';
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -28,7 +29,6 @@ export class BuscarClienteDialogComponent implements OnInit {
   showSinDatos = false;
   
   constructor(private coreService: ApplicationProvider,
-    private localService: LocalService,
     public matDialogRef: MatDialogRef<BuscarClienteDialogComponent>,
     private loadingService: LoadingService,
     private ref: ChangeDetectorRef) { }
@@ -48,6 +48,7 @@ export class BuscarClienteDialogComponent implements OnInit {
 
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
+    this.nombreBd = localServiceResponseUsr._nombreBd;
 
     this.getListaClientesRefresh();
   }
@@ -55,7 +56,7 @@ export class BuscarClienteDialogComponent implements OnInit {
 
   private getListaClientesRefresh(){
 
-    this.coreService.getListClientesByIdEmp(this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.getListClientesByIdEmp(this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
 
         this.listaClientes = data.data;
@@ -78,7 +79,7 @@ export class BuscarClienteDialogComponent implements OnInit {
 
     let dialogRef = this.loadingService.open();
 
-    this.coreService.searchClientesByIdEmpText(this.idEmpresa, this.textSearchClientes, this.tokenValidate).subscribe({
+    this.coreService.searchClientesByIdEmpText(this.idEmpresa, this.textSearchClientes, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
         
         dialogRef.close();

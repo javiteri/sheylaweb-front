@@ -19,6 +19,7 @@ export class BuscarProveedorDialogComponent implements OnInit {
   textSearchProveedores: string = '';
   idEmpresa: number = 0;
   rucEmpresa: string = '';
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -47,6 +48,7 @@ export class BuscarProveedorDialogComponent implements OnInit {
 
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
+    this.nombreBd = localServiceResponseUsr._nombreBd;
 
     this.getListaProveedoresInit();
 
@@ -55,7 +57,7 @@ export class BuscarProveedorDialogComponent implements OnInit {
 
   private getListaProveedoresInit(){
 
-    this.coreService.getListProveedoresByIdEmp(this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.getListProveedoresByIdEmp(this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
 
         this.listaProveedores = data.data;
@@ -77,7 +79,7 @@ export class BuscarProveedorDialogComponent implements OnInit {
 
     let dialogRef = this.loadingService.open();
 
-    this.coreService.searchProveedoresByIdEmpText(this.idEmpresa, this.textSearchProveedores, this.tokenValidate).subscribe({
+    this.coreService.searchProveedoresByIdEmpText(this.idEmpresa, this.textSearchProveedores, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
         
         dialogRef.close();

@@ -20,6 +20,7 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
   base64: string = '';
   idEmpresa: number = 0;
   rucEmpresa: string = '';
+  nombreBd: string = '';
 
   empresaData: any;
 
@@ -83,10 +84,12 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
 
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
+    this.nombreBd = localServiceResponseUsr._nombreBd;
 
     let postData = {
       ruc: this.rucEmpresa,
-      idEmpresa: this.idEmpresa
+      idEmpresa: this.idEmpresa,
+      nombreBd: this.nombreBd
     }
     this.getDatosEmpresa(postData, this.tokenValidate);
 

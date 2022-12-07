@@ -22,6 +22,7 @@ export class ListaComprasComponent implements OnInit {
   
   idEmpresa: number = 0;
   rucEmpresa: string = '';
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -58,6 +59,7 @@ export class ListaComprasComponent implements OnInit {
 
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
+    this.nombreBd = localServiceResponseUsr._nombreBd;
 
     //this.searchListaComprasWithFilter();
     this.getConfigNumDecimalesIdEmp();
@@ -81,7 +83,7 @@ export class ListaComprasComponent implements OnInit {
                               '23:59:59' ;
 
     this.coreService.getListaComprasByIdEmp(this.idEmpresa, this.nombreCiRuc, 
-      this.noDocmento, dateInitString, dateFinString,this.tokenValidate).subscribe({
+      this.noDocmento, dateInitString, dateFinString,this.tokenValidate, this.nombreBd).subscribe({
       next: (results: any) => {
         dialogRef.close();
 
@@ -125,7 +127,7 @@ export class ListaComprasComponent implements OnInit {
       if(result){
         let dialogRef = this.loadingService.open();
 
-      this.coreService.deleteCompraByIdEmp(this.idEmpresa,idCompra,tipoDoc, this.tokenValidate).subscribe({
+      this.coreService.deleteCompraByIdEmp(this.idEmpresa,idCompra,tipoDoc, this.tokenValidate, this.nombreBd).subscribe({
         next: (results: any) => {
           dialogRef.close();
           this.searchListaComprasWithFilter();
@@ -141,7 +143,7 @@ export class ListaComprasComponent implements OnInit {
   }
 
   private getConfigNumDecimalesIdEmp(){
-    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'COMPRA_NUMERODECIMALES', this.tokenValidate).subscribe({
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'COMPRA_NUMERODECIMALES', this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
 
         if(data.data.length > 0){
@@ -183,7 +185,7 @@ export class ListaComprasComponent implements OnInit {
                               '23:59:59' ;
 
     this.coreService.getExcelListaCompras(this.idEmpresa,this.nombreCiRuc,this.noDocmento,
-                                        dateInitString,dateFinString, this.tokenValidate).subscribe({
+                                        dateInitString,dateFinString, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
 
         dialogRef.close();

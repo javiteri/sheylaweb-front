@@ -14,8 +14,8 @@ export class EndPointProvider {
     private readonly appVersion = '1.0.0';
     //private readonly apiUrl = 'http://192.168.1.10:8086/api/'; 
 
-    //private readonly apiUrl = 'http://localhost:3000/api/';
-    private readonly apiUrl = 'https://www.sheylaweb.net/api/';
+    private readonly apiUrl = 'http://localhost:3000/api/';
+    //private readonly apiUrl = 'https://www.sheylaweb.net/api/';
 
 
     private readonly searchDatosClienteSri = 'https://sheyla.net/SRI/SRI.php';
@@ -52,11 +52,11 @@ export class EndPointProvider {
     private get getClientesExcelByIdEmpUrl(){
       return this.apiUrl + this._getClientesExcelIdEmp;
     }
-    getClientesExcelById(idEmp: any, accessToken: any): Observable<Blob>{
+    getClientesExcelById(idEmp: any, accessToken: any, nombreBd: string): Observable<Blob>{
         const endPointUrl = this.getClientesExcelByIdEmpUrl;
 
         const header = this.getRequestHeaderFiles(accessToken)
-        const params1 = new HttpParams().set('idEmp', idEmp);
+        const params1 = new HttpParams().set('idEmp', idEmp).set('nombreBd', nombreBd);
 
         return this.http.get(endPointUrl, {responseType: 'blob', params: params1, headers: header});
     }
@@ -184,11 +184,12 @@ export class EndPointProvider {
     private get deleteClienteByIdEmp(){
       return this.apiUrl + this._deleteClienteByIdEmp;
     }
-    deleteClienteByIdEmpToBD<T>(idCliente: any, idEmpresa: any, accessToken: any): Observable<T>{
+    deleteClienteByIdEmpToBD<T>(idCliente: any, idEmpresa: any, accessToken: any, nombreBd: string): Observable<T>{
       const endPointUrl = this.deleteClienteByIdEmp;
       const postData = {
         'idEmpresa': idEmpresa,
-        'idCliente': idCliente
+        'idCliente': idCliente,
+        'nombreBd': nombreBd
       }
 
       return this.http.post<T>(endPointUrl,postData,  this.getRequestHeader(accessToken));
@@ -200,12 +201,12 @@ export class EndPointProvider {
     private get listClientesByIdEmp(){
       return this.apiUrl + this._listClientesByIdEmp;
     }
-    getListClientesByIdEmp<T>(idEmpresa: any, accessToken: any): Observable<T>{
+    getListClientesByIdEmp<T>(idEmpresa: any, accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.listClientesByIdEmp;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
-      let paramsRequest = new HttpParams().set('idEmp', idEmpresa);
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('nombreBd', nombreBd);
 
       const httpOptions = {
         headers: header,
@@ -219,11 +220,11 @@ export class EndPointProvider {
     private get clienteByIdEmp(){
       return this.apiUrl + this._clienteByIdEmp;
     }
-    getClienteByIdEmp<T>(idCliente: any, idEmpresa: any, accessToken: any): Observable<T>{
+    getClienteByIdEmp<T>(idCliente: any, idEmpresa: any, accessToken: any, nombreBd: string): Observable<T>{
         const endpointUrl = this.clienteByIdEmp;
 
         const header = this.getRequestHeaderClientes(accessToken);
-        let paramsRequest = new HttpParams().set('idCliente', idCliente).set('idEmp', idEmpresa);
+        let paramsRequest = new HttpParams().set('idCliente', idCliente).set('idEmp', idEmpresa).set('nombreBd', nombreBd);
         const httpOptions = {
           headers: header,
           params: paramsRequest
@@ -235,11 +236,11 @@ export class EndPointProvider {
     private get searchClientesByIdEmp(){
       return this.apiUrl + this._searchClientesByIdEmp;
     }
-    searchClientesByIdEmpText<T>(idEmpresa: any, textSearch: any, accessToken: any): Observable<T>{
+    searchClientesByIdEmpText<T>(idEmpresa: any, textSearch: any, accessToken: any, nombreBd: string): Observable<T>{
         const endpointUrl = this.searchClientesByIdEmp;
 
         const header = this.getRequestHeaderClientes(accessToken);
-        let paramsRequest = new HttpParams().set('textSearch', textSearch).set('idEmp', idEmpresa);
+        let paramsRequest = new HttpParams().set('textSearch', textSearch).set('idEmp', idEmpresa).set('nombreBd', nombreBd);
         const httpOptions = {
           headers: header,
           params: paramsRequest
@@ -253,13 +254,13 @@ export class EndPointProvider {
     private get usuariosByIdEmp(){
       return this.apiUrl + this._usuariosByIdEmp;
     }
-    getUsuariosByIdEmp<T>(idEmp: any, accesToken: any){
+    getUsuariosByIdEmp<T>(idEmp: any, accesToken: any,nombreBd: string){
       const endpointUrl = this.usuariosByIdEmp;
       const header = this.getRequestHeaderClientes(accesToken);
 
       const httpOptions = {
         headers: header, 
-        params: new HttpParams().set('idEmp', idEmp)
+        params: new HttpParams().set('idEmp', idEmp).set('nombreBd', nombreBd)
       }
 
       return this.http.get<T>(endpointUrl, httpOptions);
@@ -278,13 +279,13 @@ export class EndPointProvider {
     private get getUsuarioByIdUrl(){
       return this.apiUrl + this._getUsuarioById;
     }
-    getUsuarioById<T>(idUser: any, idEmp: any, accessToken: any): Observable<T>{
+    getUsuarioById<T>(idUser: any, idEmp: any, accessToken: any, nombreBd: string): Observable<T>{
         const endPointUrl = this.getUsuarioByIdUrl;
 
         const header = this.getRequestHeaderClientes(accessToken)
         const httpOptions = {
           headers: header, 
-          params: new HttpParams().set('id', idUser).set('idEmp', idEmp)
+          params: new HttpParams().set('id', idUser).set('idEmp', idEmp).set('nombreBd', nombreBd)
         }
 
         return this.http.get<T>(endPointUrl, httpOptions);
@@ -301,11 +302,12 @@ export class EndPointProvider {
     private get deleteUsuarioByIdEmp(){
       return this.apiUrl + this._deleteUsuarioByIdEmp;
     }
-    deleteUsuarioByIdEmpToBD<T>(idUser: any, idEmpresa: any, accessToken: any): Observable<T>{
+    deleteUsuarioByIdEmpToBD<T>(idUser: any, idEmpresa: any, accessToken: any,nombreBd: string): Observable<T>{
       const endPointUrl = this.deleteUsuarioByIdEmp;
       const postData = {
         'idEmpresa': idEmpresa,
-        'idUser': idUser
+        'idUser': idUser,
+        'nombreBd': nombreBd
       }
 
       return this.http.post<T>(endPointUrl,postData,  this.getRequestHeader(accessToken));
@@ -314,11 +316,11 @@ export class EndPointProvider {
     private get searchUsuariosByIdEmp(){
       return this.apiUrl + this._searchUsuariosByIdEmp;
     }
-    searchUsuariosByIdEmpText<T>(idEmpresa: any, textSearch: any, accessToken: any): Observable<T>{
+    searchUsuariosByIdEmpText<T>(idEmpresa: any, textSearch: any, accessToken: any,nombreBd: string): Observable<T>{
         const endpointUrl = this.searchUsuariosByIdEmp;
 
         const header = this.getRequestHeaderClientes(accessToken);
-        let paramsRequest = new HttpParams().set('textSearch', textSearch).set('idEmp', idEmpresa);
+        let paramsRequest = new HttpParams().set('textSearch', textSearch).set('idEmp', idEmpresa).set('nombreBd', nombreBd);
         const httpOptions = {
           headers: header,
           params: paramsRequest
@@ -330,11 +332,11 @@ export class EndPointProvider {
     private get getUsuariosExcelByIdEmpUrl(){
       return this.apiUrl + this._getUsuariosExcelIdEmp;
     }
-    getUsuariosExcelById(idEmp: any, accessToken: any): Observable<Blob>{
+    getUsuariosExcelById(idEmp: any, accessToken: any,nombreBd: string): Observable<Blob>{
         const endPointUrl = this.getUsuariosExcelByIdEmpUrl;
 
         const header = this.getRequestHeaderFiles(accessToken)
-        const params1 = new HttpParams().set('idEmp', idEmp);
+        const params1 = new HttpParams().set('idEmp', idEmp).set('nombreBd', nombreBd);
 
         return this.http.get(endPointUrl, {responseType: 'blob', params: params1, headers: header});
     }
@@ -346,12 +348,12 @@ export class EndPointProvider {
     private get listProveedoresByIdEmp(){
       return this.apiUrl + this._listProveedoresByIdEmp;
     }
-    getListProveedoresByIdEmp<T>(idEmpresa: any, accessToken: any): Observable<T>{
+    getListProveedoresByIdEmp<T>(idEmpresa: any, accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.listProveedoresByIdEmp;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
-      let paramsRequest = new HttpParams().set('idEmp', idEmpresa);
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('nombreBd', nombreBd);
 
       const httpOptions = {
         headers: header,
@@ -364,11 +366,11 @@ export class EndPointProvider {
     private get proveedorByIdEmp(){
       return this.apiUrl + this._proveedorByIdEmp;
     }
-    getProveedorByIdEmp<T>(idProveedor: any, idEmpresa: any, accessToken: any): Observable<T>{
+    getProveedorByIdEmp<T>(idProveedor: any, idEmpresa: any, accessToken: any, nombreBd: string): Observable<T>{
         const endpointUrl = this.proveedorByIdEmp;
 
         const header = this.getRequestHeaderClientes(accessToken);
-        let paramsRequest = new HttpParams().set('id', idProveedor).set('idEmp', idEmpresa);
+        let paramsRequest = new HttpParams().set('id', idProveedor).set('idEmp', idEmpresa).set('nombreBd', nombreBd);
         const httpOptions = {
           headers: header,
           params: paramsRequest
@@ -397,11 +399,12 @@ export class EndPointProvider {
     private get deleteProveedorByIdEmp(){
       return this.apiUrl + this._deleteProveedorByIdEmp;
     }
-    deleteProveedorByIdEmpToBD<T>(idProv: any, idEmpresa: any, accessToken: any): Observable<T>{
+    deleteProveedorByIdEmpToBD<T>(idProv: any, idEmpresa: any, accessToken: any, nombreBd: string): Observable<T>{
       const endPointUrl = this.deleteProveedorByIdEmp;
       const postData = {
         'idEmpresa': idEmpresa,
-        'idProv': idProv
+        'idProv': idProv,
+        'nombreBd': nombreBd
       }
 
       return this.http.post<T>(endPointUrl,postData,  this.getRequestHeader(accessToken));
@@ -411,11 +414,11 @@ export class EndPointProvider {
     private get searchProveedoresByIdEmp(){
       return this.apiUrl + this._searchProveedoresByIdEmp;
     }
-    searchProveedoresByIdEmpText<T>(idEmpresa: any, textSearch: any, accessToken: any): Observable<T>{
+    searchProveedoresByIdEmpText<T>(idEmpresa: any, textSearch: any, accessToken: any, nombreBd: string): Observable<T>{
         const endpointUrl = this.searchProveedoresByIdEmp;
 
         const header = this.getRequestHeaderClientes(accessToken);
-        let paramsRequest = new HttpParams().set('textSearch', textSearch).set('idEmp', idEmpresa);
+        let paramsRequest = new HttpParams().set('textSearch', textSearch).set('idEmp', idEmpresa).set('nombreBd', nombreBd);
         const httpOptions = {
           headers: header,
           params: paramsRequest
@@ -428,11 +431,11 @@ export class EndPointProvider {
     private get getProveedoresExcelByIdEmpUrl(){
       return this.apiUrl + this._getProveedoresExcelIdEmp;
     }
-    getProveedoresExcelById(idEmp: any, accessToken: any): Observable<Blob>{
+    getProveedoresExcelById(idEmp: any, accessToken: any, nombreBd: string): Observable<Blob>{
         const endPointUrl = this.getProveedoresExcelByIdEmpUrl;
 
         const header = this.getRequestHeaderFiles(accessToken)
-        const params1 = new HttpParams().set('idEmp', idEmp);
+        const params1 = new HttpParams().set('idEmp', idEmp).set('nombreBd', nombreBd);
 
         return this.http.get(endPointUrl, {responseType: 'blob', params: params1, headers: header});
     }
@@ -443,12 +446,12 @@ export class EndPointProvider {
      private get listProductosByIdEmp(){
        return this.apiUrl + this._listProductosByIdEmp;
      }
-     getListProductosByIdEmp<T>(idEmpresa: any, accessToken: any): Observable<T>{
+     getListProductosByIdEmp<T>(idEmpresa: any, accessToken: any, nombreBd: string): Observable<T>{
        const endpointUrl = this.listProductosByIdEmp;
        
        const header = this.getRequestHeaderClientes(accessToken);
  
-       let paramsRequest = new HttpParams().set('idEmp', idEmpresa);
+       let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('nombreBd', nombreBd);
  
        const httpOptions = {
          headers: header,
@@ -479,11 +482,11 @@ export class EndPointProvider {
     private get productoByIdEmp(){
       return this.apiUrl + this._productoByIdEmp;
     }
-    getProductoByIdEmp<T>(idProducto: any, idEmpresa: any, accessToken: any): Observable<T>{
+    getProductoByIdEmp<T>(idProducto: any, idEmpresa: any, accessToken: any, nombreBd: string): Observable<T>{
         const endpointUrl = this.productoByIdEmp;
 
         const header = this.getRequestHeaderClientes(accessToken);
-        let paramsRequest = new HttpParams().set('id', idProducto).set('idEmp', idEmpresa);
+        let paramsRequest = new HttpParams().set('id', idProducto).set('idEmp', idEmpresa).set('nombreBd', nombreBd);
         const httpOptions = {
           headers: header,
           params: paramsRequest
@@ -512,11 +515,12 @@ export class EndPointProvider {
     private get deleteProductosByIdEmp(){
       return this.apiUrl + this._deleteProductosByIdEmp;
     }
-    deleteProductoByIdEmpToBD<T>(idProducto: any, idEmpresa: any, accessToken: any): Observable<T>{
+    deleteProductoByIdEmpToBD<T>(idProducto: any, idEmpresa: any, accessToken: any, nombreBd: string): Observable<T>{
       const endPointUrl = this.deleteProductosByIdEmp;
       const postData = {
         'idEmpresa': idEmpresa,
-        'idProducto': idProducto
+        'idProducto': idProducto,
+        'nombreBd': nombreBd
       }
 
       return this.http.post<T>(endPointUrl,postData,  this.getRequestHeader(accessToken));
@@ -526,11 +530,11 @@ export class EndPointProvider {
     private get categoriasByIdEmp(){
       return this.apiUrl + this._categoriasByIdEmp;
     }
-    getCategoriasByIdEmp<T>(idEmpresa: any, accessToken: any): Observable<T>{
+    getCategoriasByIdEmp<T>(idEmpresa: any, accessToken: any, nombreBd: string): Observable<T>{
         const endpointUrl = this.categoriasByIdEmp;
 
         const header = this.getRequestHeaderClientes(accessToken);
-        let paramsRequest = new HttpParams().set('idEmp', idEmpresa);
+        let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('nombreBd', nombreBd);
         const httpOptions = {
           headers: header,
           params: paramsRequest
@@ -543,11 +547,11 @@ export class EndPointProvider {
     private get marcasByIdEmp(){
       return this.apiUrl + this._marcasByIdEmp;
     }
-    getMarcasByIdEmp<T>(idEmpresa: any, accessToken: any): Observable<T>{
+    getMarcasByIdEmp<T>(idEmpresa: any, accessToken: any, nombreBd: string): Observable<T>{
         const endpointUrl = this.marcasByIdEmp;
 
         const header = this.getRequestHeaderClientes(accessToken);
-        let paramsRequest = new HttpParams().set('idEmp', idEmpresa);
+        let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('nombreBd', nombreBd);
         const httpOptions = {
           headers: header,
           params: paramsRequest
@@ -559,11 +563,11 @@ export class EndPointProvider {
     private get searchProductosByIdEmp(){
       return this.apiUrl + this._searchProductosByIdEmp;
     }
-    searchProductosByIdEmpText<T>(idEmpresa: any, textSearch: any, accessToken: any): Observable<T>{
+    searchProductosByIdEmpText<T>(idEmpresa: any, textSearch: any, accessToken: any, nombreBd: string): Observable<T>{
         const endpointUrl = this.searchProductosByIdEmp;
 
         const header = this.getRequestHeaderClientes(accessToken);
-        let paramsRequest = new HttpParams().set('textSearch', textSearch).set('idEmp', idEmpresa);
+        let paramsRequest = new HttpParams().set('textSearch', textSearch).set('idEmp', idEmpresa).set('nombreBd', nombreBd);
         const httpOptions = {
           headers: header,
           params: paramsRequest
@@ -593,11 +597,11 @@ export class EndPointProvider {
     private get getProductosExcelByIdEmpUrl(){
       return this.apiUrl + this._getProductosExcelIdEmp;
     }
-    getProductosExcelById(idEmp: any, accessToken: any): Observable<Blob>{
+    getProductosExcelById(idEmp: any, accessToken: any, nombreBd: string): Observable<Blob>{
         const endPointUrl = this.getProductosExcelByIdEmpUrl;
 
         const header = this.getRequestHeaderFiles(accessToken)
-        const params1 = new HttpParams().set('idEmp', idEmp);
+        const params1 = new HttpParams().set('idEmp', idEmp).set('nombreBd',nombreBd);
 
         return this.http.get(endPointUrl, {responseType: 'blob', params: params1, headers: header});
     }
@@ -635,14 +639,14 @@ export class EndPointProvider {
       return this.apiUrl + this._listaVentasByIdEmp;
     }
     getListaVentasByIdEmp<T>(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
-      fechaFin: any, accessToken: any): Observable<T>{
+      fechaFin: any, accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.listaVentasByIdEmp;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
       let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('ciname',nombreCi)
                             .set('nodoc',noDoc).set('fechaini',fechaIni)
-                            .set('fechafin',fechaFin);
+                            .set('fechafin',fechaFin).set('nombreBd', nombreBd);
 
       const httpOptions = {
         headers: header,
@@ -655,12 +659,12 @@ export class EndPointProvider {
     private get dataByIdVenta(){
       return this.apiUrl + this._dataByIdVenta;
     }
-    getDataByIdVenta<T>(idVenta: any, idEmpresa: any,rucEmpresa: any, accessToken: any): Observable<T>{
+    getDataByIdVenta<T>(idVenta: any, idEmpresa: any,rucEmpresa: any, accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.dataByIdVenta;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
-      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('id', idVenta).set('ruc',rucEmpresa);
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('id', idVenta).set('ruc',rucEmpresa).set('nombreBd', nombreBd);
 
       const httpOptions = {
         headers: header,
@@ -674,14 +678,14 @@ export class EndPointProvider {
       return this.apiUrl + this._listaResumenVentasByIdEmp;
     }
     getListaResumenVentasByIdEmp<T>(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
-      fechaFin: any, accessToken: any): Observable<T>{
+      fechaFin: any, accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.listaResumenVentasByIdEmp;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
       let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('ciname',nombreCi)
                             .set('nodoc',noDoc).set('fechaini',fechaIni)
-                            .set('fechafin',fechaFin);
+                            .set('fechafin',fechaFin).set('nombreBd', nombreBd);
 
       const httpOptions = {
         headers: header,
@@ -694,11 +698,11 @@ export class EndPointProvider {
     private get consumidorFinalByIdEmp(){
       return this.apiUrl + this._getOrCreateConsumidorFinalByIdEmp;
     }
-    getConsumidorFinalByIdEmp<T>(idEmpresa: any,accessToken: any): Observable<T>{
+    getConsumidorFinalByIdEmp<T>(idEmpresa: any,accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.consumidorFinalByIdEmp;
       
       const header = this.getRequestHeaderClientes(accessToken);
-      let paramsRequest = new HttpParams().set('idEmp', idEmpresa)
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('nombreBd', nombreBd);
       const httpOptions = {
         headers: header,
         params: paramsRequest
@@ -710,13 +714,13 @@ export class EndPointProvider {
     private get nextNumeroSecuencialByIdEmp(){
       return this.apiUrl + this._nextNumeroSecuencialByIdEmp;
     }
-    getNextNumeroSecuencialByIdEmp<T>(idEmpresa: any,tipoDoc: any, fac001: any, fac002: any, accessToken: any): Observable<T>{
+    getNextNumeroSecuencialByIdEmp<T>(idEmpresa: any,tipoDoc: any, fac001: any, fac002: any, accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.nextNumeroSecuencialByIdEmp;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
       let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('tipoDoc',tipoDoc)
-                            .set('fac001',fac001).set('fac002',fac002);
+                            .set('fac001',fac001).set('fac002',fac002).set('nombreBd', nombreBd);
 
       const httpOptions = {
         headers: header,
@@ -729,12 +733,12 @@ export class EndPointProvider {
     private get nextNoPuntoVentaByUsrURL(){
       return this.apiUrl + this._nextNoPuntoVentaByUsr;
     }
-    getNextNoPuntoVentaByUsr<T>(idEmpresa: any,tipoDoc: any,idUsuario: any, accessToken: any): Observable<T>{
+    getNextNoPuntoVentaByUsr<T>(idEmpresa: any,tipoDoc: any,idUsuario: any, accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.nextNoPuntoVentaByUsrURL;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
-      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('tipoDoc',tipoDoc).set('idUsuario', idUsuario)
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('tipoDoc',tipoDoc).set('idUsuario', idUsuario).set('nombreBd', nombreBd);
 
       const httpOptions = {
         headers: header,
@@ -751,14 +755,14 @@ export class EndPointProvider {
       return this.apiUrl + this._listaVentasExcelByIdEmp;
     }
     getListaVentasExcelByIdEmp(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
-      fechaFin: any, accessToken: any): Observable<any>{
+      fechaFin: any, accessToken: any, nombreBd: string): Observable<any>{
       const endpointUrl = this.listaVentasExcelByIdEmpUrl;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
       let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('ciname',nombreCi)
                             .set('nodoc',noDoc).set('fechaIni',fechaIni)
-                            .set('fechaFin',fechaFin);
+                            .set('fechaFin',fechaFin).set('nombreBd', nombreBd);
 
       return this.http.get(endpointUrl, {responseType: 'blob', params: paramsRequest, headers: header});      
     }
@@ -768,14 +772,14 @@ export class EndPointProvider {
       return this.apiUrl + this._listaResumenVentasExcelByIdEmp;
     }
     getListaResumenVentasExcelByIdEmp(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
-      fechaFin: any, accessToken: any): Observable<any>{
+      fechaFin: any, accessToken: any, nombreBd: string): Observable<any>{
       const endpointUrl = this.listaResumenVentasExcelByIdEmpUrl;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
       let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('ciname',nombreCi)
                             .set('nodoc',noDoc).set('fechaIni',fechaIni)
-                            .set('fechaFin',fechaFin);
+                            .set('fechaFin',fechaFin).set('nombreBd', nombreBd);
 
       return this.http.get(endpointUrl, {responseType: 'blob', params: paramsRequest, headers: header});
       
@@ -823,14 +827,14 @@ export class EndPointProvider {
       return this.apiUrl + this._listaComprasByIdEmp;
     }
     getListaComprasByIdEmp<T>(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
-      fechaFin: any, accessToken: any): Observable<T>{
+      fechaFin: any, accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.listaComprasByIdEmp;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
       let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('ciname',nombreCi)
                             .set('nodoc',noDoc).set('fechaini',fechaIni)
-                            .set('fechafin',fechaFin);
+                            .set('fechafin',fechaFin).set('nombreBd', nombreBd);
 
       const httpOptions = {
         headers: header,
@@ -844,14 +848,14 @@ export class EndPointProvider {
       return this.apiUrl + this._listaResumenComprasByIdEmp;
     }
     getListaResumenComprasByIdEmp<T>(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
-      fechaFin: any, accessToken: any): Observable<T>{
+      fechaFin: any, accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.listaResumenComprasByIdEmp;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
       let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('ciname',nombreCi)
                             .set('nodoc',noDoc).set('fechaini',fechaIni)
-                            .set('fechafin',fechaFin);
+                            .set('fechafin',fechaFin).set('nombreBd', nombreBd);
 
       const httpOptions = {
         headers: header,
@@ -864,11 +868,11 @@ export class EndPointProvider {
     private get proveedorGenericoByIdEmp(){
       return this.apiUrl + this._getOrCreateProveedorGenericoByIdEmp;
     }
-    getProveedorGenericoByIdEmp<T>(idEmpresa: any,accessToken: any): Observable<T>{
+    getProveedorGenericoByIdEmp<T>(idEmpresa: any,accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.proveedorGenericoByIdEmp;
       
       const header = this.getRequestHeaderClientes(accessToken);
-      let paramsRequest = new HttpParams().set('idEmp', idEmpresa)
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('nombreBd', nombreBd)
       const httpOptions = {
         headers: header,
         params: paramsRequest
@@ -882,13 +886,13 @@ export class EndPointProvider {
       return this.apiUrl + this._nextNumeroSecuencialCompraByIdEmp;
     }
     getNextNumeroSecuencialCompraByIdEmp<T>(idEmpresa: any,tipoDoc: any, 
-                idProveedor: any, compraNumero: any, accessToken: any): Observable<T>{
+                idProveedor: any, compraNumero: any, accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.nextNumeroSecuencialCompraByIdEmp;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
       let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('tipoDoc',tipoDoc)
-                            .set('idProveedor',idProveedor).set('compraNumero',compraNumero);
+                            .set('idProveedor',idProveedor).set('compraNumero',compraNumero).set('nombreBd', nombreBd);
 
       const httpOptions = {
         headers: header,
@@ -910,12 +914,12 @@ export class EndPointProvider {
     private get dataByIdCompra(){
       return this.apiUrl + this._dataByIdCompra;
     }
-    getDataByIdCompra<T>(idVenta: any, idEmpresa: any,accessToken: any): Observable<T>{
+    getDataByIdCompra<T>(idVenta: any, idEmpresa: any,accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.dataByIdCompra;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
-      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('id', idVenta);
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('id', idVenta).set('nombreBd', nombreBd);
 
       const httpOptions = {
         headers: header,
@@ -930,14 +934,14 @@ export class EndPointProvider {
       return this.apiUrl + this._listaComprasExcelByIdEmp;
     }
     getListaComprasExcelByIdEmp(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
-      fechaFin: any, accessToken: any): Observable<any>{
+      fechaFin: any, accessToken: any, nombreBd: string): Observable<any>{
       const endpointUrl = this.listaComprasExcelByIdEmpUrl;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
       let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('ciname',nombreCi)
                             .set('nodoc',noDoc).set('fechaIni',fechaIni)
-                            .set('fechaFin',fechaFin);
+                            .set('fechaFin',fechaFin).set('nombreBd', nombreBd);
 
       return this.http.get(endpointUrl, {responseType: 'blob', params: paramsRequest, headers: header});      
     }
@@ -947,14 +951,14 @@ export class EndPointProvider {
       return this.apiUrl + this._listaResumenComprasExcelByIdEmp;
     }
     getListaResumenComprasExcelByIdEmp(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
-      fechaFin: any, accessToken: any): Observable<any>{
+      fechaFin: any, accessToken: any, nombreBd: string): Observable<any>{
       const endpointUrl = this.listaResumenComprasExcelByIdEmpUrl;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
       let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('ciname',nombreCi)
                             .set('nodoc',noDoc).set('fechaIni',fechaIni)
-                            .set('fechaFin',fechaFin);
+                            .set('fechaFin',fechaFin).set('nombreBd', nombreBd);
 
 
       return this.http.get(endpointUrl, {responseType: 'blob', params: paramsRequest, headers: header});
@@ -980,14 +984,14 @@ export class EndPointProvider {
       return this.apiUrl + this._listaMovimientosCajaByIdEmp;
     }
     getListaMovimientosCajaByIdEmp<T>(idEmpresa: any, nombreUsuario: any, tipo: any, 
-      concepto: any, fechaIni: any, fechaFin: any, accessToken: any): Observable<T>{
+      concepto: any, fechaIni: any, fechaFin: any, accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.listaMovimientosCajaByIdEmp;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
       let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('idUsu',nombreUsuario)
                             .set('tipo',tipo).set('concepto',concepto).set('fechaini',fechaIni)
-                            .set('fechafin',fechaFin);
+                            .set('fechafin',fechaFin).set('nombreBd', nombreBd);
 
       const httpOptions = {
         headers: header,
@@ -1002,13 +1006,13 @@ export class EndPointProvider {
       return this.apiUrl + this._listaMovimientosCuadrarCajaByIdEmp;
     }
     getListaMovimientosCuadrarCajaByIdEmp<T>(idEmpresa: any, idUsuario: any,
-                                  fechaIni: any, fechaFin: any, accessToken: any): Observable<T>{
+                                  fechaIni: any, fechaFin: any, accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.listaMovimientosCuadrarCajaByIdEmp;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
       let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('idUser',idUsuario)
-                            .set('fechaIni',fechaIni).set('fechaFin',fechaFin);
+                            .set('fechaIni',fechaIni).set('fechaFin',fechaFin).set('nombreBd', nombreBd);
 
       const httpOptions = {
         headers: header,
@@ -1021,12 +1025,12 @@ export class EndPointProvider {
     private get valorCajaByIdEmp(){
       return this.apiUrl + this._valorCajaByIdEmp;
     }
-    getValorCajaByIdEmp<T>(idEmpresa: any, accessToken: any): Observable<T>{
+    getValorCajaByIdEmp<T>(idEmpresa: any, accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.valorCajaByIdEmp;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
-      let paramsRequest = new HttpParams().set('idEmp', idEmpresa);
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('nombreBd', nombreBd);
 
       const httpOptions = {
         headers: header,
@@ -1057,14 +1061,14 @@ export class EndPointProvider {
       return this.apiUrl + this._listaMovCajaExcelByIdEmp;
     }
     getListaMoviCajaExcelByIdEmp(idEmpresa: any, nombreUsuario: any, tipo: any, 
-      concepto: any, fechaIni: any, fechaFin: any, accessToken: any): Observable<any>{
+      concepto: any, fechaIni: any, fechaFin: any, accessToken: any, nombreBd: string): Observable<any>{
       const endpointUrl = this.listaMovCajaExcelByIdEmpUrl;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
       let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('idUsu',nombreUsuario)
                             .set('tipo',tipo).set('concepto',concepto).set('fechaini',fechaIni)
-                            .set('fechafin',fechaFin);
+                            .set('fechafin',fechaFin).set('nombreBd', nombreBd);
 
 
       return this.http.get(endpointUrl, {responseType: 'blob', params: paramsRequest, headers: header});
@@ -1112,12 +1116,12 @@ export class EndPointProvider {
     private get getListConfigByIdEmp(){
       return this.apiUrl + this._getListConfigsByIdEmp;
     }
-    getListConfigsByIdEmp<T>(idEmpresa: any,accessToken: any): Observable<T>{
+    getListConfigsByIdEmp<T>(idEmpresa: any,accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.getListConfigByIdEmp;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
-      let paramsRequest = new HttpParams().set('idEmp', idEmpresa)
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('nombreBd', nombreBd);
 
       const httpOptions = {
         headers: header,
@@ -1136,7 +1140,7 @@ export class EndPointProvider {
       
       const header = this.getRequestHeaderClientes(accessToken);
 
-      let paramsRequest = new HttpParams().set('ruc', rucEmpresa)
+      let paramsRequest = new HttpParams().set('ruc', rucEmpresa);
 
       const httpOptions = {
         headers: header,
@@ -1150,13 +1154,13 @@ export class EndPointProvider {
     private get getConfigsByIdEmp(){
       return this.apiUrl + this._getConfigByIdEmp;
     }
-    getConfigByIdEmp<T>(idEmpresa: any,nombreConfig: any, accessToken: any): Observable<T>{
+    getConfigByIdEmp<T>(idEmpresa: any,nombreConfig: any, accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.getConfigsByIdEmp;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
       let paramsRequest = new HttpParams().set('idEmp', idEmpresa)
-                                    .set('nombreConfig', nombreConfig)
+                                    .set('nombreConfig', nombreConfig).set('nombreBd', nombreBd)
 
       const httpOptions = {
         headers: header,
@@ -1171,13 +1175,14 @@ export class EndPointProvider {
     private get getVentaDiariaValueByIdEmp(){
       return this.apiUrl + this._getVentaDiariaValueByIdEmp;
     }
-    getValorVentaDiariaByIdEmp<T>(idEmpresa: any,fechaIni:any,fechaFin:any, accessToken: any): Observable<T>{
+    getValorVentaDiariaByIdEmp<T>(idEmpresa: any,fechaIni:any,fechaFin:any, accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.getVentaDiariaValueByIdEmp;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
       let paramsRequest = new HttpParams().set('idEmp', idEmpresa)
                           .set('fechaIni',fechaIni).set('fechaFin',fechaFin)
+                          .set('nombreBd', nombreBd)
 
       const httpOptions = {
         headers: header,
@@ -1190,13 +1195,14 @@ export class EndPointProvider {
     private get getVentaMensualValueByIdEmp(){
       return this.apiUrl + this._getVentaMensualValueByIdEmp;
     }
-    getValorVentaMensualByIdEmp<T>(idEmpresa: any,fechaIni:any,fechaFin:any, accessToken: any): Observable<T>{
+    getValorVentaMensualByIdEmp<T>(idEmpresa: any,fechaIni:any,fechaFin:any, accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.getVentaMensualValueByIdEmp;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
       let paramsRequest = new HttpParams().set('idEmp', idEmpresa)
                           .set('fechaIni',fechaIni).set('fechaFin',fechaFin)
+                          .set('nombreBd', nombreBd)
 
       const httpOptions = {
         headers: header,
@@ -1209,12 +1215,12 @@ export class EndPointProvider {
     private get getInfoClientesRegistradosByIdEmp(){
       return this.apiUrl + this._getInfoClientesRegistradosByIdEmp;
     }
-    getInfoClientesRegistradosIdEmp<T>(idEmpresa: any,accessToken: any): Observable<T>{
+    getInfoClientesRegistradosIdEmp<T>(idEmpresa: any,accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.getInfoClientesRegistradosByIdEmp;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
-      let paramsRequest = new HttpParams().set('idEmp', idEmpresa)
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('nombreBd', nombreBd)
 
       const httpOptions = {
         headers: header,
@@ -1227,12 +1233,12 @@ export class EndPointProvider {
     private get getInfoProductosRegistradosByIdEmp(){
       return this.apiUrl + this._getInfoProductosRegistradosByIdEmp;
     }
-    getInfoProductosRegistradosIdEmp<T>(idEmpresa: any,accessToken: any): Observable<T>{
+    getInfoProductosRegistradosIdEmp<T>(idEmpresa: any,accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.getInfoProductosRegistradosByIdEmp;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
-      let paramsRequest = new HttpParams().set('idEmp', idEmpresa)
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('nombreBd', nombreBd)
 
       const httpOptions = {
         headers: header,
@@ -1245,12 +1251,12 @@ export class EndPointProvider {
     private get getNumDocAndLicenceDaysRucEmp(){
       return this.apiUrl + this._getNumDocAndLicenceDaysRucEmp;
     }
-    getNumeroDocsAndLicenceDays<T>(rucEmp: any,accessToken: any): Observable<T>{
+    getNumeroDocsAndLicenceDays<T>(rucEmp: any,accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.getNumDocAndLicenceDaysRucEmp;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
-      let paramsRequest = new HttpParams().set('rucEmp', rucEmp)
+      let paramsRequest = new HttpParams().set('rucEmp', rucEmp).set('nombreBd', nombreBd)
 
       const httpOptions = {
         headers: header,
@@ -1263,13 +1269,13 @@ export class EndPointProvider {
     private get getProductosDelMes(){
       return this.apiUrl + this._getProductosDelMes;
     }
-    getProductosDelMesIdEmp<T>(idEmp: any,fechaIni:any,fechaFin:any,accessToken: any): Observable<T>{
+    getProductosDelMesIdEmp<T>(idEmp: any,fechaIni:any,fechaFin:any,accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.getProductosDelMes;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
       let paramsRequest = new HttpParams().set('idEmp', idEmp)
-                        .set('fechaIni', fechaIni).set('fechaFin', fechaFin)
+                        .set('fechaIni', fechaIni).set('fechaFin', fechaFin).set('nombreBd', nombreBd)
       const httpOptions = {
         headers: header,
         params: paramsRequest
@@ -1281,13 +1287,13 @@ export class EndPointProvider {
     private get getClientesDelMes(){
       return this.apiUrl + this._getClientesDelMes;
     }
-    getClientesDelMesIdEmp<T>(idEmp: any,fechaIni:any,fechaFin:any,accessToken: any): Observable<T>{
+    getClientesDelMesIdEmp<T>(idEmp: any,fechaIni:any,fechaFin:any,accessToken: any,nombreBd: string): Observable<T>{
       const endpointUrl = this.getClientesDelMes;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
       let paramsRequest = new HttpParams().set('idEmp', idEmp)
-                        .set('fechaIni', fechaIni).set('fechaFin', fechaFin)
+                        .set('fechaIni', fechaIni).set('fechaFin', fechaFin).set('nombreBd', nombreBd)
       const httpOptions = {
         headers: header,
         params: paramsRequest
@@ -1300,13 +1306,13 @@ export class EndPointProvider {
     private get getVentasDelDiaFormaPagoUrl(){
       return this.apiUrl + this._getVentasDelDiaFormaPago;
     }
-    getVentaDelDiaFormaPago<T>(idEmp: any,fechaIni:any,fechaFin:any,accessToken: any): Observable<T>{
+    getVentaDelDiaFormaPago<T>(idEmp: any,fechaIni:any,fechaFin:any,accessToken: any,nombreBd: string): Observable<T>{
       const endpointUrl = this.getVentasDelDiaFormaPagoUrl;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
       let paramsRequest = new HttpParams().set('idEmp', idEmp)
-                        .set('fechaIni', fechaIni).set('fechaFin', fechaFin)
+                        .set('fechaIni', fechaIni).set('fechaFin', fechaFin).set('nombreBd', nombreBd)
       const httpOptions = {
         headers: header,
         params: paramsRequest
@@ -1322,7 +1328,7 @@ export class EndPointProvider {
       return this.apiUrl + this._getDocumentosElectronicosByIdEmp;
     }
     getDocumentosElectronicosByIdEmp<T>(idEmp: any,fechaIni:any,fechaFin:any,
-                        tipo:any,nombresci:any,nodoc:any,accessToken: any): Observable<T>{
+                        tipo:any,nombresci:any,nodoc:any,accessToken: any,nombreBd: string): Observable<T>{
       const endpointUrl = this.getDocumentosElectronicosByIdEmpURL;
       
       const header = this.getRequestHeaderClientes(accessToken);
@@ -1330,7 +1336,7 @@ export class EndPointProvider {
       let paramsRequest = new HttpParams().set('idEmp', idEmp)
                         .set('fechaIni', fechaIni).set('fechaFin', fechaFin)
                         .set('tipo', tipo).set('nodoc', nodoc)
-                        .set('nombresci', nombresci)
+                        .set('nombresci', nombresci).set('nombreBd',nombreBd);
 
       const httpOptions = {
         headers: header,
@@ -1344,12 +1350,12 @@ export class EndPointProvider {
     private get getDocumentosElectronicosByIdEmpNoAutorizadosURL(){
       return this.apiUrl + this._getDocumentosElectronicosByIdEmpNoAutorizados;
     }
-    getDocumentosElectronicosByIdEmpNoAutorizados<T>(idEmp: any,accessToken: any): Observable<T>{
+    getDocumentosElectronicosByIdEmpNoAutorizados<T>(idEmp: any,accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.getDocumentosElectronicosByIdEmpNoAutorizadosURL;
       
       const header = this.getRequestHeaderClientes(accessToken);
 
-      let paramsRequest = new HttpParams().set('idEmp', idEmp)
+      let paramsRequest = new HttpParams().set('idEmp', idEmp).set('nombreBd',nombreBd);
 
       const httpOptions = {
         headers: header,
@@ -1363,7 +1369,7 @@ export class EndPointProvider {
     private get getPDFVentaByIdEmpURL(){
       return this.apiUrl + this._getPDFVentaByIdEmp;
     }
-    getPDFVentaByIdEmp(idEmp: any,identificacion: any,idVentaCompra: any, accessToken: any): Observable<Blob>{
+    getPDFVentaByIdEmp(idEmp: any,identificacion: any,idVentaCompra: any, accessToken: any, nombreBd: string): Observable<Blob>{
       const endpointUrl = this.getPDFVentaByIdEmpURL;
       
       const header = this.getRequestHeaderFilesPDF(accessToken);
@@ -1371,6 +1377,7 @@ export class EndPointProvider {
       let paramsRequest = new HttpParams().set('idEmp', idEmp)
                             .set('idVentaCompra', idVentaCompra)
                             .set('identificacion', identificacion)
+                            .set('nombreBd', nombreBd)
 
       return this.http.get(endpointUrl,{responseType: 'blob', params: paramsRequest, headers: header});
     }
@@ -1411,13 +1418,13 @@ export class EndPointProvider {
       return this.apiUrl + this._getDocElectronicosExcelIdEmp;
     }
     getDocElectronicosExcelIdEmp(idEmp: any,rucEmpresa: any, fechaIni:any,fechaFin:any,
-                                tipo:any,nombresci:any,nodoc:any, accessToken: any): Observable<Blob>{
+                                tipo:any,nombresci:any,nodoc:any, accessToken: any, nombreBd: string): Observable<Blob>{
                                   
         const endPointUrl = this.getDocElectronicosExcelIdEmpURL;
 
-        const header = this.getRequestHeaderFiles(accessToken)
+        const header = this.getRequestHeaderFiles(accessToken);
         const params1 = new HttpParams().set('idEmp', idEmp).set('rucEmp', rucEmpresa) .set('fechaIni', fechaIni)
-          .set('fechaFin', fechaFin).set('tipo', tipo).set('nodoc', nodoc).set('nombresci', nombresci);
+          .set('fechaFin', fechaFin).set('tipo', tipo).set('nodoc', nodoc).set('nombresci', nombresci).set('nombreBd', nombreBd);
 
         return this.http.get(endPointUrl, {responseType: 'blob', params: params1, headers: header});
     }

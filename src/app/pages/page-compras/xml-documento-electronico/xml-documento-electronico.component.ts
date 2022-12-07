@@ -27,6 +27,7 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
   idEmpresa: number = 0;
   rucEmpresa: string = '';
   idUser: number = 0;
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -121,7 +122,7 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
     this.idUser = localServiceResponseUsr._userId;
-
+    this.nombreBd = localServiceResponseUsr._nombreBd;
   }
 
 
@@ -226,7 +227,8 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
     // GET LIST PRINCIPAL CODE TO REQUEST TO API IF EXIST IN DB
     let postData = {
       idEmp: this.idEmpresa,
-      listProducts: (data.listDetalle.length == undefined)? [data.listDetalle]: data.listDetalle 
+      listProducts: (data.listDetalle.length == undefined)? [data.listDetalle]: data.listDetalle,
+      nombreBd: this.nombreBd
     }
 
     this.coreService.verifyProductsXml(postData, this.tokenValidate).subscribe({
@@ -239,7 +241,7 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
       }
     });
 
-    this.coreService.searchProveedoresByIdEmpText(this.idEmpresa, data['ci'], this.tokenValidate).subscribe({
+    this.coreService.searchProveedoresByIdEmpText(this.idEmpresa, data['ci'], this.tokenValidate, this.nombreBd).subscribe({
       next: (dataResult: any) => {
         if(dataResult.data[0]){
           
@@ -267,7 +269,8 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
             telefonoRepre: '',
             emailRepre: '',
             direccionRepre: '',
-            idEmpresa: 0
+            idEmpresa: 0,
+            nombreBd: this.nombreBd
           }
           proveedorInsert['idEmpresa'] = this.idEmpresa;
 

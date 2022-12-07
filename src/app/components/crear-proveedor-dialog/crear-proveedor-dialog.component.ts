@@ -23,6 +23,7 @@ export class CrearProveedorDialogComponent implements OnInit {
 
   idEmpresa: number = 0;
   rucEmpresa: string = '';
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -77,6 +78,7 @@ export class CrearProveedorDialogComponent implements OnInit {
 
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
+    this.nombreBd = localServiceResponseUsr._nombreBd;
 
     this.sendDatosFormProveedor.controls['tipoIdentificacion'].setValue(this.tiposId[1].valor);
   }
@@ -152,6 +154,7 @@ export class CrearProveedorDialogComponent implements OnInit {
     }
 
     sendFormProveedor['idEmpresa'] = this.idEmpresa;
+    sendFormProveedor['nombreBd'] = this.nombreBd;
 
     this.insertDatosProveedorApi(sendFormProveedor);
   }

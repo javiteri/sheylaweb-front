@@ -26,6 +26,7 @@ export class BuscarProductoCompraDialogComponent implements OnInit, OnDestroy {
 
   idEmpresa: number = 0;
   rucEmpresa: string = '';
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -66,6 +67,7 @@ export class BuscarProductoCompraDialogComponent implements OnInit, OnDestroy {
 
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
+    this.nombreBd = localServiceResponseUsr._nombreBd;
 
     //this.getListaProductosRefresh();
     this.getConfigNumDecimalesIdEmp();
@@ -150,7 +152,7 @@ export class BuscarProductoCompraDialogComponent implements OnInit, OnDestroy {
 
 
   private getConfigNumDecimalesIdEmp(){
-    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'COMPRA_NUMERODECIMALES', this.tokenValidate).subscribe({
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'COMPRA_NUMERODECIMALES', this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
 
         if(data.data.length > 0){

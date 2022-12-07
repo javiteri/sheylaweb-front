@@ -59,8 +59,15 @@
     margin-top: 1em;
 }
 
+.content-configs div input[type='password']{
+    text-align: center;
+    border-radius: 4px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    width: 20%; max-width: 50%
+}
 
-.content-configs div input[type='text'], .content-configs div input[type='password']{
+.content-configs div input[type='text']{
     text-align: center;
     border: 1px solid var(--grey-400);
     border-radius: 4px;
@@ -134,3 +141,24 @@ input[type=number] {
         text-align: end;
     }
 }
+
+
+.container-clave-firma{
+    border: 1px solid var(--grey-400);
+    display: flex;
+    flex-flow: row nowrap;
+    border-radius: 4px;
+    width: 20%;
+    max-width: 50%;
+}
+
+@media screen and (max-width: 900px){
+    .container-clave-firma{
+        width: 50%;
+    }
+    .content-configs div input[type='text']{
+        width: 50%
+    }
+}
+
+

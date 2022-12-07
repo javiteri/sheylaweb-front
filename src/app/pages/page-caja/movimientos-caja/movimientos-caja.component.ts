@@ -21,6 +21,7 @@ export class MovimientosCajaComponent implements OnInit {
 
   idEmpresa: number = 0;
   rucEmpresa: string = '';
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -61,6 +62,7 @@ export class MovimientosCajaComponent implements OnInit {
 
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
+    this.nombreBd = localServiceResponseUsr._nombreBd;
 
     this.getListMovimientosCaja();
     this.getUsuariosByIdEmpresa();
@@ -86,7 +88,7 @@ export class MovimientosCajaComponent implements OnInit {
     const tipoMovimiento = (this.tipoMovimientoSelect == 'TODOS') ? '' : this.tipoMovimientoSelect;
 
     this.coreService.getListMovimientosCajaByIdEmp(this.idEmpresa,usuarioName,tipoMovimiento,this.conceptoMovimientoSearch,
-                                                    dateInitString,dateFinString,this.tokenValidate).subscribe({
+                                                    dateInitString,dateFinString,this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
 
         dialogRef.close();
@@ -123,7 +125,7 @@ export class MovimientosCajaComponent implements OnInit {
   }
 
   private getUsuariosByIdEmpresa(){
-    this.coreService.getUsuariosByIdEmp(this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.getUsuariosByIdEmp(this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
       next: (dataUsers: any) => {
 
         const valueTodos = {
@@ -148,7 +150,7 @@ export class MovimientosCajaComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         this.getListMovimientosCaja(); 
-      }
+      } 
     });
   }
 
@@ -184,7 +186,7 @@ export class MovimientosCajaComponent implements OnInit {
     const tipoMovimiento = (this.tipoMovimientoSelect == 'TODOS') ? '' : this.tipoMovimientoSelect;
 
     this.coreService.getListMovCajaExcelByIdEmp(this.idEmpresa,usuarioName,tipoMovimiento,
-      this.conceptoMovimientoSearch,dateInitString,dateFinString,this.tokenValidate).subscribe({
+      this.conceptoMovimientoSearch,dateInitString,dateFinString,this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
 
         dialogRef.close();

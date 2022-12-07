@@ -19,6 +19,7 @@ export class ResumenComprasComponent implements OnInit {
   
   idEmpresa: number = 0;
   rucEmpresa: string = '';
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -56,6 +57,7 @@ export class ResumenComprasComponent implements OnInit {
 
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
+    this.nombreBd = localServiceResponseUsr._nombreBd;
 
     this.searchListaResumenVentasWithFilter();
   }
@@ -78,7 +80,7 @@ export class ResumenComprasComponent implements OnInit {
                               '23:59:59' ;
 
     this.coreService.getResumenComprasByIdEmp(this.idEmpresa, this.nombreCiRuc, 
-      this.noDocmento, dateInitString, dateFinString,this.tokenValidate).subscribe({
+      this.noDocmento, dateInitString, dateFinString,this.tokenValidate, this.nombreBd).subscribe({
           next: (results: any) => {
             dialogRef.close();
             
@@ -142,7 +144,7 @@ export class ResumenComprasComponent implements OnInit {
                               '23:59:59' ;
 
     this.coreService.getExcelListaResumenCompras(this.idEmpresa,this.nombreCiRuc,this.noDocmento,
-                                        dateInitString,dateFinString, this.tokenValidate).subscribe({
+                                        dateInitString,dateFinString, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
 
         dialogRef.close();

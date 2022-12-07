@@ -26,6 +26,7 @@ export class NuevoClienteComponent implements OnInit, AfterViewInit{
   idClienteEdit: number = 0;
   idEmpresa: number = 0;
   rucEmpresa: string = '';
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -86,6 +87,7 @@ export class NuevoClienteComponent implements OnInit, AfterViewInit{
 
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
+    this.nombreBd = localServiceResponseUsr._nombreBd;
 
     this.route.paramMap.subscribe((params: any) => {
 
@@ -115,7 +117,7 @@ export class NuevoClienteComponent implements OnInit, AfterViewInit{
   private getClienteById(idCliente: any){
     let dialogRef = this.loadingService.open();
 
-    this.coreService.getClienteByIdClienteIdEmp(idCliente, this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.getClienteByIdClienteIdEmp(idCliente, this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
         next: (data: any) =>{
           dialogRef.close();
 
@@ -173,6 +175,7 @@ export class NuevoClienteComponent implements OnInit, AfterViewInit{
 
       sendDatosCliente['idEmpresa'] = this.idEmpresa;
       sendDatosCliente['fechaNacimiento'] = dateString;
+      sendDatosCliente['nombreBd'] = this.nombreBd;
 
       if(this.editMode){
         sendDatosCliente['idCliente'] = this.idClienteEdit;

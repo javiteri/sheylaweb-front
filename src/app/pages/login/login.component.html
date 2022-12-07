@@ -36,7 +36,8 @@
                 <div class="container-form-field">
                   <mat-icon>lock</mat-icon>
                     <mat-form-field>
-                        <input matInput type="password" placeholder="contraseña" formControlName="password" >
+                        <input matInput type="password" placeholder="contraseña" formControlName="password" [type]="hide ? 'password' : 'text'">
+                        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </mat-form-field>
                 </div>
 

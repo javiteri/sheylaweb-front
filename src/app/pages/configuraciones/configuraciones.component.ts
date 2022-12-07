@@ -53,13 +53,15 @@ export class ConfiguracionesComponent implements OnInit {
   checkedPermitirCambiarUsuarioCuadreCaja = false;
   idEmpresa: number = 0;
   rucEmpresa: string = '';
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
 
   isUploadFirmaElectronica = false;
   textUploadFirmaElectronica = '';
-
+  hide = true;
+  
   constructor(private location: Location,
     private coreService: ApplicationProvider,
     private loadingService: LoadingService,
@@ -78,6 +80,7 @@ export class ConfiguracionesComponent implements OnInit {
 
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
+    this.nombreBd = localServiceResponseUsr._nombreBd;
 
     this.getListConfigInit();
     this.getListDatosConfigNameFirmaElectronicaAndClave();
@@ -87,7 +90,7 @@ export class ConfiguracionesComponent implements OnInit {
 
     const overlayRef = this.loadingService.open();
 
-    this.coreService.getListConfigsByIdEmp(this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.getListConfigsByIdEmp(this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
         overlayRef.close();
 
@@ -222,9 +225,9 @@ export class ConfiguracionesComponent implements OnInit {
 
     const arrayConfig : Config[] = [];
 
-    arrayConfig.push({idEmpresa: this.idEmpresa, nombreConfig: 'FACTURA_VALORIVA', valorConfig: this.ivaSelect});
-    arrayConfig.push({idEmpresa: this.idEmpresa, nombreConfig: 'VENTA_NUMERODECIMALES', valorConfig: this.decimalesVentaSelect});
-    arrayConfig.push({idEmpresa: this.idEmpresa, nombreConfig: 'COMPRA_NUMERODECIMALES', valorConfig: this.decimalesCompraSelect});
+    arrayConfig.push({idEmpresa: this.idEmpresa, nombreConfig: 'FACTURA_VALORIVA', valorConfig: this.ivaSelect, nombreBd: this.nombreBd});
+    arrayConfig.push({idEmpresa: this.idEmpresa, nombreConfig: 'VENTA_NUMERODECIMALES', valorConfig: this.decimalesVentaSelect,nombreBd: this.nombreBd});
+    arrayConfig.push({idEmpresa: this.idEmpresa, nombreConfig: 'COMPRA_NUMERODECIMALES', valorConfig: this.decimalesCompraSelect,nombreBd: this.nombreBd});
 
     this.coreService.insertListConfigsToBD(arrayConfig, this.tokenValidate).subscribe({
       next: (data: any) => {
@@ -249,7 +252,8 @@ export class ConfiguracionesComponent implements OnInit {
     const postData = [{
       nombreConfig: nombreConfig,
       valorConfig: value,
-      idEmpresa: this.idEmpresa
+      idEmpresa: this.idEmpresa,
+      nombreBd: this.nombreBd
     }]
 
     const dialogRef = this.loadingService.open();

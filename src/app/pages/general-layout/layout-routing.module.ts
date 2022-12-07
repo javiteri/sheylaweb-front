@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [AuthGuard],
+    //canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -20,14 +20,17 @@ const routes: Routes = [
       },
       {
         path: 'dashboard',
+        canActivate:[AuthGuard],
         loadChildren: () => import('../page-dashboard/dashboard.module').then((m) => m.DashboardModule)
       },
       {
         path: 'clientes',
+        canActivate:[AuthGuard],
         loadChildren: () => import('../page-clientes/clientes.module').then((m) => m.ClientesModule)
       },
       {
         path: 'inventario',
+        canActivate:[AuthGuard],
         loadChildren: () => import('../page-inventario/productos.module').then((m) => m.ProductosModule)
       },
       {
@@ -36,6 +39,7 @@ const routes: Routes = [
       },
       {
         path: 'proveedores',
+        canActivate:[AuthGuard],
         loadChildren: () => import('../page-proveedores/proveedores.module').then((m) => m.ProveedoresModule)
       },
       {
@@ -48,18 +52,22 @@ const routes: Routes = [
       },
       {
         path: 'infoempresa',
+        canActivate:[AuthGuard],
         loadChildren: () => import('../registro-empresa/registroempresa.module').then((m) => m.RegistroEmpresaModule)
       },
       {
         path: 'usuarios',
+        canActivate:[AuthGuard],
         loadChildren: () => import('../page-usuarios/usuarios.module').then((m) => m.UsuariosModule)
       },
       {
         path: 'documentos-electronicos',
+        canActivate:[AuthGuard],
         loadChildren: () => import('../page-documentos-electronicos/documentoselectronicos.module').then((m) => m.DocumentosElectronicosModule)
       },
       {
         path: 'configuracion',
+        canActivate:[AuthGuard],
         loadChildren: () => import('../configuraciones/configuraciones.module').then((m) => m.ConfiguracionesModule)
       },
       { path: 'print',

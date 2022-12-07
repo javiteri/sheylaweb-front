@@ -27,6 +27,7 @@ export class ProveedoresComponent implements OnInit {
 
   idEmpresa: number = 0;
   rucEmpresa: string = '';
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
@@ -58,6 +59,7 @@ export class ProveedoresComponent implements OnInit {
 
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
+    this.nombreBd = localServiceResponseUsr._nombreBd;
 
     this.getListaProveedoresRefresh();
 
@@ -69,7 +71,7 @@ export class ProveedoresComponent implements OnInit {
 
     let dialogRef = this.loadingService.open();
 
-    this.coreService.getListProveedoresByIdEmp(this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.getListProveedoresByIdEmp(this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
 
         dialogRef.close();
@@ -130,7 +132,7 @@ export class ProveedoresComponent implements OnInit {
   private deleteProveedorApi(idProveedor: any): void{
     let dialogRef = this.loadingService.open();
 
-    this.coreService.deleteProveedorByIdEmp(idProveedor, this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.deleteProveedorByIdEmp(idProveedor, this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
         dialogRef.close();
 
@@ -161,7 +163,7 @@ export class ProveedoresComponent implements OnInit {
 
     let dialogRef = this.loadingService.open();
 
-    this.coreService.searchProveedoresByIdEmpText(this.idEmpresa, this.textSearchProveedores, this.tokenValidate).subscribe({
+    this.coreService.searchProveedoresByIdEmpText(this.idEmpresa, this.textSearchProveedores, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
         
         dialogRef.close();
@@ -195,7 +197,7 @@ export class ProveedoresComponent implements OnInit {
   exportarProveedores(){
     let dialogRef = this.loadingService.open();
 
-    this.coreService.getExcelListProveedores(this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.getExcelListProveedores(this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
 
         dialogRef.close();

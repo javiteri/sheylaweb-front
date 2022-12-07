@@ -19,13 +19,15 @@ export class NuevoUsuarioComponent implements OnInit, AfterViewInit {
   idUsuarioEdit: number = 0;
   idEmpresa: number = 0;
   rucEmpresa: string = '';
+  nombreBd: string = '';
   //dataUser
   dataUser: any;
   tokenValidate!: TokenValidate;
 
   editMode = false;
   titlePage = 'Nuevo Usuario'
-
+  hide = true;
+  
   identificacionInput! : ElementRef<HTMLInputElement>;
   @ViewChild('identificacionInput') set inputElRef(elRef: ElementRef<HTMLInputElement>){
     if(elRef){
@@ -73,6 +75,7 @@ export class NuevoUsuarioComponent implements OnInit, AfterViewInit {
 
     this.idEmpresa = localServiceResponseUsr._bussId;
     this.rucEmpresa = localServiceResponseUsr._ruc;
+    this.nombreBd = localServiceResponseUsr._nombreBd;
 
     this.route.paramMap.subscribe((params: any) => {
 
@@ -138,7 +141,7 @@ export class NuevoUsuarioComponent implements OnInit, AfterViewInit {
   private getUsuarioById(idUser: any, idEmpresa: any){
     let dialogRef = this.loadingService.open();
 
-    this.coreService.getUsuarioById(idUser,idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.getUsuarioById(idUser,idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
         next: (data: any) =>{
           dialogRef.close();
 
@@ -187,6 +190,7 @@ export class NuevoUsuarioComponent implements OnInit, AfterViewInit {
 
     sendDatosUsuario['idEmpresa'] = this.idEmpresa;
     sendDatosUsuario['fechaNacimiento'] = dateString;
+    sendDatosUsuario['nombreBd'] = this.nombreBd;
 
     if(this.editMode){
       sendDatosUsuario['idUsuario'] = this.idUsuarioEdit;

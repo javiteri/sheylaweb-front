@@ -147,7 +147,13 @@
           <mat-icon>lock</mat-icon>
           <p class="margin-bottom-cero">Clave Firma Electrónica:</p>
         </div>
-        <input matInput type="password" [(ngModel)]="claveFirmaElectronica">
+        <div class="container-clave-firma" >
+          <input matInput type="password" [(ngModel)]="claveFirmaElectronica" style="max-width: 100%;
+          width: 100%;border: none;"[type]="hide ? 'password' : 'text'">
+          <mat-icon matSuffix (click)="hide = !hide" 
+              style="margin-left:4px;margin-right:4px; overflow: visible;">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </div>
+        
       </div>
 
     <div class="container-btn-save-fac-electronica">
