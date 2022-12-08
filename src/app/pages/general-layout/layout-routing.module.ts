@@ -70,6 +70,10 @@ const routes: Routes = [
         canActivate:[AuthGuard],
         loadChildren: () => import('../configuraciones/configuraciones.module').then((m) => m.ConfiguracionesModule)
       },
+      {
+        path: 'establecimientos',
+        loadChildren: () => import('../puntos-emision/puntosEmision.module').then((m) => m.PuntosEmisionModule)
+      },
       { path: 'print',
         outlet: 'print',
         component: PrintLayoutComponent,

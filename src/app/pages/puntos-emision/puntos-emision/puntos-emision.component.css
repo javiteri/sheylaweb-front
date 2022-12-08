@@ -1,0 +1,112 @@
+.titulo{
+    margin-bottom: .5em;
+}
+.titulo p{
+    font-size: .8em;
+    font-weight: 400;
+    color: var(--grey-600);
+}
+.container-options{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.container-options > div{
+    flex: 1 1 0;
+}
+.container-options div:nth-child(2){
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+.container-options button:first-child{
+    margin-right: 15px;
+}
+
+.mat-card-header-text{
+    width: 100% !important;
+  }
+  .mat-card{
+    padding: 0 !important;
+  }
+
+  .mat-card .mat-card-header{
+    padding: 6px !important;
+    border-radius: 4px 4px 0 0;
+  }
+  .mat-card-header{
+    display: flex;
+    flex-direction: row;
+  }
+  .mat-card .mat-card-header .mat-card-title {
+    margin-bottom: 0 !important;
+    font-size: 16px !important;
+  }
+  .mat-table{
+    width: 100%;
+  }
+
+  table{
+    width: 100%;
+}
+
+.alineado-centro{
+    display: flex;
+    justify-content: center;
+}   
+.justify-centro{
+    justify-content: center;
+}
+.flex-grow-1_5{
+    flex-grow: 1.5;
+}
+
+
+.despejar-derecha{
+    padding-inline-end: 17px !important;
+}
+
+.flex-flow-shrink1_5{
+    flex-grow: 1.5;
+    flex-shrink: 1.5;
+}
+.mat-icon-red{
+    color: var(--red-bold);
+}
+.mat-icon-accent{
+    color: var(--accent-color);
+}
+.mat-card{
+    box-shadow: 0 5px 20px rgba(0,0,0,.05) !important;
+    margin-top: .4rem;
+}
+
+.mat-header-row{
+    background-color: var(--color-primary-dark);
+    min-width: 700px;
+    border-width: 0
+}
+.mat-header-row th{
+    color: white;
+}
+
+@media screen and (max-width: 960px){
+    .mat-table{
+        overflow-x: auto;
+        overflow-y: hidden
+    }
+    .mat-footer-row, .mat-header-row, .mat-row {
+        width: fit-content;
+    }
+
+    .mat-cell, .mat-footer-cell, .mat-header-cell{
+        min-width: 90px;
+    }
+    /*.mat-table .mat-header-row th:last-child, .mat-table .mat-row td:last-child{
+        min-width: 50px;
+    }*/
+}

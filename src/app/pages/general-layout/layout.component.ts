@@ -107,6 +107,7 @@ export class LayoutComponent implements OnInit {
       submenu: [
         {name: 'Datos Empresa', url: 'infoempresa'},
         {name: 'Avanzados', url: 'configuracion'},
+        {name: 'Establecimientos', url: 'establecimientos'}
       ]
     }
 
