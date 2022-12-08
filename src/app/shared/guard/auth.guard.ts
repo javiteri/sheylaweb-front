@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { CanActivate, CanLoad, Route, Router, UrlSegment, UrlTree } from "@angular/router";
-import { Observable } from "rxjs";
 
 
 @Injectable()
@@ -10,8 +9,6 @@ export class AuthGuard implements CanActivate{
 
     
     canActivate(): boolean{
-
-        console.log('inside auth guard');
         if(sessionStorage.getItem('_valtok') && sessionStorage.getItem('_valuser')){
             //console.log('inside can activate truue');
             return true;
