@@ -22,11 +22,6 @@
     justify-content: flex-end;
 }
 
-
-.container-options button:first-child{
-    margin-right: 15px;
-}
-
 .mat-card-header-text{
     width: 100% !important;
   }
@@ -87,7 +82,7 @@
 
 .mat-header-row{
     background-color: var(--color-primary-dark);
-    min-width: 700px;
+    min-width: 600px;
     border-width: 0
 }
 .mat-header-row th{
@@ -100,7 +95,7 @@
         overflow-y: hidden
     }
     .mat-footer-row, .mat-header-row, .mat-row {
-        width: fit-content;
+        /*width: fit-content;*/
     }
 
     .mat-cell, .mat-footer-cell, .mat-header-cell{

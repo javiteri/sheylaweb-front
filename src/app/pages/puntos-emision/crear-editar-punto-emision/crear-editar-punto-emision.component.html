@@ -1,1 +1,70 @@
-<p>crear-editar-punto-emision works!</p>
+<div class="titulo">
+    <p>Nuevo Establecimiento</p>
+  </div>
+
+<div class="container-register">
+
+    <div class="container-form">
+
+        <mat-card>
+            <mat-card-content>
+
+                <form [formGroup]="sendDatosEmpresaForm" ><!-- (ngSubmit)="updateDatosEmpresa(sendDatosEmpresaForm.value)"-->
+                    <div class="all-content">
+                        <div class="container-form-field" style="margin-top: 1rem;">
+                            <mat-form-field >
+                                <mat-label>Ruc Empresa</mat-label>
+                                <input matInput type="text" formControlName="ruc" >
+                            </mat-form-field>
+
+                            <mat-form-field >
+                                <mat-label>Establecimiento</mat-label>
+                                <input #nombreEmpresaInput matInput type="text" formControlName="nombreEmpresa" >
+                            </mat-form-field>
+
+                        </div>
+
+                        <div class="container-form-field">
+
+                            <mat-form-field class="mat-form-field-date">
+                                <mat-label>Nombre Empresa</mat-label>
+                                <input matInput type="text" formControlName="razonSocial" >
+                            </mat-form-field>
+
+                            <mat-form-field >
+                                <mat-label>Direccion</mat-label>
+                                <input  matInput type="text" formControlName="nombreEmpresa" >
+                            </mat-form-field>
+
+                        </div>
+
+
+                        <div class="container-logo-empresa">
+                            <div>
+                              <img [src]="imgURL" height="200" *ngIf="imgURL">
+                            </div>
+                            <div>
+                                <label for="file-upload" class="custom-file-upload">
+                                <mat-icon>file_upload</mat-icon>Logo Empresa
+                                </label>
+                                <input #file id="file-upload" accept='image/png'  type="file"  (change)="preview(file.files);"/>
+                            </div>
+                        </div>
+
+                        <div class="container-form-btn">
+                            <button  [class.spinner]="loading" [disabled]="loading" mat-raised-button class="btn-cancelar" 
+                            (mousedown)="cancelarClick();$event.preventDefault();">Cancelar</button>
+                            <button [class.spinner]="loading" [disabled]="loading" mat-raised-button color="btn-icon-accent">Guardar</button>
+                        </div>
+
+                    </div>
+                </form>
+
+            </mat-card-content>
+        </mat-card>
+
+    </div>
+
+
+</div>
+

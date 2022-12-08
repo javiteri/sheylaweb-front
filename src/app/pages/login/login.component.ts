@@ -195,10 +195,10 @@ export class LoginComponent implements OnInit {
   verifyExistAdminByRuc(ruc: string){
     const regexOnlyNumber = new RegExp(/^\d{13}$/);
     if(regexOnlyNumber.test(ruc)){
-      let overlayRef = this.loadingService.open();
+      //let overlayRef = this.loadingService.open();
       this.coreService.validateDefaultUser(ruc).subscribe({
         next: (res: any) => {
-          overlayRef.close();      
+          //overlayRef.close();      
 
           if(!res.isSuccess || res.existDefaultUser == false){
             this.isDefaultAdminUser = false;
@@ -210,7 +210,7 @@ export class LoginComponent implements OnInit {
           this.isDefaultAdminUser = true;
         },
         error:(error: any) => {
-          overlayRef.close();
+          //overlayRef.close();
           this.isDefaultAdminUser = false;
         }
       });

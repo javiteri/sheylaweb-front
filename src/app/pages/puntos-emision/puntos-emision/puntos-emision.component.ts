@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { Establecimiento } from '../models/Establecimiento';
 
 @Component({
@@ -14,9 +15,13 @@ export class PuntosEmisionComponent implements OnInit {
   
   showSinDatos = true;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  clickNuevoEstabl(){
+    this.router.navigate(['establecimientos/nuevo']);
   }
 
 }
