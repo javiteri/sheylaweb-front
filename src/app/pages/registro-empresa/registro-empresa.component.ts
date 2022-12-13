@@ -18,6 +18,7 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
   sendDatosEmpresaForm: FormGroup;
   imgURL: any;
   base64: string = '';
+  imgExtensionFile: string = '';
   idEmpresa: number = 0;
   rucEmpresa: string = '';
   nombreBd: string = '';
@@ -197,6 +198,7 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
     console.log(this.base64);
     if(this.base64){
       sendDatosEmpresaForm['img_base64'] = `data:image/png;base64,${this.base64}`;
+      sendDatosEmpresaForm['extensionFile'] = this.imgExtensionFile;
     }else{
       sendDatosEmpresaForm['img_base64'] = ``;
     }
@@ -241,6 +243,9 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
     const mimeType = files[0].type;
     let imagePath = files;
 
+    
+    
+
     if (mimeType.match(/image\/*/) == null) {
       //this.mensajeError = `Error tipo de archivo no valido ${mimeType}`;
       //this.limpiarImagen();
@@ -248,7 +253,7 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    if (mimeType !== 'image/png') {
+    if (mimeType !== 'image/png' && mimeType !== 'image/jpg' && mimeType !== 'image/jpeg'){
       //this.mensajeError = `Error tipo: ${mimeType}  no valido`;
       //this.limpiarImagen();
       console.log(`Error tipo: ${mimeType}  no valido`);

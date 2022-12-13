@@ -19,7 +19,8 @@
 
                             <mat-form-field >
                                 <mat-label>Establecimiento</mat-label>
-                                <input #nombreEmpresaInput matInput type="text" formControlName="nombreEmpresa" >
+                                <input #nombreEmpresaInput matInput type="text" formControlName="establecimiento" 
+                                (blur)="changeNumFac();">
                             </mat-form-field>
 
                         </div>
@@ -28,15 +29,23 @@
 
                             <mat-form-field class="mat-form-field-date">
                                 <mat-label>Nombre Empresa</mat-label>
-                                <input matInput type="text" formControlName="razonSocial" >
+                                <input matInput type="text" formControlName="nombreEmpresa" >
                             </mat-form-field>
 
                             <mat-form-field >
-                                <mat-label>Direccion</mat-label>
-                                <input  matInput type="text" formControlName="nombreEmpresa" >
+                                <mat-label>Telefono</mat-label>
+                                <input  matInput type="text" formControlName="telefono" >
                             </mat-form-field>
 
                         </div>
+
+                        <div class="container-form-field">
+                            <mat-form-field >
+                                <mat-label>Direccion</mat-label>
+                                <input  matInput type="text" formControlName="direccion" >
+                            </mat-form-field>
+                        </div>
+                        
 
 
                         <div class="container-logo-empresa">
@@ -47,7 +56,7 @@
                                 <label for="file-upload" class="custom-file-upload">
                                 <mat-icon>file_upload</mat-icon>Logo Empresa
                                 </label>
-                                <input #file id="file-upload" accept='image/png'  type="file"  (change)="preview(file.files);"/>
+                                <input #file id="file-upload" accept='image/png,image/jpg,image/jpeg'  type="file"  (change)="preview(file.files);"/>
                             </div>
                         </div>
 

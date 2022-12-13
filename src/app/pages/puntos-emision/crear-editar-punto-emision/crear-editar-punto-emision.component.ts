@@ -18,6 +18,7 @@ export class CrearEditarPuntoEmisionComponent implements OnInit {
   sendDatosEmpresaForm: FormGroup;
   imgURL: any;
   base64: string = '';
+  imgExtensionFile: string = '';
   idEmpresa: number = 0;
   rucEmpresa: string = '';
   nombreBd: string = '';
@@ -50,19 +51,10 @@ export class CrearEditarPuntoEmisionComponent implements OnInit {
 
     this.sendDatosEmpresaForm = this.formBuilder.group({
       ruc: [{value: '', disabled: true}, Validators.required],
-      nombreEmpresa: ['', [Validators.required, Validators.maxLength(250), Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]],
-      razonSocial: ['', [Validators.required, Validators.maxLength(250), Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]],
-      fechaInicio: [''],
-      eslogan: ['', [Validators.maxLength(250)]],
-      web: ['', [Validators.maxLength(250)]],
-      email: ['', [Validators.email]],
-      telefonos: ['', [Validators.required, Validators.maxLength(250), Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]],
-      direccionMatriz: ['', [Validators.required, Validators.maxLength(250), Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]],
-      sucursal1: ['', [Validators.maxLength(250)]],
-      sucursal2: ['', [Validators.maxLength(250)]],
-      sucursal3: ['', [Validators.maxLength(250)]],
-      propietario: ['', [Validators.required, Validators.maxLength(250)]],
-      comentario: ['', [Validators.maxLength(250)]]
+      establecimiento: ['', [Validators.required, Validators.maxLength(250)]],
+      nombreEmpresa: ['', [Validators.required, Validators.maxLength(250)]],
+      direccion: ['', [Validators.required, Validators.maxLength(250)]],
+      telefono: ['', [Validators.required, Validators.maxLength(250)]]
     });
   }
 
@@ -84,6 +76,8 @@ export class CrearEditarPuntoEmisionComponent implements OnInit {
     const mimeType = files[0].type;
     let imagePath = files;
 
+    this.imgExtensionFile = mimeType.split('/')[1];
+
     if (mimeType.match(/image\/*/) == null) {
       //this.mensajeError = `Error tipo de archivo no valido ${mimeType}`;
       //this.limpiarImagen();
@@ -91,7 +85,7 @@ export class CrearEditarPuntoEmisionComponent implements OnInit {
       return;
     }
 
-    if (mimeType !== 'image/png') {
+    if (mimeType !== 'image/png' && mimeType !== 'image/jpg' && mimeType !== 'image/jpeg') {
       //this.mensajeError = `Error tipo: ${mimeType}  no valido`;
       //this.limpiarImagen();
       console.log(`Error tipo: ${mimeType}  no valido`);
@@ -105,7 +99,6 @@ export class CrearEditarPuntoEmisionComponent implements OnInit {
       this.imgURL = reader.result!;
       const array = this.imgURL.split(',');
       this.base64 = array[1];
-      console.log(this.base64);
       const img = new Image();
       img.src = reader.result as string;
       img.onload = () => {
@@ -131,5 +124,9 @@ export class CrearEditarPuntoEmisionComponent implements OnInit {
     };
     }
 
-  } 
+  }
+
+  changeNumFac(){
+    console.log(this.sendDatosEmpresaForm.controls['']);
+  }
 }
