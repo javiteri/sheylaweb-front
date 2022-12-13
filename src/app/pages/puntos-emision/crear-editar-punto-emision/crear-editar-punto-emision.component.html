@@ -9,7 +9,7 @@
         <mat-card>
             <mat-card-content>
 
-                <form [formGroup]="sendDatosEmpresaForm" ><!-- (ngSubmit)="updateDatosEmpresa(sendDatosEmpresaForm.value)"-->
+                <form [formGroup]="sendDatosEmpresaForm" (ngSubmit)="guardarDatosEstablecimiento(sendDatosEmpresaForm.value)">
                     <div class="all-content">
                         <div class="container-form-field" style="margin-top: 1rem;">
                             <mat-form-field >
@@ -63,7 +63,8 @@
                         <div class="container-form-btn">
                             <button  [class.spinner]="loading" [disabled]="loading" mat-raised-button class="btn-cancelar" 
                             (mousedown)="cancelarClick();$event.preventDefault();">Cancelar</button>
-                            <button [class.spinner]="loading" [disabled]="loading" mat-raised-button color="btn-icon-accent">Guardar</button>
+                            <button [class.spinner]="loading" [disabled]="loading" mat-raised-button color="btn-icon-accent"
+                            >Guardar</button>
                         </div>
 
                     </div>

@@ -3,5 +3,6 @@ export interface Establecimiento {
     numeroEstablecimiento: string;
     nombreEmpresa: string;
     direccion: string;
+    telefono: string;
     imagenBase64?: string;
 }

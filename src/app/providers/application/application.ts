@@ -19,6 +19,14 @@ export class ApplicationProvider {
     return this.coreEndPoint.validateUserDefaultByRuc(ruc);
   }
 
+  //ESTABLECIMIENTOS
+  insertDatosEstablecimiento(postData: any, accesToken: any){
+    return this.coreEndPoint.insertDatosEstablecimiento(postData, accesToken);
+  }
+  getEstablecimientosByIdEmp(idEmp: any, nombreBd: string, accesToken: any){
+    return this.coreEndPoint.getListEstablecimientosByIdEmp(idEmp, nombreBd,accesToken);
+  }
+
   // EMPRESAS
   empresaByRucAndId(postData: any, accesToken: any){
     return this.coreEndPoint.empresaByRucAndId(postData, accesToken);

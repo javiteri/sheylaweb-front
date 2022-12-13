@@ -19,6 +19,7 @@ export class CrearEditarPuntoEmisionComponent implements OnInit {
   imgURL: any;
   base64: string = '';
   imgExtensionFile: string = '';
+
   idEmpresa: number = 0;
   rucEmpresa: string = '';
   nombreBd: string = '';
@@ -59,6 +60,22 @@ export class CrearEditarPuntoEmisionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    // GET INITIAL DATA 
+    const localServiceResponseToken =  
+          JSON.parse(sessionStorage.getItem('_valtok') ? sessionStorage.getItem('_valtok')! : '');
+    const localServiceResponseUsr = 
+          JSON.parse(sessionStorage.getItem('_valuser') ? sessionStorage.getItem('_valuser')! : '');
+
+    this.dataUser = localServiceResponseToken;
+    const { token, expire } = this.dataUser;
+    this.tokenValidate = { token, expire};
+
+    this.idEmpresa = localServiceResponseUsr._bussId;
+    this.rucEmpresa = localServiceResponseUsr._ruc;
+    this.nombreBd = localServiceResponseUsr._nombreBd;
+
+    this.sendDatosEmpresaForm.controls['ruc'].setValue(this.rucEmpresa);
   }
 
 
@@ -72,10 +89,7 @@ export class CrearEditarPuntoEmisionComponent implements OnInit {
       return;
     }
 
-    let nameImg = files[0].name;
     const mimeType = files[0].type;
-    let imagePath = files;
-
     this.imgExtensionFile = mimeType.split('/')[1];
 
     if (mimeType.match(/image\/*/) == null) {
@@ -127,6 +141,56 @@ export class CrearEditarPuntoEmisionComponent implements OnInit {
   }
 
   changeNumFac(){
-    console.log(this.sendDatosEmpresaForm.controls['']);
+    let valorEstablecimiento = this.sendDatosEmpresaForm.controls['establecimiento'].value;
+    valorEstablecimiento = (valorEstablecimiento.length == 1) ? `00${valorEstablecimiento}` :  valorEstablecimiento;
+    valorEstablecimiento = (valorEstablecimiento.length == 2) ? `0${valorEstablecimiento}` :  valorEstablecimiento;
+
+    this.sendDatosEmpresaForm.controls['establecimiento'].setValue(valorEstablecimiento);
+  }
+
+
+  // SEND DATA TO SERVER
+  guardarDatosEstablecimiento(sendDatosEstablecimiento: any){
+    if(this.sendDatosEmpresaForm.invalid){
+      return;
+    }
+
+    let dialogRef = this.loadingService.open();
+
+    sendDatosEstablecimiento['idEmpresa'] = this.idEmpresa;
+
+    if(this.base64){
+      sendDatosEstablecimiento['img_base64'] = `data:image/${this.imgExtensionFile};base64,${this.base64}`;
+      sendDatosEstablecimiento['extensionFile'] = this.imgExtensionFile;
+    }else{
+      sendDatosEstablecimiento['img_base64'] = ``;
+    }
+    sendDatosEstablecimiento['ruc'] = `${this.rucEmpresa}${this.sendDatosEmpresaForm.controls['establecimiento'].value}`;
+    sendDatosEstablecimiento['nombreBd'] = this.nombreBd;
+
+
+    this.coreService.insertDatosEstablecimiento(sendDatosEstablecimiento, this.tokenValidate).subscribe({
+      next: (data: any) =>{
+        dialogRef.close();
+
+        this.toastr.success('Datos Actualizados', '', {
+          timeOut: 3000,
+          closeButton: true
+        });
+      },
+      error: (error) => {
+        console.log('error response update data: ' + error);
+
+        this.toastr.error('error al actualizar', '', {
+          timeOut: 3000,
+          closeButton: true
+        });
+
+        dialogRef.close();
+        this.loading = false;
+      }
+
+    });
+
   }
 }
