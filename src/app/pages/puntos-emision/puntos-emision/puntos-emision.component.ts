@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/application/application';
 import { LoadingService } from 'src/app/services/Loading.service';
@@ -30,7 +33,9 @@ export class PuntosEmisionComponent implements OnInit {
   
   constructor(private coreService: ApplicationProvider,
     public router: Router,
-    private loadingService: LoadingService) { }
+    private loadingService: LoadingService,
+    private matDialog: MatDialog,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
 
@@ -62,12 +67,9 @@ export class PuntosEmisionComponent implements OnInit {
     this.coreService.getEstablecimientosByIdEmp(this.idEmpresa, this.nombreBd, this.tokenValidate).subscribe({
       next: (data: any) =>{
         dialog.close();
-        console.log('inside data list');
-        console.log(data);
-
 
         this.datasource.data = data.data;
-        //this.ref.detectChanges();
+        this.showSinDatos =  this.datasource.data.length <= 0
       },
       error: (error: any) =>{
         dialog.close();
@@ -75,5 +77,53 @@ export class PuntosEmisionComponent implements OnInit {
         console.log(error);
       }
     });
+  }
+
+  editarEstablecimiento(idEstablecimiento: number, numeroEstablecimiento: string){
+    this.router.navigate(['establecimientos/editar', idEstablecimiento], {state: {'numeroEstablecimiento': numeroEstablecimiento}});
+  }
+
+  eliminarClick(idEstablecimiento: number): void{
+
+    console.log(idEstablecimiento);
+    const dialogRef = this.matDialog.open(ConfirmDeleteDialogComponent, {        
+        
+        minWidth: '0',
+        width: '400px',
+        data: {
+          title: 'Va a eliminar el establecimiento, desea continuar?',
+          header: 'Eliminar Establecimiento'}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.deleteEstablecimientoApi(idEstablecimiento);
+      }
+    });
+  }
+
+  private deleteEstablecimientoApi(idEstablecimiento: any): void{
+    let dialogRef = this.loadingService.open();
+
+    this.coreService.deleteEstablecimientoById(this.idEmpresa, idEstablecimiento,this.nombreBd,  this.tokenValidate).subscribe({
+      next: (data: any) => {
+        dialogRef.close();
+        if(data.isSucess){
+          this.getListEstablecimientos();
+        }else{
+          if(data.tieneMovimientos){
+            this.toastr.error('No se puede eliminar el establecimiento, reintente', '', {
+              timeOut: 3000,
+              closeButton: true
+            });
+          }
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+        dialogRef.close();
+      }
+    });
+    
   }
 }

@@ -14,8 +14,8 @@ export class EndPointProvider {
     private readonly appVersion = '1.0.0';
     //private readonly apiUrl = 'http://192.168.1.10:8086/api/'; 
 
-    //private readonly apiUrl = 'http://localhost:3000/api/'; 
-    private readonly apiUrl = 'https://www.sheylaweb.net/api/';
+    private readonly apiUrl = 'http://localhost:3000/api/'; 
+    //private readonly apiUrl = 'https://www.sheylaweb.net/api/';
 
 
     private readonly searchDatosClienteSri = 'https://sheyla.net/SRI/SRI.php';
@@ -169,8 +169,17 @@ export class EndPointProvider {
 
       return this.http.post<any>(endPointUrl, postData, this.getRequestHeader(accesToken));
     }
-    private readonly _listEstablecimientosByIdEmp: string = 'establecimientos/getEstablecimientosByIdEmp';
 
+    private readonly _actualizarDatosEstablecimiento: string = "establecimientos/actualizarestablecimiento";
+    private get actualizarDatosEstablecimientoUrl(){
+      return this.apiUrl + this._actualizarDatosEstablecimiento;
+    }
+    actualizarDatosEstablecimiento<T>(postData: any, accesToken: any): Observable<T>{
+      const endPointUrl = this.actualizarDatosEstablecimientoUrl;
+      return this.http.post<any>(endPointUrl, postData, this.getRequestHeader(accesToken));
+    }
+
+    private readonly _listEstablecimientosByIdEmp: string = 'establecimientos/getEstablecimientosByIdEmp';
     private get listEstablecimientosByIdEmpUrl(){
       return this.apiUrl + this._listEstablecimientosByIdEmp;
     }
@@ -188,6 +197,39 @@ export class EndPointProvider {
 
       return this.http.get<T>(endpointUrl, httpOptions);
     }
+
+    private readonly _getEstablecimientosByIdEmp: string = 'establecimientos/getEstablecimientoByIdEmp';
+    private get getEstablecimientosByIdEmpURL(){
+      return this.apiUrl + this._getEstablecimientosByIdEmp;
+    }
+    getListEstablecimientoByIdEmp<T>(idEmpresa: any, idEstablecimiento: any,nombreBd: string, accessToken: any): Observable<T>{
+      const endpointUrl = this.getEstablecimientosByIdEmpURL;
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('idEst', idEstablecimiento).set('nombreBd', nombreBd);
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+    private readonly _deleteEstablecimientoByIdEmp: string = "establecimientos/delete";
+    private get deleteEstablecimientoByIdEmpUrl(){
+      return this.apiUrl + this._deleteEstablecimientoByIdEmp;
+    }
+    deleteEstablecimientoByIdEmpToBD<T>(idEmpresa: any, idEstablecimiento: any,nombreBd: string,  accessToken: any): Observable<T>{
+      const endPointUrl = this.deleteEstablecimientoByIdEmpUrl;
+      const postData = {
+        'idEmpresa': idEmpresa,
+        'idEstablecimiento': idEstablecimiento,
+        'nombreBd': nombreBd
+      }
+
+      return this.http.post<T>(endPointUrl,postData,  this.getRequestHeader(accessToken));
+    }
+
 
     // METHODS FOR CLIENTES
     private readonly _insertCliente: string = "clientes/insertar";

@@ -635,10 +635,6 @@ export class PageVentasComponent implements OnInit{
 
   verPdfVenta(idVenta: any, identificacion: any, tipoVenta: any){
     
-    /*if(tipoVenta != 'Factura'){
-      console.log('solo se permite para Ventas Factuas');
-      return;
-    }*/
     let loadingRef = this.loadingService.open();
 
     this.coreService.getPdfFromVentaByIdEmp(this.idEmpresa,identificacion,idVenta,this.tokenValidate, this.nombreBd).subscribe({

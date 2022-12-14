@@ -22,31 +22,31 @@
 
                 <ng-container matColumnDef="establecimiento" >
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Establecimiento </th>
-                    <td mat-cell *matCellDef="let cliente" data-label="Establecimiento"> {{cliente.cli_documento_identidad}} </td>
+                    <td mat-cell *matCellDef="let establecimiento" data-label="Establecimiento"> {{establecimiento.numeroEstablecimiento}} </td>
                   </ng-container>
                   <ng-container matColumnDef="nombreEmpresa" >
                     <th mat-header-cell class="flex-grow-1_5" *matHeaderCellDef mat-sort-header > Nombre Empresa </th>
-                    <td mat-cell *matCellDef="let cliente" class="flex-grow-1_5" data-label="Nombre Empresa"> {{cliente.cli_nombres_natural}} </td>
+                    <td mat-cell *matCellDef="let establecimiento" class="flex-grow-1_5" data-label="Nombre Empresa"> {{establecimiento.nombreEmpresa}} </td>
                   </ng-container>
                   <ng-container matColumnDef="direccion" >
                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="flex-grow-1_5"> Direccion </th>
-                    <td mat-cell  *matCellDef="let cliente" data-label="Direccion" class="flex-grow-1_5"> {{cliente.cli_email}} </td>
+                    <td mat-cell  *matCellDef="let establecimiento" data-label="Direccion" class="flex-grow-1_5"> {{establecimiento.direccion}} </td>
                   </ng-container>
                   <ng-container matColumnDef="telefono">
-                    <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header class="flex-grow-1_5"> Telefono </th>
-                    <td mat-cell class="justify-centro" *matCellDef="let cliente" data-label="Logo" class="flex-grow-1_5"> {{cliente.cli_celular}} </td>
+                    <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header > Telefono </th>
+                    <td mat-cell class="justify-centro" *matCellDef="let establecimiento" data-label="Logo" > {{establecimiento.telefono}} </td>
                   </ng-container>
 
-                  <ng-container matColumnDef="actions">
-                    <th mat-header-cell *matHeaderCellDef>Opciones</th>
-                    <td mat-cell   *matCellDef="let row" data-label="Opciones">
-                      <div>
-                        <button matTooltip="Editar" [disabled]="row.cli_nombres_natural == 'CONSUMIDOR FINAL' ? 'disabled' : null"
-                         mat-icon-button color="icon-accent" aria-label="boton editar cliente" >
+                  <ng-container matColumnDef="actions" >
+                    <th mat-header-cell *matHeaderCellDef class="flex-grow-dot7">Opciones</th>
+                    <td mat-cell   *matCellDef="let row" data-label="Opciones" class="flex-grow-dot7">
+                      <div style="display: flex;width: 100%;">
+                        <button matTooltip="Editar" mat-icon-button color="icon-accent" 
+                              aria-label="boton editar cliente" mat-tooltip="Editar" (click)="editarEstablecimiento(row.id,row.numeroEstablecimiento)">
                           <mat-icon>edit</mat-icon>
                         </button>
-                        <button matTooltip="Eliminar" [disabled]="row.cli_nombres_natural == 'CONSUMIDOR FINAL' ? 'disabled' : null" 
-                            mat-icon-button color="icon-red" aria-label="boton eliminar cliente" >
+                        <button matTooltip="Eliminar" mat-icon-button color="icon-red" aria-label="boton eliminar cliente" 
+                          (click)="eliminarClick(row.id)">
                           <mat-icon >delete</mat-icon>
                         </button>
                       </div>

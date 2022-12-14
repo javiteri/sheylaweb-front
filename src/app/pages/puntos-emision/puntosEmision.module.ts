@@ -17,6 +17,7 @@ import { PuntosEmisionComponent } from './puntos-emision/puntos-emision.componen
 import { CrearEditarPuntoEmisionComponent } from './crear-editar-punto-emision/crear-editar-punto-emision.component';
 import { PuntosEmisionRoutingModule } from "./puntosEmision-routing.module";
 import { MatTableModule } from "@angular/material/table";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 @NgModule({
     declarations: [
@@ -24,6 +25,7 @@ import { MatTableModule } from "@angular/material/table";
       CrearEditarPuntoEmisionComponent
   ],
     imports: [
+      MatTooltipModule,
       CommonModule,
       PuntosEmisionRoutingModule,
       RouterModule,

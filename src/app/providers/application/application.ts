@@ -23,8 +23,18 @@ export class ApplicationProvider {
   insertDatosEstablecimiento(postData: any, accesToken: any){
     return this.coreEndPoint.insertDatosEstablecimiento(postData, accesToken);
   }
+  actualizarDatosEstablecimiento(postData: any, accesToken: any){
+    return this.coreEndPoint.actualizarDatosEstablecimiento(postData, accesToken);
+  }
   getEstablecimientosByIdEmp(idEmp: any, nombreBd: string, accesToken: any){
     return this.coreEndPoint.getListEstablecimientosByIdEmp(idEmp, nombreBd,accesToken);
+  }
+  deleteEstablecimientoById(idEmp: any, idEstablecimiento: any, nombreBd: string, accessToken: any){
+    return this.coreEndPoint.deleteEstablecimientoByIdEmpToBD(idEmp, idEstablecimiento, nombreBd, accessToken);
+  }
+
+  getEstablecimientoByIdEmp(idEmp: any, idEstableci: any,nombreBd: string, accesToken: any){
+    return this.coreEndPoint.getListEstablecimientoByIdEmp(idEmp, idEstableci,nombreBd,accesToken);
   }
 
   // EMPRESAS

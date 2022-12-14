@@ -2,8 +2,9 @@ import { Location } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { filter, map } from 'rxjs';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
@@ -23,7 +24,6 @@ export class CrearEditarPuntoEmisionComponent implements OnInit {
   idEmpresa: number = 0;
   rucEmpresa: string = '';
   nombreBd: string = '';
-
   empresaData: any;
 
   //dataUser
@@ -31,6 +31,10 @@ export class CrearEditarPuntoEmisionComponent implements OnInit {
   tokenValidate!: TokenValidate;
 
   loading = false;
+
+  titlePage = 'Nuevo Establecimiento'
+  idEstablecimientoEdit = 0;
+  //numeroEstablecimientoEdit = '';
 
   nombreEmpresaInput! : ElementRef<HTMLInputElement>;
   @ViewChild('nombreEmpresaInput') set inputElRef(elRef: ElementRef<HTMLInputElement>){
@@ -42,7 +46,8 @@ export class CrearEditarPuntoEmisionComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private coreService: ApplicationProvider,
-    public router: Router,
+    private router: Router,
+    private route: ActivatedRoute,
     private loadingService: LoadingService,
     private toastr: ToastrService,
     private ref: ChangeDetectorRef,
@@ -57,9 +62,6 @@ export class CrearEditarPuntoEmisionComponent implements OnInit {
       direccion: ['', [Validators.required, Validators.maxLength(250)]],
       telefono: ['', [Validators.required, Validators.maxLength(250)]]
     });
-  }
-
-  ngOnInit(): void {
 
     // GET INITIAL DATA 
     const localServiceResponseToken =  
@@ -75,6 +77,31 @@ export class CrearEditarPuntoEmisionComponent implements OnInit {
     this.rucEmpresa = localServiceResponseUsr._ruc;
     this.nombreBd = localServiceResponseUsr._nombreBd;
 
+
+    this.route.paramMap.subscribe((params: any) => {                                                                              
+
+      let idEstablecimiento = params.get('id');
+      
+      if(idEstablecimiento){
+        this.idEstablecimientoEdit = idEstablecimiento;
+        this.titlePage = 'Editar Establecimiento';
+        try{
+          const currentState = this.router.getCurrentNavigation()!;
+          let numeroEstablecimientoEdit = currentState.extras.state!['numeroEstablecimiento'];
+          this.getEstablecimientoById(idEstablecimiento);
+          this.getLogoEstablecimiento(numeroEstablecimientoEdit);
+        }catch(err){
+          this.location.back();
+        }
+        
+        
+      }
+
+    });
+
+  }
+
+  ngOnInit(): void {
     this.sendDatosEmpresaForm.controls['ruc'].setValue(this.rucEmpresa);
   }
 
@@ -155,21 +182,72 @@ export class CrearEditarPuntoEmisionComponent implements OnInit {
       return;
     }
 
+    if(this.idEstablecimientoEdit != 0){
+      this.actualizarDatosEmpresa(sendDatosEstablecimiento);
+    }else{
+      let dialogRef = this.loadingService.open();
+
+      sendDatosEstablecimiento['idEmpresa'] = this.idEmpresa;
+
+      if(this.base64){
+        sendDatosEstablecimiento['img_base64'] = `data:image/${this.imgExtensionFile};base64,${this.base64}`;
+        sendDatosEstablecimiento['extensionFile'] = this.imgExtensionFile;
+      }else{
+        sendDatosEstablecimiento['img_base64'] = ``;
+      }
+      sendDatosEstablecimiento['ruc'] = `${this.rucEmpresa}${this.sendDatosEmpresaForm.controls['establecimiento'].value}`;
+      sendDatosEstablecimiento['nombreBd'] = this.nombreBd;
+
+
+      this.coreService.insertDatosEstablecimiento(sendDatosEstablecimiento, this.tokenValidate).subscribe({
+        next: (data: any) =>{
+          dialogRef.close();
+
+          this.toastr.success('Datos Actualizados', '', {
+            timeOut: 3000,
+            closeButton: true
+          });
+
+          this.resetControlsForm();
+        },
+        error: (error) => {
+          console.log('error response update data: ' + error);
+
+          this.toastr.error('error al insertar datos', '', {
+            timeOut: 3000,
+            closeButton: true
+          });
+
+          dialogRef.close();
+          this.loading = false;
+        }
+
+      });
+    }
+
+  }
+
+  actualizarDatosEmpresa(sendDatosEstablecimiento: any): void{
+    if(this.sendDatosEmpresaForm.invalid){
+      return;
+    }
+
     let dialogRef = this.loadingService.open();
 
     sendDatosEstablecimiento['idEmpresa'] = this.idEmpresa;
+    sendDatosEstablecimiento['ruc'] = `${this.rucEmpresa}${this.sendDatosEmpresaForm.controls['establecimiento'].value}`;
+    sendDatosEstablecimiento['nombreBd'] = this.nombreBd;
+    sendDatosEstablecimiento['idEstablecimiento'] = this.idEstablecimientoEdit;
 
-    if(this.base64){
+    if(this.base64 && this.imgExtensionFile){
       sendDatosEstablecimiento['img_base64'] = `data:image/${this.imgExtensionFile};base64,${this.base64}`;
       sendDatosEstablecimiento['extensionFile'] = this.imgExtensionFile;
     }else{
       sendDatosEstablecimiento['img_base64'] = ``;
     }
-    sendDatosEstablecimiento['ruc'] = `${this.rucEmpresa}${this.sendDatosEmpresaForm.controls['establecimiento'].value}`;
-    sendDatosEstablecimiento['nombreBd'] = this.nombreBd;
 
 
-    this.coreService.insertDatosEstablecimiento(sendDatosEstablecimiento, this.tokenValidate).subscribe({
+    this.coreService.actualizarDatosEstablecimiento(sendDatosEstablecimiento, this.tokenValidate).subscribe({
       next: (data: any) =>{
         dialogRef.close();
 
@@ -177,10 +255,14 @@ export class CrearEditarPuntoEmisionComponent implements OnInit {
           timeOut: 3000,
           closeButton: true
         });
+
+        setTimeout(() => {
+          this.router.navigate(['/establecimientos']);
+        }, 600);
+
       },
       error: (error) => {
         console.log('error response update data: ' + error);
-
         this.toastr.error('error al actualizar', '', {
           timeOut: 3000,
           closeButton: true
@@ -191,6 +273,57 @@ export class CrearEditarPuntoEmisionComponent implements OnInit {
       }
 
     });
+  }
 
+  private getLogoEstablecimiento(numeroEstablecimiento: string): void{
+    let nameLogoEstablecimiento = `${this.rucEmpresa}${numeroEstablecimiento}`;
+    this.coreService.getImagenLogoByRucEmp(nameLogoEstablecimiento, this.tokenValidate).subscribe({
+      next: (data: any) => {
+        let objectURL = URL.createObjectURL(data);       
+        this.imgURL = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+      },
+      error: (error : any) => {
+        console.log('inside error logo');
+      }
+    });
+  }
+
+  private getEstablecimientoById(idEstablecimiento: number){
+    let dialogRef = this.loadingService.open();
+
+
+    this.coreService.getEstablecimientoByIdEmp(this.idEmpresa, idEstablecimiento, this.nombreBd, this.tokenValidate).subscribe({
+        next: (data: any) =>{
+          dialogRef.close();
+        
+          let dataEstablecimiento = data.data[0];
+          if(!data.data){
+            this.router.navigate(['/establecimientos']);
+            return;
+          }
+
+          this.sendDatosEmpresaForm.controls['establecimiento'].setValue(dataEstablecimiento['cone_establecimiento']);
+          this.sendDatosEmpresaForm.controls['nombreEmpresa'].setValue(dataEstablecimiento['cone_nombre_establecimiento']);
+          this.sendDatosEmpresaForm.controls['direccion'].setValue(dataEstablecimiento['cone_direccion_sucursal']);
+          this.sendDatosEmpresaForm.controls['telefono'].setValue(dataEstablecimiento['cone_telefonos_sucursal']);
+        },
+        error: (error) => {
+          dialogRef.close();
+        }
+    });
+  }
+
+
+  private resetControlsForm(){
+    this.sendDatosEmpresaForm.controls['establecimiento'].setValue('');
+    this.sendDatosEmpresaForm.controls['nombreEmpresa'].setValue('');
+    this.sendDatosEmpresaForm.controls['direccion'].setValue('');
+    this.sendDatosEmpresaForm.controls['telefono'].setValue('');
+    
+    this.base64 = '';
+    this.imgExtensionFile = '';
+    this.imgURL = '';
+
+    this.ref.detectChanges();
   }
 }
