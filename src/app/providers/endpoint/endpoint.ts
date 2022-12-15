@@ -215,6 +215,25 @@ export class EndPointProvider {
 
       return this.http.get<T>(endpointUrl, httpOptions);
     }
+
+    private readonly _getEstablecimientosByIdEmpNumeroEst: string = 'establecimientos/getEstablecimientoByIdEmpNumeroEst';
+    private get getEstablecimientosByIdEmpNumeroEstURL(){
+      return this.apiUrl + this._getEstablecimientosByIdEmpNumeroEst;
+    }
+    getEstablecimientosByIdEmpNumeroEst<T>(idEmpresa: any, numeroEstablecimiento: any,nombreBd: string, accessToken: any): Observable<T>{
+      const endpointUrl = this.getEstablecimientosByIdEmpNumeroEstURL;
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('numeroEstablecimiento', numeroEstablecimiento).set('nombreBd', nombreBd);
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+
     private readonly _deleteEstablecimientoByIdEmp: string = "establecimientos/delete";
     private get deleteEstablecimientoByIdEmpUrl(){
       return this.apiUrl + this._deleteEstablecimientoByIdEmp;
@@ -536,12 +555,12 @@ export class EndPointProvider {
      private get listProductosByIdEmpActivo(){
        return this.apiUrl + this._listProductosByIdEmpActivo;
      }
-     getListProductosByIdEmpActivo<T>(idEmpresa: any, accessToken: any): Observable<T>{
+     getListProductosByIdEmpActivo<T>(idEmpresa: any, nombreBd: any, accessToken: any): Observable<T>{
        const endpointUrl = this.listProductosByIdEmpActivo;
        
        const header = this.getRequestHeaderClientes(accessToken);
  
-       let paramsRequest = new HttpParams().set('idEmp', idEmpresa);
+       let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('nombreBd', nombreBd);
  
        const httpOptions = {
          headers: header,
@@ -652,11 +671,11 @@ export class EndPointProvider {
     private get searchProductosByIdEmpActivo(){
       return this.apiUrl + this._searchProductosByIdEmpActivo;
     }
-    searchProductosByIdEmpTextActivo<T>(idEmpresa: any, textSearch: any, accessToken: any): Observable<T>{
+    searchProductosByIdEmpTextActivo<T>(idEmpresa: any, textSearch: any, nombreBd: string,accessToken: any): Observable<T>{
         const endpointUrl = this.searchProductosByIdEmpActivo;
 
         const header = this.getRequestHeaderClientes(accessToken);
-        let paramsRequest = new HttpParams().set('textSearch', textSearch).set('idEmp', idEmpresa);
+        let paramsRequest = new HttpParams().set('textSearch', textSearch).set('idEmp', idEmpresa).set('nombreBd', nombreBd);
         const httpOptions = {
           headers: header,
           params: paramsRequest

@@ -258,8 +258,6 @@ export class ConfiguracionesComponent implements OnInit {
     this.coreService.insertListConfigsToBD(postData, this.tokenValidate).subscribe({
       next: (data: any) => {
         dialogRef.close();
-        console.log('config insertada corectamente');
-        console.log(data);
       },
       error: (error) => {
         dialogRef.close();
@@ -280,15 +278,21 @@ export class ConfiguracionesComponent implements OnInit {
     let $observable = this.coreService.insertFirmaElectronicaConfig(postData, this.firmaElectronicaFile, this.tokenValidate);
       
 
-    const data = [[
-      this.idEmpresa,this.NAMES_CONFIGS_VENTAS[0], this.valueAgenteRetencion
-    ],[
-      this.idEmpresa,this.NAMES_CONFIGS_VENTAS[1],this.valueContribuyenteEspecial
-    ],[
-      this.idEmpresa,this.NAMES_CONFIGS_VENTAS[2],this.checkedPerteneceRegimenRimpe
-    ],[
-      this.idEmpresa,this.NAMES_CONFIGS_VENTAS[3],this.checkedObligadoLlevarContabilidad
-    ]]
+    const data = {
+      nombreBd: this.nombreBd,
+      datos : [
+        [
+          this.idEmpresa,this.NAMES_CONFIGS_VENTAS[0], this.valueAgenteRetencion
+        ],[
+          this.idEmpresa,this.NAMES_CONFIGS_VENTAS[1],this.valueContribuyenteEspecial
+        ],[
+          this.idEmpresa,this.NAMES_CONFIGS_VENTAS[2],this.checkedPerteneceRegimenRimpe
+        ],[
+          this.idEmpresa,this.NAMES_CONFIGS_VENTAS[3],this.checkedObligadoLlevarContabilidad
+        ]
+      ]
+    }
+  
 
     let $observable1 = this.coreService.insertListConfigsFacElecToBD(data, this.tokenValidate);
 

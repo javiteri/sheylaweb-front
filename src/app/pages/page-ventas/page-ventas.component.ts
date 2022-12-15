@@ -756,6 +756,7 @@ export class PageVentasComponent implements OnInit{
 
   changeTipoDoc(){
       this.getNextNumeroSecuencial();
+      //this.getNextNumeroSecuencialtwo();
   }
 
   private getConfigVentaSinSecuencia(){
@@ -781,7 +782,6 @@ export class PageVentasComponent implements OnInit{
           if(data.data && data.data.length > 0){
             
             const configReceive: ConfigReceive = data.data[0];
-
             this.configIvaIncluidoEnVenta = configReceive.con_valor === "1" ? true : false;
           }
 

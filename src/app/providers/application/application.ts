@@ -36,6 +36,9 @@ export class ApplicationProvider {
   getEstablecimientoByIdEmp(idEmp: any, idEstableci: any,nombreBd: string, accesToken: any){
     return this.coreEndPoint.getListEstablecimientoByIdEmp(idEmp, idEstableci,nombreBd,accesToken);
   }
+  getEstablecimientoByIdEmpNumeroEst(idEmp: any, numeroEstable: any,nombreBd: string, accesToken: any){
+    return this.coreEndPoint.getEstablecimientosByIdEmpNumeroEst(idEmp, numeroEstable,nombreBd,accesToken);
+  }
 
   // EMPRESAS
   empresaByRucAndId(postData: any, accesToken: any){
@@ -134,8 +137,8 @@ export class ApplicationProvider {
   getListProductosByIdEmp(idEmpresa: any, accessToken: any, nombreBd: string){
     return this.coreEndPoint.getListProductosByIdEmp(idEmpresa, accessToken, nombreBd);
   }
-  getListProductosByIdEmpActivo(idEmpresa: any, accessToken: any){
-    return this.coreEndPoint.getListProductosByIdEmpActivo(idEmpresa, accessToken);
+  getListProductosByIdEmpActivo(idEmpresa: any,nombreBd: any, accessToken: any){
+    return this.coreEndPoint.getListProductosByIdEmpActivo(idEmpresa, nombreBd, accessToken);
   }
   getProductoByIdEmp(idProducto: any, idEmpresa: any, accessToken: any, nombreBd: string){
     return this.coreEndPoint.getProductoByIdEmp(idProducto, idEmpresa, accessToken, nombreBd);
@@ -159,8 +162,8 @@ export class ApplicationProvider {
   searchProductosByIdEmpText(idEmpresa: any, textSearch: any, accessToken: any, nombreBd: string){
     return this.coreEndPoint.searchProductosByIdEmpText(idEmpresa, textSearch, accessToken, nombreBd);
   }
-  searchProductosByIdEmpTextActivo(idEmpresa: any, textSearch: any, accessToken: any){
-    return this.coreEndPoint.searchProductosByIdEmpTextActivo(idEmpresa, textSearch, accessToken);
+  searchProductosByIdEmpTextActivo(idEmpresa: any, textSearch: any,nombreBd: string, accessToken: any){
+    return this.coreEndPoint.searchProductosByIdEmpTextActivo(idEmpresa, textSearch,nombreBd, accessToken);
   }
   getExcelListProductos(idEmpresa: any, accesToken: any, nombreBd: string){
     return this.coreEndPoint.getProductosExcelById(idEmpresa,accesToken, nombreBd);

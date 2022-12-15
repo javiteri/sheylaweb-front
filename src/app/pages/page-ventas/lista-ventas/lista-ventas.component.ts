@@ -249,9 +249,9 @@ export class ListaVentasComponent implements OnInit {
 
   verPdfVenta(idVenta: any, identificacion: any, tipoVenta: any){
     
-    if(tipoVenta.toUpperCase() != 'FACTURA'){
+    /*if(tipoVenta.toUpperCase() != 'FACTURA'){
       return;
-    }
+    }*/
     let loadingRef = this.loadingService.open();
 
     this.coreService.getPdfFromVentaByIdEmp(this.idEmpresa,identificacion,idVenta,this.tokenValidate, this.nombreBd).subscribe({

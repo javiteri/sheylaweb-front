@@ -68,7 +68,7 @@ export class BuscarProductoDialogComponent implements OnInit {
 
     let dialogRef = this.loadingService.open();
 
-    this.coreService.searchProductosByIdEmpTextActivo(this.idEmpresa, this.textSearchProductos, this.tokenValidate).subscribe({
+    this.coreService.searchProductosByIdEmpTextActivo(this.idEmpresa, this.textSearchProductos,this.nombreBd, this.tokenValidate).subscribe({
       next: (data: any) => {
         dialogRef.close();
 
@@ -104,7 +104,7 @@ export class BuscarProductoDialogComponent implements OnInit {
 
   private getListaProductosRefresh(){
 
-    this.coreService.getListProductosByIdEmpActivo(this.idEmpresa, this.tokenValidate).subscribe({
+    this.coreService.getListProductosByIdEmpActivo(this.idEmpresa, this.nombreBd,this.tokenValidate).subscribe({
       next: (data: any) => {
 
         const arrayProducts: Producto[] = data.data;
