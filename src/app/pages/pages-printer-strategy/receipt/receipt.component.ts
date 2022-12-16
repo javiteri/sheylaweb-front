@@ -130,7 +130,7 @@ export class ReceiptComponent implements OnInit {
                 let datosEstablecimiento = respEstablecimiento.data;
                 let empresaData = dataEmp.data[0];
 
-                if(datosEstablecimiento[0]){
+                if(datosEstablecimiento != undefined && datosEstablecimiento != null && datosEstablecimiento[0]){
                   this.nombreEmpresa = datosEstablecimiento[0].nombreEmpresa;
                 }else{
                   this.nombreEmpresa = empresaData['nombreEmp'];
