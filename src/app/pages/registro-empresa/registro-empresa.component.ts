@@ -195,6 +195,7 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
 
     sendDatosEmpresaForm['idEmpresa'] = this.idEmpresa;
     sendDatosEmpresaForm['fechaInicio'] = dateString;
+    sendDatosEmpresaForm['nombreBd'] = this.nombreBd;
 
     if(this.base64){
       sendDatosEmpresaForm['img_base64'] = `data:image/${this.imgExtensionFile};base64,${this.base64}`;
@@ -219,6 +220,7 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
       },
       error: (error) => {
         console.log('error response update data: ' + error);
+        console.log(error);
 
         this.toastr.error('error al actualizar', '', {
           timeOut: 3000,

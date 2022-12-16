@@ -125,8 +125,6 @@ export class ReceiptComponent implements OnInit {
             this.coreService.getEstablecimientoByIdEmpNumeroEst(this.idEmpresa, result1.data['venta001'], this.nombreBd, this.tokenValidate).subscribe({
               next: (respEstablecimiento: any) =>{
 
-                console.log('response establecimiento');
-                console.log(respEstablecimiento);
                 let datosEstablecimiento = respEstablecimiento.data;
                 let empresaData = dataEmp.data[0];
 
