@@ -14,7 +14,7 @@ export class EndPointProvider {
     private readonly appVersion = '1.0.0';
     //private readonly apiUrl = 'http://192.168.1.10:8086/api/'; 
 
-    //private readonly apiUrl = 'http://localhost:3000/api/'; 
+    //private readonly apiUrl = 'http://localhost:3000/api/';
     private readonly apiUrl = 'https://www.sheylaweb.net/api/';
 
 
