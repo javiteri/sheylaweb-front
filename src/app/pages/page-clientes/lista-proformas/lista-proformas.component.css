@@ -1,0 +1,122 @@
+.titulo{
+    margin-bottom: .5em;
+}
+.titulo p{
+    font-size: .8em;
+    font-weight: 400;
+    color: var(--grey-600);
+}
+
+.container-options{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+.container-options .mat-card{
+    width: 100%;
+}
+.container-options > div{
+    flex: 1 1 0;
+    width: 100%;
+}
+
+.container-options > div + div{
+    margin-left: 10px;
+}
+
+.container-options div:nth-child(1){
+    display: flex;
+    flex: 1.5 1.5 30%;
+}
+
+.container-options div:nth-child(2){
+    display: flex;
+    justify-content: flex-end;
+}
+
+.mat-card{
+    padding: 0 !important;
+}
+.mat-card .mat-card-content{
+    padding: 0 !important;
+}
+
+.mat-card-one{
+    margin-top: .4rem !important;
+}
+.mat-card .mat-card-header{
+    padding: 6px !important;
+    border-radius: 4px 4px 0 0;
+}
+.mat-card-header{
+    display: flex;
+    flex-direction: row;
+}
+.mat-card .mat-card-header .mat-card-title {
+    margin-bottom: 0 !important;
+    font-size: 16px !important;
+}
+.mat-card .mat-card-content{
+    padding: 6px;
+}
+
+.container-search-bar{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+.container-search-bar div:first-child{
+    width: 30%;
+}
+
+.inner-container-date-filter{
+    /*display: flex;*/
+    flex-flow: row nowrap;
+    font-size: 12px;
+}
+
+.inner-container-date-filter .mat-form-field{
+    width: 100%;
+    min-width: 0;
+    
+}
+.inner-container-date-filter .mat-form-field + .mat-form-field{
+    margin-left: 8px;
+}
+
+.inner-container-search{
+    display: flex;
+    flex-flow: row nowrap;
+}
+.inner-container-search button{
+    padding: 0 0;
+    width: 2em;
+    margin-left: .2em;
+}
+.inner-container-search input{
+    padding: .5rem 1rem;
+    width: 100%;
+    outline: none;
+    font-size: .7rem;
+    border: 1px solid var(--grey-300);
+    box-shadow: 0 5px 20px rgba(0,0,0,.05);
+    border-radius: 4px;
+    color: var(--grey-600);
+    transition: 80ms cubic-bezier(0.33, 1, 0.68, 1);
+    transition-property: color,background-color,box-shadow,border-color;
+}
+.inner-container-search input:focus-visible{
+    border-color: var(--accent-color);
+    outline: none;
+    box-shadow: inset 0 0 0 1px #0969da;
+}
+.inner-container-search input + input{
+    margin-left: .6em;
+}
+.flex-grow-dos{
+    flex-grow: 2 !important;
+}

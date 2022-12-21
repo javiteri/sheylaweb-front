@@ -107,6 +107,7 @@ export class ListaVentasComponent implements OnInit {
 
         this.datasource.data = arrayWithDecimal;
         this.ref.detectChanges();
+        this.datasource.paginator = this.paginator;
       },
       error: (error) => {
         dialogRef.close();
@@ -197,15 +198,9 @@ export class ListaVentasComponent implements OnInit {
     });
   }
 
-
   copiarVentaClick(venta: any): void{
-    /*this.router.navigate([
-      { outlets: {
-        'print': ['print','receipt',venta.id]
-    }}]);*/
     this.router.navigate(['/ventas/crearventa', venta.id]); 
   }
-
 
   exportarListaVentas(){
     let dialogRef = this.loadingService.open();
@@ -249,9 +244,6 @@ export class ListaVentasComponent implements OnInit {
 
   verPdfVenta(idVenta: any, identificacion: any, tipoVenta: any){
     
-    /*if(tipoVenta.toUpperCase() != 'FACTURA'){
-      return;
-    }*/
     let loadingRef = this.loadingService.open();
 
     this.coreService.getPdfFromVentaByIdEmp(this.idEmpresa,identificacion,idVenta,this.tokenValidate, this.nombreBd).subscribe({
@@ -263,7 +255,6 @@ export class ListaVentasComponent implements OnInit {
         const link = document.createElement('a');
         link.setAttribute('target', '_blank');
         link.setAttribute('href', downloadUrl);
-        //link.setAttribute('href', downloadUrl);
         link.setAttribute('download','detalle-venta');
         document.body.appendChild(link);
         link.click();

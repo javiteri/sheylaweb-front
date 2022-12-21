@@ -49,7 +49,7 @@ export class NuevoUsuarioComponent implements OnInit, AfterViewInit {
       nombreNatural: ['', [Validators.required, Validators.maxLength(250)]],
       telefono: ['', [Validators.required,Validators.maxLength(250)]],
       direccion: ['', [Validators.required,Validators.maxLength(250)]],
-      email: ['', [Validators.maxLength(250), Validators.required, Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/), Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      email: ['', [Validators.maxLength(250), Validators.required, Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/), Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       fechaNacimiento: [''],
       nombreUsuario: ['', [Validators.required, Validators.maxLength(250)]],
       password: ['', [Validators.required, Validators.maxLength(250)]],
@@ -100,7 +100,7 @@ export class NuevoUsuarioComponent implements OnInit, AfterViewInit {
 
   onLostFocus(identificacion: string){
 
-    if(identificacion.length == 10 || identificacion.length == 13){
+    if((identificacion.length == 10 || identificacion.length == 13) && identificacion != '9999999999'){
       this.searchDatosCliente(identificacion);
     }
 
@@ -205,6 +205,7 @@ export class NuevoUsuarioComponent implements OnInit, AfterViewInit {
   private insertDatosUsuarioBD(sendDatosUsuario: any): void{
 
     let overlayRef = this.loadingService.open();
+
     this.coreService.insertUsuarioToBD(sendDatosUsuario, this.tokenValidate).subscribe({
       next: (data: any) => {
         overlayRef.close();

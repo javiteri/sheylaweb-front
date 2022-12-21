@@ -41,8 +41,11 @@ export class LayoutComponent implements OnInit {
       name: 'Clientes',
       matIcon: 'people',
       active: false,
-      routerLink: '/clientes',
-      submenu: [ ]
+      routerLink: '',
+      submenu: [
+        {name: 'Lista de Clientes', url: 'clientes/lista-clientes'},
+        {name: 'Lista de Proformas', url: 'clientes/lista-proformas'}
+      ]
     },
     {
       name: 'Inventario',

@@ -14,7 +14,9 @@ export class DashboardComponent implements OnInit{
   
   listLabelProductosMes: any[] = [];
   listLabelProductosMesValue: any[] = [];
+
   listLabelClientesMes: any[] = [];
+
   chartProductos: any;
   chartClientes: any;
   chartRadialDiasLicencia: any;
@@ -146,7 +148,6 @@ export class DashboardComponent implements OnInit{
       }
     },
     error: (error: any) => {
-
     }
   });
  }
@@ -180,7 +181,7 @@ export class DashboardComponent implements OnInit{
 
  private getProductosDelMes(): void{
 
-  const now = new Date();
+    const now = new Date();
     const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
     const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
 
@@ -194,16 +195,14 @@ export class DashboardComponent implements OnInit{
 
   this.coreService.getProductosDelMes(this.idEmpresa,dateInitString,dateFinString,this.tokenValidate, this.nombreBd).subscribe({
     next: (data: any) =>{
-      if(data.data && data.data.length > 0){
 
+      if(data.data && data.data.length > 0){
         const listLabel = Array.from(data.data).map((valor: any) => valor.ventad_producto.split(' '));
         const listValue = Array.from(data.data).map((valor: any) => valor.cantidad);
 
         this.listLabelProductosMes = listLabel;
         this.listLabelProductosMesValue = listValue;
-        
       }else{
-        
         this.listLabelProductosMes = ['Producto'];
         this.listLabelProductosMesValue = [400];
       }
@@ -326,7 +325,12 @@ export class DashboardComponent implements OnInit{
           ticks: {
               display: false
           }
-      }
+        },
+        xAxes: {
+          ticks: {
+            display: false
+          }
+        }
       },
     }
   });
@@ -372,7 +376,12 @@ export class DashboardComponent implements OnInit{
           ticks: {
               display: false
           }
-      }
+        },
+        xAxes: {
+          ticks: {
+            display: false
+          }
+        }
       },
     }
   });

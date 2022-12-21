@@ -99,8 +99,8 @@ table{
 }
 
 .container-options div:nth-child(1){
+    display: flex;
     flex: 1.5 1.5 30%;
-    display: flex;  
 }
 
 .container-options div:nth-child(2){

@@ -1,0 +1,50 @@
+<div class="titulo">
+    <p>Lista Proformas</p>
+</div>
+
+<div class="container-options" #containerTable>
+
+    <div>
+      <mat-card class="mat-card-one">
+        <mat-card-content>
+          <div class="container-search-bar">
+      
+            <div class="inner-container-date-filter">
+                <mat-form-field class="mat-form-field-date">
+                    <mat-label>Desde</mat-label>
+                    <input matInput [matDatepicker]="pickerdesde" >
+                    <mat-datepicker-toggle matSuffix [for]="pickerdesde"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerdesde></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field class="mat-form-field-date">
+                    <mat-label>Hasta</mat-label>
+                    <input matInput [matDatepicker]="pickerhasta">
+                    <mat-datepicker-toggle matSuffix [for]="pickerhasta"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerhasta></mat-datepicker>
+                </mat-form-field>
+            </div>
+        
+            <div class="flex-grow-dos inner-container-search ">
+              <input type="text" placeholder="Nombre o Identificacion" 
+              />
+              <input type="text" placeholder="No Documento" 
+              />
+              <button mat-raised-button class="font-weight-300 mat-elevation-z1" color="btn-icon-accent"
+                matTooltip="Buscar">
+                Buscar
+              </button>
+            </div>
+        
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  
+    <div>
+      <button mat-raised-button>
+        <mat-icon>file_download</mat-icon>
+        Exportar
+      </button>
+    </div>
+  
+  </div>

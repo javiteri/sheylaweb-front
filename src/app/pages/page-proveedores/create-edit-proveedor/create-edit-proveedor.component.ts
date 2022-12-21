@@ -57,13 +57,13 @@ export class CreateEditProveedorComponent implements OnInit, AfterViewInit{
         direccion: [''],
         telefono: [''],
         celular: [''],
-        email: ['', [Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/), Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+        email: ['', [Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/), Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
         paginaWeb: [''],
         observacion: [''],
         identificacionRepre: [''],
         nombreRepre: [''],
         telefonoRepre: [''],
-        emailRepre: ['', [Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/), Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+        emailRepre: ['', [Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/), Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
         direccionRepre: ['']
       });
       

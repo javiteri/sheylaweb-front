@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip'
 
-import { PageClientesComponent } from "./page-clientes.component";
+import { PageClientesComponent } from "./lista-clientes/page-clientes.component";
 
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from '@angular/material/input';
@@ -26,11 +26,15 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
 import { NuevoClienteComponent } from './nuevo-cliente/nuevo-cliente.component';
 import { ClientesRoutingModule } from "./clientes-routing.module";
 import { RouterModule } from "@angular/router";
+import { CrearproformaComponent } from './crearproforma/crearproforma.component';
+import { ListaProformasComponent } from './lista-proformas/lista-proformas.component';
 
 @NgModule({
     declarations: [
         PageClientesComponent,
-        NuevoClienteComponent
+        NuevoClienteComponent,
+        CrearproformaComponent,
+        ListaProformasComponent
     ],
     imports: [
         MatTooltipModule,

@@ -8,7 +8,7 @@ import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/application/application';
 import { LoadingService } from 'src/app/services/Loading.service';
-import {Cliente} from '../../interfaces/Cliente'
+import {Cliente} from '../../../interfaces/Cliente'
 
 @Component({
   selector: 'app-page-clientes',
