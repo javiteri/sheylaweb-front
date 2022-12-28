@@ -45,9 +45,6 @@
     margin-bottom: 0 !important;
     font-size: 16px !important;
   }
-  .mat-card .mat-card-content{
-    padding: 6px;
-  }
   
 .total-valor{
     width: 100%;
@@ -109,7 +106,6 @@ table{
 }
 
 .container-search-bar{
-    /*margin-top: 1rem;*/
     padding: 3px 6px;
 }
 .container-search-bar div{

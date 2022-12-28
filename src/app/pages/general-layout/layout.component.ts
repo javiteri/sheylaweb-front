@@ -44,7 +44,7 @@ export class LayoutComponent implements OnInit {
       routerLink: '',
       submenu: [
         {name: 'Lista de Clientes', url: 'clientes/lista-clientes'},
-       // {name: 'Lista de Proformas', url: 'clientes/lista-proformas'}
+        {name: 'Lista de Proformas', url: 'clientes/lista-proformas'}
       ]
     },
     {

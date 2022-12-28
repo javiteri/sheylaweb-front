@@ -87,6 +87,10 @@ export class ApplicationProvider {
     return this.coreEndPoint.getClientesExcelById(idEmpresa,accesToken, nombreBd);
   }
 
+  //PROFORMAS
+  getListProformasByIdEmp(idEmpresa: any, accessToken: any,nombreBd: string){
+    return this.coreEndPoint.getListProformasByIdEmp(idEmpresa, accessToken, nombreBd);
+  }
   //USUARIOS
   getUsuariosByIdEmp(idEmp: any, accessToken: any, nombreBd: string){
     return this.coreEndPoint.getUsuariosByIdEmp(idEmp, accessToken, nombreBd);

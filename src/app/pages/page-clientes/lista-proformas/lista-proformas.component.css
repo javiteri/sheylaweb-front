@@ -46,6 +46,9 @@
 .mat-card-one{
     margin-top: .4rem !important;
 }
+.mat-card-two{
+    margin-top: .5rem !important;
+}
 .mat-card .mat-card-header{
     padding: 6px !important;
     border-radius: 4px 4px 0 0;
@@ -68,10 +71,15 @@
     justify-content: center;
     align-items: center;
     align-content: center;
+    padding: 3px 6px;
 }
 .container-search-bar div:first-child{
     width: 30%;
 }
+.container-search-bar div + div{
+    margin-left: 2em;
+}
+
 
 .inner-container-date-filter{
     /*display: flex;*/
@@ -119,4 +127,50 @@
 }
 .flex-grow-dos{
     flex-grow: 2 !important;
+}
+
+.mat-header-row{
+    background-color: var(--color-primary-dark);
+}
+.mat-header-row th{
+    color: white;
+}
+
+th.mat-header-cell, td.mat-cell, td.mat-footer-cell{
+    border-bottom-width: 0;
+    border-bottom-style: none;
+}
+
+.mat-card{
+    box-shadow: 0 5px 20px rgba(0,0,0,.05) !important;
+    margin-top: 1.5rem;
+}
+
+@media screen and (max-width: 767px){
+    .inner-container-search div + div {
+        margin-left: .3em;
+    }
+}
+
+@media screen and (max-width: 767px){
+    .inner-container-search div + div {
+        margin-left: .3em;
+    }
+}
+@media screen and (max-width: 650px){
+    .container-search-bar{
+        flex-flow: column;
+    }   
+    .container-search-bar div + div{
+        margin-left: 0;
+    }
+    .container-search-bar div:first-child{
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 984px){
+    .container-options{
+        flex-flow: column-reverse;
+    } 
 }
