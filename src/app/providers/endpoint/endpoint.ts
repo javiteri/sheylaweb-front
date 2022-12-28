@@ -14,8 +14,8 @@ export class EndPointProvider {
     private readonly appVersion = '1.0.0';
     //private readonly apiUrl = 'http://192.168.1.10:8086/api/'; 
 
-    //private readonly apiUrl = 'http://localhost:3000/api/';
-    private readonly apiUrl = 'https://www.sheylaweb.net/api/';
+    private readonly apiUrl = 'http://localhost:3000/api/';
+    //private readonly apiUrl = 'https://www.sheylaweb.net/api/';
 
 
     private readonly searchDatosClienteSri = 'https://sheyla.net/SRI/SRI.php';
@@ -288,7 +288,6 @@ export class EndPointProvider {
 
 
     private readonly _listClientesByIdEmp: string = 'clientes/getClientesIdEmp';
-
     private get listClientesByIdEmp(){
       return this.apiUrl + this._listClientesByIdEmp;
     }
@@ -338,6 +337,24 @@ export class EndPointProvider {
         }
 
         return this.http.get<T>(endpointUrl, httpOptions);
+    }
+
+    //METHODS FOR PROFORMAS
+    private readonly _listProformasByIdEmp: string = 'proformas/getProformasIdEmp';
+    private get listProformasByIdEmpUrl(){
+      return this.apiUrl + this._listProformasByIdEmp;
+    }
+    getListProformasByIdEmp<T>(idEmpresa: any, accessToken: any, nombreBd: string): Observable<T>{
+      const endpointUrl = this.listProformasByIdEmpUrl;
+      const header = this.getRequestHeaderClientes(accessToken);
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('nombreBd', nombreBd);
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
     }
 
     //METHODS FOR USUARIOS 

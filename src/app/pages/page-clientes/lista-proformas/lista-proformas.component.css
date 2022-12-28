@@ -136,6 +136,15 @@
     color: white;
 }
 
+th.mat-header-cell, td.mat-cell, td.mat-footer-cell{
+    border-bottom-width: 0;
+    border-bottom-style: none;
+}
+
+.mat-card{
+    box-shadow: 0 5px 20px rgba(0,0,0,.05) !important;
+    margin-top: 1.5rem;
+}
 
 @media screen and (max-width: 767px){
     .inner-container-search div + div {
