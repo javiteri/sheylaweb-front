@@ -1,1 +1,237 @@
-<p>crearproforma works!</p>
+<div class="titulo">
+    <p>Registrar Proforma</p>
+  </div>
+  
+  <div class="container-gen" >
+      <div class="container-child container-info">
+        <div class="container-datos">
+          <div class="container-btn-cliente">
+            <button mat-raised-button class="font-weight-300 mat-elevation-z1" 
+              color="btn-icon-accent" 
+              (click)="nuevoClienteClick();$event.preventDefault();">
+              <mat-icon>add</mat-icon>
+              Nuevo Cliente
+            </button>
+            <button mat-raised-button class="font-weight-300 mat-elevation-z1" 
+              color="btn-icon-accent" 
+              (click)="buscarClienteClick();$event.preventDefault();">
+              <mat-icon>search</mat-icon>
+              Buscar Cliente
+            </button>
+          </div>
+  
+          <mat-card>
+            <mat-card-header class="bg-info text-white">
+              <mat-card-title class="clientes">
+                <label>Datos Cliente</label>
+              </mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="container-datos-cliente">
+  
+                  <mat-form-field >
+                    <mat-label>CI/RUC</mat-label>
+                    <input matInput type="text" disabled #identificacion [(ngModel)]="clientFac.ciRuc">
+                </mat-form-field>
+  
+                <mat-form-field >
+                  <mat-label>Nombre</mat-label>
+                  <input matInput type="text" disabled #nombreCliente [(ngModel)]="clientFac.nombre">
+                </mat-form-field>
+  
+                <mat-form-field >
+                  <mat-label>Telefono</mat-label>
+                  <input matInput type="text" disabled #telCliente [(ngModel)]="clientFac.telefono">
+                </mat-form-field>
+  
+                </div>
+                <div class="container-datos-cliente-dir">
+                  <mat-form-field >
+                    <mat-label>Direccion</mat-label>
+                    <input matInput type="text" disabled #dirCliente [(ngModel)]="clientFac.direccion">
+                  </mat-form-field>
+                </div>
+  
+              </mat-card-content>
+          </mat-card>
+  
+        </div>
+  
+        <div class="container-datos">
+          <div class="container-chips-factura" style="visibility: hidden;">
+            <div class="chips-parent">
+              <mat-form-field>
+                <mat-label>Tipo Documento</mat-label>
+                <mat-select [(value)]="tipoDocSelect" >
+                  <mat-option *ngFor="let tipoDocumento of listTipoDocumento" [value]="tipoDocumento">
+                    {{tipoDocumento}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <mat-card>
+            <mat-card-header class="bg-info text-white">
+                <mat-card-title >
+                    <label>Datos Proforma</label>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="container-datos-factura">
+                <mat-spinner *ngIf="loadingSecuencial" [diameter]="30"></mat-spinner>
+                <div class="container-form-field" *ngIf="!loadingSecuencial">
+                  <mat-form-field >
+                      <input matInput type="text" name="numeroProforma" [(ngModel)]="numeroProforma"
+                      (blur)="changeNumFac(1);" #secuencial>
+                  </mat-form-field>
+                </div>
+  
+                <div class="container-date-formapago">
+                  <mat-form-field class="mat-form-field-date">
+                    <mat-label>Fecha</mat-label>
+                    <input matInput readonly [matDatepicker]="picker" [(ngModel)]="dateFac">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Forma Pago</mat-label>
+                  <mat-select [(value)]="formaPagoSelect">
+                    <mat-option *ngFor="let formaPago of listFormaPago" [value]="formaPago">
+                      {{formaPago}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                </div>
+  
+              </div>
+            </mat-card-content>
+        </mat-card>
+        </div>  
+      </div>
+      
+      <div class="container-child container-items">
+  
+          <div class="container-btn-add-item">
+            <p>ITEMS {{cantItems}}</p>
+            <button mat-raised-button color="btn-icon-accent" class="font-weight-300"
+            (click)="agregarProductoClick();$event.preventDefault();">
+              <mat-icon>add</mat-icon>
+              Agregar Producto
+            </button>
+          </div>
+  
+          <mat-card>
+              <mat-card-content>
+                  <mat-table [dataSource]="datasource" role="grid" >
+                      
+                      <!--<ng-container matColumnDef="#" >
+                          <th mat-header-cell class="flex-grow-punto_5" *matHeaderCellDef mat-sort-header >#</th>
+                          <td mat-cell class="flex-grow-punto_5" *matCellDef="let producto" data-label="#"> {{producto.cli_documento_identidad}} </td>
+                      </ng-container>-->
+                      <ng-container matColumnDef="Codigo" >
+                          <th mat-header-cell  *matHeaderCellDef mat-sort-header > Codigo </th>
+                          <td mat-cell  *matCellDef="let producto" data-label="Codigo" style="width: 90px;"> {{producto.codigo}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="Articulo" >
+                          <th mat-header-cell class="flex-grow-1_5" *matHeaderCellDef mat-sort-header > Articulo </th>
+                          <td mat-cell  class="flex-grow-1_5 text-two-lines " *matCellDef="let producto" data-label="Articulo"> {{producto.nombre}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="Cantidad" >
+                        <th mat-header-cell class="flex-grow-punto_5" *matHeaderCellDef mat-sort-header  >Cant</th>
+                        <td mat-cell class="flex-grow-punto_5" *matCellDef="let producto" data-label="Cantidad"> 
+                          <input  matInput type="number" min="1" max="999999" [(ngModel)]="producto.cantidad" 
+                          (blur)="changeCantidadItemBlur(producto);">
+                          </td>
+                      </ng-container>
+                      <ng-container matColumnDef="P Unitario">
+                        <th mat-header-cell  *matHeaderCellDef mat-sort-header> P Unitario </th>
+                        <td mat-cell  *matCellDef="let producto" data-label="P Unitario" class="precio-unitario-td">
+                          <input  matInput type="text" [(ngModel)]="producto.precio"
+                          (blur)="changePrecioUnitarioItemBlur(producto);"></td>
+                      </ng-container>
+                      <ng-container matColumnDef="descuento" >
+                        <th mat-header-cell class="flex-grow-punto_5" *matHeaderCellDef mat-sort-header  >Desc %</th>
+                        <td mat-cell class="flex-grow-punto_5" *matCellDef="let producto" data-label="Desc %">
+                          <input  matInput type="number" min="0" max="100" [(ngModel)]="producto.descuento" 
+                          (blur)="changeDescuentoItemBlur(producto);">
+                        </td>
+                      </ng-container>
+                      <ng-container matColumnDef="P Total" >
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> P Total </th>
+                        <td mat-cell *matCellDef="let producto" data-label="P Total">
+                          $ {{ ((producto.cantidad * producto.precio) - 
+                            ((producto.cantidad * producto.precio) * producto.descuento / 100)).toFixed(fixedNumDecimal) }} 
+                        </td>
+                      </ng-container>
+      
+                      <ng-container matColumnDef="actions">
+                        <th mat-header-cell class="flex-grow-punto_5" *matHeaderCellDef> </th>
+                        <td mat-cell class="flex-grow-punto_5" *matCellDef="let row; let i = index" data-label="Opciones">
+                          <div>
+                            <button mat-icon-button color="icon-red" aria-label="boton eliminar producto" 
+                              (click)="removeCart(i);">
+                              <a class="wrapper-mat-icon-delete">
+                                <mat-icon >clear</mat-icon>
+                              </a>
+                            </button>
+                          </div>
+                        </td>
+                      </ng-container>
+      
+                      <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: displayedColumns;" style="height: auto !important; min-height: 3em;"></mat-row>
+  
+                  </mat-table>
+              </mat-card-content>
+          </mat-card>
+      </div>
+      
+      <div class="container-child container-totales">
+        <div class="container-observacion">
+          <mat-card >
+            <mat-card-content>
+              <mat-form-field class="font-size-one-rem">
+                <textarea matInput rows="7" placeholder="Observacion..." [(ngModel)]="observacion"></textarea>
+              </mat-form-field>
+            </mat-card-content>
+        </mat-card>
+        </div>
+  
+        <div class="container-totales-values container-observacion">
+            <mat-card class="inner-container-total-values">
+              <mat-card-content>
+                <div class="font-size-one-rem item-totals">
+                  <p>Subtotal</p>
+                  <p>$ {{subtotal}}</p>
+                </div>
+                <div class="font-size-one-rem item-totals">
+                  <p>Subtotal Iva 0</p>
+                  <p>$ {{subtotalIva0}}</p>
+                </div>
+                <div class="font-size-one-rem item-totals">
+                  <p>Subtotal Iva 12</p>
+                  <p>$ {{subtotalIva12}}</p>
+                </div>
+                <div class="font-size-one-rem item-totals">
+                  <p>Iva 12</p>
+                  <p>$ {{Iva12}}</p>
+                </div>
+                <div class="font-size-two-rem">
+                  <h2>TOTAL</h2>
+                  <p class="text-align-end font-weight-400" >$ {{total}}</p>
+                </div>
+              </mat-card-content>
+            </mat-card>
+        </div>
+  
+      </div>
+      
+      <div class="container-form-btn">
+        <button   mat-raised-button class="btn-cancelar"
+        (click)="cancelarClick();$event.preventDefault();">Cancelar</button>
+        <button  class="btn-save" mat-raised-button color="btn-icon-accent"
+        (click)="guardarFactura();$event.preventDefault();">Guardar</button>
+      </div>
+  </div>
+  
+  

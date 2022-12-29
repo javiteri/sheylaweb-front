@@ -1,6 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
@@ -41,7 +44,9 @@ export class ListaProformasComponent implements OnInit {
   constructor(
     private loadingService: LoadingService,
     private coreService: ApplicationProvider,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private router: Router,
+    private matDialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -59,19 +64,30 @@ export class ListaProformasComponent implements OnInit {
     this.rucEmpresa = localServiceResponseUsr._ruc;
     this.nombreBd = localServiceResponseUsr._nombreBd;
 
-    this.getListProformasByIdEmpresa();
+    this.searchListaProformasWithFilter();
   }
 
 
-  private getListProformasByIdEmpresa(){
+  searchListaProformasWithFilter(){
 
     let dialogRef = this.loadingService.open();
+    
+    if(!(this.dateInicioFilter && this.dateFinFilter)){
+      dialogRef.close();
+      return;
+    }
 
-    this.coreService.getListProformasByIdEmp(this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
+    const dateInitString = '' + this.dateInicioFilter.getFullYear() + '-' + ('0' + (this.dateInicioFilter.getMonth()+1)).slice(-2) + 
+                          '-' + ('0' + this.dateInicioFilter.getDate()).slice(-2) + ' ' + 
+                            '00:00:00' ;
+    const dateFinString = '' + this.dateFinFilter.getFullYear() + '-' + ('0' + (this.dateFinFilter.getMonth()+1)).slice(-2) + 
+                            '-' + ('0' + this.dateFinFilter.getDate()).slice(-2) + ' ' + 
+                              '23:59:59' ;
+
+    this.coreService.getListProformasByIdEmp(this.idEmpresa,this.nombreCiRuc, this.noDocmento, 
+      dateInitString, dateFinString, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) =>{
         dialogRef.close();
-        console.log('dentro de succes en lista de profromas');
-        console.log(data);
 
         this.listaProformas = data.data;
 
@@ -99,4 +115,81 @@ export class ListaProformasComponent implements OnInit {
 
   }
 
+  nuevaProformaClick(){
+    this.router.navigate(['clientes//crearproforma']);
+  }
+
+  deleteProformaByIdEmp(idProforma: any){
+
+    const dialogRef = this.matDialog.open(ConfirmDeleteDialogComponent, {
+      minWidth: '0',
+      width: '400px',
+      data: {
+        title: 'Va a Eliminar la Proforma, desea continuar?',
+        header: 'Eliminar Proforma'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        let dialogRef = this.loadingService.open();
+
+        this.coreService.deleteProformaByIdEmp(this.idEmpresa,idProforma,this.tokenValidate, this.nombreBd).subscribe({
+          next: (results: any) => {
+            dialogRef.close();
+            console.log('proforma eliminadacorrectamente');
+            console.log(results);
+            //this.searchListaVentasWithFilter();
+          },
+          error: (error) => {
+            console.log('error eliminando proforma');
+            console.log(error);
+            dialogRef.close();
+          }
+        });
+      }
+
+    });
+
+  }
+
+  exportarListaProformas(){
+    let dialogRef = this.loadingService.open();
+
+    if(!(this.dateInicioFilter && this.dateFinFilter)){
+      dialogRef.close();
+      return;
+    }
+
+    const dateInitString = '' + this.dateInicioFilter.getFullYear() + '-' + ('0' + (this.dateInicioFilter.getMonth()+1)).slice(-2) + 
+                          '-' + ('0' + this.dateInicioFilter.getDate()).slice(-2) + ' ' + 
+                            '00:00:00' ;
+    const dateFinString = '' + this.dateFinFilter.getFullYear() + '-' + ('0' + (this.dateFinFilter.getMonth()+1)).slice(-2) + 
+                            '-' + ('0' + this.dateFinFilter.getDate()).slice(-2) + ' ' + 
+                              '23:59:59' ;
+
+    this.coreService.getExcelListaProformas(this.idEmpresa,this.nombreCiRuc,this.noDocmento,
+                                        dateInitString,dateFinString, this.tokenValidate, this.nombreBd).subscribe({
+      next: (data: any) => {
+
+        dialogRef.close();
+
+        let downloadUrl = window.URL.createObjectURL(data);
+
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', downloadUrl);
+        link.setAttribute('download','lista_proformas');
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+      },
+      error: (error: any) => {
+        dialogRef.close();
+        console.log('inside error');
+        console.log(error);
+      }
+    });
+  }
 }

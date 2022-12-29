@@ -344,10 +344,12 @@ export class EndPointProvider {
     private get listProformasByIdEmpUrl(){
       return this.apiUrl + this._listProformasByIdEmp;
     }
-    getListProformasByIdEmp<T>(idEmpresa: any, accessToken: any, nombreBd: string): Observable<T>{
+    getListProformasByIdEmp<T>(idEmpresa: any, nombreci: any, noDoc: any, fechaIni: string, fechaFin: string, accessToken: any, nombreBd: string): Observable<T>{
       const endpointUrl = this.listProformasByIdEmpUrl;
       const header = this.getRequestHeaderClientes(accessToken);
-      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('nombreBd', nombreBd);
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('nombreBd', nombreBd)
+                                          .set('ciname', nombreci).set('nodoc', noDoc).set('fechaini', fechaIni)
+                                          .set('fechafin', fechaFin);
 
       const httpOptions = {
         headers: header,
@@ -356,6 +358,56 @@ export class EndPointProvider {
 
       return this.http.get<T>(endpointUrl, httpOptions);
     }
+    private readonly _nextNoProformaByUsr: string = 'proformas/getNoProformaByIdUsr';
+    private get nextNoProformaByUsrUrl(){
+      return this.apiUrl + this._nextNoProformaByUsr;
+    }
+    getNextNoProformaByUsr<T>(idEmpresa: any,idUsuario: any, accessToken: any, nombreBd: string): Observable<T>{
+      const endpointUrl = this.nextNoProformaByUsrUrl;
+      const header = this.getRequestHeaderClientes(accessToken);
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('idUsuario', idUsuario).set('nombreBd', nombreBd);
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+    private readonly _insertProforma: string = "proformas/insertar";
+    private get insertProformaUrl(){
+      return this.apiUrl + this._insertProforma;
+    }
+    insertProformaToBD<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.insertProformaUrl;   
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
+    private readonly _deleteProforma: string = "proformas/deleteProforma";
+    private get deleteProformaUrl(){
+      return this.apiUrl + this._deleteProforma;
+    }
+    deleteProformaToBD<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.deleteProformaUrl;   
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
+
+    private readonly _listaProformasExcelByIdEmp: string = 'proformas/getlistproformasexcel';
+    private get listaProformasExcelByIdEmpUrl(){
+      return this.apiUrl + this._listaProformasExcelByIdEmp;
+    }
+    getListaProformasExcelByIdEmp(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
+      fechaFin: any, accessToken: any, nombreBd: string): Observable<any>{
+      const endpointUrl = this.listaProformasExcelByIdEmpUrl;
+      
+      const header = this.getRequestHeaderClientes(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('ciname',nombreCi)
+                            .set('nodoc',noDoc).set('fechaIni',fechaIni)
+                            .set('fechaFin',fechaFin).set('nombreBd', nombreBd);
+
+      return this.http.get(endpointUrl, {responseType: 'blob', params: paramsRequest, headers: header});      
+    }
+
 
     //METHODS FOR USUARIOS 
     private readonly _usuariosByIdEmp: string = 'usuarios/getUsuariosByIdEmp';

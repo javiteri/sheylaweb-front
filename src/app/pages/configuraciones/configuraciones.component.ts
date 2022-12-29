@@ -23,7 +23,9 @@ export class ConfiguracionesComponent implements OnInit {
   "VENTAS_IVA_INCLUIDO_FACTURA",
   "CAJA_PERMITIR_CAMBIAR_FECHA",
   "CAJA_PERMITIR_CAMBIAR_USUARIO",
-  "VENTAS_IMPRESION_DOCUMENTOS"
+  "VENTAS_IMPRESION_DOCUMENTOS",
+  "PROFORMAS_PERMITIR_INGRESAR_SIN_SECUENCIA",
+  "PROFORMAS_IMPRESION_DOCUMENTOS"
   ]
 
   NAMES_CONFIGS_VENTAS = [
@@ -46,6 +48,9 @@ export class ConfiguracionesComponent implements OnInit {
   ivaSelect = "00.00"
   checkedIvaIncluidoVentas = false;
   checkedVentasSinSecuencia = false;
+
+  checkedProformasSinSecuencia = false;
+  impresionDocumentosProformaValue = '1';
 
   impresionDocumentosValue = '1';
 
@@ -131,6 +136,19 @@ export class ConfiguracionesComponent implements OnInit {
         const impresionDocumentosVentas = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[7]);
         if(impresionDocumentosVentas){
           this.impresionDocumentosValue = impresionDocumentosVentas.con_valor;
+        }
+
+        //PROFORMAS
+        const ingresarProformaSinSecuenciaConfig = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[8]);
+        if(ingresarProformaSinSecuenciaConfig){
+          this.checkedProformasSinSecuencia = (ingresarProformaSinSecuenciaConfig.con_valor == "1" ? true : false);
+        }else{
+          this.checkedVentasSinSecuencia = false
+        }
+
+        const impresionDocumentosProformas = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[9]);
+        if(impresionDocumentosProformas){
+          this.impresionDocumentosProformaValue = impresionDocumentosProformas.con_valor;
         }
 
         const cajaAllowCambiarFecha = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[5]);

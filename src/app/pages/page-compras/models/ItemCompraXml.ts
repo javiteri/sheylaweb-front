@@ -8,5 +8,6 @@ export interface ItemCompraXml{
     iva: string,
     existe: string,
     codigoInterno? : string,
-    descripcionInterna? : string
+    descripcionInterna? : string,
+    exist? : boolean
 }

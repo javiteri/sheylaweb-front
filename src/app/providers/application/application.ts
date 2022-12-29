@@ -88,9 +88,23 @@ export class ApplicationProvider {
   }
 
   //PROFORMAS
-  getListProformasByIdEmp(idEmpresa: any, accessToken: any,nombreBd: string){
-    return this.coreEndPoint.getListProformasByIdEmp(idEmpresa, accessToken, nombreBd);
+  getListProformasByIdEmp(idEmpresa: any,nombreci: any, noDoc: any, fechaIni: any, fechaFin: any, accessToken: any,nombreBd: string){
+    return this.coreEndPoint.getListProformasByIdEmp(idEmpresa, nombreci, noDoc, fechaIni, fechaFin, accessToken, nombreBd);
   }
+  getNextNumeroProformaByUsuario(idEmp: any, idUsuario: any, accessToken: any, nombreBd: string){
+    return this.coreEndPoint.getNextNoProformaByUsr(idEmp,idUsuario,accessToken, nombreBd);
+  }
+  insertProformaToBD(postData: any, accessToken: any){
+    return this.coreEndPoint.insertProformaToBD(postData, accessToken);
+  }
+  deleteProformaByIdEmp(idEmpresa: any, idProforma: any,accessToken: any, nombreBd: string){
+    return this.coreEndPoint.deleteProformaToBD({idEmpresa,idProforma, nombreBd},accessToken);
+  }
+  getExcelListaProformas(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
+                        fechaFin: any,accesToken: any, nombreBd: string){
+    return this.coreEndPoint.getListaProformasExcelByIdEmp(idEmpresa,nombreCi,noDoc,fechaIni,fechaFin,accesToken, nombreBd);
+  }
+
   //USUARIOS
   getUsuariosByIdEmp(idEmp: any, accessToken: any, nombreBd: string){
     return this.coreEndPoint.getUsuariosByIdEmp(idEmp, accessToken, nombreBd);

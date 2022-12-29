@@ -174,8 +174,8 @@ export class PageComprasComponent implements OnInit, OnDestroy {
     });
 
     this.datosProvsubscription$ = this.productService.datosProveedor$.subscribe((proveedor: any) => {
-      if(!(Object.entries(proveedor).length === 0)){
-
+      
+      if(!(Object.entries(proveedor).length === 0)){  
         this.proveedorFac.id = proveedor.dataInServer.id;
         this.proveedorFac.ciRuc = proveedor.identificacion;
         this.proveedorFac.nombre = proveedor.proveedor;

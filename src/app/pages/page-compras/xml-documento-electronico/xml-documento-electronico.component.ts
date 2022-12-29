@@ -233,6 +233,7 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
 
     this.coreService.verifyProductsXml(postData, this.tokenValidate).subscribe({
       next: (data: any) =>{
+        console.log(data);
         this.datasource.data = data.listProductosXml;
       },
       error: (error: any) =>{
@@ -243,6 +244,7 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
 
     this.coreService.searchProveedoresByIdEmpText(this.idEmpresa, data['ci'], this.tokenValidate, this.nombreBd).subscribe({
       next: (dataResult: any) => {
+        
         if(dataResult.data[0]){
           
           this.datosProveedorXml = {
@@ -323,9 +325,9 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
           this.xmlFacCompraString = data.dataXml;
           this.isXmlFileLocal = false;
 
-          const indexStart = data.dataXml.indexOf('<factura id="comprobante" version="2.0.0">');
+          const indexStart = data.dataXml.search('<factura id="comprobante" ');
           const indexEnd = data.dataXml.indexOf('</factura>') + 10;
-          
+
           const result = await this.parseXMLSoapService(data.dataXml.substring(indexStart, indexEnd));
           if((result as any).isSucces == false){
             
@@ -360,7 +362,7 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
 
     return new Promise((resolve, reject) => {
       try{
-        
+
         let parser = new xml2js.Parser({
           trim: true,
           explicitArray: false
@@ -465,7 +467,7 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
         elemento.descuento = '0'
       }
     });
-    
+
     this.productService.setProductList(listProductExist);
     this.productService.setProveedor(proveedorResp);
     this.location.back();
@@ -486,6 +488,7 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
         const data = this.datasource.data;
         data[index].codigoInterno = result.prod_codigo;
         data[index].descripcionInterna = result.prod_nombre;
+        data[index].exist = true;
 
         this.datasource.data = data;
       }
