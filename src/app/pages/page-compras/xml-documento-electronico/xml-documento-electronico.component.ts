@@ -233,7 +233,6 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
 
     this.coreService.verifyProductsXml(postData, this.tokenValidate).subscribe({
       next: (data: any) =>{
-        console.log(data);
         this.datasource.data = data.listProductosXml;
       },
       error: (error: any) =>{

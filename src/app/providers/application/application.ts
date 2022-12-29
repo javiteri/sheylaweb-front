@@ -104,6 +104,12 @@ export class ApplicationProvider {
                         fechaFin: any,accesToken: any, nombreBd: string){
     return this.coreEndPoint.getListaProformasExcelByIdEmp(idEmpresa,nombreCi,noDoc,fechaIni,fechaFin,accesToken, nombreBd);
   }
+  getPdfFromProformaByIdEmp(idEmp: any, identificacion: any, idProforma: any, accesToken: any, nombreBd: string){
+    return this.coreEndPoint.getPDFProformaByIdEmp(idEmp,identificacion,idProforma, accesToken, nombreBd);
+  }
+  getDataByIdProforma(idProforma: any, idEmp: any,rucEmpresa: any, accessToken: any, nombreBd: string){
+    return this.coreEndPoint.getDataByIdProforma(idProforma, idEmp,rucEmpresa, accessToken, nombreBd);
+  }
 
   //USUARIOS
   getUsuariosByIdEmp(idEmp: any, accessToken: any, nombreBd: string){

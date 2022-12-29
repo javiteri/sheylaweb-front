@@ -53,7 +53,7 @@ export class PageVentasComponent implements OnInit{
   subtotalIva12: string = "00.0";
   Iva12: string = "00.0";
 
-  clientFac: ClienteFactura = new ClienteFactura(0, '999999999', 'CONSUMIDOR FINAL', '','','0999999999');
+  clientFac: ClienteFactura = new ClienteFactura(0, '9999999999', 'CONSUMIDOR FINAL', '','','0999999999');
 
   listFormaPago = ['EFECTIVO', 'CHEQUE', 'TRANSFERENCIA', 'DEPOSITO','VOUCHER', 'CREDITO'];
   listTipoDocumento = ['Factura', 'Nota de Venta', 'Otros'];
@@ -66,8 +66,12 @@ export class PageVentasComponent implements OnInit{
   fixedNumDecimal = 2;
   permitirVentaSecuenciaIncorrecta = false;
   configIvaIncluidoEnVenta = true;
-
   configImpresionDocumentos = "1";
+
+  //prop for handle when proforma is converted in venta and call corresponding function to get proforma data 
+  // and map to factura
+  isConvertirEnVenta = false;
+  idProforma = 0;
 
   constructor(private matDialog: MatDialog,
     public viewContainerRef: ViewContainerRef,
@@ -78,6 +82,12 @@ export class PageVentasComponent implements OnInit{
     private route: ActivatedRoute,
     private router: Router,
     public ref: ChangeDetectorRef) {
+
+      if(this.router.getCurrentNavigation()?.extras.state?.['idProf'] > 0){
+        this.isConvertirEnVenta = true;
+        this.idProforma = this.router.getCurrentNavigation()?.extras.state?.['idProf'];
+
+      }
   }
   
 
@@ -106,87 +116,165 @@ export class PageVentasComponent implements OnInit{
   }
 
   private getDataRoutedMap(){
-    this.route.paramMap.subscribe((params: any) => {
 
-      let idVenta = params.get('idventa');
-      
-      if(idVenta){
-        this.coreService.getDataByIdVenta(idVenta, this.idEmpresa,this.rucEmpresa, this.tokenValidate, this.nombreBd).subscribe({
-          next: (data: any) =>{
+    if(this.isConvertirEnVenta){
+      this.getNextNumeroSecuencial();
+      this.coreService.getDataByIdProforma(this.idProforma, this.idEmpresa,this.rucEmpresa, this.tokenValidate, this.nombreBd).subscribe({
+        next: (data: any) =>{
 
-            this.clientFac.id = data.data['clienteId'];
-            this.clientFac.ciRuc = data.data['cc_ruc_pasaporte'];
-            this.clientFac.nombre = data.data['cliente'];
-            this.clientFac.telefono = data.data['clienteTele'];
-            this.clientFac.direccion = data.data['clienteDir'];
-            this.clientFac.email = data.data['clienteEmail'];
+          console.log('inside result data proforma');
+          console.log(data);
+          this.clientFac.id = data.data['clienteId'];
+          this.clientFac.ciRuc = data.data['cc_ruc_pasaporte'];
+          this.clientFac.nombre = data.data['cliente'];
+          this.clientFac.telefono = data.data['clienteTele'];
+          this.clientFac.direccion = data.data['clienteDir'];
+          this.clientFac.email = data.data['clienteEmail'];
 
-            this.formaPagoSelect = data.data['forma_pago'];
-            const mDate = new Date(data.data['fechaHora']);
-            this.dateFac = mDate;
+          this.formaPagoSelect = data.data['forma_pago'];
+          const mDate = new Date(data.data['fechaHora']);
+          this.dateFac = mDate;
 
-            this.value001 = data.data['venta001'];
-            this.value002 = data.data['venta002'];
-            this.valueSecuencia = data.data['numero'];
-            this.loadingSecuencial = false;
+          //this.numeroProforma = data.data['numero'];
+          this.loadingSecuencial = false;
 
-            let dataInSource = this.datasource.data;
-            const arrayVentaDetalle = Array.from(data.data.data);
-            arrayVentaDetalle.forEach((data: any) => {
+          let dataInSource = this.datasource.data;
+          const arrayVentaDetalle = Array.from(data.data.data);
+          arrayVentaDetalle.forEach((data: any) => {
 
-              const productItemAdd: ProductFactura = {
-                id: data.ventad_prod_id,
-                codigo: data.prod_codigo,
-                nombre: data.ventad_producto,
-                precio: Number(Number(data.ventad_vu).toFixed(this.fixedNumDecimal)),
-                cantidad: data.ventad_cantidad,
-                descuento: data.ventad_descuento,
-                iva: (data.ventad_iva == "0.00") ? "0" : "1"
-              }
+            const productItemAdd: ProductFactura = {
+              id: data.profd_prod_id,
+              codigo: data.prod_codigo,
+              nombre: data.profd_producto,
+              precio: Number(Number(data.profd_vu).toFixed(this.fixedNumDecimal)),
+              cantidad: data.profd_cantidad,
+              descuento: data.profd_descuento,
+              iva: (data.profd_iva == "0.00") ? "0" : "1"
+            }
 
-              if(this.configIvaIncluidoEnVenta){
+            if(this.configIvaIncluidoEnVenta){
+              
+              if(productItemAdd.iva == "1"){
                 
-                if(productItemAdd.iva == "1"){
-                  
-                  productItemAdd.precio = ((productItemAdd.precio * 1.12).toFixed(this.fixedNumDecimal) as any);
-                }
-              }              
+                productItemAdd.precio = ((productItemAdd.precio * 1.12).toFixed(this.fixedNumDecimal) as any);
+              }
+            }              
 
-              dataInSource.push(productItemAdd);
-        
+            dataInSource.push(productItemAdd);
+      
+          });
+
+          this.observacion =data.data['Observaciones'];
+          
+          this.datasource.data = dataInSource;
+          this.cantItems = this.datasource.data.length;
+          
+          this.subtotalIva12 = Number(data.data['subtotal12']).toFixed(this.fixedNumDecimal);
+          this.subtotalIva0 = Number(data.data['subtotal0']).toFixed(this.fixedNumDecimal);
+          this.Iva12 = Number(data.data['valorIva']).toFixed(this.fixedNumDecimal);
+          this.subtotal = (Number(this.subtotalIva12) + Number(this.subtotalIva0)).toFixed(this.fixedNumDecimal);
+          this.total = Number(data.data['total']).toFixed(2);
+
+          let stringObservacion = `Proforma # ${data.data['numero']} \n`;
+          stringObservacion += data.data['Observaciones'];
+          this.observacion = stringObservacion;
+        },
+        error: (error: any) =>{
+          if(error.error['notExist']){
+            this.loadingSecuencial = false;
+            this.toastr.error('No existe Proforma', '', {
+              timeOut: 4000,
+              closeButton: true
             });
 
-            this.datasource.data = dataInSource;
-            this.cantItems = this.datasource.data.length;
-            
-            this.subtotalIva12 = Number(data.data['subtotal12']).toFixed(this.fixedNumDecimal);
-            this.subtotalIva0 = Number(data.data['subtotal0']).toFixed(this.fixedNumDecimal);
-            this.Iva12 = Number(data.data['valorIva']).toFixed(this.fixedNumDecimal);
-            this.subtotal = (Number(this.subtotalIva12) + Number(this.subtotalIva0)).toFixed(this.fixedNumDecimal);
-            this.total = Number(data.data['total']).toFixed(2);
-          },
-          error: (error: any) =>{
-            if(error.error['notExist']){
+            this.router.navigate(['/clientes/lista-proformas']);
+
+          }
+        }
+      });
+    }else{
+
+      this.route.paramMap.subscribe((params: any) => {
+
+        let idVenta = params.get('idventa');
+        
+        if(idVenta){
+          this.coreService.getDataByIdVenta(idVenta, this.idEmpresa,this.rucEmpresa, this.tokenValidate, this.nombreBd).subscribe({
+            next: (data: any) =>{
+
+              this.clientFac.id = data.data['clienteId'];
+              this.clientFac.ciRuc = data.data['cc_ruc_pasaporte'];
+              this.clientFac.nombre = data.data['cliente'];
+              this.clientFac.telefono = data.data['clienteTele'];
+              this.clientFac.direccion = data.data['clienteDir'];
+              this.clientFac.email = data.data['clienteEmail'];
+
+              this.formaPagoSelect = data.data['forma_pago'];
+              const mDate = new Date(data.data['fechaHora']);
+              this.dateFac = mDate;
+
+              this.value001 = data.data['venta001'];
+              this.value002 = data.data['venta002'];
+              this.valueSecuencia = data.data['numero'];
               this.loadingSecuencial = false;
-              this.toastr.error('No existe Venta', '', {
-                timeOut: 4000,
-                closeButton: true
+
+              let dataInSource = this.datasource.data;
+              const arrayVentaDetalle = Array.from(data.data.data);
+              arrayVentaDetalle.forEach((data: any) => {
+
+                const productItemAdd: ProductFactura = {
+                  id: data.ventad_prod_id,
+                  codigo: data.prod_codigo,
+                  nombre: data.ventad_producto,
+                  precio: Number(Number(data.ventad_vu).toFixed(this.fixedNumDecimal)),
+                  cantidad: data.ventad_cantidad,
+                  descuento: data.ventad_descuento,
+                  iva: (data.ventad_iva == "0.00") ? "0" : "1"
+                }
+
+                if(this.configIvaIncluidoEnVenta){
+                  
+                  if(productItemAdd.iva == "1"){
+                    
+                    productItemAdd.precio = ((productItemAdd.precio * 1.12).toFixed(this.fixedNumDecimal) as any);
+                  }
+                }              
+
+                dataInSource.push(productItemAdd);
+          
               });
 
-              this.router.navigate(['/ventas/listaventas']);
+              this.datasource.data = dataInSource;
+              this.cantItems = this.datasource.data.length;
+              
+              this.subtotalIva12 = Number(data.data['subtotal12']).toFixed(this.fixedNumDecimal);
+              this.subtotalIva0 = Number(data.data['subtotal0']).toFixed(this.fixedNumDecimal);
+              this.Iva12 = Number(data.data['valorIva']).toFixed(this.fixedNumDecimal);
+              this.subtotal = (Number(this.subtotalIva12) + Number(this.subtotalIva0)).toFixed(this.fixedNumDecimal);
+              this.total = Number(data.data['total']).toFixed(2);
+            },
+            error: (error: any) =>{
+              if(error.error['notExist']){
+                this.loadingSecuencial = false;
+                this.toastr.error('No existe Venta', '', {
+                  timeOut: 4000,
+                  closeButton: true
+                });
 
+                this.router.navigate(['/ventas/listaventas']);
+
+              }
             }
-          }
-        });
+          });
 
+        }else{
 
-      }else{
+          this.getNextNumeroSecuencial();
+          this.getConsumidorFinalApi();
+        }
 
-        this.getNextNumeroSecuencial();
-        this.getConsumidorFinalApi();
-      }
-
-    });
+      });
+    }
   }
 
   private getConsumidorFinalApi(){
@@ -751,12 +839,12 @@ export class PageVentasComponent implements OnInit{
   }
 
   cancelarClick(): void{
-      this.location.back();
+    this.router.navigate(['ventas/listaventas'])
+    //this.location.back();
   }
 
   changeTipoDoc(){
       this.getNextNumeroSecuencial();
-      //this.getNextNumeroSecuencialtwo();
   }
 
   private getConfigVentaSinSecuencia(){

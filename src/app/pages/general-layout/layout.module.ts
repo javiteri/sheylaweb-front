@@ -36,6 +36,7 @@ import { CrearNuevaEmpresaDialogComponent } from 'src/app/components/crear-nueva
 import { RecuperarCuentaDialogComponent } from 'src/app/components/recuperar-cuenta-dialog/recuperar-cuenta-dialog.component';
 import { PrintLayoutComponent } from '../pages-printer-strategy/print-layout/print-layout.component';
 import { ReceiptComponent } from '../pages-printer-strategy/receipt/receipt.component';
+import { ReceiptProformaComponent } from '../pages-printer-strategy/receipt-proforma/receipt-proforma.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormPlanesComponent } from 'src/app/components/form-planes/form-planes.component';
 
@@ -55,7 +56,8 @@ import { FormPlanesComponent } from 'src/app/components/form-planes/form-planes.
     RecuperarCuentaDialogComponent,
     FormPlanesComponent,
     PrintLayoutComponent,
-    ReceiptComponent
+    ReceiptComponent,
+    ReceiptProformaComponent
   ],
   imports: [
     CommonModule,

@@ -14,8 +14,8 @@ export class EndPointProvider {
     private readonly appVersion = '1.0.0';
     //private readonly apiUrl = 'http://192.168.1.10:8086/api/'; 
 
-    //private readonly apiUrl = 'http://localhost:3000/api/';
-    private readonly apiUrl = 'https://www.sheylaweb.net/api/';
+    private readonly apiUrl = 'http://localhost:3000/api/';
+    //private readonly apiUrl = 'https://www.sheylaweb.net/api/';
 
 
     private readonly searchDatosClienteSri = 'https://sheyla.net/SRI/SRI.php';
@@ -408,6 +408,39 @@ export class EndPointProvider {
       return this.http.get(endpointUrl, {responseType: 'blob', params: paramsRequest, headers: header});      
     }
 
+    private readonly _getPDFProformaByIdEmp: string = 'proformas/generatepdffromproforma';
+    private get getPDFProformaByIdEmpURL(){
+      return this.apiUrl + this._getPDFProformaByIdEmp;
+    }
+    getPDFProformaByIdEmp(idEmp: any,identificacion: any,idProforma: any, accessToken: any, nombreBd: string): Observable<Blob>{
+      const endpointUrl = this.getPDFProformaByIdEmpURL;
+      
+      const header = this.getRequestHeaderFilesPDF(accessToken);
+
+      let paramsRequest = new HttpParams().set('idEmp', idEmp)
+                            .set('idProforma', idProforma)
+                            .set('identificacion', identificacion)
+                            .set('nombreBd', nombreBd)
+
+      return this.http.get(endpointUrl,{responseType: 'blob', params: paramsRequest, headers: header});
+    }
+
+    private readonly _dataByIdProforma: string = 'proformas/getDataByIdProforma';
+    private get dataByIdProformaUrl(){
+      return this.apiUrl + this._dataByIdProforma;
+    }
+    getDataByIdProforma<T>(idProforma: any, idEmpresa: any,rucEmpresa: any, accessToken: any, nombreBd: string): Observable<T>{
+      const endpointUrl = this.dataByIdProformaUrl;
+      const header = this.getRequestHeaderClientes(accessToken);
+      let paramsRequest = new HttpParams().set('idEmp', idEmpresa).set('id', idProforma).set('ruc',rucEmpresa).set('nombreBd', nombreBd);
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
 
     //METHODS FOR USUARIOS 
     private readonly _usuariosByIdEmp: string = 'usuarios/getUsuariosByIdEmp';

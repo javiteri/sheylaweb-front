@@ -29,7 +29,7 @@ const routes: Routes = [
         component: CrearproformaComponent
     },
     {
-        path: 'editarproforma/:id',
+        path: 'crearproforma/:id',
         canActivate: [AuthGuard],
         component: CrearproformaComponent
     },

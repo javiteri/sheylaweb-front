@@ -192,4 +192,41 @@ export class ListaProformasComponent implements OnInit {
       }
     });
   }
+
+  verPdfProforma(idProforma: any, identificacion: any){
+    
+    let loadingRef = this.loadingService.open();
+
+    this.coreService.getPdfFromProformaByIdEmp(this.idEmpresa, identificacion, idProforma, this.tokenValidate, this.nombreBd).subscribe({
+      next: (data: any) => {
+        loadingRef.close();
+
+        let downloadUrl = window.URL.createObjectURL(data);
+
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', downloadUrl);
+        link.setAttribute('download','detalle-venta');
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+      },
+      error: (error: any) => {
+        console.log('ocurrio un error');
+        console.log(error);
+
+        loadingRef.close();
+      }
+    });
+    
+  }
+
+  copiarProformaClick(proforma: any){
+    this.router.navigate(['/clientes/crearproforma', proforma.id]); 
+  }
+
+  convertirEnVentaClick(proforma: any){
+    this.router.navigate(['/ventas/crearventa'], {state: {idProf: proforma.id}});
+  }
 }

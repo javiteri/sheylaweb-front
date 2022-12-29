@@ -120,10 +120,10 @@ export class CrearproformaComponent implements OnInit {
   private getDataRoutedMap(){
     this.route.paramMap.subscribe((params: any) => {
 
-      let idProforma = params.get('idproforma');
+      let idProforma = params.get('id');
       
       if(idProforma){
-        this.coreService.getDataByIdVenta(idProforma, this.idEmpresa,this.rucEmpresa, this.tokenValidate, this.nombreBd).subscribe({
+        this.coreService.getDataByIdProforma(idProforma, this.idEmpresa,this.rucEmpresa, this.tokenValidate, this.nombreBd).subscribe({
           next: (data: any) =>{
 
             this.clientFac.id = data.data['clienteId'];
@@ -137,7 +137,7 @@ export class CrearproformaComponent implements OnInit {
             const mDate = new Date(data.data['fechaHora']);
             this.dateFac = mDate;
 
-            this.numeroProforma = data.data['venta001'];
+            this.numeroProforma = data.data['numero'];
             this.loadingSecuencial = false;
 
             let dataInSource = this.datasource.data;
@@ -145,13 +145,13 @@ export class CrearproformaComponent implements OnInit {
             arrayVentaDetalle.forEach((data: any) => {
 
               const productItemAdd: ProductFactura = {
-                id: data.ventad_prod_id,
+                id: data.profd_prod_id,
                 codigo: data.prod_codigo,
-                nombre: data.ventad_producto,
-                precio: Number(Number(data.ventad_vu).toFixed(this.fixedNumDecimal)),
-                cantidad: data.ventad_cantidad,
-                descuento: data.ventad_descuento,
-                iva: (data.ventad_iva == "0.00") ? "0" : "1"
+                nombre: data.profd_producto,
+                precio: Number(Number(data.profd_vu).toFixed(this.fixedNumDecimal)),
+                cantidad: data.profd_cantidad,
+                descuento: data.profd_descuento,
+                iva: (data.profd_iva == "0.00") ? "0" : "1"
               }
 
               if(this.configIvaIncluidoEnVenta){
@@ -166,6 +166,8 @@ export class CrearproformaComponent implements OnInit {
         
             });
 
+            this.observacion =data.data['Observaciones'];
+
             this.datasource.data = dataInSource;
             this.cantItems = this.datasource.data.length;
             
@@ -174,16 +176,17 @@ export class CrearproformaComponent implements OnInit {
             this.Iva12 = Number(data.data['valorIva']).toFixed(this.fixedNumDecimal);
             this.subtotal = (Number(this.subtotalIva12) + Number(this.subtotalIva0)).toFixed(this.fixedNumDecimal);
             this.total = Number(data.data['total']).toFixed(2);
+
           },
           error: (error: any) =>{
             if(error.error['notExist']){
               this.loadingSecuencial = false;
-              this.toastr.error('No existe Venta', '', {
+              this.toastr.error('No existe Proforma', '', {
                 timeOut: 4000,
                 closeButton: true
               });
 
-              this.router.navigate(['/ventas/listaventas']);
+              this.router.navigate(['/clientes/lista-proformas']);
 
             }
           }
@@ -247,13 +250,8 @@ export class CrearproformaComponent implements OnInit {
     });
   }
 
-  // GUARDAR DATOS FACTURA
-  guardarFactura(){
-
-    /*if(this.clientFac.ciRuc == '9999999999' && Number(this.total) >= 50){
-      this.toastr.error('No se puede guardar una venta mayor a $50 a Consumidor Final.');
-      return;
-    }*/
+  // GUARDAR DATOS PROFORMA
+  guardarProforma(){
 
     if(!this.validateClienteFac()){
       this.toastr.error('Verifique que los datos de Cliente sean correctos', '', {
@@ -401,16 +399,14 @@ export class CrearproformaComponent implements OnInit {
             closeButton: true
           });
 
-         // this.verPdfVenta(data.proformaId,this.inputIdentificacion.nativeElement.value,this.tipoDocSelect);
-          console.log('generando PDF');
+          this.verPdfProforma(data.proformaId, this.inputIdentificacion.nativeElement.value);
         }else{
 
-          console.log('mostrar pantalla de impresion');
-         /* this.router.navigate([
+          this.router.navigate([
             { outlets: {
-              'print': ['print','receipt',data.proformaId]
-          }}]);*/
-
+              'print': ['print','receipt-proforma',data.proformaId]
+          }}]);
+         
         }
       
         this.resetControls();
@@ -441,7 +437,8 @@ export class CrearproformaComponent implements OnInit {
   }
 
   cancelarClick(): void{
-    this.location.back();
+    //this.location.back();
+    this.router.navigate(['clientes/lista-proformas']);
   }
 
   removeCart(indexItem: number){
@@ -687,5 +684,34 @@ export class CrearproformaComponent implements OnInit {
         }
     });
 
+  }
+
+
+  verPdfProforma(idProforma: any, identificacion: any){
+    
+    let loadingRef = this.loadingService.open();
+
+    this.coreService.getPdfFromProformaByIdEmp(this.idEmpresa, identificacion, idProforma, this.tokenValidate, this.nombreBd).subscribe({
+      next: (data: any) => {
+        loadingRef.close();
+
+        let downloadUrl = window.URL.createObjectURL(data);
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', downloadUrl);
+        link.setAttribute('download','detalle-venta');
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+      },
+      error: (error: any) => {
+        console.log('ocurrio un error');
+        console.log(error);
+
+        loadingRef.close();
+      }
+    });
+    
   }
 }
