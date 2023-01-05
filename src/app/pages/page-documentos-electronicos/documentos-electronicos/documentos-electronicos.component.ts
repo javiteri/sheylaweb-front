@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -51,7 +51,8 @@ export class DocumentosElectronicosComponent implements OnInit {
   constructor(private coreService: ApplicationProvider,
     private loadingService: LoadingService,
     private matDialog: MatDialog,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private ref: ChangeDetectorRef) { }
 
   ngOnInit(): void {
 
@@ -84,7 +85,6 @@ export class DocumentosElectronicosComponent implements OnInit {
     
     this.isShowMostrarNoAutorizados = true;
 
-
     let loadingRef: any;
     if(firstOpenPage){
       loadingRef = this.loadingService.open()
@@ -97,15 +97,19 @@ export class DocumentosElectronicosComponent implements OnInit {
       if(data.data && data.data.length > 0){
         this.datasource.data = data.data;
         this.showSinDatos = false;
+        this.showPagination = true;
       }else{
         this.datasource.data = [];
         this.showSinDatos = true;
+        this.showPagination = false;
       }
 
       if(loadingRef != null){
         loadingRef.close();
-      }
-      
+      }      
+
+      this.ref.detectChanges();
+      this.datasource.paginator = this.paginator;
     },
     error: (error: any) => {
       if(loadingRef != null){
@@ -142,14 +146,19 @@ export class DocumentosElectronicosComponent implements OnInit {
           if(data.data && data.data.length > 0){
             this.datasource.data = data.data;
             this.showSinDatos = false;
+            this.showPagination = true;
           }else{
             this.datasource.data = [];
             this.showSinDatos = true;
+            this.showPagination = false;
           }
 
           if(loadingRef != null){
             loadingRef.close();
           }
+
+          this.ref.detectChanges();
+          this.datasource.paginator = this.paginator;
           
         },
         error: (error: any) => {

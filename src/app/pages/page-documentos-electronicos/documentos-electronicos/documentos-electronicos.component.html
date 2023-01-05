@@ -11,13 +11,13 @@
             <div class="container-search-bar">
         
               <div class="inner-container-date-filter">
-                  <mat-form-field class="mat-form-field-date">
+                  <mat-form-field >
                       <mat-label>Desde</mat-label>
                       <input matInput [matDatepicker]="pickerdesde" [(ngModel)]="dateInicioFilter">
                       <mat-datepicker-toggle matSuffix [for]="pickerdesde"></mat-datepicker-toggle>
                       <mat-datepicker #pickerdesde></mat-datepicker>
                   </mat-form-field>
-                  <mat-form-field class="mat-form-field-date">
+                  <mat-form-field >
                       <mat-label>Hasta</mat-label>
                       <input matInput [matDatepicker]="pickerhasta" [(ngModel)]="dateFinFilter">
                       <mat-datepicker-toggle matSuffix [for]="pickerhasta"></mat-datepicker-toggle>

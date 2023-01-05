@@ -8,7 +8,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button'
 import { MatDatepickerModule} from '@angular/material/datepicker'
-import { MatNativeDateModule } from "@angular/material/core";
+import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS } from "@angular/material/core";
 
 import { OverlayModule } from "@angular/cdk/overlay";
 import { LoadingService } from "src/app/services/Loading.service";
@@ -28,6 +28,7 @@ import { ClientesRoutingModule } from "./clientes-routing.module";
 import { RouterModule } from "@angular/router";
 import { CrearproformaComponent } from './crearproforma/crearproforma.component';
 import { ListaProformasComponent } from './lista-proformas/lista-proformas.component';
+import { PickDateAdapter, PICK_FORMATS } from "../page-ventas/adapter/DatePickerAdapter";
 
 @NgModule({
     declarations: [
@@ -57,6 +58,8 @@ import { ListaProformasComponent } from './lista-proformas/lista-proformas.compo
         OverlayModule
     ],
     providers: [LoadingService,
+        {provide: MAT_DATE_FORMATS, useValue: PICK_FORMATS},
+        {provide: DateAdapter, useClass: PickDateAdapter},
         {provide: MatPaginatorIntl, useValue: CustomPaginator()}
       ]
 })

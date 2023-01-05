@@ -122,8 +122,6 @@ export class PageVentasComponent implements OnInit{
       this.coreService.getDataByIdProforma(this.idProforma, this.idEmpresa,this.rucEmpresa, this.tokenValidate, this.nombreBd).subscribe({
         next: (data: any) =>{
 
-          console.log('inside result data proforma');
-          console.log(data);
           this.clientFac.id = data.data['clienteId'];
           this.clientFac.ciRuc = data.data['cc_ruc_pasaporte'];
           this.clientFac.nombre = data.data['cliente'];
@@ -135,7 +133,6 @@ export class PageVentasComponent implements OnInit{
           const mDate = new Date(data.data['fechaHora']);
           this.dateFac = mDate;
 
-          //this.numeroProforma = data.data['numero'];
           this.loadingSecuencial = false;
 
           let dataInSource = this.datasource.data;
@@ -153,15 +150,12 @@ export class PageVentasComponent implements OnInit{
             }
 
             if(this.configIvaIncluidoEnVenta){
-              
               if(productItemAdd.iva == "1"){
-                
                 productItemAdd.precio = ((productItemAdd.precio * 1.12).toFixed(this.fixedNumDecimal) as any);
               }
             }              
 
             dataInSource.push(productItemAdd);
-      
           });
 
           this.observacion =data.data['Observaciones'];
