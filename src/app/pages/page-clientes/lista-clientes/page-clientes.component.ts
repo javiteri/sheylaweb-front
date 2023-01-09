@@ -10,6 +10,7 @@ import { ApplicationProvider } from 'src/app/providers/application/application';
 import { LoadingService } from 'src/app/services/Loading.service';
 import {Cliente} from '../../../interfaces/Cliente'
 import * as XLSX from 'xlsx';
+import { ImportarClientesDialogComponent } from '../dialogs/importar-clientes-dialog/importar-clientes-dialog.component';
 
 @Component({
   selector: 'app-page-clientes',
@@ -26,6 +27,9 @@ export class PageClientesComponent implements OnInit {
   isLoading = false;
   listaClientes: Cliente[] = [];
 
+  showPaginationDialog = false;
+  listClientesImport: Cliente[] = [];
+
   idEmpresa: number = 0;
   rucEmpresa: string = '';
   nombreBd: string = '';
@@ -39,7 +43,7 @@ export class PageClientesComponent implements OnInit {
   arrayBuffer: any
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
+  
   constructor(private coreService: ApplicationProvider ,
               private ref: ChangeDetectorRef,
               private loadingService: LoadingService,
@@ -71,7 +75,6 @@ export class PageClientesComponent implements OnInit {
   private getListaClientesRefresh(){
 
     this.isLoading = !this.isLoading;
-
     let dialogRef = this.loadingService.open();
 
     this.coreService.getListClientesByIdEmp(this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
@@ -80,24 +83,21 @@ export class PageClientesComponent implements OnInit {
         dialogRef.close();
 
         this.isLoading = !this.isLoading;
-
         this.listaClientes = data.data;
-
+        
         if(this.listaClientes.length > 0){
-          this.showPagination = true;//!this.showPagination;
+          this.showPagination = true;
           this.showSinDatos = false
         }else{
           this.showSinDatos = !this.showSinDatos;
           this.showPagination = false
         }
-
+        
         this.datasource.data = this.listaClientes;
         this.ref.detectChanges();
         this.datasource.paginator = this.paginator;
-
       },
       error: (error) => {
-
         dialogRef.close();
 
         this.isLoading = !this.isLoading;
@@ -117,14 +117,11 @@ export class PageClientesComponent implements OnInit {
   }
 
   editarClick(idCli: any){
-
     this.router.navigate(['/clientes/editar', idCli]);
   }
 
-  eliminarClick(idCliente: any): void{
-    
+  eliminarClick(idCliente: any): void{  
     const dialogRef = this.matDialog.open(ConfirmDeleteDialogComponent, {        
-        
         minWidth: '0',
         width: '400px',
         data: {
@@ -227,7 +224,7 @@ export class PageClientesComponent implements OnInit {
     });
   }
 
-  onFileChange(file: any, template: any){
+  onFileChange(file: any){
     if(file.length === 0){
       return;
     }
@@ -240,34 +237,54 @@ export class PageClientesComponent implements OnInit {
     fileReader.readAsArrayBuffer(this.file!!);
     fileReader.onload = (e) => {
       this.arrayBuffer = fileReader.result;
-      let data = new Uint8Array(this.arrayBuffer);
-      /*let array = new Array();
-      for(let i = 0; i < data.length; i++){
-        array[i] = String.fromCharCode(data[i]);
-      }
-      let bstr = array.join("");*/
+      //let data = new Uint8Array(this.arrayBuffer);
+    
       let workBook = XLSX.read(this.arrayBuffer, {type: "binary", cellDates: true});
       let first_sheet_name = workBook.SheetNames[0];
       let worksheet = workBook.Sheets[first_sheet_name];
-      console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));
+      //console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));
       let arraylist = XLSX.utils.sheet_to_json(worksheet,{raw:true});
 
-      let dialogRef = this.matDialog.open(template, {
+      let listClientesMap : Cliente[] = [];
+      arraylist.forEach((item: any) => {
+          let clienteOtro = {
+            cli_id : 0,
+            cli_empresa_id: this.idEmpresa,
+            cli_nacionalidad: item['nacionalidad'] ? item['nacionalidad'] : '',
+            cli_documento_identidad: item['identificacion'] ? item['identificacion'] : '',
+            cli_tipo_documento_identidad: '',
+            cli_nombres_natural: item['nombres'] ? item['nombres'] : '',
+            cli_razon_social: item['razonsocial'] ? item['razonsocial'] : '',
+            cli_observacion: item['observacion'] ? item['observacion'] : '',
+            cli_fecha_nacimiento: item['fechanacimiento'] ? item['fechanacimiento'] : '',
+            cli_teleono: item['telefono'] ? item['telefono'] : '',
+            cli_celular: item['celular'] ? item['celular'] : '',
+            cli_email: item['email'] ? item['email'] : '',
+            cli_direccion: item['direccion'] ? item['direccion'] : '',
+            cli_profesion: ''
+          }
+          listClientesMap.push(clienteOtro);
       });
+
+  
+      const dialogRef = this.matDialog.open(ImportarClientesDialogComponent, {        
+        minWidth: '0',
+        width: '80%',
+        panelClass: 'my-import-cliente-dialog',
+        data: {
+          listClientes: listClientesMap
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('inside close dialog result');
+      });
+
+      /*let dialogRef = this.matDialog.open(template, {
+      });*/
       //new Date(((arraylist[0]['fechanacimiento']) - 25569)*86400000)
 
     }
-
-    //if (mimeType.match(/xml\/*/) == null) {
-      //this.mensajeError = `Error tipo de archivo no valido ${mimeType}`;
-      //this.limpiarImagen();
-      /*this.toastr.error('Archivo no válido', '', {
-        timeOut: 3000,
-        closeButton: true
-      });
-
-      return;
-    }*/
 
   }
 }

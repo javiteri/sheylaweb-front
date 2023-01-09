@@ -154,3 +154,11 @@ th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:la
 .blurred {
   backdrop-filter: blur(5px);
 }
+
+.my-import-cliente-dialog {
+  outline: 2px solid purple;
+}
+.my-import-cliente-dialog .mat-dialog-container{
+  /*padding-left: 8px;
+  padding-right: 8px;*/
+}

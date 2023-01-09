@@ -29,13 +29,16 @@ import { RouterModule } from "@angular/router";
 import { CrearproformaComponent } from './crearproforma/crearproforma.component';
 import { ListaProformasComponent } from './lista-proformas/lista-proformas.component';
 import { PickDateAdapter, PICK_FORMATS } from "../page-ventas/adapter/DatePickerAdapter";
+import { ImportarClientesDialogComponent } from './dialogs/importar-clientes-dialog/importar-clientes-dialog.component';
+import { MatDialogModule } from "@angular/material/dialog";
 
 @NgModule({
     declarations: [
         PageClientesComponent,
         NuevoClienteComponent,
         CrearproformaComponent,
-        ListaProformasComponent
+        ListaProformasComponent,
+        ImportarClientesDialogComponent
     ],
     imports: [
         MatTooltipModule,
@@ -55,7 +58,8 @@ import { PickDateAdapter, PICK_FORMATS } from "../page-ventas/adapter/DatePicker
         MatProgressSpinnerModule,
         FormsModule,
         ReactiveFormsModule,
-        OverlayModule
+        OverlayModule,
+        MatDialogModule
     ],
     providers: [LoadingService,
         {provide: MAT_DATE_FORMATS, useValue: PICK_FORMATS},

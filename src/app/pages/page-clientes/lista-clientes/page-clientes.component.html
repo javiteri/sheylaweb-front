@@ -34,7 +34,7 @@
         <button class="font-weight-300 mat-elevation-z1" mat-raised-button style="min-width: 64px;">
           <mat-icon>file_upload</mat-icon>
           Importar
-          <input class="inputfile" #file type="file" (change)="onFileChange(file.files, template)"  
+          <input class="inputfile" #file type="file" (change)="onFileChange(file.files)"  
             accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
         </button>
       </div>
@@ -88,7 +88,6 @@
                           <mat-icon >delete</mat-icon>
                         </button>
                       </div>
-
                     </td>
                   </ng-container>
 
@@ -112,72 +111,3 @@
     </mat-card-content>
 </mat-card>
 
-<ng-template #template>
-    <mat-card>
-    
-    <mat-card-content>
-        <div class="flex-layout-table" >
-            <mat-table [dataSource]="datasource" role="grid" >
-
-                <ng-container matColumnDef="ci" >
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CI RUC </th>
-                    <td mat-cell *matCellDef="let cliente" data-label="CI RUC"> {{cliente.cli_documento_identidad}} </td>
-                  </ng-container>
-                  <ng-container matColumnDef="nombre" >
-                    <th mat-header-cell class="flex-grow-1_5" *matHeaderCellDef mat-sort-header > Nombre </th>
-                    <td mat-cell *matCellDef="let cliente" class="flex-grow-1_5" data-label="Nombre"> {{cliente.cli_nombres_natural}} </td>
-                  </ng-container>
-                  <ng-container matColumnDef="email" >
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header > Email </th>
-                    <td mat-cell  *matCellDef="let cliente" data-label="Email"> {{cliente.cli_email}} </td>
-                  </ng-container>
-                  <ng-container matColumnDef="tipo" >
-                    <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header  > Telefono</th>
-                    <td mat-cell class="justify-centro" *matCellDef="let cliente" data-label="Telefono"> {{cliente.cli_teleono}} </td>
-                  </ng-container>
-                  <ng-container matColumnDef="telefono">
-                    <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header> Celular </th>
-                    <td mat-cell class="justify-centro" *matCellDef="let cliente" data-label="Celular"> {{cliente.cli_celular}} </td>
-                  </ng-container>
-                  <ng-container matColumnDef="nacionalidad" >
-                    <th mat-header-cell class="justify-centro" *matHeaderCellDef mat-sort-header> Nacionalidad </th>
-                    <td mat-cell class="justify-centro" *matCellDef="let cliente" data-label="Nacionalidad"> {{cliente.cli_nacionalidad}} </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="actions">
-                    <th mat-header-cell *matHeaderCellDef>Opciones</th>
-                    <td mat-cell   *matCellDef="let row" data-label="Opciones">
-                      <div>
-                        <button matTooltip="Editar" [disabled]="row.cli_nombres_natural == 'CONSUMIDOR FINAL' ? 'disabled' : null"
-                         mat-icon-button color="icon-accent" aria-label="boton editar cliente" (click)="editarClick(row.cli_id)">
-                          <mat-icon>edit</mat-icon>
-                        </button>
-                        <button matTooltip="Eliminar" [disabled]="row.cli_nombres_natural == 'CONSUMIDOR FINAL' ? 'disabled' : null" 
-                            mat-icon-button color="icon-red" aria-label="boton eliminar cliente" (click)="eliminarClick(row.cli_id)">
-                          <mat-icon >delete</mat-icon>
-                        </button>
-                      </div>
-
-                    </td>
-                  </ng-container>
-
-                <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-            </mat-table>
-
-            <mat-paginator *ngIf="showPagination" #paginator [pageSizeOptions]="[15, 30, 50]"
-                 showFirstLastButtons
-                 aria-label="Seleccione pagina elementos cliente"
-                 (page)="scrollUp()">
-            </mat-paginator>
-
-
-          <div *ngIf="showSinDatos"
-                style="display: flex; justify-content: center; align-items: center; margin-top: 3rem; margin-bottom: 3rem;padding-bottom: 3rem;">
-              <label> No se Encontraron Datos</label>
-          </div>
-
-        </div>
-    </mat-card-content>
-</mat-card>
-</ng-template>
