@@ -9,6 +9,7 @@ import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/application/application';
 import { LoadingService } from 'src/app/services/Loading.service';
 import {Cliente} from '../../../interfaces/Cliente'
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-page-clientes',
@@ -33,6 +34,9 @@ export class PageClientesComponent implements OnInit {
   tokenValidate!: TokenValidate;
 
   textSearchClientes: string = '';
+
+  file: File | null = null;
+  arrayBuffer: any
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -107,7 +111,6 @@ export class PageClientesComponent implements OnInit {
   nuevoCliente(){
     this.router.navigate(['/clientes/nuevo']);
   }
-
 
   scrollUp(): void{
     //setTimeout( () => this.tableInput.nativeElement.scrollIntoView({behavior: 'smooth', clock: 'end'}));
@@ -222,5 +225,49 @@ export class PageClientesComponent implements OnInit {
         console.log(error);
       }
     });
+  }
+
+  onFileChange(file: any, template: any){
+    if(file.length === 0){
+      return;
+    }
+
+    let nameFile = file[0].name;
+    const mimeType = file[0].type;
+
+    this.file = file[0];
+    let fileReader = new FileReader();
+    fileReader.readAsArrayBuffer(this.file!!);
+    fileReader.onload = (e) => {
+      this.arrayBuffer = fileReader.result;
+      let data = new Uint8Array(this.arrayBuffer);
+      /*let array = new Array();
+      for(let i = 0; i < data.length; i++){
+        array[i] = String.fromCharCode(data[i]);
+      }
+      let bstr = array.join("");*/
+      let workBook = XLSX.read(this.arrayBuffer, {type: "binary", cellDates: true});
+      let first_sheet_name = workBook.SheetNames[0];
+      let worksheet = workBook.Sheets[first_sheet_name];
+      console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));
+      let arraylist = XLSX.utils.sheet_to_json(worksheet,{raw:true});
+
+      let dialogRef = this.matDialog.open(template, {
+      });
+      //new Date(((arraylist[0]['fechanacimiento']) - 25569)*86400000)
+
+    }
+
+    //if (mimeType.match(/xml\/*/) == null) {
+      //this.mensajeError = `Error tipo de archivo no valido ${mimeType}`;
+      //this.limpiarImagen();
+      /*this.toastr.error('Archivo no válido', '', {
+        timeOut: 3000,
+        closeButton: true
+      });
+
+      return;
+    }*/
+
   }
 }

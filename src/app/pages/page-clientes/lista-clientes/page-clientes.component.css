@@ -29,6 +29,20 @@
     width: 100%;
   }
 
+.upload-btn-wrapper{
+    margin-left: .2rem;
+    min-width: 64px;
+}
+
+.upload-btn-wrapper input[type=file] {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+
 .clientes{
     display: flex;
     align-items: center;
@@ -91,10 +105,6 @@ table{
     justify-content: flex-end;
 }
 
-
-.container-options button:first-child{
-    margin-right: 15px;
-}
 
 .inner-container-search{
     display: flex;
@@ -225,11 +235,11 @@ td.mat-footer-cell {
     }
 }
 
-@media screen and (max-width: 552px){
+@media screen and (max-width: 1200px){
     .container-options{
         flex-flow: column-reverse;
     }
-    .container-options div:nth-child(1), .container-options div:nth-child(2){
+    .container-options > div:nth-child(1), .container-options > div:nth-child(2){
         width: 100%;
     }
     .container-options div:nth-child(1){
@@ -240,6 +250,18 @@ td.mat-footer-cell {
     }
 }
 
+@media screen and (max-width: 500px){
+    .general-wrapper-btn{
+        flex-flow: column;
+    }
+    .wrapper-btn-import-export{
+        margin-top: .3rem;
+    }
+}
+
 .mat-row:hover{
     background-color: var(--grey-300);
   }
+.wrapper-btn-import-export{
+    margin-left: 3rem;
+}
