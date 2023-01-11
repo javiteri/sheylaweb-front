@@ -59,6 +59,18 @@ export class EndPointProvider {
 
         return this.http.get(endPointUrl, {responseType: 'blob', params: params1, headers: header});
     }
+    private readonly _getTemplateClientesExcelIdEmp: string = "clientes/gettemplateclientesexcel";
+    private get getTemplateClientesExcelIdEmpUrl(){
+      return this.apiUrl + this._getTemplateClientesExcelIdEmp;
+    }
+    getTemplateClientesExcelIdEmp(idEmp: any, accessToken: any, nombreBd: string): Observable<Blob>{
+        const endPointUrl = this.getTemplateClientesExcelIdEmpUrl;
+
+        const header = this.getRequestHeaderFiles(accessToken)
+        const params1 = new HttpParams().set('idEmp', idEmp).set('nombreBd', nombreBd);
+
+        return this.http.get(endPointUrl, {responseType: 'blob', params: params1, headers: header});
+    }
 
     //LOGUIN
     //private readonly _loginVerify: string = 'loginverify'
@@ -256,6 +268,15 @@ export class EndPointProvider {
     }
     insertClienteToBD<T>(postData: any, accessToken: any): Observable<T>{
         const endPointUrl = this.insertClienteUrl;
+        
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
+    private readonly _importListClientes: string = "clientes/importlistclientes";
+    private get importListClientesURL(){
+      return this.apiUrl + this._importListClientes;
+    }
+    importListClientes<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.importListClientesURL;
         
         return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
     }

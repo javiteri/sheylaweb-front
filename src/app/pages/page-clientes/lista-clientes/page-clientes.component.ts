@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, QueryList, SecurityContext, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -11,6 +11,7 @@ import { LoadingService } from 'src/app/services/Loading.service';
 import {Cliente} from '../../../interfaces/Cliente'
 import * as XLSX from 'xlsx';
 import { ImportarClientesDialogComponent } from '../dialogs/importar-clientes-dialog/importar-clientes-dialog.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-page-clientes',
@@ -49,7 +50,8 @@ export class PageClientesComponent implements OnInit {
               private loadingService: LoadingService,
               private router: Router,
               private matDialog: MatDialog,
-              private toastr: ToastrService) { }
+              private toastr: ToastrService,
+              private sanitizer: DomSanitizer) { }
               
 
   ngOnInit(): void {
@@ -202,7 +204,6 @@ export class PageClientesComponent implements OnInit {
 
     this.coreService.getExcelListClientes(this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
-        console.log(data);
         dialogRef.close();
 
         let downloadUrl = window.URL.createObjectURL(data);
@@ -229,8 +230,8 @@ export class PageClientesComponent implements OnInit {
       return;
     }
 
-    let nameFile = file[0].name;
-    const mimeType = file[0].type;
+    /*let nameFile = file[0].name;
+    const mimeType = file[0].type;*/
 
     this.file = file[0];
     let fileReader = new FileReader();
@@ -247,27 +248,58 @@ export class PageClientesComponent implements OnInit {
 
       let listClientesMap : Cliente[] = [];
       arraylist.forEach((item: any) => {
-          let clienteOtro = {
+        if(item['identificacion'] == undefined || item['nombres'] == undefined || item['razonsocial'] == undefined || item['email'] == undefined){
+          return;
+        }
+
+        let tipoIdentificacion = 'CI';
+        let identificacion = item['identificacion'].toString();
+        if(identificacion.length == 9){
+          identificacion = this.setCeroInLeft(identificacion);
+        }else if(identificacion.length == 12){
+          identificacion = this.setCeroInLeft(identificacion);
+          tipoIdentificacion = 'RUC'
+        }
+
+        const selectedDate: Date = new Date(item['fechanacimiento']);
+        const dateString = '' + selectedDate.getFullYear() + '-' + ('0' + (selectedDate.getMonth()+1)).slice(-2) + 
+                          '-' + ('0' + selectedDate.getDate()).slice(-2) ;
+
+        let clienteOtro = {
             cli_id : 0,
             cli_empresa_id: this.idEmpresa,
-            cli_nacionalidad: item['nacionalidad'] ? item['nacionalidad'] : '',
-            cli_documento_identidad: item['identificacion'] ? item['identificacion'] : '',
-            cli_tipo_documento_identidad: '',
-            cli_nombres_natural: item['nombres'] ? item['nombres'] : '',
-            cli_razon_social: item['razonsocial'] ? item['razonsocial'] : '',
+            cli_nacionalidad: item['nacionalidad'],
+            cli_documento_identidad: identificacion,
+            cli_tipo_documento_identidad: tipoIdentificacion,
+            cli_nombres_natural: item['nombres'],
+            cli_razon_social: item['razonsocial'],
             cli_observacion: item['observacion'] ? item['observacion'] : '',
-            cli_fecha_nacimiento: item['fechanacimiento'] ? item['fechanacimiento'] : '',
+            cli_fecha_nacimiento: dateString,
             cli_teleono: item['telefono'] ? item['telefono'] : '',
             cli_celular: item['celular'] ? item['celular'] : '',
-            cli_email: item['email'] ? item['email'] : '',
+            cli_email: item['email'],
             cli_direccion: item['direccion'] ? item['direccion'] : '',
             cli_profesion: ''
-          }
-          listClientesMap.push(clienteOtro);
+        }
+        listClientesMap.push(clienteOtro);
       });
 
-  
-      const dialogRef = this.matDialog.open(ImportarClientesDialogComponent, {        
+      if(listClientesMap.length <= 0) { 
+
+        /*let a = `<a style="color: red;">Descargar formato correcto<a/>`;
+        let aSanitizing = this.sanitizer.sanitize(SecurityContext.HTML, a);*/
+
+        this.toastr.error('No se encontraron clientes, <font color=\"red\"><a><b>click aqui para descargar formato correcto</b><a/></font> ', '', {
+          enableHtml: true,
+          closeButton: true,
+          timeOut: 20000,
+          extendedTimeOut: 20000
+        });
+        return;
+      }
+
+      
+      const dialogRef = this.matDialog.open(ImportarClientesDialogComponent, {
         minWidth: '0',
         width: '80%',
         panelClass: 'my-import-cliente-dialog',
@@ -280,11 +312,46 @@ export class PageClientesComponent implements OnInit {
         console.log('inside close dialog result');
       });
 
-      /*let dialogRef = this.matDialog.open(template, {
-      });*/
-      //new Date(((arraylist[0]['fechanacimiento']) - 25569)*86400000)
-
     }
 
+  }
+
+
+  presionasteA(){
+    console.log('presionasteA');
+  }
+  
+  private setCeroInLeft(valor: string): string{
+    return '0' + valor;
+  }
+
+  descargarPlantillaClientes(){
+    console.log('click en descargar plantilla clientes');
+  }
+
+  getTemplateClientesExcel(){
+    let dialogRef = this.loadingService.open();
+
+    this.coreService.getTemplateClientesExcel(this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
+      next: (data: any) => {
+        dialogRef.close();
+
+        let downloadUrl = window.URL.createObjectURL(data);
+
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', downloadUrl);
+        link.setAttribute('download','plantilla_clientes');
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+      },
+      error: (error: any) => {
+        dialogRef.close();
+        console.log('inside error');
+        console.log(error);
+      }
+    });
   }
 }

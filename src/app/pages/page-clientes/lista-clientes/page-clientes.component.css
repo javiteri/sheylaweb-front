@@ -81,9 +81,12 @@ table{
 .mat-icon-red{
     color: var(--red-bold);
 }
-.mat-icon-accent{
-    color: var(--accent-color);
+
+.btn-primarydark{
+    background-color: var(--color-primary-dark);
+    color: #ffffff;    
 }
+
 .mat-card{
     box-shadow: 0 5px 20px rgba(0,0,0,.05) !important;
     margin-top: 1.5rem;
@@ -180,6 +183,13 @@ td.mat-footer-cell {
     content: '';
 }
 
+.mat-row:hover{
+    background-color: var(--grey-300);
+  }
+.wrapper-btn-import-export{
+    margin-left: 3rem;
+}
+
 /*MEDIA QUERIES*/
 @media screen and (max-width: 767px){
     .mat-table .mat-row {
@@ -229,11 +239,6 @@ td.mat-footer-cell {
         padding-left: 0;
     }   
 }
-@media screen and (max-width: 767px){
-    .inner-container-search input {
-        width: 80%;
-    }
-}
 
 @media screen and (max-width: 1200px){
     .container-options{
@@ -245,23 +250,18 @@ td.mat-footer-cell {
     .container-options div:nth-child(1){
         margin-top: 4px;
     }
-    .inner-container-search button{
-        width: 18%;
+    .inner-container-search input{
+        flex: 2;
     }
 }
 
-@media screen and (max-width: 500px){
+@media screen and (max-width: 900px){
     .general-wrapper-btn{
         flex-flow: column;
     }
     .wrapper-btn-import-export{
         margin-top: .3rem;
+        margin-left: 0;
     }
 }
 
-.mat-row:hover{
-    background-color: var(--grey-300);
-  }
-.wrapper-btn-import-export{
-    margin-left: 3rem;
-}

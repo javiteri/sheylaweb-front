@@ -9,7 +9,7 @@
 
                     <ng-container matColumnDef="ci" >
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>CI RUC </th>
-                        <td mat-cell *matCellDef="let cliente" data-label="CI RUC"> {{cliente.cli_documento_identidad}} </td>
+                        <td mat-cell *matCellDef="let cliente" data-label="CI RUC"> {{ cliente.cli_documento_identidad}} </td>
                         </ng-container>
                         <ng-container matColumnDef="nombre" >
                         <th mat-header-cell class="flex-grow-1_5" *matHeaderCellDef mat-sort-header > Nombre </th>
@@ -30,14 +30,17 @@
 
                         <ng-container matColumnDef="actions">
                         <th mat-header-cell *matHeaderCellDef>Opciones</th>
-                        <td mat-cell   *matCellDef="let row" data-label="Opciones">
-                            <div>
-                            <button matTooltip="Eliminar" [disabled]="row.cli_nombres_natural == 'CONSUMIDOR FINAL' ? 'disabled' : null" 
-                                mat-icon-button color="icon-red" aria-label="boton eliminar cliente">
-                                <mat-icon >delete</mat-icon>
-                            </button>
+                        <td mat-cell   *matCellDef="let row; let i = index" data-label="Opciones">
+                            <div class="container-options">
+                                <button matTooltip="Eliminar" [disabled]="row.cli_nombres_natural == 'CONSUMIDOR FINAL' ? 'disabled' : null" 
+                                    mat-icon-button color="icon-red" aria-label="boton eliminar cliente"
+                                    (click)="eliminarClick(i)">
+                                    <mat-icon >delete</mat-icon>
+                                </button>
+                                <div class="container-estate-doc container-estate-doc-error" 
+                                    *ngIf="row.cli_error_server"
+                                    matTooltip="{{row.cli_message_error}}">Error</div>
                             </div>
-
                         </td>
                         </ng-container>
 

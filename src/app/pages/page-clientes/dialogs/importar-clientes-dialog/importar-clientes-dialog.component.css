@@ -171,6 +171,25 @@ td.mat-footer-cell {
     min-height: inherit;
     content: '';
 }
+.container-options {
+    display: flex; 
+    justify-content: center; 
+    align-content: center; 
+    align-items: center;
+}
+
+.container-estate-doc{
+    color: rgb(255 255 255 / 1); 
+    font-size: 12px;
+    
+    padding-left: .625rem;
+    padding-right: .625rem;
+    border-radius: 3px;
+}
+
+.container-estate-doc-error{
+    background-color: rgb(223 114 114 / 1);
+}
 
 /*MEDIA QUERIES*/
 @media screen and (max-width: 1300px){
@@ -214,4 +233,4 @@ td.mat-footer-cell {
 .btn-primary:hover {
     background-color: #02aa99;
     border-color: #02aa99;
-  }
+}

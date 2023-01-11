@@ -13,7 +13,9 @@ export class LoadingOverlayRef {
 }
 
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class LoadingService{
 
     constructor(private overlay: Overlay){}

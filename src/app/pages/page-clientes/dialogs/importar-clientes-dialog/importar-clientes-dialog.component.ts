@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, Inject, ViewChild } from '@angula
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
 import { Cliente } from 'src/app/interfaces/Cliente';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/provider';
@@ -42,6 +43,7 @@ export class ImportarClientesDialogComponent implements OnInit {
 
   constructor(
     private coreService: ApplicationProvider,
+    private toastr: ToastrService,
     public matDialogRef: MatDialogRef<ImportarClientesDialogComponent>,
     private loadingService: LoadingService,
     private ref: ChangeDetectorRef,
@@ -72,24 +74,74 @@ export class ImportarClientesDialogComponent implements OnInit {
   }
 
   private setDataInTable(){
+    if(this.listaClientes.length > 0){
+      this.showPagination = true;
+      this.showSinDatos = false
+    }else{
+      this.showSinDatos = true;
+      this.showPagination = false
+    }
 
-        if(this.listaClientes.length > 0){
-          this.showPagination = true;
-          this.showSinDatos = false
-        }else{
-          this.showSinDatos = true;
-          this.showPagination = false
-        }
+    this.datasource.data = this.listaClientes;
+    this.ref.detectChanges();
+    this.datasource.paginator = this.paginator;
+  }
 
-        this.datasource.data = this.listaClientes;
-        this.ref.detectChanges();
-        this.datasource.paginator = this.paginator;
+
+  eliminarClick(index: number){
+    let indexInList = this.paginator.pageIndex == 0 ? index + 1 : 1 + index + this.paginator.pageIndex * this.paginator.pageSize
+
+    this.datasource.data.splice(indexInList - 1, 1);
+    this.datasource._updateChangeSubscription();
+    this.datasource.paginator = this.paginator;
   }
 
   guardarClientes(){
+    const postData = {
+      listClientes: this.datasource.data,
+      nombreBd: this.nombreBd,
+      idEmp: this.idEmpresa
+    }
     
-    console.log('clientes Guardar');
-    console.log(this.listaClientes);
-  }
+    let dialogRef = this.loadingService.open();
 
+    this.coreService.importListClientes(postData, this.tokenValidate).subscribe({
+      next: (data: any) => {
+        console.log('inside next data');
+        console.log(data);
+        dialogRef.close();
+        if(data.listClientesWithError.length > 0){
+
+          this.toastr.success('Datos importados, con errores', '', {
+            timeOut: 3000,
+            closeButton: true
+          });
+
+          this.listaClientes.splice(0, this.listaClientes.length)
+          this.listaClientes = data.listClientesWithError;
+          this.setDataInTable();
+
+        }else{
+          this.toastr.success('Datos importados, correctamente', '', {
+            timeOut: 3000,
+            closeButton: true
+          });
+
+          this.matDialogRef.close();
+        }
+      },
+      error: (error: any) => {
+        console.log('inside error data');
+        console.log(error);
+
+        dialogRef.close();
+
+        this.toastr.error('Error importando clientes, reintente', '', {
+          timeOut: 3000,
+          closeButton: true
+        });
+
+      }
+    })
+  }
 }

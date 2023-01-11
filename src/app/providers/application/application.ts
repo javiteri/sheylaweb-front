@@ -67,6 +67,9 @@ export class ApplicationProvider {
   insertClienteToBD(postData: any, accessToken: any){
       return this.coreEndPoint.insertClienteToBD(postData, accessToken);
   }
+  importListClientes(postData: any, accessToken: any){
+    return this.coreEndPoint.importListClientes(postData, accessToken, );
+  }
   updateClienteToBD(postData: any, accessToken: any){
     return this.coreEndPoint.updateClienteToBD(postData, accessToken);
   }
@@ -85,6 +88,9 @@ export class ApplicationProvider {
   }
   getExcelListClientes(idEmpresa: any, accesToken: any, nombreBd: string){
     return this.coreEndPoint.getClientesExcelById(idEmpresa,accesToken, nombreBd);
+  }
+  getTemplateClientesExcel(idEmpresa: any, accesToken: any, nombreBd: string){
+    return this.coreEndPoint.getTemplateClientesExcelIdEmp(idEmpresa,accesToken, nombreBd);
   }
 
   //PROFORMAS

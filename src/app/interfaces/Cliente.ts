@@ -12,5 +12,7 @@ export interface Cliente{
   cli_celular: string,
   cli_email: string,
   cli_direccion: string,
-  cli_profesion: string
+  cli_profesion: string,
+  cli_message_error?: string,
+  cli_error_server?: boolean
 }
