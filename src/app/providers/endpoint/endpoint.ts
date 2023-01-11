@@ -652,6 +652,27 @@ export class EndPointProvider {
 
         return this.http.get(endPointUrl, {responseType: 'blob', params: params1, headers: header});
     }
+    private readonly _getTemplateProveedoresExcelIdEmp: string = "proveedores/gettemplateproveedoressexcel";
+    private get getTemplateProveedoresExcelIdEmpUrl(){
+      return this.apiUrl + this._getTemplateProveedoresExcelIdEmp;
+    }
+    getTemplateProveedoresExcelIdEmp(idEmp: any, accessToken: any, nombreBd: string): Observable<Blob>{
+        const endPointUrl = this.getTemplateProveedoresExcelIdEmpUrl;
+
+        const header = this.getRequestHeaderFiles(accessToken)
+        const params1 = new HttpParams().set('idEmp', idEmp).set('nombreBd', nombreBd);
+
+        return this.http.get(endPointUrl, {responseType: 'blob', params: params1, headers: header});
+    }
+    private readonly _importListProveedores: string = "proveedores/importlistproveedores";
+    private get importListProveedoresURL(){
+      return this.apiUrl + this._importListProveedores;
+    }
+    importListProveedores<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.importListProveedoresURL;
+        
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
 
 
      // METHODS FOR PRODUCTOS

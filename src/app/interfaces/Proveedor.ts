@@ -15,5 +15,7 @@ export interface Proveedor {
     pro_nombre_presentante: string, 
     pro_telefonos_representante: string, 
     pro_direccion_representante: string, 
-    pro_mail_representante: string
+    pro_mail_representante: string,
+    pro_message_error?: string,
+    pro_error_server?: boolean
 }

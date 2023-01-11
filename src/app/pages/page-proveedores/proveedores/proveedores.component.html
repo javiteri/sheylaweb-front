@@ -18,19 +18,42 @@
     </div>
   </div>
 
-    <div>
+    <div class="general-wrapper-btn">
       <button mat-raised-button class="font-weight-300 mat-elevation-z1" color="btn-icon-accent" (click)="nuevoProveedor()">
         <mat-icon>add</mat-icon>
         Nuevo Proveedor
       </button>
-    
-      <button class="font-weight-300 mat-elevation-z1" mat-raised-button
-      (click)="exportarProveedores();">
+      
+      <div class="wrapper-btn-import-export">
+        <button class="font-weight-300 mat-elevation-z1" mat-raised-button
+        (click)="exportarProveedores();">
         <mat-icon>file_download</mat-icon>
-        Exportar
-      </button>
-    </div>
+          Exportar
+        </button>
 
+        <div class="upload-btn-wrapper">
+
+          <button class="font-weight-300 mat-elevation-z1" mat-raised-button style="min-width: 64px;" 
+          [matMenuTriggerFor]="menu">
+            <mat-icon>file_download</mat-icon>
+            Importar
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+              <mat-icon>folder_open</mat-icon>
+              Cargar archivo
+              <input class="inputfile" #file type="file" (change)="onFileChange(file.files)"  
+              accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
+            </button>
+            <button mat-menu-item (click)="getTemplateProveedoresExcel()">
+              <img src="../../../../assets/xls_icon_24.png" style="vertical-align: middle;">
+              Ver plantilla
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+
+    </div>
   </div>
   
   

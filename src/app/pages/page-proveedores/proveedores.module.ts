@@ -23,11 +23,15 @@ import { LoadingService } from "src/app/services/Loading.service";
 import { ProveedoresComponent } from "./proveedores/proveedores.component";
 import { CreateEditProveedorComponent } from "./create-edit-proveedor/create-edit-proveedor.component";
 import { ProveedoresRoutingModule } from "./proveedores.routing.module";
+import { ImportarProveedoresDialogComponent } from './dialogs/importar-proveedores-dialog/importar-proveedores-dialog.component';
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatMenuModule } from "@angular/material/menu";
 
 @NgModule({
     declarations: [
         ProveedoresComponent,
-        CreateEditProveedorComponent
+        CreateEditProveedorComponent,
+        ImportarProveedoresDialogComponent
     ],
     imports: [
         CommonModule,
@@ -46,7 +50,9 @@ import { ProveedoresRoutingModule } from "./proveedores.routing.module";
         MatDatepickerModule,
         MatNativeDateModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatDialogModule,
+        MatMenuModule
     ],
     providers: [LoadingService,
                 {provide: MatPaginatorIntl, useValue: CustomPaginator()}]

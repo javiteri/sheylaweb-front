@@ -315,18 +315,9 @@ export class PageClientesComponent implements OnInit {
     }
 
   }
-
-
-  presionasteA(){
-    console.log('presionasteA');
-  }
   
   private setCeroInLeft(valor: string): string{
     return '0' + valor;
-  }
-
-  descargarPlantillaClientes(){
-    console.log('click en descargar plantilla clientes');
   }
 
   getTemplateClientesExcel(){

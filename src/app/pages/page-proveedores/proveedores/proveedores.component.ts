@@ -9,6 +9,8 @@ import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { Proveedor } from 'src/app/interfaces/Proveedor';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
+import { ImportarProveedoresDialogComponent } from '../dialogs/importar-proveedores-dialog/importar-proveedores-dialog.component';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-proveedores',
@@ -33,6 +35,9 @@ export class ProveedoresComponent implements OnInit {
   tokenValidate!: TokenValidate;
 
   textSearchProveedores: string = '';
+
+  file: File | null = null;
+  arrayBuffer: any
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('containerTable', {read: ElementRef}) tableInput!: ElementRef
@@ -156,7 +161,6 @@ export class ProveedoresComponent implements OnInit {
   }
 
 
-
   searchProveedoresText(): void{
 
     this.isLoading = !this.isLoading;
@@ -193,7 +197,6 @@ export class ProveedoresComponent implements OnInit {
     });
   }
 
-
   exportarProveedores(){
     let dialogRef = this.loadingService.open();
 
@@ -220,4 +223,126 @@ export class ProveedoresComponent implements OnInit {
       }
     });
   }
+
+  onFileChange(file: any){
+    if(file.length === 0){
+      return;
+    }
+
+    /*let nameFile = file[0].name;
+    const mimeType = file[0].type;*/
+
+    this.file = file[0];
+    let fileReader = new FileReader();
+    fileReader.readAsArrayBuffer(this.file!!);
+    fileReader.onload = (e) => {
+      this.arrayBuffer = fileReader.result;
+      //let data = new Uint8Array(this.arrayBuffer);
+    
+      let workBook = XLSX.read(this.arrayBuffer, {type: "binary", cellDates: true});
+      let first_sheet_name = workBook.SheetNames[0];
+      let worksheet = workBook.Sheets[first_sheet_name];
+      //console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));
+      let arraylist = XLSX.utils.sheet_to_json(worksheet,{raw:true});
+
+      let listProveedoresMap : Proveedor[] = [];
+      arraylist.forEach((item: any) => {
+        console.log(item);
+        if(item['identificacion'] == undefined || item['nombres'] == undefined || item['razon_social'] == undefined /*|| item['email'] == undefined*/){
+          console.log('inside error format');
+          return;
+        }
+
+        let tipoIdentificacion = 'CI';
+        let identificacion = item['identificacion'].toString();
+        if(identificacion.length == 9){
+          identificacion = this.setCeroInLeft(identificacion);
+        }else if(identificacion.length == 12){
+          identificacion = this.setCeroInLeft(identificacion);
+          tipoIdentificacion = 'RUC'
+        }
+
+        // const selectedDate: Date = new Date(item['fechanacimiento']);
+        /*const dateString = '' + selectedDate.getFullYear() + '-' + ('0' + (selectedDate.getMonth()+1)).slice(-2) + 
+                          '-' + ('0' + selectedDate.getDate()).slice(-2) ;*/
+
+        let proveedorOtro = {
+          pro_id: 0,
+          pro_empresa_id: this.idEmpresa, 
+          pro_tipo_documento_identidad: tipoIdentificacion,
+          pro_documento_identidad: identificacion, 
+          pro_nombre_natural: item['nombres'], 
+          pro_razon_social: item['razon_social'],
+          pro_observacion: '', 
+          pro_telefono: item['telefono'] ? item['telefono'] : '', 
+          pro_celular: '', 
+          pro_email: item['email'] ? item['email'] : '',
+          pro_pagina_web: '', 
+          pro_direccion: item['direccion'] ? item['direccion'] : '', 
+          pro_cedula_representante: '', 
+          pro_nombre_presentante: '', 
+          pro_telefonos_representante: '', 
+          pro_direccion_representante: '', 
+          pro_mail_representante: ''
+        }
+        listProveedoresMap.push(proveedorOtro);
+      });
+
+      if(listProveedoresMap.length <= 0) { 
+
+        this.toastr.error('No se encontraron proveedores, verifique el formato', '', {
+          enableHtml: true,
+          closeButton: true,
+          timeOut: 20000,
+          extendedTimeOut: 20000
+        });
+        return;
+      }
+
+      const dialogRef = this.matDialog.open(ImportarProveedoresDialogComponent, {
+        minWidth: '0',
+        width: '80%',
+        panelClass: 'my-import-cliente-dialog',
+        data: {
+          listProveedores: listProveedoresMap
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('inside close dialog result');
+      });
+
+    }
+  }
+
+  private setCeroInLeft(valor: string): string{
+    return '0' + valor;
+  }
+
+  getTemplateProveedoresExcel(){
+    let dialogRef = this.loadingService.open();
+
+    this.coreService.getTemplateProveedoresExcel(this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
+      next: (data: any) => {
+        dialogRef.close();
+
+        let downloadUrl = window.URL.createObjectURL(data);
+
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', downloadUrl);
+        link.setAttribute('download','plantilla_proveedores');
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+      },
+      error: (error: any) => {
+        dialogRef.close();
+        console.log('inside error');
+        console.log(error);
+      }
+    });
+  }
+
 }

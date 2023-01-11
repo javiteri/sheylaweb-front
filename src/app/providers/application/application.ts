@@ -162,6 +162,12 @@ export class ApplicationProvider {
   getExcelListProveedores(idEmpresa: any, accesToken: any, nombreBd: string){
     return this.coreEndPoint.getProveedoresExcelById(idEmpresa,accesToken, nombreBd);
   }
+  getTemplateProveedoresExcel(idEmpresa: any, accesToken: any, nombreBd: string){
+    return this.coreEndPoint.getTemplateProveedoresExcelIdEmp(idEmpresa,accesToken, nombreBd);
+  }
+  importListProveedores(postData: any, accessToken: any){
+    return this.coreEndPoint.importListProveedores(postData, accessToken, );
+  }
 
   // PRODUCTOS
   getListProductosByIdEmp(idEmpresa: any, accessToken: any, nombreBd: string){
