@@ -1,26 +1,26 @@
-import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
-import { Proveedor } from 'src/app/interfaces/Proveedor';
+import { Producto } from 'src/app/interfaces/Productos';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
 
 export interface DialogData {
-  listProveedores: Proveedor[];
+  listProductos: Producto[];
 }
 
 @Component({
-  selector: 'app-importar-proveedores-dialog',
-  templateUrl: './importar-proveedores-dialog.component.html',
-  styleUrls: ['./importar-proveedores-dialog.component.css']
+  selector: 'app-importar-productos-dialog',
+  templateUrl: './importar-productos-dialog.component.html',
+  styleUrls: ['./importar-productos-dialog.component.css']
 })
-export class ImportarProveedoresDialogComponent implements OnInit {
+export class ImportarProductosDialogComponent implements OnInit {
 
-  displayedColumns: string[] = ['ci', 'nombre', 'email', 'telefono', 'actions'];
-  datasource = new MatTableDataSource<Proveedor>();
+  displayedColumns: string[] = ['codigo','nombre', 'stock', 'unidadMedida', 'categoria', 'marca','actions'];
+  datasource = new MatTableDataSource<Producto>();
 
   idEmpresa: number = 0;
   rucEmpresa: string = '';
@@ -29,16 +29,16 @@ export class ImportarProveedoresDialogComponent implements OnInit {
   dataUser: any;
   tokenValidate!: TokenValidate;
 
-  listaProveedores: Proveedor[] = [];
+  listaProductos: Producto[] = [];
   showSinDatos = false;
   showPagination = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
+  
   constructor(
     private coreService: ApplicationProvider,
     private toastr: ToastrService,
-    public matDialogRef: MatDialogRef<ImportarProveedoresDialogComponent>,
+    public matDialogRef: MatDialogRef<ImportarProductosDialogComponent>,
     private loadingService: LoadingService,
     private ref: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) public dialogData: DialogData
@@ -61,14 +61,15 @@ export class ImportarProveedoresDialogComponent implements OnInit {
     this.rucEmpresa = localServiceResponseUsr._ruc;
     this.nombreBd = localServiceResponseUsr._nombreBd;
 
-    this.listaProveedores = this.dialogData['listProveedores'];
+    this.listaProductos = this.dialogData['listProductos'];
     this.setDataInTable();
 
   }
 
 
   private setDataInTable(){
-    if(this.listaProveedores.length > 0){
+    console.log(this.listaProductos);
+    if(this.listaProductos.length > 0){
       this.showPagination = true;
       this.showSinDatos = false
     }else{
@@ -76,7 +77,7 @@ export class ImportarProveedoresDialogComponent implements OnInit {
       this.showPagination = false
     }
 
-    this.datasource.data = this.listaProveedores;
+    this.datasource.data = this.listaProductos;
     this.ref.detectChanges();
     this.datasource.paginator = this.paginator;
   }
@@ -89,34 +90,32 @@ export class ImportarProveedoresDialogComponent implements OnInit {
     this.datasource.paginator = this.paginator;
   }
 
-  guardarProveedores(){
-
-    if(this.listaProveedores.length <= 0){
+  guardarProductos(){
+    if(this.listaProductos.length <= 0){
       return;
     }
 
     const postData = {
-      listProveedores: this.datasource.data,
+      listProductos: this.datasource.data,
       nombreBd: this.nombreBd,
       idEmp: this.idEmpresa
     }
     
     let dialogRef = this.loadingService.open();
 
-    this.coreService.importListProveedores(postData, this.tokenValidate).subscribe({
+    this.coreService.importListProductos(postData, this.tokenValidate).subscribe({
       next: (data: any) => {
-        console.log('inside next data');
         console.log(data);
         dialogRef.close();
-        if(data.listProveedoresWithError.length > 0){
+        if(data.listProductosWithError.length > 0){
 
           this.toastr.success('Datos importados, con errores', '', {
             timeOut: 3000,
             closeButton: true
           });
 
-          this.listaProveedores.splice(0, this.listaProveedores.length)
-          this.listaProveedores = data.listProveedoresWithError;
+          this.listaProductos.splice(0, this.listaProductos.length)
+          this.listaProductos = data.listProductosWithError;
           this.setDataInTable();
 
         }else{
@@ -129,12 +128,9 @@ export class ImportarProveedoresDialogComponent implements OnInit {
         }
       },
       error: (error: any) => {
-        console.log('inside error data');
-        console.log(error);
-
         dialogRef.close();
 
-        this.toastr.error('Error importando proveedores, reintente', '', {
+        this.toastr.error('Error importando productos, reintente', '', {
           timeOut: 3000,
           closeButton: true
         });
@@ -142,5 +138,4 @@ export class ImportarProveedoresDialogComponent implements OnInit {
       }
     })
   }
-
 }

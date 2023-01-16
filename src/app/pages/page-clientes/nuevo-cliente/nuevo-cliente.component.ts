@@ -122,7 +122,7 @@ export class NuevoClienteComponent implements OnInit, AfterViewInit{
           dialogRef.close();
 
           if(!data.data){
-            this.router.navigate(['/clientes']);
+            this.router.navigate(['/clientes/lista-clientes']);
             return;
           }
 
@@ -250,7 +250,7 @@ export class NuevoClienteComponent implements OnInit, AfterViewInit{
         });
 
         setTimeout(() => {
-          this.router.navigate(['/clientes']);
+          this.router.navigate(['/clientes/lista-clientes']);
         }, 600);
         //this.resetControlsForm();
       },

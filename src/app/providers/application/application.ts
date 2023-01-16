@@ -204,6 +204,12 @@ export class ApplicationProvider {
   getExcelListProductos(idEmpresa: any, accesToken: any, nombreBd: string){
     return this.coreEndPoint.getProductosExcelById(idEmpresa,accesToken, nombreBd);
   }
+  getTemplateProductosExcel(idEmpresa: any, accesToken: any, nombreBd: string){
+    return this.coreEndPoint.getTemplateProductosExcelIdEmp(idEmpresa,accesToken, nombreBd);
+  }
+  importListProductos(postData: any, accessToken: any){
+    return this.coreEndPoint.importListProductos(postData, accessToken, );
+  }
 
   //VENTAS FACTURA, TICKET, OTROS
   insertVentaFacturaToBD(postData: any, accessToken: any){

@@ -27,11 +27,15 @@ import { ProductosRoutingModule } from "./productos-routing.module";
 import { RouterModule } from "@angular/router";
 import { PageInventarioComponent } from "./page-inventario.component";
 import { CrearEditarProductoComponent } from './crear-editar-producto/crear-editar-producto.component';
+import { MatMenuModule } from "@angular/material/menu";
+import { ImportarProductosDialogComponent } from './dialogs/importar-productos-dialog/importar-productos-dialog.component';
+import { MatDialogModule } from "@angular/material/dialog";
 
 @NgModule({
     declarations: [
         PageInventarioComponent,
-        CrearEditarProductoComponent
+        CrearEditarProductoComponent,
+        ImportarProductosDialogComponent
     ],
     imports: [
         MatTooltipModule,
@@ -53,7 +57,9 @@ import { CrearEditarProductoComponent } from './crear-editar-producto/crear-edit
         MatProgressSpinnerModule,
         FormsModule,
         ReactiveFormsModule,
-        OverlayModule
+        OverlayModule,
+        MatMenuModule,
+        MatDialogModule
     ],
     providers: [LoadingService,
         {provide: MatPaginatorIntl, useValue: CustomPaginator()}

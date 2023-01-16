@@ -840,6 +840,29 @@ export class EndPointProvider {
         return this.http.get(endPointUrl, {responseType: 'blob', params: params1, headers: header});
     }
 
+    private readonly _getTemplateProductosExcelIdEmp: string = "productos/gettemplateproductosexcel";
+    private get getTemplateProductosExcelIdEmpURL(){
+      return this.apiUrl + this._getTemplateProductosExcelIdEmp;
+    }
+    getTemplateProductosExcelIdEmp(idEmp: any, accessToken: any, nombreBd: string): Observable<Blob>{
+        const endPointUrl = this.getTemplateProductosExcelIdEmpURL;
+
+        const header = this.getRequestHeaderFiles(accessToken)
+        const params1 = new HttpParams().set('idEmp', idEmp).set('nombreBd', nombreBd);
+
+        return this.http.get(endPointUrl, {responseType: 'blob', params: params1, headers: header});
+    }
+
+    private readonly _importListProductos: string = "productos/importlistproductos";
+    private get importListProductosURL(){
+      return this.apiUrl + this._importListProductos;
+    }
+    importListProductos<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.importListProductosURL;
+        
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
+
 
     // METHODS FOR VENTAS FACTURA, TICKET , OTROS
     private readonly _insertVenta: string = "ventas/insertar";

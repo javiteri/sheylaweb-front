@@ -247,9 +247,7 @@ export class ProveedoresComponent implements OnInit {
 
       let listProveedoresMap : Proveedor[] = [];
       arraylist.forEach((item: any) => {
-        console.log(item);
         if(item['identificacion'] == undefined || item['nombres'] == undefined || item['razon_social'] == undefined /*|| item['email'] == undefined*/){
-          console.log('inside error format');
           return;
         }
 

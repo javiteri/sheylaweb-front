@@ -31,6 +31,7 @@ import { PickDateAdapter, PICK_FORMATS} from "./adapter/DatePickerAdapter";
 import { ResumenVentasComponent } from './resumen-ventas/resumen-ventas.component';
 import { PrintLayoutComponent } from "../pages-printer-strategy/print-layout/print-layout.component";
 import { ReceiptComponent } from "../pages-printer-strategy/receipt/receipt.component";
+import { MatMenuModule } from "@angular/material/menu";
 
 @NgModule({
     declarations: [
@@ -57,7 +58,8 @@ import { ReceiptComponent } from "../pages-printer-strategy/receipt/receipt.comp
         FormsModule,
         ReactiveFormsModule,
         MatDialogModule,
-        MatChipsModule
+        MatChipsModule,
+        MatMenuModule
     ],
     providers: [LoadingService, ApplicationProvider,
         {provide: MatPaginatorIntl, useValue: CustomPaginator()},

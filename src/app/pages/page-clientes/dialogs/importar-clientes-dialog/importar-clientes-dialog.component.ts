@@ -97,6 +97,10 @@ export class ImportarClientesDialogComponent implements OnInit {
   }
 
   guardarClientes(){
+    if(this.listaClientes.length <= 0){
+      return;
+    }
+
     const postData = {
       listClientes: this.datasource.data,
       nombreBd: this.nombreBd,

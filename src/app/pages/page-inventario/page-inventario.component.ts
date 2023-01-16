@@ -9,6 +9,8 @@ import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { Producto } from 'src/app/interfaces/Productos';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
+import * as XLSX from 'xlsx';
+import { ImportarProductosDialogComponent } from './dialogs/importar-productos-dialog/importar-productos-dialog.component';
 
 @Component({
   selector: 'app-page-inventario',
@@ -33,6 +35,8 @@ export class PageInventarioComponent implements OnInit {
   tokenValidate!: TokenValidate;
 
   textSearchProductos = '';
+  file: File | null = null;
+  arrayBuffer: any
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('containerTable', {read: ElementRef}) tableInput!: ElementRef
@@ -213,4 +217,118 @@ export class PageInventarioComponent implements OnInit {
     });
   }
   
+
+  onFileChange(file: any){
+    if(file.length === 0){
+      return;
+    }
+
+    /*let nameFile = file[0].name;
+    const mimeType = file[0].type;*/
+
+    this.file = file[0];
+    let fileReader = new FileReader();
+    fileReader.readAsArrayBuffer(this.file!!);
+    fileReader.onload = (e) => {
+      this.arrayBuffer = fileReader.result;
+    
+      let workBook = XLSX.read(this.arrayBuffer, {type: "binary", cellDates: true});
+      let first_sheet_name = workBook.SheetNames[0];
+      let worksheet = workBook.Sheets[first_sheet_name];
+
+      let arraylist = XLSX.utils.sheet_to_json(worksheet,{raw:true});
+
+      let listProductosMap : Producto[] = [];
+      arraylist.forEach((item: any) => {
+        if(item['codigo'] == undefined || item['nombre'] == undefined || 
+          item['pvp'] == undefined || isNaN(item['pvp']) ||
+          item['stock'] == undefined || isNaN(item['stock']) ||
+          item['iva'] == undefined || isNaN(item['iva'])){
+          return;
+        }
+
+        let ivaSiNo = "0";
+        let valorIva = Number(item['iva']).toFixed(0);
+        if(parseInt(valorIva) == 12){
+          ivaSiNo = "1"
+        }
+
+        let productoOtro = {
+          prod_id: 0, 
+          prod_empresa_id: this.idEmpresa, 
+          prod_codigo: item['codigo'], 
+          prod_codigo_barras: '',
+          prod_nombre: item['nombre'],
+          prod_costo: '', 
+          prod_utilidad: '', 
+          prod_pvp: item['pvp'], 
+          prod_iva_si_no: ivaSiNo,
+          prod_stock: item['stock'], 
+          prod_unidad_medida: item['unidad_medida'] ? item['unidad_medida'] : '', 
+          prod_observaciones: '', 
+          pro_categoria: item['categoria'] ? item['categoria'] : '' ,
+          prod_marca: item['marca'] ? item['marca'] : '', 
+          prod_activo_si_no: "1",
+        }
+        listProductosMap.push(productoOtro);
+      });
+
+      if(listProductosMap.length <= 0) { 
+
+        this.toastr.error('No se encontraron productos, verifique el formato', '', {
+          enableHtml: true,
+          closeButton: true,
+          timeOut: 5000,
+          extendedTimeOut: 5000
+        });
+        return;
+      }
+      
+      const dialogRef = this.matDialog.open(ImportarProductosDialogComponent, {
+        minWidth: '0',
+        width: '80%',
+        panelClass: 'my-import-cliente-dialog',
+        data: {
+          listProductos: listProductosMap
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('inside close dialog result');
+      });
+
+    }
+  }
+
+  private setCeroInLeft(valor: string): string{
+    return '0' + valor;
+  }
+
+
+  getTemplateProductosExcel(){
+    let dialogRef = this.loadingService.open();
+
+    this.coreService.getTemplateProductosExcel(this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
+      next: (data: any) => {
+        dialogRef.close();
+
+        let downloadUrl = window.URL.createObjectURL(data);
+
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', downloadUrl);
+        link.setAttribute('download','plantilla_productos');
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+      },
+      error: (error: any) => {
+        dialogRef.close();
+        console.log('inside error');
+        console.log(error);
+      }
+    });
+  }
+
 }

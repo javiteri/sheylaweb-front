@@ -13,5 +13,7 @@ export interface Producto {
 	prod_observaciones: string, 
 	pro_categoria: string, 
 	prod_marca: string, 
-	prod_activo_si_no: string
+	prod_activo_si_no: string,
+	prod_message_error?: string,
+  	prod_error_server?: boolean
 }
