@@ -29,15 +29,15 @@ import { MatChipsModule } from "@angular/material/chips";
 import { ListaVentasComponent } from './lista-ventas/lista-ventas.component'
 import { PickDateAdapter, PICK_FORMATS} from "./adapter/DatePickerAdapter";
 import { ResumenVentasComponent } from './resumen-ventas/resumen-ventas.component';
-import { PrintLayoutComponent } from "../pages-printer-strategy/print-layout/print-layout.component";
-import { ReceiptComponent } from "../pages-printer-strategy/receipt/receipt.component";
 import { MatMenuModule } from "@angular/material/menu";
+import { ImportarVentasDialogComponent } from './dialogs/importar-ventas-dialog/importar-ventas-dialog.component';
 
 @NgModule({
     declarations: [
         PageVentasComponent,
         ListaVentasComponent,
-        ResumenVentasComponent
+        ResumenVentasComponent,
+        ImportarVentasDialogComponent
     ],
     imports: [
         CommonModule,
@@ -61,7 +61,8 @@ import { MatMenuModule } from "@angular/material/menu";
         MatChipsModule,
         MatMenuModule
     ],
-    providers: [LoadingService, ApplicationProvider,
+    providers: [
+        LoadingService, ApplicationProvider,
         {provide: MatPaginatorIntl, useValue: CustomPaginator()},
         {provide: MAT_DATE_FORMATS, useValue: PICK_FORMATS},
         {provide: DateAdapter, useClass: PickDateAdapter}

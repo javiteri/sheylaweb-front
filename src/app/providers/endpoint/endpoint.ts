@@ -1038,9 +1038,19 @@ export class EndPointProvider {
                             .set('nodoc',noDoc).set('fechaIni',fechaIni)
                             .set('fechaFin',fechaFin).set('nombreBd', nombreBd);
 
-      return this.http.get(endpointUrl, {responseType: 'blob', params: paramsRequest, headers: header});
-      
+      return this.http.get(endpointUrl, {responseType: 'blob', params: paramsRequest, headers: header});  
     }
+
+    private readonly _importListVentas: string = "ventas/importlistventas";
+    private get importListVentasURL(){
+      return this.apiUrl + this._importListVentas;
+    }
+    importListVentas<T>(postData: any, accessToken: any): Observable<T>{
+        const endPointUrl = this.importListVentasURL;    
+        return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
+    }
+
+
 
     // METHODS FOR COMPRAS
     private readonly _insertCompra: string = "compras/insertar";

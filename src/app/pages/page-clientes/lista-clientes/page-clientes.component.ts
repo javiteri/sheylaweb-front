@@ -11,7 +11,6 @@ import { LoadingService } from 'src/app/services/Loading.service';
 import {Cliente} from '../../../interfaces/Cliente'
 import * as XLSX from 'xlsx';
 import { ImportarClientesDialogComponent } from '../dialogs/importar-clientes-dialog/importar-clientes-dialog.component';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-page-clientes',
@@ -50,8 +49,7 @@ export class PageClientesComponent implements OnInit {
               private loadingService: LoadingService,
               private router: Router,
               private matDialog: MatDialog,
-              private toastr: ToastrService,
-              private sanitizer: DomSanitizer) { }
+              private toastr: ToastrService) { }
               
 
   ngOnInit(): void {
@@ -230,20 +228,16 @@ export class PageClientesComponent implements OnInit {
       return;
     }
 
-    /*let nameFile = file[0].name;
-    const mimeType = file[0].type;*/
-
     this.file = file[0];
     let fileReader = new FileReader();
     fileReader.readAsArrayBuffer(this.file!!);
     fileReader.onload = (e) => {
       this.arrayBuffer = fileReader.result;
-      //let data = new Uint8Array(this.arrayBuffer);
     
       let workBook = XLSX.read(this.arrayBuffer, {type: "binary", cellDates: true});
       let first_sheet_name = workBook.SheetNames[0];
       let worksheet = workBook.Sheets[first_sheet_name];
-      //console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));
+      
       let arraylist = XLSX.utils.sheet_to_json(worksheet,{raw:true});
 
       let listClientesMap : Cliente[] = [];
@@ -286,14 +280,11 @@ export class PageClientesComponent implements OnInit {
 
       if(listClientesMap.length <= 0) { 
 
-        /*let a = `<a style="color: red;">Descargar formato correcto<a/>`;
-        let aSanitizing = this.sanitizer.sanitize(SecurityContext.HTML, a);*/
-
-        this.toastr.error('No se encontraron clientes, <font color=\"red\"><a><b>click aqui para descargar formato correcto</b><a/></font> ', '', {
+        this.toastr.error('No se encontraron clientes, verifique que el formato sea correcto.', '', {
           enableHtml: true,
           closeButton: true,
-          timeOut: 20000,
-          extendedTimeOut: 20000
+          timeOut: 10000,
+          extendedTimeOut: 10000
         });
         return;
       }

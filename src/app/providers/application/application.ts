@@ -248,7 +248,10 @@ export class ApplicationProvider {
   getExcelListaResumenVentas(idEmpresa: any, nombreCi: any, noDoc: any, fechaIni: any, 
     fechaFin: any,accesToken: any, nombreBd: string){
     return this.coreEndPoint.getListaResumenVentasExcelByIdEmp(idEmpresa,nombreCi,noDoc,fechaIni,fechaFin,accesToken, nombreBd);
-}
+  }
+  importListVentas(postData: any, accessToken: any){
+    return this.coreEndPoint.importListVentas(postData, accessToken, );
+  }
 
   //COMPRAS
   insertCompraFacturaToBD(postData: any, accessToken: any){

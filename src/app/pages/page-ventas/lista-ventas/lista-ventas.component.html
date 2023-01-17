@@ -58,8 +58,8 @@
               <mat-icon>folder_open</mat-icon>
               Cargar archivo
               <input class="inputfile" #file type="file" 
-              accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" 
-              ><!--(change)="onFileChange(file.files)"-->
+              accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" 
+              (change)="onFileChange(file.files)">
             </button>
             <button mat-menu-item ><!--(click)="getTemplateProductosExcel()"-->
               <img src="../../../../assets/xls_icon_24.png" style="vertical-align: middle;">
