@@ -214,8 +214,8 @@ export class ReceiptComponent implements OnInit {
                 (Number(result1.data['subtotal0']) + Number(result1.data['subtotal12'])).toFixed(2).toString();
                 this.textSubtotalIva0 = Number(result1.data['subtotal0']).toFixed(2);
                 this.textSubtotalIva12 = Number(result1.data['subtotal12']).toFixed(2);
-                this.textIva12 = result1.data['valorIva'];
-                this.textValorTotal = result1.data['total'];
+                this.textIva12 = Number(result1.data['valorIva']).toFixed(2);
+                this.textValorTotal = Number(result1.data['total']).toFixed(2);
 
                 if(result1.data['documento'].toUpperCase() == 'FACTURA'){
                   this.textTipoDocumento = 'FACTURA ELECTRONICA';
