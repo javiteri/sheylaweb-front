@@ -178,12 +178,6 @@ td.mat-footer-cell {
     min-height: inherit;
     content: '';
 }
-.container-options {
-    display: flex; 
-    justify-content: center; 
-    align-content: center; 
-    align-items: center;
-}
 
 .container-estate-doc{
     color: rgb(255 255 255 / 1); 
@@ -196,6 +190,14 @@ td.mat-footer-cell {
 
 .container-estate-doc-error{
     background-color: rgb(223 114 114 / 1);
+}
+
+.btn-container{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
 }
 
 /*MEDIA QUERIES*/
@@ -214,6 +216,7 @@ td.mat-footer-cell {
 .wrapper-btn-import-export{
     margin-left: 3rem;
 }
+
 
 .btn-cancelar{
     background-color: #e71046;

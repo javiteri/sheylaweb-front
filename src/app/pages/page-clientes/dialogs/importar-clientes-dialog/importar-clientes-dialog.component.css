@@ -171,12 +171,7 @@ td.mat-footer-cell {
     min-height: inherit;
     content: '';
 }
-.container-options {
-    display: flex; 
-    justify-content: center; 
-    align-content: center; 
-    align-items: center;
-}
+
 
 .container-estate-doc{
     color: rgb(255 255 255 / 1); 
