@@ -300,7 +300,7 @@ export class PageClientesComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        console.log('inside close dialog result');
+        // console.log('inside close dialog result');
       });
 
     }

@@ -308,7 +308,8 @@ export class ListaVentasComponent implements OnInit {
           || item['formapago'] == undefined || item['subtotal0'] == undefined || isNaN(item['subtotal0']) 
           || item['subtotal12'] == undefined || isNaN(item['subtotal12']) || item['valortotal'] == undefined || isNaN(item['valortotal']) 
           || item['codigoproducto'] == undefined || item['cantidad'] == undefined || isNaN(item['cantidad']) 
-          || item['totaldetalle'] == undefined || isNaN(item['totaldetalle']) || item['iva'] == undefined || isNaN(item['iva'])){
+          || item['totaldetalle'] == undefined || isNaN(item['totaldetalle']) || item['iva'] == undefined || isNaN(item['iva'])
+          || item['tipo_documento'] == undefined){
           return;
         }
         
@@ -331,7 +332,7 @@ export class ListaVentasComponent implements OnInit {
 
         let valorVenta: VentaImport = {
           fechaHora: dateString,
-	        documento: 'FACTURA',
+	        documento: item['tipo_documento'],
 	        numero: item['numeroventa'],
 	        total: item['valortotal'],
 	        idUsuario: this.idUser,
@@ -372,7 +373,6 @@ export class ListaVentasComponent implements OnInit {
         }
       });
 
-      console.log(listVentasMap);
       if(listVentasMap.length <= 0) {
         this.toastr.error('No se encontraron ventas, verifique que el formato sea correcto.', '', {
           enableHtml: true,
@@ -393,7 +393,7 @@ export class ListaVentasComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        console.log('inside close dialog result');
+        // console.log('inside close dialog result');
       });
 
     }
