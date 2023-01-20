@@ -1050,7 +1050,18 @@ export class EndPointProvider {
         return this.http.post<T>(endPointUrl, postData, this.getRequestHeader(accessToken));
     }
 
+    private readonly _getTemplateVentasExcelIdEmp: string = "ventas/gettemplateventasexcel";
+    private get getTemplateVentasExcelIdEmpURL(){
+      return this.apiUrl + this._getTemplateVentasExcelIdEmp;
+    }
+    getTemplateVentasExcelIdEmp(idEmp: any, accessToken: any, nombreBd: string): Observable<Blob>{
+        const endPointUrl = this.getTemplateVentasExcelIdEmpURL;
 
+        const header = this.getRequestHeaderFiles(accessToken)
+        const params1 = new HttpParams().set('idEmp', idEmp).set('nombreBd', nombreBd);
+
+        return this.http.get(endPointUrl, {responseType: 'blob', params: params1, headers: header});
+    }
 
     // METHODS FOR COMPRAS
     private readonly _insertCompra: string = "compras/insertar";

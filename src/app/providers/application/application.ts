@@ -252,6 +252,9 @@ export class ApplicationProvider {
   importListVentas(postData: any, accessToken: any){
     return this.coreEndPoint.importListVentas(postData, accessToken, );
   }
+  getTemplateVentasExcelIdEmp(idEmpresa: any, accesToken: any, nombreBd: string){
+    return this.coreEndPoint.getTemplateVentasExcelIdEmp(idEmpresa,accesToken, nombreBd);
+  }
 
   //COMPRAS
   insertCompraFacturaToBD(postData: any, accessToken: any){

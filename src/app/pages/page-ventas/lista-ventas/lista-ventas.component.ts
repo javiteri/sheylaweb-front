@@ -404,4 +404,31 @@ export class ListaVentasComponent implements OnInit {
     return '0' + valor;
   }
 
+
+  getTemplateVentasExcel(){
+    let dialogRef = this.loadingService.open();
+
+    this.coreService.getTemplateVentasExcelIdEmp(this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
+      next: (data: any) => {
+        dialogRef.close();
+
+        let downloadUrl = window.URL.createObjectURL(data);
+
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', downloadUrl);
+        link.setAttribute('download','plantilla_ventas');
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+      },
+      error: (error: any) => {
+        dialogRef.close();
+        console.log('inside error');
+        console.log(error);
+      }
+    });
+  }
+
 }

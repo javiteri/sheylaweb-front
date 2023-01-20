@@ -61,7 +61,7 @@
               accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" 
               (change)="onFileChange(file.files)">
             </button>
-            <button mat-menu-item ><!--(click)="getTemplateProductosExcel()"-->
+            <button mat-menu-item (click)="getTemplateVentasExcel();"><!--(click)="getTemplateProductosExcel()"-->
               <img src="../../../../assets/xls_icon_24.png" style="vertical-align: middle;">
               Ver plantilla
             </button>
