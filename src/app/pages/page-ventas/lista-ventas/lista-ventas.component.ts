@@ -321,8 +321,8 @@ export class ListaVentasComponent implements OnInit {
         }
 
         const selectedDate: Date = new Date(item['fecha']);
-        const dateString = '' + selectedDate.getFullYear() + '-' + ('0' + (selectedDate.getMonth()+1)).slice(-2) + 
-                          '-' + ('0' + selectedDate.getDate()).slice(-2);
+        const dateString =  '' + selectedDate.getFullYear() + '-' + ('0' + (selectedDate.getMonth()+1)).slice(-2) + 
+                            '-' + ('0' + selectedDate.getDate()).slice(-2) + ' 12:00:00';
 
         let numeroVenta = item['numeroventa'].toString().trim();
 
