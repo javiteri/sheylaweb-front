@@ -346,7 +346,8 @@ export class ListaVentasComponent implements OnInit {
         }
 
         if(ventaFound){
-          let valorUnitario = (Number(item['totaldetalle']) / Number(item['cantidad'])); 
+          let valorUnitario = (Number(item['totaldetalle']) / Number(item['cantidad']));
+          
           ventaFound.listDetalle?.push({
               codigoproducto: item['codigoproducto'],
               cantidad: item['cantidad'],
@@ -357,6 +358,7 @@ export class ListaVentasComponent implements OnInit {
           
         }else{
           let valorUnitario = (Number(item['totaldetalle']) / Number(item['cantidad'])); 
+          
           valorVenta.listDetalle?.push({
               codigoproducto: item['codigoproducto'],
               cantidad: item['cantidad'],
