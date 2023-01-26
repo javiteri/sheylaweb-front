@@ -65,7 +65,7 @@ export class PageVentasComponent implements OnInit{
   cantItems = 0;
   fixedNumDecimal = 2;
   permitirVentaSecuenciaIncorrecta = false;
-  configIvaIncluidoEnVenta = true;
+  configIvaIncluidoEnVenta = false;
   configImpresionDocumentos = "1";
 
   //prop for handle when proforma is converted in venta and call corresponding function to get proforma data 
@@ -227,12 +227,12 @@ export class PageVentasComponent implements OnInit{
                 }
 
                 if(this.configIvaIncluidoEnVenta){
-                  
+                  console.log(this.configIvaIncluidoEnVenta);
                   if(productItemAdd.iva == "1"){
                     
                     productItemAdd.precio = ((productItemAdd.precio * 1.12).toFixed(this.fixedNumDecimal) as any);
                   }
-                }              
+                }
 
                 dataInSource.push(productItemAdd);
           
@@ -860,9 +860,8 @@ export class PageVentasComponent implements OnInit{
   private getConfigIvaIncluidoEnVenta(){
       this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_IVA_INCLUIDO_FACTURA', this.tokenValidate, this.nombreBd).subscribe({
         next: (data: any) => {
-        
+          
           if(data.data && data.data.length > 0){
-            
             const configReceive: ConfigReceive = data.data[0];
             this.configIvaIncluidoEnVenta = configReceive.con_valor === "1" ? true : false;
           }
