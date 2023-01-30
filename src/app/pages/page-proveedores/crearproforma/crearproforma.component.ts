@@ -123,7 +123,6 @@ export class CrearproformaComponent implements OnInit {
         
         this.calculateTotalItems();
       }
-
     });
 
     this.subscription2$ = this.productService.selectedProduct$.subscribe((producto: any) => {
@@ -152,12 +151,10 @@ export class CrearproformaComponent implements OnInit {
       }
     });
 
-
     this.getConfigNumDecimalesIdEmp();
     this.getConfigProformaSinSecuencia();
     this.getConfigIvaIncluidoEnVenta();
     this.getConfigImpresionDocumentosProforma();
-
   }
 
   private getConfigNumDecimalesIdEmp(){
