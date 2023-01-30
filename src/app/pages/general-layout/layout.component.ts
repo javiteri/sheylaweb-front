@@ -71,8 +71,11 @@ export class LayoutComponent implements OnInit {
       name: 'Proveedores',
       matIcon: 'local_shipping',
       active: false,
-      routerLink: '/proveedores',
-      submenu: []
+      routerLink: '',
+      submenu: [
+        {name: 'Lista de Proveedores', url: 'proveedores/lista-proveedores'},
+        {name: 'Lista de Proformas', url: 'proveedores/lista-proformas'}
+      ]
     },
     {
       name: 'Compras',

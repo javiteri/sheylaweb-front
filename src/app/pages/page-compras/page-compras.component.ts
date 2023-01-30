@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -368,6 +368,7 @@ export class PageComprasComponent implements OnInit, OnDestroy {
     this.calculateTotalItems();
   }
   changePrecioUnitarioItemBlur(productItem: ProductCompra){
+    console.log(productItem.costo);
     if(!productItem.costo || productItem.costo <= 0){
       const value = (1).toFixed(this.fixedNumDecimal);
       productItem.costo = (value as any);

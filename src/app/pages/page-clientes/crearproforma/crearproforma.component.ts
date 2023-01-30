@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -71,7 +70,6 @@ export class CrearproformaComponent implements OnInit {
     private toastr: ToastrService,
     private coreService: ApplicationProvider,
     private loadingService: LoadingService,
-    private location: Location,
     private route: ActivatedRoute,
     private router: Router,
     public ref: ChangeDetectorRef) { }
