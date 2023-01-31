@@ -227,25 +227,18 @@ export class ReceiptComponent implements OnInit {
                 }
 
                 this.ref.detectChanges();
-              
+
                 if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(window.navigator.userAgent)){
                   this.isMobileDevice = true;
-                }else{
-                  this.isMobileDevice = false;
-                  window.onafterprint = (event) => {
-                    //console.log('inside after print event');
-                    this.router.navigateByUrl(this.textRouteBack);
-                    //this.location.back();
-                    window.onafterprint = () =>{}
-                    window.onfocus = () =>{}
-                  };
-                }
 
-                window.onfocus = () => {
-                  //console.log('inside on focus');
-                  this.router.navigateByUrl(this.textRouteBack);
-                  //this.location.back();
-                  window.onfocus = () =>{}
+                  window.onfocus = () => {
+                    this.router.navigateByUrl(this.textRouteBack);
+                    window.onfocus = () =>{}
+                  }
+                }else{
+                  window.onbeforeprint = (event)=>{
+                    this.router.navigateByUrl(this.textRouteBack);
+                  }
                 }
 
                 window.print();
