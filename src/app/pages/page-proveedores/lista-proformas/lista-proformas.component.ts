@@ -7,7 +7,7 @@ import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
-import { ItemListaProforma } from '../models/ItemListaProforma';
+import { ItemListaProforma } from '../../page-clientes/models/ItemListaProforma';
 
 @Component({
   selector: 'app-lista-proformas',
@@ -50,23 +50,22 @@ export class ListaProformasComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // GET INITIAL DATA 
-    const localServiceResponseToken =  
-      JSON.parse(sessionStorage.getItem('_valtok') ? sessionStorage.getItem('_valtok')! : '');
+     // GET INITIAL DATA 
+     const localServiceResponseToken =  
+     JSON.parse(sessionStorage.getItem('_valtok') ? sessionStorage.getItem('_valtok')! : '');
     const localServiceResponseUsr = 
-      JSON.parse(sessionStorage.getItem('_valuser') ? sessionStorage.getItem('_valuser')! : '');
+     JSON.parse(sessionStorage.getItem('_valuser') ? sessionStorage.getItem('_valuser')! : '');
 
-    this.dataUser = localServiceResponseToken;
-    const { token, expire } = this.dataUser;
-    this.tokenValidate = { token, expire};
+   this.dataUser = localServiceResponseToken;
+   const { token, expire } = this.dataUser;
+   this.tokenValidate = { token, expire};
 
-    this.idEmpresa = localServiceResponseUsr._bussId;
-    this.rucEmpresa = localServiceResponseUsr._ruc;
-    this.nombreBd = localServiceResponseUsr._nombreBd;
+   this.idEmpresa = localServiceResponseUsr._bussId;
+   this.rucEmpresa = localServiceResponseUsr._ruc;
+   this.nombreBd = localServiceResponseUsr._nombreBd;
 
-    this.searchListaProformasWithFilter();
+   this.searchListaProformasWithFilter();
   }
-
 
   searchListaProformasWithFilter(){
 
@@ -78,11 +77,9 @@ export class ListaProformasComponent implements OnInit {
     }
 
     const dateInitString = '' + this.dateInicioFilter.getFullYear() + '-' + ('0' + (this.dateInicioFilter.getMonth()+1)).slice(-2) + 
-                          '-' + ('0' + this.dateInicioFilter.getDate()).slice(-2) + ' ' + 
-                            '00:00:00' ;
+                          '-' + ('0' + this.dateInicioFilter.getDate()).slice(-2) + ' ' + '00:00:00' ;
     const dateFinString = '' + this.dateFinFilter.getFullYear() + '-' + ('0' + (this.dateFinFilter.getMonth()+1)).slice(-2) + 
-                            '-' + ('0' + this.dateFinFilter.getDate()).slice(-2) + ' ' + 
-                              '23:59:59' ;
+                            '-' + ('0' + this.dateFinFilter.getDate()).slice(-2) + ' ' + '23:59:59' ;
 
     this.coreService.getListProformasByIdEmp(this.idEmpresa,this.nombreCiRuc, this.noDocmento, 
       dateInitString, dateFinString, this.tokenValidate, this.nombreBd).subscribe({
@@ -116,10 +113,11 @@ export class ListaProformasComponent implements OnInit {
   }
 
   nuevaProformaClick(){
-    this.router.navigate(['clientes//crearproforma']);
+    this.router.navigate(['proveedores//crearproforma']);
   }
 
   deleteProformaByIdEmp(idProforma: any){
+
     const dialogRef = this.matDialog.open(ConfirmDeleteDialogComponent, {
       minWidth: '0',
       width: '400px',
@@ -136,6 +134,8 @@ export class ListaProformasComponent implements OnInit {
         this.coreService.deleteProformaByIdEmp(this.idEmpresa,idProforma,this.tokenValidate, this.nombreBd).subscribe({
           next: (results: any) => {
             dialogRef.close();
+            console.log('proforma eliminadacorrectamente');
+            console.log(results);
             this.searchListaProformasWithFilter();
           },
           error: (error) => {
@@ -159,11 +159,9 @@ export class ListaProformasComponent implements OnInit {
     }
 
     const dateInitString = '' + this.dateInicioFilter.getFullYear() + '-' + ('0' + (this.dateInicioFilter.getMonth()+1)).slice(-2) + 
-                          '-' + ('0' + this.dateInicioFilter.getDate()).slice(-2) + ' ' + 
-                            '00:00:00' ;
+                          '-' + ('0' + this.dateInicioFilter.getDate()).slice(-2) + ' ' + '00:00:00' ;
     const dateFinString = '' + this.dateFinFilter.getFullYear() + '-' + ('0' + (this.dateFinFilter.getMonth()+1)).slice(-2) + 
-                            '-' + ('0' + this.dateFinFilter.getDate()).slice(-2) + ' ' + 
-                              '23:59:59' ;
+                            '-' + ('0' + this.dateFinFilter.getDate()).slice(-2) + ' ' + '23:59:59' ;
 
     this.coreService.getExcelListaProformas(this.idEmpresa,this.nombreCiRuc,this.noDocmento,
                                         dateInitString,dateFinString, this.tokenValidate, this.nombreBd).subscribe({
@@ -176,7 +174,7 @@ export class ListaProformasComponent implements OnInit {
         const link = document.createElement('a');
         link.setAttribute('target', '_blank');
         link.setAttribute('href', downloadUrl);
-        link.setAttribute('download','lista_proformas');
+        link.setAttribute('download','lista_proformas_provee');
         document.body.appendChild(link);
         link.click();
         link.remove();
@@ -220,10 +218,11 @@ export class ListaProformasComponent implements OnInit {
   }
 
   copiarProformaClick(proforma: any){
-    this.router.navigate(['/clientes/crearproforma', proforma.id]); 
+    this.router.navigate(['/proveedores/crearproforma', proforma.id]); 
   }
 
-  convertirEnVentaClick(proforma: any){
-    this.router.navigate(['/ventas/crearventa'], {state: {idProf: proforma.id}});
+  convertirEnCompraClick(proforma: any){
+    this.router.navigate(['/compras/crearcompra'], {state: {idProf: proforma.id}});
   }
+
 }

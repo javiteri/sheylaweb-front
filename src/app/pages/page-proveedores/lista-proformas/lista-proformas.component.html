@@ -1,0 +1,154 @@
+<div class="titulo">
+    <p>Lista Proformas</p>
+</div>
+
+<div class="container-options" #containerTable>
+
+    <div>
+      <mat-card class="mat-card-one">
+        <mat-card-content>
+          <div class="container-search-bar">
+      
+            <div class="inner-container-date-filter">
+                <mat-form-field >
+                    <mat-label>Desde</mat-label>
+                    <input matInput [matDatepicker]="pickerdesde" [(ngModel)]="dateInicioFilter">
+                    <mat-datepicker-toggle matSuffix [for]="pickerdesde"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerdesde></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field >
+                    <mat-label>Hasta</mat-label>
+                    <input matInput [matDatepicker]="pickerhasta" [(ngModel)]="dateFinFilter">
+                    <mat-datepicker-toggle matSuffix [for]="pickerhasta"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerhasta></mat-datepicker>
+                </mat-form-field>
+            </div>
+        
+            <div class="flex-grow-dos inner-container-search ">
+              <input type="text" placeholder="Nombre o Identificacion" 
+              [(ngModel)]="nombreCiRuc"/>
+              <input type="text" placeholder="No Documento" 
+              [(ngModel)]="noDocmento"/>
+              <button mat-raised-button class="font-weight-300 mat-elevation-z1" color="btn-icon-accent"
+                matTooltip="Buscar"
+                (click)="searchListaProformasWithFilter();$event.preventDefault();">
+                Buscar
+              </button>
+            </div>
+        
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  
+    <div>
+
+      <button mat-raised-button class="font-weight-300 mat-elevation-z1" 
+      color="btn-icon-accent" (click)="nuevaProformaClick();" style="margin-right: 1em;"><!--(click)="nuevoUsuario()"-->
+        <mat-icon>add</mat-icon>
+        Nueva Proforma
+      </button>
+
+      <button mat-raised-button class="font-weight-300 mat-elevation-z1"
+      (click)="exportarListaProformas();">
+        <mat-icon>file_download</mat-icon>
+        Exportar
+      </button>
+    </div>
+</div>
+
+<mat-card class="mat-card-two">
+     
+  <mat-card-content>
+
+      <div class="flex-layout-table" >
+          <mat-table [dataSource]="datasource" role="grid" >
+
+              <ng-container matColumnDef="fecha hora" >
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header >Fecha Hora</th>
+                  <td mat-cell *matCellDef="let proforma"
+                  class="text-two-lines"
+                  [ngClass]="proforma.anulado == 1 ? 'text-decoration-troght' : ''" data-label="Fecha Hora"> {{proforma.fechaHora | date : 'dd/MM/yyyy hh:mm a'}} </td>
+                </ng-container>
+                <ng-container matColumnDef="numero" >
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="justify-centro">Numero</th>
+                  <td mat-cell  *matCellDef="let proforma" 
+                  [ngClass]="proforma.anulado == 1 ? 'text-decoration-troght' : ''"data-label="Numero" class="justify-centro"> {{proforma.prof_numero}} </td>
+                </ng-container>
+                <ng-container matColumnDef="total" >
+                  <th mat-header-cell  *matHeaderCellDef mat-sort-header  >Total</th>
+                  <td mat-cell  *matCellDef="let proforma"
+                  [ngClass]="proforma.anulado == 1 ? 'text-decoration-troght' : ''" data-label="Total"> <p class="total-valor">{{proforma.total}}</p> </td>
+                </ng-container>
+                <ng-container matColumnDef="usuario">
+                  <th mat-header-cell  *matHeaderCellDef mat-sort-header>Usuario</th>
+                  <td mat-cell *matCellDef="let proforma" 
+                  [ngClass]="proforma.anulado == 1 ? 'text-decoration-troght' : ''"data-label="Usuario"> {{proforma.usuario}} </td>
+                </ng-container>
+                <ng-container matColumnDef="cliente" >
+                  <th mat-header-cell  *matHeaderCellDef mat-sort-header>Cliente</th>
+                  <td mat-cell *matCellDef="let proforma" 
+                  class="text-two-lines"
+                  [ngClass]="proforma.anulado == 1 ? 'text-decoration-troght' : ''" data-label="Cliente"> {{proforma.cliente}} </td>
+                </ng-container>
+                <ng-container matColumnDef="identificacion" >
+                    <th mat-header-cell  *matHeaderCellDef mat-sort-header>Identificacion</th>
+                    <td mat-cell *matCellDef="let proforma" 
+                    [ngClass]="proforma.anulado == 1 ? 'text-decoration-troght' : ''"data-label="Identificacion"> {{proforma.cc_ruc_pasaporte}}</td>
+                  </ng-container>
+                <ng-container matColumnDef="forma pago" >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Forma Pago</th>
+                    <td mat-cell *matCellDef="let proforma" 
+                    [ngClass]="proforma.anulado == 1? 'text-decoration-troght' : ''"data-label="Forma Pago"> {{proforma.forma_pago}} </td>
+                </ng-container>
+                
+
+                <ng-container matColumnDef="actions">
+                  <th mat-header-cell *matHeaderCellDef >Opciones</th>
+                  <td mat-cell *matCellDef="let row" data-label="Opciones">
+                    <div class="btn-container">
+                      <!--<button [disabled]="row.anulado == 1 ? 'disabled' : null" matTooltip="Anular" mat-icon-button color="icon-red" aria-label="boton anular proforma"
+                      >(click)="updateEstadoAnulado(row.id, 1)"
+                        <mat-icon>block</mat-icon>
+                      </button>-->
+                      <button matTooltip="Eliminar" mat-icon-button color="icon-red" aria-label="boton eliminar proforma" 
+                       (click)="deleteProformaByIdEmp(row.id)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                      <button matTooltip="Convertir en compra" mat-icon-button color="icon-accent" aria-label="boton convertir en compra" 
+                        (click)="convertirEnCompraClick(row)">
+                        <mat-icon>local_atm</mat-icon>
+                      </button>
+                      <button matTooltip="Copiar proforma" mat-icon-button color="icon-accent" aria-label="boton copiar proforma" 
+                      (click)="copiarProformaClick(row)">
+                        <mat-icon>content_copy</mat-icon>
+                      </button>
+                      <button matTooltip="Ver PDF" mat-icon-button color="icon-accent" aria-label="boton ver pdf" 
+                       (click)="verPdfProforma(row.id,row.cc_ruc_pasaporte)">
+                        <svg id="pdf-file" xmlns="http://www.w3.org/2000/svg" width="19.027" height="19.72" viewBox="0 0 19.027 19.72">
+                          <path id="Path_188" data-name="Path 188" d="M82.8,209H81.578a.578.578,0,0,0-.578.58l.009,4.389a.578.578,0,1,0,1.155,0v-1.333l.636,0a1.817,1.817,0,1,0,0-3.634Zm0,2.478-.639,0c0-.246,0-.511,0-.664,0-.131,0-.4,0-.661H82.8a.662.662,0,1,1,0,1.323Z" transform="translate(-78.227 -200.95)" fill="#ff9720"></path><path id="Path_189" data-name="Path 189" d="M210.784,209h-1.207a.578.578,0,0,0-.578.579s.009,4.246.009,4.262a.578.578,0,0,0,.578.576h0c.036,0,.9,0,1.241-.009a2.449,2.449,0,0,0,2.253-2.7C213.083,210.088,212.159,209,210.784,209Zm.025,4.251c-.15,0-.407,0-.647.006,0-.5,0-2.581-.006-3.1h.628c1.06,0,1.143,1.188,1.143,1.553C211.927,212.467,211.582,213.238,210.81,213.251Z" transform="translate(-201.297 -200.95)" fill="#ff9720"></path><path id="Path_190" data-name="Path 190" d="M355.344,209a.578.578,0,1,0,0-1.155h-1.766a.578.578,0,0,0-.578.578v4.358a.578.578,0,0,0,1.155,0v-1.643H355.2a.578.578,0,1,0,0-1.155h-1.048V209Z" transform="translate(-339.75 -199.837)" fill="#ff9720"></path><path id="Path_191" data-name="Path 191" d="M26.294,5.585H25.87V5.42a2.877,2.877,0,0,0-.792-1.987L22.678.9a2.9,2.9,0,0,0-2.1-.9H12.89a1.735,1.735,0,0,0-1.733,1.733V5.585h-.424A1.735,1.735,0,0,0,9,7.318v6.933a1.735,1.735,0,0,0,1.733,1.733h.424v2A1.735,1.735,0,0,0,12.89,19.72H24.137a1.735,1.735,0,0,0,1.733-1.733v-2h.424a1.735,1.735,0,0,0,1.733-1.733V7.318A1.735,1.735,0,0,0,26.294,5.585ZM12.312,1.733a.578.578,0,0,1,.578-.578h7.691a1.74,1.74,0,0,1,1.258.541l2.4,2.531a1.726,1.726,0,0,1,.475,1.192v.165h-12.4Zm12.4,16.254a.578.578,0,0,1-.578.578H12.89a.578.578,0,0,1-.578-.578v-2h12.4Zm2.157-3.736a.578.578,0,0,1-.578.578H10.733a.578.578,0,0,1-.578-.578V7.318a.578.578,0,0,1,.578-.578h15.56a.578.578,0,0,1,.578.578Z" transform="translate(-9 0)" fill="#ff9720">
+                        </path>
+                        </svg>
+                      </button>
+                    </div>
+
+                  </td>
+                </ng-container>
+
+              <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+
+          <mat-paginator *ngIf="showPagination" #paginator [pageSizeOptions]="[15, 30, 50]"
+               showFirstLastButtons
+               aria-label="Seleccione pagina elementos proformas">
+          </mat-paginator>
+
+        <div *ngIf="showSinDatos"
+              style="display: flex; justify-content: center; align-items: center; margin-top: 3rem; margin-bottom: 3rem; padding-bottom: 3rem;">
+            <label> No se Encontraron Datos</label>
+        </div>
+
+      </div>
+  </mat-card-content>
+</mat-card>
