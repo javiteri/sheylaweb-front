@@ -64,6 +64,10 @@ export class ApplicationProvider {
   searchClienteByCiRuc(ciRuc: any){
     return this.coreEndPoint.searchClientByCiRuc(ciRuc);
   }
+  searchClienteByCiRucApi(accesToken: any, ciRuc: string){
+    return this.coreEndPoint.getClienteDataRuc(accesToken, ciRuc);
+  }
+
   insertClienteToBD(postData: any, accessToken: any){
       return this.coreEndPoint.insertClienteToBD(postData, accessToken);
   }

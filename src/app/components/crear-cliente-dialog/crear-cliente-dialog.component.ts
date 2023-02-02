@@ -210,18 +210,20 @@ export class CrearClienteDialogComponent implements OnInit, AfterViewInit {
 
     let dialogRef = this.loadingService.open();
 
-    this.coreService.searchClienteByCiRuc(identificacion).subscribe({
-      next: (res) => {
-        const dataArray = res.split(/\*+|\$+/);
+    this.coreService.searchClienteByCiRucApi(this.tokenValidate, identificacion).subscribe({
+      next: (res: any) => {
+        try{
+          const dataArray = res['data'].split(/\*+|\$+/);
 
-        if(dataArray.length >= 12){
-          this.sendDatosFormCliente.controls['nombreNatural'].setValue(dataArray[1]);
-          this.sendDatosFormCliente.controls['direccion'].setValue(dataArray[dataArray.length - 2]);
-        }else{
-          this.sendDatosFormCliente.controls['nombreNatural'].setValue(dataArray[1]);
-          this.sendDatosFormCliente.controls['direccion'].setValue(dataArray[dataArray.length - 2]);
-          this.sendDatosFormCliente.controls['comentario'].setValue(dataArray[dataArray.length - 3]);
-        }
+          if(dataArray.length >= 12){
+            this.sendDatosFormCliente.controls['nombreNatural'].setValue(dataArray[1]);
+            this.sendDatosFormCliente.controls['direccion'].setValue(dataArray[dataArray.length - 2]);
+          }else{
+            this.sendDatosFormCliente.controls['nombreNatural'].setValue(dataArray[1]);
+            this.sendDatosFormCliente.controls['direccion'].setValue(dataArray[dataArray.length - 2]);
+            this.sendDatosFormCliente.controls['comentario'].setValue(dataArray[dataArray.length - 3]);
+          }
+        }catch(exception){}
 
         dialogRef.close();
       },

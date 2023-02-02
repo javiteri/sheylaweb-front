@@ -116,18 +116,19 @@ export class NuevoUsuarioComponent implements OnInit, AfterViewInit {
 
     let dialogRef = this.loadingService.open();
 
-    this.coreService.searchClienteByCiRuc(identificacion).subscribe({
-      next: (res) => {
-        const dataArray = res.split(/\*+|\$+/);
+    this.coreService.searchClienteByCiRucApi(this.tokenValidate, identificacion).subscribe({
+      next: (res: any) => {
+        try{
+          const dataArray = res['data'].split(/\*+|\$+/);
 
-        if(dataArray.length >= 12){
-          this.sendDatosFormUsuario.controls['nombreNatural'].setValue(dataArray[1]);
-          this.sendDatosFormUsuario.controls['direccion'].setValue(dataArray[dataArray.length - 2]);
-        }else{
-          this.sendDatosFormUsuario.controls['nombreNatural'].setValue(dataArray[1]);
-          this.sendDatosFormUsuario.controls['direccion'].setValue(dataArray[dataArray.length - 2]);
-          //this.sendDatosFormUsuario.controls['comentario'].setValue(dataArray[dataArray.length - 3]);
-        }
+          if(dataArray.length >= 12){
+            this.sendDatosFormUsuario.controls['nombreNatural'].setValue(dataArray[1]);
+            this.sendDatosFormUsuario.controls['direccion'].setValue(dataArray[dataArray.length - 2]);
+          }else{
+            this.sendDatosFormUsuario.controls['nombreNatural'].setValue(dataArray[1]);
+            this.sendDatosFormUsuario.controls['direccion'].setValue(dataArray[dataArray.length - 2]);
+          }
+        }catch(exception){}
 
         dialogRef.close();
       },

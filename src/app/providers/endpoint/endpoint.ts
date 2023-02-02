@@ -35,6 +35,24 @@ export class EndPointProvider {
       return this.http.get(this.searchDatosClienteSri, {params: paramsRequest, responseType: 'text'});
     }
 
+    private readonly _getClienteDataRuc: string = "clientes/getDatosClienteRucPhp";
+    private get getClienteDataRucURL(){
+      return this.apiUrl + this._getClienteDataRuc;
+    }
+    getClienteDataRuc<T>(accesToken: any, ruc: string): Observable<T>{
+      const endpointUrl = this.getClienteDataRucURL;
+      const header = this.getRequestHeaderClientes(accesToken);
+
+      let paramsRequest = new HttpParams().set('ruc', ruc);
+
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+
     //CLIENTES
     private readonly _listClientes: String = 'clientes';
     private get listClientesUrl(){

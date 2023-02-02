@@ -252,29 +252,31 @@ export class CreateEditProveedorComponent implements OnInit, AfterViewInit{
 
     let dialogRef = this.loadingService.open();
 
-    this.coreService.searchClienteByCiRuc(identificacion).subscribe({
-      next: (res) => {
-        const dataArray = res.split(/\*+|\$+/);
+    this.coreService.searchClienteByCiRucApi(this.tokenValidate, identificacion).subscribe({
+      next: (res: any) => {
+        try{
+          const dataArray = res['data'].split(/\*+|\$+/);
 
-        if(dataArray.length >= 12){
-          if(isSearchProve){
-            this.sendDatosFormProveedor.controls['nombreNatural'].setValue(dataArray[1]);
-            this.sendDatosFormProveedor.controls['direccion'].setValue(dataArray[dataArray.length - 2]);            
+          if(dataArray.length >= 12){
+            if(isSearchProve){
+              this.sendDatosFormProveedor.controls['nombreNatural'].setValue(dataArray[1]);
+              this.sendDatosFormProveedor.controls['direccion'].setValue(dataArray[dataArray.length - 2]);            
+            }else{
+              this.sendDatosFormProveedor.controls['nombreRepre'].setValue(dataArray[1]);
+              this.sendDatosFormProveedor.controls['direccionRepre'].setValue(dataArray[dataArray.length - 2]);
+            }
+            
           }else{
-            this.sendDatosFormProveedor.controls['nombreRepre'].setValue(dataArray[1]);
-            this.sendDatosFormProveedor.controls['direccionRepre'].setValue(dataArray[dataArray.length - 2]);
+            if(isSearchProve){
+              this.sendDatosFormProveedor.controls['nombreNatural'].setValue(dataArray[1]);
+              this.sendDatosFormProveedor.controls['direccion'].setValue(dataArray[dataArray.length - 2]);
+              this.sendDatosFormProveedor.controls['observacion'].setValue(dataArray[dataArray.length - 3]);
+            }else{
+              this.sendDatosFormProveedor.controls['nombreRepre'].setValue(dataArray[1]);
+              this.sendDatosFormProveedor.controls['direccionRepre'].setValue(dataArray[dataArray.length - 2]);
+            }
           }
-          
-        }else{
-          if(isSearchProve){
-            this.sendDatosFormProveedor.controls['nombreNatural'].setValue(dataArray[1]);
-            this.sendDatosFormProveedor.controls['direccion'].setValue(dataArray[dataArray.length - 2]);
-            this.sendDatosFormProveedor.controls['observacion'].setValue(dataArray[dataArray.length - 3]);
-          }else{
-            this.sendDatosFormProveedor.controls['nombreRepre'].setValue(dataArray[1]);
-            this.sendDatosFormProveedor.controls['direccionRepre'].setValue(dataArray[dataArray.length - 2]);
-          }
-        }
+        }catch(exception){}
 
         dialogRef.close();
       },
