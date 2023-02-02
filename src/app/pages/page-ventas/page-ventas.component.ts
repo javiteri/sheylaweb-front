@@ -274,7 +274,6 @@ export class PageVentasComponent implements OnInit{
   private getConsumidorFinalApi(){
     this.coreService.getConsumidorFinalOrCreate(this.idEmpresa, this.tokenValidate, this.nombreBd).subscribe({
       next: (response: any) => {
-
         const datosConsuFinal = response['data'];
 
         this.clientFac.id = datosConsuFinal['cli_id'];
