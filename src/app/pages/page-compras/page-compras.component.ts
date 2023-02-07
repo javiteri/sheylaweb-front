@@ -126,7 +126,7 @@ export class PageComprasComponent implements OnInit, OnDestroy {
         const data = this.datasource.data;
         listProductos.forEach((elemento: any) => {
           const productItemAdd = {
-            id: 0,
+            id: elemento.prodId,
             codigo: elemento.codigoInterno,
             nombre: elemento.descripcionInterna,
             costo: elemento.precioUnitario,
@@ -368,7 +368,6 @@ export class PageComprasComponent implements OnInit, OnDestroy {
     this.calculateTotalItems();
   }
   changePrecioUnitarioItemBlur(productItem: ProductCompra){
-    console.log(productItem.costo);
     if(!productItem.costo || productItem.costo <= 0){
       const value = (1).toFixed(this.fixedNumDecimal);
       productItem.costo = (value as any);

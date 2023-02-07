@@ -243,7 +243,6 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
 
     this.coreService.searchProveedoresByIdEmpText(this.idEmpresa, data['ci'], this.tokenValidate, this.nombreBd).subscribe({
       next: (dataResult: any) => {
-        
         if(dataResult.data[0]){
           
           this.datosProveedorXml = {
@@ -277,6 +276,7 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
 
           this.coreService.insertProveedorToBD(proveedorInsert, this.tokenValidate).subscribe({
             next: (dataProvInsert: any) => {
+              console.log('dataProvInsert');
               if(dataProvInsert.code == 400){
                 return;
               }
@@ -487,6 +487,7 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
         const data = this.datasource.data;
         data[index].codigoInterno = result.prod_codigo;
         data[index].descripcionInterna = result.prod_nombre;
+        data[index].prodId = result.prod_id;
         data[index].exist = true;
 
         this.datasource.data = data;

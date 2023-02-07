@@ -9,5 +9,6 @@ export interface ItemCompraXml{
     existe: string,
     codigoInterno? : string,
     descripcionInterna? : string,
-    exist? : boolean
+    exist? : boolean,
+    prodId? : number,
 }
