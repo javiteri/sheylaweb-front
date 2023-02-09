@@ -6,7 +6,6 @@ import { Producto } from 'src/app/interfaces/Productos';
 import { ConfigReceive } from 'src/app/pages/configuraciones/models/ConfigReceive';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
-import { LocalService } from 'src/app/services/local.service';
 
 @Component({
   selector: 'app-buscar-producto-dialog',
@@ -34,7 +33,6 @@ export class BuscarProductoDialogComponent implements OnInit {
   fixedNumDecimal = 2;
 
   constructor(private coreService: ApplicationProvider,
-    private localService: LocalService,
     public matDialogRef: MatDialogRef<BuscarProductoDialogComponent>,
     private loadingService: LoadingService,
     private ref: ChangeDetectorRef

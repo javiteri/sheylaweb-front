@@ -7,7 +7,6 @@ import { LoadingService } from 'src/app/services/Loading.service';
 import nacionalidad from '../../assets/nacionalidad.json';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { LocalService } from 'src/app/services/local.service';
 
 
 export interface DialogNuevoClienteData {

@@ -1,7 +1,4 @@
 
-.backgropBackground{
-  
-}
 .mat-toolbar{
   height: 3rem;
 }
@@ -89,10 +86,10 @@ li.active .chevron-icon{
 }
 
 mat-toolbar {
-    background: var(--color-primary-dark);;
+    background: var(--color-primary-dark);
     color: white;
     justify-content: space-between;
-  }
+}
   
   mat-sidenav {
     display: block;

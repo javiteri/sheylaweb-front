@@ -68,7 +68,6 @@ export class ImportarProductosDialogComponent implements OnInit {
 
 
   private setDataInTable(){
-    console.log(this.listaProductos);
     if(this.listaProductos.length > 0){
       this.showPagination = true;
       this.showSinDatos = false

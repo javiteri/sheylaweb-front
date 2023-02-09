@@ -6,7 +6,6 @@ import { LoadingComponent } from "../components/loading/loading.component";
 
 export class LoadingOverlayRef {
     constructor(private overlayRef: OverlayRef){}
-
     close(): void {
         this.overlayRef.dispose();
     }
