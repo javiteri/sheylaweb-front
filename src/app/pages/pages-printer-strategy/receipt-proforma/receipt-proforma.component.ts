@@ -51,6 +51,7 @@ export class ReceiptProformaComponent implements OnInit {
   textSubtotal = '0.00';
   textSubtotalIva0 = '0.00';
   textSubtotalIva12 = '0.00';
+  textDescuento = '0.00';
   textIva12 = '0.00';
   textValorTotal = '0.00';
   textCanItems = `Detalle `;
@@ -110,39 +111,10 @@ export class ReceiptProformaComponent implements OnInit {
 
         this.coreService.empresaByRucAndId(postDataGetEmp, this.tokenValidate).subscribe({
           next:(dataEmp: any) =>{
-            //let datosEstablecimiento = respEstablecimiento.data;
             let empresaData = dataEmp.data[0];
 
-            /*if(datosEstablecimiento != undefined && datosEstablecimiento != null && datosEstablecimiento[0]){
-              this.nombreEmpresa = datosEstablecimiento[0].nombreEmpresa;
-            }else{
-              this.nombreEmpresa = empresaData['nombreEmp'];
-            }*/
             this.nombreEmpresa = empresaData['nombreEmp'];
             this.razonSocial = empresaData['razonSocial'];
-
-            /*let configObligadoContabilidad = result2.data.find((element: any) => element.con_nombre_config == 'FAC_ELECTRONICA_OBLIGADO_LLEVAR_CONTABILIDAD');
-            let configPerteneceRegimenRimpe = result2.data.find((element: any) => element.con_nombre_config == 'FAC_ELECTRONICA_PERTENECE_REGIMEN_RIMPE');
-            let configContribuyenteEspecial = result2.data.find((element: any) => element.con_nombre_config == 'FAC_ELECTRONICA_CONTRIBUYENTE_ESPECIAL');
-            let configAgenteRetencion = result2.data.find((element: any) => element.con_nombre_config == 'FAC_ELECTRONICA_AGENTE_RETENCION');
-
-            if(configObligadoContabilidad){
-              this.checkedObligadoLlevarContabilidad = configObligadoContabilidad.con_valor == 1;
-            }else{
-              this.checkedObligadoLlevarContabilidad = false;
-            }
-
-            if(configPerteneceRegimenRimpe){
-              this.checkedPerteneceRegimenRimpe = configPerteneceRegimenRimpe.con_valor == 1;
-            }
-            if(configAgenteRetencion && configAgenteRetencion.con_valor != '' && configAgenteRetencion.con_valor.trim().toUpperCase() != 'NO'){
-              this.checkedAgenteDeRetencion = true;
-              this.valueAgenteRetencion = configAgenteRetencion.con_valor;
-            }
-            if(configContribuyenteEspecial && configContribuyenteEspecial.con_valor != '' && configContribuyenteEspecial.con_valor.trim().toUpperCase() != 'NO'){
-              this.checkedContribuyenteEspecial = true;
-              this.valueContribuyenteEspecial = configContribuyenteEspecial.con_valor;
-            }*/
 
             let ciRuc = datosProforma.data['cc_ruc_pasaporte'];
             let nombre = datosProforma.data['cliente'];
@@ -158,10 +130,6 @@ export class ReceiptProformaComponent implements OnInit {
             let formaPagoSelect = datosProforma.data['forma_pago'];
             const mDate = new Date(datosProforma.data['fechaHora']);
             let dateFac = mDate;
-
-            /*let value001 = result1.data['venta001'];
-            let value002 = result1.data['venta002'];
-            let valueSecuencia = result1.data['numero'].padStart(9,'0');*/
 
             this._textNumeroFactura = `# ${datosProforma.data['numero']} (${formaPagoSelect})`;
             this.textUsuario += datosProforma.data['usuario'];
@@ -179,70 +147,57 @@ export class ReceiptProformaComponent implements OnInit {
             }catch(exception){
             }
 
-            arrayProformaDetalle.forEach((data: any) => {
 
+            let descuentoSumatoria = 0.00;
+            arrayProformaDetalle.forEach((data: any) => {
               let cantidad = Number(data.profd_cantidad).toFixed(2);
               const productItemAdd: ProductFactura = {
-                      id: data.profd_prod_id,
-                      codigo: data.prod_codigo,
-                      nombre: data.profd_producto,
-                      precio: data.profd_vu,
-                      cantidad: Number(cantidad),
-                      descuento: data.profd_descuento,
-                      iva: (data.profd_iva == "0.00") ? "0" : "1"
+                  id: data.profd_prod_id,
+                  codigo: data.prod_codigo,
+                  nombre: data.profd_producto,
+                  precio: data.profd_vu,
+                  cantidad: Number(cantidad),
+                  descuento: data.profd_descuento,
+                  iva: (data.profd_iva == "0.00") ? "0" : "1"
               }
+
+              descuentoSumatoria += ((Number(productItemAdd['cantidad']) * Number(productItemAdd['precio'])) * Number(productItemAdd['descuento']) / 100);
 
               dataInSource.push(productItemAdd);
             });
 
+
             this.listaVentaDetalle = dataInSource;
-            this.textSubtotal = 
-            (Number(datosProforma.data['subtotal0']) + Number(datosProforma.data['subtotal12'])).toFixed(2).toString();
+            
+            this.textDescuento = descuentoSumatoria.toFixed(2);
+            this.textSubtotal = (Number(datosProforma.data['subtotal0']) + Number(datosProforma.data['subtotal12'])).toFixed(2).toString();
             this.textSubtotalIva0 = Number(datosProforma.data['subtotal0']).toFixed(2);
             this.textSubtotalIva12 = Number(datosProforma.data['subtotal12']).toFixed(2);
             this.textIva12 = datosProforma.data['valorIva'];
             this.textValorTotal = datosProforma.data['total'];
 
-            /*if(result1.data['documento'].toUpperCase() == 'FACTURA'){
-              this.textTipoDocumento = 'FACTURA ELECTRONICA';
-              this.textNumeroAutorizacion += result1.data['numeroautorizacion'];
-            }else{
-              this.textTipoDocumento = result1.data['documento'];
-              this.textNumeroAutorizacion = '';
-              this.showFooterFacElectronica = false;
-            }*/
-
             this.ref.detectChanges();
           
             if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(window.navigator.userAgent)){
               this.isMobileDevice = true;
-            }else{
-              this.isMobileDevice = false;
-              window.onafterprint = (event) => {
-                //console.log('inside after print event');
+              window.onfocus = () => {
                 this.router.navigateByUrl(this.textRouteBack);
-                //this.location.back();
-                window.onafterprint = () =>{}
                 window.onfocus = () =>{}
               };
-            }
-
-            window.onfocus = () => {
-              //console.log('inside on focus');
-              this.router.navigateByUrl(this.textRouteBack);
-              //this.location.back();
-              window.onfocus = () =>{}
+            }else{
+              window.onbeforeprint = (event) => {
+                this.router.navigateByUrl(this.textRouteBack);
+                window.onbeforeprint = () =>{}
+              };
             }
 
             window.print();
           }
-      });
+        });
 
       },
-      error: (error: any) => {
-
-      }
-    })
+      error: (error: any) => {}
+    });
 
   }
 

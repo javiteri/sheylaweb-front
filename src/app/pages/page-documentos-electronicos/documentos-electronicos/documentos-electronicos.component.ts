@@ -274,8 +274,8 @@ private sendListDocAutorizarObserver(sendData: any){
 
   this.isShowLoadingAutorizandoDoc = true;
 
-    const loadingRef = this.loadingService.open();
-    this.coreService.autorizarListDocumentoElectronico(sendData,this.tokenValidate)
+  const loadingRef = this.loadingService.open();
+  this.coreService.autorizarListDocumentoElectronico(sendData,this.tokenValidate)
       .subscribe({
         next: (data: any) => {
           loadingRef.close();
@@ -298,7 +298,7 @@ private sendListDocAutorizarObserver(sendData: any){
             });
           }
         }
-    });
+  });
 
 }
 

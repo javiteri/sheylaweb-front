@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 import { BuscarClienteDialogComponent } from 'src/app/components/buscar-cliente-dialog/buscar-cliente-dialog.component';
 import { BuscarProductoDialogComponent } from 'src/app/components/buscar-producto-dialog/buscar-producto-dialog.component';
 import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
@@ -14,6 +15,7 @@ import { ProductFactura } from 'src/app/interfaces/ProductFactura';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingOverlayRef, LoadingService } from 'src/app/services/Loading.service';
 import { ConfigReceive } from '../configuraciones/models/ConfigReceive';
+import { ListVentaItemService } from '../page-ventas/services/list-venta-items.service';
 import { ClienteFactura } from './models/ClientFac';
 
 @Component({
@@ -67,11 +69,15 @@ export class PageVentasComponent implements OnInit{
   permitirVentaSecuenciaIncorrecta = false;
   configIvaIncluidoEnVenta = false;
   configImpresionDocumentos = "1";
+  configAutorizarVentaAlCrear = false;
 
   //prop for handle when proforma is converted in venta and call corresponding function to get proforma data 
   // and map to factura
   isConvertirEnVenta = false;
   idProforma = 0;
+
+  subscriptionProductoVenta$?: Subscription;
+  subscriptionListProductoVenta$?: Subscription;
 
   constructor(private matDialog: MatDialog,
     public viewContainerRef: ViewContainerRef,
@@ -81,12 +87,12 @@ export class PageVentasComponent implements OnInit{
     private location: Location,
     private route: ActivatedRoute,
     private router: Router,
-    public ref: ChangeDetectorRef) {
+    public ref: ChangeDetectorRef,
+    private productVentaService: ListVentaItemService) {
 
       if(this.router.getCurrentNavigation()?.extras.state?.['idProf'] > 0){
         this.isConvertirEnVenta = true;
         this.idProforma = this.router.getCurrentNavigation()?.extras.state?.['idProf'];
-
       }
   }
   
@@ -108,12 +114,54 @@ export class PageVentasComponent implements OnInit{
     this.idUser = localServiceResponseUsr._userId;
     this.nombreBd = localServiceResponseUsr._nombreBd;
 
+    this.subscriptionProductoVenta$ = this.productVentaService.selectedProduct$.subscribe((producto: any) => {
+
+      if(!(Object.entries(producto).length === 0)){
+
+        const data = this.datasource.data;
+        const productItemAdd: ProductFactura = {
+          id: producto.prod_id,
+          codigo: producto.prod_codigo,
+          nombre: producto.prod_nombre,
+          precio: producto.prod_pvp,
+          cantidad: 1,
+          descuento: 0,
+          iva: producto.prod_iva_si_no
+        }
+
+        if(!this.configIvaIncluidoEnVenta){
+          if(productItemAdd.iva == "1"){
+            productItemAdd.precio = Number((productItemAdd.precio / 1.12).toFixed(this.fixedNumDecimal));
+          }
+        }
+
+        data.push(productItemAdd);
+
+        this.datasource.data = data;
+        this.cantItems = this.datasource.data.length;
+        // CALCULATE TOTAL VALUE IN ITEMS LIST
+        this.calculateTotalItems();
+
+      }
+    });
+
+
+    this.getConfigAutorizarVentaAlCrear();
     this.getConfigNumDecimalesIdEmp();
     this.getConfigVentaSinSecuencia();
     this.getConfigIvaIncluidoEnVenta();
     this.getConfigImpresionDocumentosVenta();
     
   }
+
+  ngOnDestroy(): void {
+    this.productVentaService.setProductList([]);
+    this.productVentaService.setProduct([]);
+
+    this.subscriptionProductoVenta$?.unsubscribe();
+    this.subscriptionListProductoVenta$?.unsubscribe();
+  }
+
 
   private getDataRoutedMap(){
 
@@ -414,35 +462,6 @@ export class PageVentasComponent implements OnInit{
       closeOnNavigation: true,
       viewContainerRef: this.viewContainerRef
     });
-
-  dialogRef.afterClosed().subscribe(result => {
-    if(result){
-
-      const data = this.datasource.data;
-      const productItemAdd: ProductFactura = {
-        id: result.prod_id,
-        codigo: result.prod_codigo,
-        nombre: result.prod_nombre,
-        precio: result.prod_pvp,
-        cantidad: 1,
-        descuento: 0,
-        iva: result.prod_iva_si_no
-      }
-
-      if(!this.configIvaIncluidoEnVenta){
-        if(productItemAdd.iva == "1"){
-          productItemAdd.precio = Number((productItemAdd.precio / 1.12).toFixed(this.fixedNumDecimal));
-        }
-      }
-
-      data.push(productItemAdd);
-
-      this.datasource.data = data;
-      this.cantItems = this.datasource.data.length;
-      // CALCULATE TOTAL VALUE IN ITEMS LIST
-      this.calculateTotalItems();
-    }
-  });
   }
 
   private calculateTotalItems(){
@@ -528,7 +547,6 @@ export class PageVentasComponent implements OnInit{
 
   // GUARDAR DATOS FACTURA
   guardarFactura(){
-
     if(this.clientFac.ciRuc == '9999999999' && Number(this.total) >= 50){
       this.toastr.error('No se puede guardar una venta mayor a $50 a Consumidor Final.');
       return;
@@ -681,26 +699,27 @@ export class PageVentasComponent implements OnInit{
           return;
         }
 
+        if(this.configAutorizarVentaAlCrear){
+          this.sendDocumentoAutorizar(data['ventaid'], this.clientFac.ciRuc, 'FACTURA', '0');
+        }
+
         if(this.configImpresionDocumentos == '1'){
           this.toastr.success('Venta Guardada Correctamente', '', {
             timeOut: 4000,
             closeButton: true
           });
 
-          this.verPdfVenta(data.ventaid,this.inputIdentificacion.nativeElement.value,this.tipoDocSelect);
+          this.verPdfVenta(data.ventaid, this.inputIdentificacion.nativeElement.value, this.tipoDocSelect);
 
         }else{
-
           this.router.navigate([
             { outlets: {
               'print': ['print','receipt',data.ventaid]
-          }}]);
-
-
+              }
+            }
+          ]);
         }
-      
         this.resetControls();
-
       },
       error: (error) => {
         overlayRef.close();
@@ -709,10 +728,39 @@ export class PageVentasComponent implements OnInit{
           closeButton: true
         });
       }
-
       });
   }
 
+
+  private sendDocumentoAutorizar(idVenta: number,identificacion: string,tipo: string, estado: string): void{
+
+    let arrayListSend = [{
+      idEmp: this.idEmpresa,
+      identificacion: identificacion,
+      id: idVenta,
+      VENTA_TIPO: tipo,
+      estado: estado
+    }];
+    
+    const sendData = {
+      list: arrayListSend,
+      rucEmpresa: this.rucEmpresa,
+      nombreBd: this.nombreBd
+    }
+
+    this.coreService.autorizarListDocumentoElectronico(sendData,this.tokenValidate)
+    .subscribe({
+      next: (data: any) => {
+        if(data.isSucess){}
+      },
+      error: (error: any) => {
+        if(error.error.isDenyAutorizar == true){
+          console.log('Error, ya supero el número de documentos permitidos.');
+        }
+      }
+});
+
+  }
 
   verPdfVenta(idVenta: any, identificacion: any, tipoVenta: any){
     
@@ -891,5 +939,20 @@ export class PageVentasComponent implements OnInit{
         }
       });
   }
+
+  private getConfigAutorizarVentaAlCrear(){
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_ENVIAR_FACTURA_AUTORIZAR', this.tokenValidate, this.nombreBd).subscribe({
+      next: (data: any) => {
+        if(data.data && data.data.length > 0){
+          const configReceive: ConfigReceive = data.data[0];
+          this.configAutorizarVentaAlCrear = configReceive.con_valor === "1" ? true : false;
+        }
+      },
+      error: (error) => {
+        console.log('error get autorizar venta al crear');
+        console.log(error);
+      }
+    });
+}
 
 }

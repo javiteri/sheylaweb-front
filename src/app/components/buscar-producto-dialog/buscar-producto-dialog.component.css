@@ -99,7 +99,6 @@ td.mat-footer-cell {
     color: white;
 }
 
-
 .mat-table td:last-child{
     justify-content: end;
     padding-right: 1em !important;
@@ -109,4 +108,8 @@ td.mat-footer-cell {
     .mat-dialog-content{
         padding: 0;
     }
+}
+
+.mat-row:hover{
+
 }

@@ -2,7 +2,8 @@
     <div class="inner-container-search">
       <input type="text" placeholder="Codigo o Nombre"
               [(ngModel)]="textSearchProductos"
-              (keyup.enter)="searchProductosText();"/>
+              (ngModelChange)="searchProductosText()"
+              />
       <button class="font-weight-300" color="icon-accent" mat-icon-button 
             matTooltip="Buscar"
             (click)="searchProductosText();$event.preventDefault();">
@@ -12,14 +13,16 @@
 </div>
 <mat-dialog-content class="margin-top-one-em">
     <div class="wrap-container">
-        <mat-table [dataSource]="datasource" role="grid">
+        <mat-table [dataSource]="datasource" role="grid" #tableproduct style="min-width: 700px;">
             <ng-container matColumnDef="codigo" >
                 <th mat-header-cell *matHeaderCellDef mat-sort-header >Codigo</th>
                 <td  mat-cell *matCellDef="let producto" data-label="CI RUC">{{producto.prod_codigo}}</td>
               </ng-container>
               <ng-container matColumnDef="nombre" >
                 <th mat-header-cell  class="flex-grow-1_5" *matHeaderCellDef mat-sort-header >Nombre </th>
-                <td mat-cell class="flex-grow-1_5 text-two-lines" *matCellDef="let producto" data-label="Nombre">{{producto.prod_nombre}}</td>
+                <td mat-cell class="flex-grow-1_5 text-two-lines nombre-prod" *matCellDef="let producto" data-label="Nombre">
+                  {{producto.prod_nombre}}
+                </td>
               </ng-container>
               <ng-container matColumnDef="marca" >
                 <th mat-header-cell *matHeaderCellDef mat-sort-header >Marca</th>
@@ -35,7 +38,8 @@
               </ng-container>
         
               <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
-              <mat-row (click)="clickSelectItem(row)" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+              <mat-row class="mat-row" (click)="clickSelectItem(row)" *matRowDef="let row; columns: displayedColumns;">
+              </mat-row>
         </mat-table>
         
         <div *ngIf="showSinDatos"

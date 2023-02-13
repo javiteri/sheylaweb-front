@@ -25,7 +25,8 @@ export class ConfiguracionesComponent implements OnInit {
   "CAJA_PERMITIR_CAMBIAR_USUARIO",
   "VENTAS_IMPRESION_DOCUMENTOS",
   "PROFORMAS_PERMITIR_INGRESAR_SIN_SECUENCIA",
-  "PROFORMAS_IMPRESION_DOCUMENTOS"
+  "PROFORMAS_IMPRESION_DOCUMENTOS",
+  "VENTAS_ENVIAR_FACTURA_AUTORIZAR"
   ]
 
   NAMES_CONFIGS_VENTAS = [
@@ -46,8 +47,10 @@ export class ConfiguracionesComponent implements OnInit {
   decimalesVentaSelect = "0.00";
   decimalesCompraSelect = "0.00";
   ivaSelect = "00.00"
+
   checkedIvaIncluidoVentas = false;
   checkedVentasSinSecuencia = false;
+  checkedVentasEnviarAutorizar = false;
 
   checkedProformasSinSecuencia = false;
   impresionDocumentosProformaValue = '1';
@@ -132,10 +135,15 @@ export class ConfiguracionesComponent implements OnInit {
         }else{
           this.checkedVentasSinSecuencia = false
         }
-
         const impresionDocumentosVentas = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[7]);
         if(impresionDocumentosVentas){
           this.impresionDocumentosValue = impresionDocumentosVentas.con_valor;
+        }
+        const autorizarVentaAlCrearConfig = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[10]);
+        if(autorizarVentaAlCrearConfig){
+          this.checkedVentasEnviarAutorizar = (autorizarVentaAlCrearConfig.con_valor == "1" ? true : false);
+        }else{
+          this.checkedVentasEnviarAutorizar = false;
         }
 
         //PROFORMAS

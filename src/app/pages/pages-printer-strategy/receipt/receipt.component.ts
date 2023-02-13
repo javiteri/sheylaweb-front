@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatestWith } from 'rxjs';
@@ -52,6 +51,7 @@ export class ReceiptComponent implements OnInit {
   textSubtotal = '0.00';
   textSubtotalIva0 = '0.00';
   textSubtotalIva12 = '0.00';
+  textDescuento = '0.00';
   textIva12 = '0.00';
   textValorTotal = '0.00';
   textCanItems = `Detalle `;
@@ -72,8 +72,7 @@ export class ReceiptComponent implements OnInit {
   constructor(route: ActivatedRoute,
     private router: Router,
     private coreService: ApplicationProvider,
-    private ref: ChangeDetectorRef,
-    private location: Location) { 
+    private ref: ChangeDetectorRef) { 
 
     this.idVenta = route.snapshot.params['id'];
     this.textFacturaElectronicaFooter += "www.misfacturas.efacturas.net";
@@ -190,28 +189,31 @@ export class ReceiptComponent implements OnInit {
                 try{
                   this.textCanItems += 
                     `(${arrayVentaDetalle.length} ${(arrayVentaDetalle.length > 1) ? 'ITEMS': 'ITEM'})`;
-                }catch(exception){
-                }
+                }catch(exception){}
 
+                let descuentoSumatoria = 0.00;
                 arrayVentaDetalle.forEach((data: any) => {
-
                   let cantidad = Number(data.ventad_cantidad).toFixed(2);
-                  const productItemAdd: ProductFactura = {
-                          id: data.ventad_prod_id,
-                          codigo: data.prod_codigo,
-                          nombre: data.ventad_producto,
-                          precio: data.ventad_vu,
-                          cantidad: Number(cantidad),
-                          descuento: data.ventad_descuento,
-                          iva: (data.ventad_iva == "0.00") ? "0" : "1"
+                  
+                  let productItemAdd: ProductFactura = {
+                      id: data.ventad_prod_id,
+                      codigo: data.prod_codigo,
+                      nombre: data.ventad_producto,
+                      precio: data.ventad_vu,
+                      cantidad: Number(cantidad),
+                      descuento: data.ventad_descuento,
+                      iva: (data.ventad_iva == "0.00") ? "0" : "1"
                   }
+
+                  descuentoSumatoria += ((Number(productItemAdd['cantidad']) * Number(productItemAdd['precio'])) * Number(productItemAdd['descuento']) / 100);
 
                   dataInSource.push(productItemAdd);
                 });
 
                 this.listaVentaDetalle = dataInSource;
-                this.textSubtotal = 
-                (Number(result1.data['subtotal0']) + Number(result1.data['subtotal12'])).toFixed(2).toString();
+
+                this.textDescuento = descuentoSumatoria.toFixed(2);
+                this.textSubtotal = (Number(result1.data['subtotal0']) + Number(result1.data['subtotal12'])).toFixed(2).toString();
                 this.textSubtotalIva0 = Number(result1.data['subtotal0']).toFixed(2);
                 this.textSubtotalIva12 = Number(result1.data['subtotal12']).toFixed(2);
                 this.textIva12 = Number(result1.data['valorIva']).toFixed(2);
@@ -238,6 +240,7 @@ export class ReceiptComponent implements OnInit {
                 }else{
                   window.onbeforeprint = (event)=>{
                     this.router.navigateByUrl(this.textRouteBack);
+                    window.onbeforeprint = () =>{}
                   }
                 }
 

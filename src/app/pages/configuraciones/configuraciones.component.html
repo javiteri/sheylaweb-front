@@ -33,19 +33,25 @@
           </div>
 
           <div>
-            <p class="margin-bottom-cero">PERMITIR INGRESAR VENTAS SIN SECUENCIA CORRECTA</p>
+            <p class="margin-bottom-cero">Permitir Ingresar Ventas Sin Secuencia Correcta:</p>
             <mat-slide-toggle [(ngModel)]="checkedVentasSinSecuencia"
             (change)="changeToogle(NAMES_CONFIGS[3], checkedVentasSinSecuencia)"></mat-slide-toggle>
           </div>  
 
           <div>
-            <p class="margin-bottom-cero">IMPRESION DE DOCUMENTOS</p>
+            <p class="margin-bottom-cero">Impresion De Documentos</p>
             <mat-radio-group aria-label="Select an option" [(ngModel)]="impresionDocumentosValue" >
               <mat-radio-button value="1" (change)="changeToogle(NAMES_CONFIGS[7], '1')">Mostrar PDF</mat-radio-button>
               <mat-radio-button value="2" style="margin-left: 10px;" (change)="changeToogle(NAMES_CONFIGS[7], '2')">Impresion Rollo</mat-radio-button>
             </mat-radio-group>
             
           </div>
+          <div>
+            <p class="margin-bottom-cero">Autorizar Ventas al Crear:</p>
+            <mat-slide-toggle [(ngModel)]="checkedVentasEnviarAutorizar"
+            (change)="changeToogle(NAMES_CONFIGS[10], checkedVentasEnviarAutorizar)"></mat-slide-toggle>
+          </div>
+
       </div>
 
   </mat-card-content>

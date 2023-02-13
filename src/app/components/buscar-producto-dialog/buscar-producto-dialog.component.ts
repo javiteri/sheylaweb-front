@@ -1,9 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { Producto } from 'src/app/interfaces/Productos';
 import { ConfigReceive } from 'src/app/pages/configuraciones/models/ConfigReceive';
+import { ListVentaItemService } from 'src/app/pages/page-ventas/services/list-venta-items.service';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
 
@@ -13,6 +14,15 @@ import { LoadingService } from 'src/app/services/Loading.service';
   styleUrls: ['./buscar-producto-dialog.component.css']
 })
 export class BuscarProductoDialogComponent implements OnInit {
+
+  @ViewChild('tableproduct', {static: true}) tablaProducto: MatTable<any> | undefined;
+
+  tableproduct!: ElementRef<HTMLElement>;
+  @ViewChild('tableproduct', {static: true})  set tableProductElRef(elRef: ElementRef<HTMLElement>){
+    if(elRef){
+      this.tableproduct = elRef;
+    }
+  }
 
   displayedColumns: string[] = ['codigo', 'nombre', 'marca','categoria','precio'];
   datasource = new MatTableDataSource<Producto>();
@@ -32,13 +42,14 @@ export class BuscarProductoDialogComponent implements OnInit {
 
   fixedNumDecimal = 2;
 
+  timeoutId?: number = undefined;
+  
   constructor(private coreService: ApplicationProvider,
     public matDialogRef: MatDialogRef<BuscarProductoDialogComponent>,
     private loadingService: LoadingService,
-    private ref: ChangeDetectorRef
-  ) { 
-
-  }
+    private ref: ChangeDetectorRef,
+    private productVentaService: ListVentaItemService
+  ) {}
 
   ngOnInit(): void {
 
@@ -64,12 +75,20 @@ export class BuscarProductoDialogComponent implements OnInit {
 
   searchProductosText(): void{
 
+    clearTimeout(this.timeoutId);
+    this.timeoutId = window.setTimeout(() => {
+      this.callSearchApi();
+    }, 500);
+
+  }
+
+  private callSearchApi(){
     let dialogRef = this.loadingService.open();
 
     this.coreService.searchProductosByIdEmpTextActivo(this.idEmpresa, this.textSearchProductos,this.nombreBd, this.tokenValidate).subscribe({
       next: (data: any) => {
         dialogRef.close();
-
+        
         this.listaProductos = data.data;
 
         if(this.listaProductos.length > 0){
@@ -79,7 +98,6 @@ export class BuscarProductoDialogComponent implements OnInit {
           this.showSinDatos = true;
           this.showPagination = false
         }
-
 
         const arrayProducts: Producto[] = data.data;
         const arrayWithDecimal = arrayProducts.map((producto: Producto) => {
@@ -91,10 +109,15 @@ export class BuscarProductoDialogComponent implements OnInit {
         this.datasource.data = this.listaProductos;
         this.ref.detectChanges();
 
+        if(this.listaProductos.length == 1){
+          //this.tableproduct.nativeElement.focus();
+          /*console.log(this.tableproduct);
+          console.log(this.tableproduct.nativeElement);*/
+          //console.log(this.tablaProducto!!.);
+        }
       },
       error: (error: any) => {
         dialogRef.close();
-
         this.showSinDatos = !this.showSinDatos;
       }
     });
@@ -124,7 +147,8 @@ export class BuscarProductoDialogComponent implements OnInit {
   }
 
   clickSelectItem(dataProducto: any){
-    this.matDialogRef.close(dataProducto);
+    //this.matDialogRef.close(dataProducto);
+    this.productVentaService.setProduct(dataProducto);
   }
 
   private getConfigNumDecimalesIdEmp(){

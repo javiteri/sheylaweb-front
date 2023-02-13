@@ -10,22 +10,22 @@
 
 .mat-card{
     padding: 0 !important;
-  }
+}
   
-  .mat-card-header{
+.mat-card-header{
     display: flex;
     flex-direction: row;
-  }
-  .mat-card .mat-card-header .mat-card-title {
+}
+.mat-card .mat-card-header .mat-card-title {
     margin-bottom: 0 !important;
     font-size: 16px !important;
-  }
-  .mat-card .mat-card-content{
+}
+.mat-card .mat-card-content{
     padding: 6px;
-  }
-  .mat-table{
+}
+.mat-table{
     width: 100%;
-  }
+}
 
 .justify-centro {
     justify-content: center;
@@ -88,7 +88,6 @@ td.mat-footer-cell {
 
 .mat-header-row .mat-header-cell{
     color: var(--accent-color);
-   
     font-weight: 400;
 }
 
@@ -103,4 +102,4 @@ td.mat-footer-cell {
 .mat-table td:last-child {
     justify-content: end;
     padding-right: 1em !important;
-  }
+}

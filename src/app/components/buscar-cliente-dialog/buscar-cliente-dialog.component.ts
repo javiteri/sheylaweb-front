@@ -61,9 +61,7 @@ export class BuscarClienteDialogComponent implements OnInit {
         this.listaClientes = data.data;
         this.datasource.data = this.listaClientes;
       },
-      error: (error) => {
-
-      }
+      error: (error) => {}
     });
 
   }

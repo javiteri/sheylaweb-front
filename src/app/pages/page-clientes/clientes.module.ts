@@ -31,6 +31,7 @@ import { ListaProformasComponent } from './lista-proformas/lista-proformas.compo
 import { PickDateAdapter, PICK_FORMATS } from "../page-ventas/adapter/DatePickerAdapter";
 import { ImportarClientesDialogComponent } from './dialogs/importar-clientes-dialog/importar-clientes-dialog.component';
 import { MatDialogModule } from "@angular/material/dialog";
+import { ListVentaItemService } from "../page-ventas/services/list-venta-items.service";
 
 @NgModule({
     declarations: [
@@ -65,7 +66,8 @@ import { MatDialogModule } from "@angular/material/dialog";
     providers: [LoadingService,
         {provide: MAT_DATE_FORMATS, useValue: PICK_FORMATS},
         {provide: DateAdapter, useClass: PickDateAdapter},
-        {provide: MatPaginatorIntl, useValue: CustomPaginator()}
+        {provide: MatPaginatorIntl, useValue: CustomPaginator()},
+        ListVentaItemService
       ]
 })
 export class ClientesModule {

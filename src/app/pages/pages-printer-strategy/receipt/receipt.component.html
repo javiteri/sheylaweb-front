@@ -64,7 +64,9 @@
                     <td class="quantity">{{(detalle.cantidad.toFixed(2))}}</td>
                     <td class="description">{{detalle.nombre}}</td>
                     <td class="price">{{detalle.precio}}</td>
-                    <td class="total">{{(detalle.precio * detalle.cantidad).toFixed(2).toString()}}</td>
+                    <td class="total">{{ ((detalle.precio * detalle.cantidad) -
+                                        ((detalle.cantidad * detalle.precio) * detalle.descuento / 100)).toFixed(2) }}
+                    </td>
                 </tr>
             
             </tbody>
@@ -89,6 +91,10 @@
         <div>
             <p >SUBTOTAL 12%</p>
             <p style="float: right;">{{textSubtotalIva12}}</p>
+        </div>
+        <div>
+            <p>DESCUENTO</p>
+            <p style="float: right;">{{textDescuento}}</p>
         </div>
         <div>
             <p >IVA 12%</p>

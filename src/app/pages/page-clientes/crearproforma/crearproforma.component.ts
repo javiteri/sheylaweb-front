@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 import { BuscarClienteDialogComponent } from 'src/app/components/buscar-cliente-dialog/buscar-cliente-dialog.component';
 import { BuscarProductoDialogComponent } from 'src/app/components/buscar-producto-dialog/buscar-producto-dialog.component';
 import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
@@ -13,6 +14,7 @@ import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingOverlayRef, LoadingService } from 'src/app/services/Loading.service';
 import { ConfigReceive } from '../../configuraciones/models/ConfigReceive';
 import { ClienteFactura } from '../../page-ventas/models/ClientFac';
+import { ListVentaItemService } from '../../page-ventas/services/list-venta-items.service';
 
 @Component({
   selector: 'app-crearproforma',
@@ -64,7 +66,10 @@ export class CrearproformaComponent implements OnInit {
   configIvaIncluidoEnVenta = true;
 
   configImpresionDocumentos = "1";
-  
+
+  subscriptionProductoProforma$?: Subscription;
+  subscriptionListProductoProforma$?: Subscription;
+
   constructor(private matDialog: MatDialog,
     public viewContainerRef: ViewContainerRef,
     private toastr: ToastrService,
@@ -72,7 +77,8 @@ export class CrearproformaComponent implements OnInit {
     private loadingService: LoadingService,
     private route: ActivatedRoute,
     private router: Router,
-    public ref: ChangeDetectorRef) { }
+    public ref: ChangeDetectorRef,
+    private productProformaService: ListVentaItemService) { }
 
   ngOnInit(): void {
     // GET INITIAL DATA 
@@ -90,12 +96,50 @@ export class CrearproformaComponent implements OnInit {
     this.idUser = localServiceResponseUsr._userId;
     this.nombreBd = localServiceResponseUsr._nombreBd;
 
+    this.subscriptionProductoProforma$ = this.productProformaService.selectedProduct$.subscribe((producto: any) => {
+
+      if(!(Object.entries(producto).length === 0)){
+
+        const data = this.datasource.data;
+        const productItemAdd: ProductFactura = {
+          id: producto.prod_id,
+          codigo: producto.prod_codigo,
+          nombre: producto.prod_nombre,
+          precio: producto.prod_pvp,
+          cantidad: 1,
+          descuento: 0,
+          iva: producto.prod_iva_si_no
+        }
+
+        if(!this.configIvaIncluidoEnVenta){
+          if(productItemAdd.iva == "1"){
+            productItemAdd.precio = Number((productItemAdd.precio / 1.12).toFixed(this.fixedNumDecimal));
+          }
+        }
+
+        data.push(productItemAdd);
+
+        this.datasource.data = data;
+        this.cantItems = this.datasource.data.length;
+        // CALCULATE TOTAL VALUE IN ITEMS LIST
+        this.calculateTotalItems();
+      }
+    });
+
+
     this.getConfigNumDecimalesIdEmp();
     this.getConfigProformaSinSecuencia();
     this.getConfigIvaIncluidoEnVenta();
     this.getConfigImpresionDocumentosProforma();
   }
 
+  ngOnDestroy(): void {
+    this.productProformaService.setProductList([]);
+    this.productProformaService.setProduct([]);
+
+    this.subscriptionProductoProforma$?.unsubscribe();
+    this.subscriptionListProductoProforma$?.unsubscribe();
+  }
 
   private getConfigNumDecimalesIdEmp(){
     this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTA_NUMERODECIMALES', this.tokenValidate, this.nombreBd).subscribe({
@@ -527,40 +571,10 @@ export class CrearproformaComponent implements OnInit {
   }
 
   agregarProductoClick(){
-
     const dialogRef = this.matDialog.open(BuscarProductoDialogComponent, {
       width: '100%',
       closeOnNavigation: true,
       viewContainerRef: this.viewContainerRef
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-    if(result){
-
-      const data = this.datasource.data;
-      const productItemAdd: ProductFactura = {
-        id: result.prod_id,
-        codigo: result.prod_codigo,
-        nombre: result.prod_nombre,
-        precio: result.prod_pvp,
-        cantidad: 1,
-        descuento: 0,
-        iva: result.prod_iva_si_no
-      }
-
-      if(!this.configIvaIncluidoEnVenta){
-        if(productItemAdd.iva == "1"){
-          productItemAdd.precio = Number((productItemAdd.precio / 1.12).toFixed(this.fixedNumDecimal));
-        }
-      }
-
-      data.push(productItemAdd);
-
-      this.datasource.data = data;
-      this.cantItems = this.datasource.data.length;
-      // CALCULATE TOTAL VALUE IN ITEMS LIST
-      this.calculateTotalItems();
-    }
     });
   }
 

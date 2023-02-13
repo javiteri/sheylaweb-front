@@ -40,6 +40,7 @@ export class BuscarProductoCompraDialogComponent implements OnInit, OnDestroy {
   fixedNumDecimal = 2;
   
   selectInOneClick = false;
+  timeoutId?: number = undefined;
 
   constructor(private coreService: ApplicationProvider,
     public matDialogRef: MatDialogRef<BuscarProductoDialogComponent>,
@@ -78,7 +79,14 @@ export class BuscarProductoCompraDialogComponent implements OnInit, OnDestroy {
   }
 
   searchProductosText(): void{
+    clearTimeout(this.timeoutId);
+    this.timeoutId = window.setTimeout(() => {
+      this.callSearchApi();
+    }, 500);
 
+  }
+
+  callSearchApi(): void{
     let dialogRef = this.loadingService.open();
 
     this.coreService.searchProductosByIdEmpTextActivo(this.idEmpresa, this.textSearchProductos,this.nombreBd, this.tokenValidate).subscribe({
@@ -95,13 +103,12 @@ export class BuscarProductoCompraDialogComponent implements OnInit, OnDestroy {
           this.showPagination = false
         }
 
-
         const arrayProducts: Producto[] = data.data;
 
         const arrayWithDecimal = arrayProducts.map((producto: Producto) => {
           producto.prod_costo = 
-                (producto.prod_iva_si_no == "1") ? ((producto.prod_costo as any) / 1.12).toFixed(this.fixedNumDecimal) 
-                : (producto.prod_costo as any).toFixed(this.fixedNumDecimal);
+                (producto.prod_iva_si_no == "1") ? ((Number(producto.prod_costo)) / 1.12).toFixed(this.fixedNumDecimal) 
+                : (Number(producto.prod_costo)).toFixed(this.fixedNumDecimal);
 
           return producto;
         });
