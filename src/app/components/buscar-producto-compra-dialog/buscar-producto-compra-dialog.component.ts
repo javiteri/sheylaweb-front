@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
@@ -21,6 +21,13 @@ export interface DialogData {
 })
 export class BuscarProductoCompraDialogComponent implements OnInit, OnDestroy {
 
+  boxSearchInput! : ElementRef<HTMLInputElement>;
+  @ViewChild('boxSearchInput') set inputElRef(elRef: ElementRef<HTMLInputElement>){
+    if(elRef){
+      this.boxSearchInput = elRef;
+    }
+  }
+  
   displayedColumns: string[] = ['codigo', 'nombre','marca','categoria' ,'costo'];
   datasource = new MatTableDataSource<Producto>();
 
@@ -48,10 +55,15 @@ export class BuscarProductoCompraDialogComponent implements OnInit, OnDestroy {
     private ref: ChangeDetectorRef,
     private productService: ListCompraItemsService,
     @Inject(MAT_DIALOG_DATA) public dialogData: DialogData
-  ) { 
+  ) { }
 
+  ngAfterViewInit(): void {
+    setTimeout(() =>{
+      this.boxSearchInput.nativeElement.focus();
+      this.ref.detectChanges();
+    }, 200);
   }
-
+  
   ngOnInit(): void {
 
     this.selectInOneClick = this.dialogData['selectInOneClick'];

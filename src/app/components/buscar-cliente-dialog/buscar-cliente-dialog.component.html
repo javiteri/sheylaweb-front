@@ -1,8 +1,17 @@
 <div class="container-search-bar">
+  <div class="wrapper-close">
+    <span>Buscar Cliente</span>
+    <button mat-icon-button matTooltip="Cerrar" mat-dialog-close>
+        <mat-icon>cancel</mat-icon>
+    </button>
+  </div>
+
     <div class="inner-container-search">
-      <input type="text" placeholder="Nombre o Identificacion" [(ngModel)]="textSearchClientes" 
-      (keyup.enter)="searchClientesText();"/>
-      <button class="font-weight-300" color="icon-accent" mat-icon-button 
+      <input type="text" placeholder="Nombre o Identificacion" 
+      [(ngModel)]="textSearchClientes" 
+      (ngModelChange)="searchClientesText();"
+      #boxSearchInput/>
+      <button color="icon-accent" mat-icon-button 
             matTooltip="Buscar" (click)="searchClientesText();$event.preventDefault();">
         <mat-icon>search</mat-icon>
       </button>

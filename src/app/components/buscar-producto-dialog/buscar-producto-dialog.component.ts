@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
@@ -13,14 +13,12 @@ import { LoadingService } from 'src/app/services/Loading.service';
   templateUrl: './buscar-producto-dialog.component.html',
   styleUrls: ['./buscar-producto-dialog.component.css']
 })
-export class BuscarProductoDialogComponent implements OnInit {
+export class BuscarProductoDialogComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('tableproduct', {static: true}) tablaProducto: MatTable<any> | undefined;
-
-  tableproduct!: ElementRef<HTMLElement>;
-  @ViewChild('tableproduct', {static: true})  set tableProductElRef(elRef: ElementRef<HTMLElement>){
+  boxSearchInput! : ElementRef<HTMLInputElement>;
+  @ViewChild('boxSearchInput') set inputElRef(elRef: ElementRef<HTMLInputElement>){
     if(elRef){
-      this.tableproduct = elRef;
+      this.boxSearchInput = elRef;
     }
   }
 
@@ -49,7 +47,15 @@ export class BuscarProductoDialogComponent implements OnInit {
     private loadingService: LoadingService,
     private ref: ChangeDetectorRef,
     private productVentaService: ListVentaItemService
-  ) {}
+    ) {}
+
+
+  ngAfterViewInit(): void {
+    setTimeout(() =>{
+      this.boxSearchInput.nativeElement.focus();
+      this.ref.detectChanges();
+    }, 200);
+  }
 
   ngOnInit(): void {
 

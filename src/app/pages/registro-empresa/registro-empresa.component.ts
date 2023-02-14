@@ -214,12 +214,9 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
           closeButton: true
         });
 
-        console.log('Datos Actualizados');
-
         this.loading = false;
       },
       error: (error) => {
-        console.log('error response update data: ' + error);
         console.log(error);
 
         this.toastr.error('error al actualizar', '', {

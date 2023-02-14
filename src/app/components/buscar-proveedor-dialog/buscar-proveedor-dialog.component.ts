@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
@@ -13,6 +13,13 @@ import { LoadingService } from 'src/app/services/Loading.service';
 })
 export class BuscarProveedorDialogComponent implements OnInit {
 
+  boxSearchInput! : ElementRef<HTMLInputElement>;
+  @ViewChild('boxSearchInput') set inputElRef(elRef: ElementRef<HTMLInputElement>){
+    if(elRef){
+      this.boxSearchInput = elRef;
+    }
+  }
+  
   displayedColumns: string[] = ['ci', 'nombre', 'direccion'];
   datasource = new MatTableDataSource<Proveedor>();
 
@@ -27,10 +34,19 @@ export class BuscarProveedorDialogComponent implements OnInit {
   listaProveedores: Proveedor[] = [];
   showSinDatos = false;
 
+  timeoutId?: number = undefined;
+  
   constructor(private coreService: ApplicationProvider,
     private loadingService: LoadingService,
     public matDialogRef: MatDialogRef<BuscarProveedorDialogComponent>,
     private ref: ChangeDetectorRef) { }
+
+  ngAfterViewInit(): void {
+    setTimeout(() =>{
+      this.boxSearchInput.nativeElement.focus();
+      this.ref.detectChanges();
+    }, 200);
+  }
 
   ngOnInit(): void {
 
@@ -76,7 +92,13 @@ export class BuscarProveedorDialogComponent implements OnInit {
   }
 
   searchProveedoresText(): void{
+    clearTimeout(this.timeoutId);
+    this.timeoutId = window.setTimeout(() => {
+      this.callSearchApi();
+    }, 500);
+  }
 
+  private callSearchApi(){
     let dialogRef = this.loadingService.open();
 
     this.coreService.searchProveedoresByIdEmpText(this.idEmpresa, this.textSearchProveedores, this.tokenValidate, this.nombreBd).subscribe({
@@ -102,6 +124,5 @@ export class BuscarProveedorDialogComponent implements OnInit {
       }
     });
   }
-
 
 }

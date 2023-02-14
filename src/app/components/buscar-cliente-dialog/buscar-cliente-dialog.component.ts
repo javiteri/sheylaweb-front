@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Cliente } from 'src/app/interfaces/Cliente';
@@ -13,6 +13,13 @@ import { LoadingService } from 'src/app/services/Loading.service';
 })
 export class BuscarClienteDialogComponent implements OnInit {
 
+  boxSearchInput! : ElementRef<HTMLInputElement>;
+  @ViewChild('boxSearchInput') set inputElRef(elRef: ElementRef<HTMLInputElement>){
+    if(elRef){
+      this.boxSearchInput = elRef;
+    }
+  }
+
   displayedColumns: string[] = ['ci', 'nombre', 'direccion'];
   datasource = new MatTableDataSource<Cliente>();
   
@@ -26,14 +33,24 @@ export class BuscarClienteDialogComponent implements OnInit {
   listaClientes: Cliente[] = [];
   textSearchClientes: string = '';
   showSinDatos = false;
-  
+
+  timeoutId?: number = undefined;
+
   constructor(private coreService: ApplicationProvider,
     public matDialogRef: MatDialogRef<BuscarClienteDialogComponent>,
     private loadingService: LoadingService,
     private ref: ChangeDetectorRef) { }
 
+
+  ngAfterViewInit(): void {
+    setTimeout(() =>{
+      this.boxSearchInput.nativeElement.focus();
+      this.ref.detectChanges();
+    }, 200);
+  }
+
   ngOnInit(): void {
-    this.matDialogRef.disableClose = true;
+    //this.matDialogRef.disableClose = true;
 
     // GET INITIAL DATA 
     const localServiceResponseToken =  
@@ -73,7 +90,13 @@ export class BuscarClienteDialogComponent implements OnInit {
 
 
   searchClientesText(): void{
+    clearTimeout(this.timeoutId);
+    this.timeoutId = window.setTimeout(() => {
+      this.callSearchApi();
+    }, 500);
+  }
 
+  private callSearchApi(){
     let dialogRef = this.loadingService.open();
 
     this.coreService.searchClientesByIdEmpText(this.idEmpresa, this.textSearchClientes, this.tokenValidate, this.nombreBd).subscribe({
