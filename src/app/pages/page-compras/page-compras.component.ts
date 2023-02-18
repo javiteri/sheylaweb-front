@@ -88,6 +88,9 @@ export class PageComprasComponent implements OnInit, OnDestroy {
   subscription2$?: Subscription
   datosProvsubscription$?: Subscription
 
+  configValorIva = "12.00";
+  valorIvaDecimal = "1.12";
+
   constructor(private matDialog: MatDialog,
     private toastr: ToastrService,
     private coreService: ApplicationProvider,
@@ -133,15 +136,15 @@ export class PageComprasComponent implements OnInit, OnDestroy {
             precio: elemento.precioUnitario,
             cantidad: elemento.cantidad,
             descuento: elemento.descuento,
-            iva: (elemento.impuestos['impuesto']['codigoPorcentaje'] == '2') ? "1" : "0"
+            iva: ((elemento.impuestos['impuesto']['codigoPorcentaje'] == '2') ||
+            (elemento.impuestos['impuesto']['codigoPorcentaje'] == '8')) ? "1" : "0"
           }
           
           data.push(productItemAdd);
 
         });
 
-        this.datasource.data = data;
-        
+        this.datasource.data = data;    
         this.calculateTotalItems();
       }
 
@@ -197,6 +200,7 @@ export class PageComprasComponent implements OnInit, OnDestroy {
         this.loadingSecuencial = false;
 
       }else{
+        console.log('inside data route in map');
         // SI NO SE OBTIENE DETALLES EN LA LISTA ENTONCES CRAGAR LOS DATOS POR DEFECTO
         this.getDataRoutedMap();
       }
@@ -341,7 +345,8 @@ export class PageComprasComponent implements OnInit, OnDestroy {
         subtotal += totalConDescuento;
     });
     
-    iva12 = ((subtotalIva12 * 12) / 100);
+    //iva12 = ((subtotalIva12 * 12) / 100);
+    iva12 = ((subtotalIva12 * Number(this.configValorIva)) / 100);
     this.Iva12 = iva12.toFixed(this.fixedNumDecimal).toString();
     this.subtotal = subtotal.toFixed(this.fixedNumDecimal).toString();
     this.subtotalIva0 = subtotalIva0.toFixed(this.fixedNumDecimal).toString();
@@ -435,7 +440,7 @@ export class PageComprasComponent implements OnInit, OnDestroy {
       detallesCompra.push({
         prodId: data.id,
         cantidad: data.cantidad,
-        iva: (data.iva == "1" ? "12.00" : "0.00"),
+        iva: (data.iva == "1" ? this.configValorIva : "0.00"),
         nombreProd: data.nombre,
         valorUnitario: precioUnitario,
         descuento: data.descuento,
@@ -664,6 +669,17 @@ export class PageComprasComponent implements OnInit, OnDestroy {
 
             let dataInSource = this.datasource.data;
             const arrayVentaDetalle = Array.from(data.data.data);
+
+            let valorIva = arrayVentaDetalle.find((value: any) => {
+              return Number(value['comprad_iva']) == 8; 
+            }) as any;
+            if(valorIva){
+              let valorIvaDecimal = (Number(valorIva['comprad_iva']) / 100) + 1;
+              this.configValorIva = valorIva['comprad_iva'];
+              this.valorIvaDecimal = valorIvaDecimal.toFixed(4);
+            }
+
+            
             arrayVentaDetalle.forEach((data: any) => {
 
               const productItemAdd = {
@@ -674,7 +690,7 @@ export class PageComprasComponent implements OnInit, OnDestroy {
                 precio: data.prod_precio,
                 cantidad: data.comprad_cantidad,
                 descuento: data.comprad_descuento,
-                iva: (data.comprad_iva == "0.00") ? "0" : "1"
+                iva: (Number(data.comprad_iva) == 0) ? "0" : "1"
               }
 
               dataInSource.push(productItemAdd);
@@ -706,10 +722,32 @@ export class PageComprasComponent implements OnInit, OnDestroy {
         });
 
       }else{
+        this.getConfigValorIvaIdEmp();
         this.getProveedorGenericoApi();
       }
 
     });
   }
 
+  private getConfigValorIvaIdEmp(){
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'FACTURA_VALORIVA', this.tokenValidate, this.nombreBd).subscribe({
+      next: (data: any) => {
+        if(data.data.length > 0) {
+          //conversion valor iva a decimal
+          let valorIvaDecimal = (Number(data.data[0].con_valor) / 100) + 1;
+          this.configValorIva = data.data[0].con_valor;
+          this.valorIvaDecimal = valorIvaDecimal.toFixed(4);
+        }
+
+      },
+      error: (error) => {
+        console.log('error get num decimales');
+        console.log(error);
+      }
+    });
+  }
+
+  calcularIvaTemplate(){
+    return parseInt(this.configValorIva);
+  }
 }

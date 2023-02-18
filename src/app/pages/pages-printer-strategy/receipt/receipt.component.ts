@@ -67,6 +67,9 @@ export class ReceiptComponent implements OnInit {
   showObservaciones = false;
   observacionValue :string = '';
 
+  configValorIva = "12.00";
+  valorIvaDecimal = "1.12";
+
   textRouteBack = `/ventas/crearventa`;
 
   constructor(route: ActivatedRoute,
@@ -101,6 +104,7 @@ export class ReceiptComponent implements OnInit {
       nombreBd: this.nombreBd
     } 
 
+    //this.getConfigValorIvaIdEmp();
     this.getDataFromIdVenta(postDataGetEmp);
     
   }
@@ -186,6 +190,17 @@ export class ReceiptComponent implements OnInit {
 
                 let dataInSource = this.listaVentaDetalle;
                 const arrayVentaDetalle = Array.from(result1.data.data);
+
+                let valorIva = arrayVentaDetalle.find((value: any) => {
+                  return Number(value['ventad_iva']) == 8; 
+                }) as any;
+                if(valorIva){
+                  let valorIvaDecimal = (Number(valorIva['ventad_iva']) / 100) + 1;
+                  this.configValorIva = valorIva['ventad_iva'];
+                  this.valorIvaDecimal = valorIvaDecimal.toFixed(4);
+                  
+                }
+
                 try{
                   this.textCanItems += 
                     `(${arrayVentaDetalle.length} ${(arrayVentaDetalle.length > 1) ? 'ITEMS': 'ITEM'})`;
@@ -257,4 +272,25 @@ export class ReceiptComponent implements OnInit {
 
   }
 
+  private getConfigValorIvaIdEmp(){
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'FACTURA_VALORIVA', this.tokenValidate, this.nombreBd).subscribe({
+      next: (data: any) => {
+        if(data.data.length > 0) {
+          //conversion valor iva a decimal
+          let valorIvaDecimal = (Number(data.data[0].con_valor) / 100) + 1;
+          this.configValorIva = data.data[0].con_valor;
+          this.valorIvaDecimal = valorIvaDecimal.toFixed(4);
+        }
+
+      },
+      error: (error) => {
+        console.log('error get num decimales');
+        console.log(error);
+      }
+    });
+  }
+
+  calcularIvaTemplate(){
+    return parseInt(this.configValorIva);
+  }
 }

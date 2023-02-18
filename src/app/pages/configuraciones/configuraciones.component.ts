@@ -204,7 +204,6 @@ export class ConfiguracionesComponent implements OnInit {
       error: (error) =>{
         overlayRef.close();
         console.log(error);
-        console.log('error obteniendo lista configs');
       }
     });
   }
@@ -232,7 +231,8 @@ export class ConfiguracionesComponent implements OnInit {
     const regexOnlyNumber = new RegExp(/^\d+(\.\d{1,2})?$/);
     
     if(!regexOnlyNumber.test(this.ivaSelect)){
-      this.ivaSelect = "12.00";
+      // this.ivaSelect = "00.00";
+      this.getListConfigInit();
       return;
     }
     this.insertConfig(this.NAMES_CONFIGS[0], this.ivaSelect);

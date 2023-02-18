@@ -71,6 +71,9 @@ export class PageVentasComponent implements OnInit{
   configImpresionDocumentos = "1";
   configAutorizarVentaAlCrear = false;
 
+  configValorIva = "12.00";
+  valorIvaDecimal = "1.12";
+
   //prop for handle when proforma is converted in venta and call corresponding function to get proforma data 
   // and map to factura
   isConvertirEnVenta = false;
@@ -131,7 +134,7 @@ export class PageVentasComponent implements OnInit{
 
         if(!this.configIvaIncluidoEnVenta){
           if(productItemAdd.iva == "1"){
-            productItemAdd.precio = Number((productItemAdd.precio / 1.12).toFixed(this.fixedNumDecimal));
+            productItemAdd.precio = Number((productItemAdd.precio / Number(this.valorIvaDecimal)).toFixed(this.fixedNumDecimal));
           }
         }
 
@@ -145,7 +148,7 @@ export class PageVentasComponent implements OnInit{
       }
     });
 
-
+    
     this.getConfigAutorizarVentaAlCrear();
     this.getConfigNumDecimalesIdEmp();
     this.getConfigVentaSinSecuencia();
@@ -164,7 +167,7 @@ export class PageVentasComponent implements OnInit{
 
 
   private getDataRoutedMap(){
-
+    
     if(this.isConvertirEnVenta){
       this.getNextNumeroSecuencial();
       this.coreService.getDataByIdProforma(this.idProforma, this.idEmpresa,this.rucEmpresa, this.tokenValidate, this.nombreBd).subscribe({
@@ -185,6 +188,16 @@ export class PageVentasComponent implements OnInit{
 
           let dataInSource = this.datasource.data;
           const arrayVentaDetalle = Array.from(data.data.data);
+
+          let valorIva = arrayVentaDetalle.find((value: any) => {
+            return Number(value['profd_iva']) == 8; 
+          }) as any;
+          if(valorIva){
+            let valorIvaDecimal = (Number(valorIva['profd_iva']) / 100) + 1;
+            this.configValorIva = valorIva['profd_iva'];
+            this.valorIvaDecimal = valorIvaDecimal.toFixed(4);
+          }
+
           arrayVentaDetalle.forEach((data: any) => {
 
             const productItemAdd: ProductFactura = {
@@ -194,12 +207,12 @@ export class PageVentasComponent implements OnInit{
               precio: Number(Number(data.profd_vu).toFixed(this.fixedNumDecimal)),
               cantidad: data.profd_cantidad,
               descuento: data.profd_descuento,
-              iva: (data.profd_iva == "0.00") ? "0" : "1"
+              iva: (parseInt(data.profd_iva) == 0) ? "0" : "1"
             }
 
             if(this.configIvaIncluidoEnVenta){
               if(productItemAdd.iva == "1"){
-                productItemAdd.precio = ((productItemAdd.precio * 1.12).toFixed(this.fixedNumDecimal) as any);
+                productItemAdd.precio = ((productItemAdd.precio * Number(this.valorIvaDecimal)).toFixed(this.fixedNumDecimal) as any);
               }
             }              
 
@@ -262,6 +275,16 @@ export class PageVentasComponent implements OnInit{
 
               let dataInSource = this.datasource.data;
               const arrayVentaDetalle = Array.from(data.data.data);
+
+              let valorIva = arrayVentaDetalle.find((value: any) => {
+                return Number(value['ventad_iva']) == 8; 
+              }) as any;
+              if(valorIva){
+                let valorIvaDecimal = (Number(valorIva['ventad_iva']) / 100) + 1;
+                this.configValorIva = valorIva['ventad_iva'];
+                this.valorIvaDecimal = valorIvaDecimal.toFixed(4);
+              }
+
               arrayVentaDetalle.forEach((data: any) => {
 
                 const productItemAdd: ProductFactura = {
@@ -271,14 +294,13 @@ export class PageVentasComponent implements OnInit{
                   precio: Number(Number(data.ventad_vu).toFixed(this.fixedNumDecimal)),
                   cantidad: data.ventad_cantidad,
                   descuento: data.ventad_descuento,
-                  iva: (data.ventad_iva == "0.00") ? "0" : "1"
+                  iva: (Number(data.ventad_iva) == 0) ? "0" : "1"
                 }
 
                 if(this.configIvaIncluidoEnVenta){
-                  console.log(this.configIvaIncluidoEnVenta);
+
                   if(productItemAdd.iva == "1"){
-                    
-                    productItemAdd.precio = ((productItemAdd.precio * 1.12).toFixed(this.fixedNumDecimal) as any);
+                    productItemAdd.precio = ((productItemAdd.precio * Number(this.valorIvaDecimal)).toFixed(this.fixedNumDecimal) as any);
                   }
                 }
 
@@ -310,7 +332,7 @@ export class PageVentasComponent implements OnInit{
           });
 
         }else{
-
+          this.getConfigValorIvaIdEmp();
           this.getNextNumeroSecuencial();
           this.getConsumidorFinalApi();
         }
@@ -399,6 +421,28 @@ export class PageVentasComponent implements OnInit{
     });
   }
   
+  private getConfigValorIvaIdEmp(){
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'FACTURA_VALORIVA', this.tokenValidate, this.nombreBd).subscribe({
+      next: (data: any) => {
+        if(data.data.length > 0) {
+          //conversion valor iva a decimal
+          let valorIvaDecimal = (Number(data.data[0].con_valor) / 100) + 1;
+          this.configValorIva = data.data[0].con_valor;
+          this.valorIvaDecimal = valorIvaDecimal.toFixed(4);
+        }
+
+      },
+      error: (error) => {
+        console.log('error get num decimales');
+        console.log(error);
+      }
+    });
+  }
+
+  calcularIvaTemplate(){
+    return parseInt(this.configValorIva);
+  }
+
   removeCart(indexItem: number){
     
     const data = this.datasource.data;
@@ -473,13 +517,14 @@ export class PageVentasComponent implements OnInit{
     let result = 0.0
 
     this.datasource.data.forEach((item: ProductFactura, index: number) => {
-
+    
       if(!this.configIvaIncluidoEnVenta){
         result = (item.cantidad * item.precio);
       }else{
 
         if(item.iva == "1"){
-          result = ((item.cantidad * item.precio) / 1.12);
+          // result = ((item.cantidad * item.precio) / 1.12);
+          result = ((item.cantidad * item.precio) / Number(this.valorIvaDecimal));
         }else{
           result = (item.cantidad * item.precio);
         }
@@ -497,7 +542,8 @@ export class PageVentasComponent implements OnInit{
 
     });
     
-    iva12 = ((subtotalIva12 * 12) / 100);
+    // iva12 = ((subtotalIva12 * 12) / 100);
+    iva12 = ((subtotalIva12 * Number(this.configValorIva)) / 100);
     this.Iva12 = iva12.toFixed(this.fixedNumDecimal).toString();
     this.subtotal = subtotal.toFixed(this.fixedNumDecimal).toString();
     this.subtotalIva0 = subtotalIva0.toFixed(this.fixedNumDecimal).toString();
@@ -588,7 +634,7 @@ export class PageVentasComponent implements OnInit{
 
       if(this.configIvaIncluidoEnVenta){
         if(data.iva == "1"){
-          precioUnitario = Number((data.precio / 1.12).toFixed(this.fixedNumDecimal));
+          precioUnitario = Number((data.precio / Number(this.valorIvaDecimal)).toFixed(this.fixedNumDecimal));
         }
       }
 
@@ -598,7 +644,7 @@ export class PageVentasComponent implements OnInit{
       detallesVenta.push({
         prodId: data.id,
         cantidad: data.cantidad,
-        iva: (data.iva == "1" ? "12.00" : "0.00"),
+        iva: (data.iva == "1" ? this.configValorIva : "0.00"),
         nombreProd: data.nombre,
         valorUnitario: precioUnitario,
         descuento: data.descuento,

@@ -69,6 +69,9 @@ export class ReceiptProformaComponent implements OnInit {
 
   textRouteBack = `/clientes/crearproforma`;
   
+  configValorIva = "12.00";
+  valorIvaDecimal = "1.12";
+
   constructor(route: ActivatedRoute,
     private router: Router,
     private coreService: ApplicationProvider,
@@ -147,6 +150,15 @@ export class ReceiptProformaComponent implements OnInit {
             }catch(exception){
             }
 
+            let valorIva = arrayProformaDetalle.find((value: any) => {
+              return Number(value['profd_iva']) == 8; 
+            }) as any;
+            if(valorIva){
+              let valorIvaDecimal = (Number(valorIva['profd_iva']) / 100) + 1;
+              this.configValorIva = valorIva['profd_iva'];
+              this.valorIvaDecimal = valorIvaDecimal.toFixed(4);
+              
+            }
 
             let descuentoSumatoria = 0.00;
             arrayProformaDetalle.forEach((data: any) => {
@@ -199,6 +211,10 @@ export class ReceiptProformaComponent implements OnInit {
       error: (error: any) => {}
     });
 
+  }
+
+  calcularIvaTemplate(){
+    return parseInt(this.configValorIva);
   }
 
 }
