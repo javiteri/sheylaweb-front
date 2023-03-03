@@ -316,6 +316,7 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
       this.coreService.getXmlSriByNumAutorizacion(result.claveAcceso, this.tokenValidate).subscribe({
         next: async (data: any) =>{
 
+
           if(!data.dataXml){
             console.log('error consultando servicio SRI');
             return;
@@ -368,6 +369,10 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
         });
         
         let indexEnd = stringXml.indexOf('</infoAdicional>');
+        if(indexEnd == -1){
+          indexEnd = stringXml.indexOf('</detalles>');
+        }
+
         let xmlFinal = stringXml.slice(0, indexEnd + 16);
         
         parser.parseString(`${xmlFinal}</factura>`.replace(/&gt;/g,">"), function(err, result) {
