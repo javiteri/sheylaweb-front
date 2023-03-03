@@ -9,11 +9,14 @@
       <input type="text" placeholder="Codigo o Nombre"
               [(ngModel)]="textSearchProductos"
               (ngModelChange)="searchProductosText()"
-              #boxSearchInput/>
+              #boxSearchInput
+              style="padding-right: 20px;
+              box-sizing: border-box;"/>              
       <button color="icon-accent" mat-icon-button 
-            matTooltip="Buscar"
-            (click)="searchProductosText();$event.preventDefault();">
-        <mat-icon>search</mat-icon>
+            matTooltip="Clear"
+            clearText
+            (click)="clearText()"><!-- (click)="searchProductosText();$event.preventDefault();" -->
+        <mat-icon>clear</mat-icon>
       </button>
     </div>
 </div>

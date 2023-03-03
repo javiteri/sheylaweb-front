@@ -11,9 +11,9 @@
               (ngModelChange)="searchProductosText()"
               #boxSearchInput/>
       <button class="font-weight-300" color="icon-accent" mat-icon-button 
-            matTooltip="Buscar"
-            (click)="searchProductosText();$event.preventDefault();">
-        <mat-icon>search</mat-icon>
+            matTooltip="Clear"
+            (click)="clearText();$event.preventDefault();">
+        <mat-icon>clear</mat-icon>
       </button>
     </div>
 </div>

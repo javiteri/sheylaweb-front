@@ -200,7 +200,6 @@ export class PageComprasComponent implements OnInit, OnDestroy {
         this.loadingSecuencial = false;
 
       }else{
-        console.log('inside data route in map');
         // SI NO SE OBTIENE DETALLES EN LA LISTA ENTONCES CRAGAR LOS DATOS POR DEFECTO
         this.getDataRoutedMap();
       }

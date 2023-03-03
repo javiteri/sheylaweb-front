@@ -84,7 +84,7 @@ export class BuscarProductoDialogComponent implements OnInit, AfterViewInit {
     clearTimeout(this.timeoutId);
     this.timeoutId = window.setTimeout(() => {
       this.callSearchApi();
-    }, 500);
+    }, 400);
 
   }
 
@@ -176,5 +176,12 @@ export class BuscarProductoDialogComponent implements OnInit, AfterViewInit {
         console.log(error);
       }
     });
+  }
+
+  clearText(){
+    if(this.textSearchProductos != ""){
+      this.textSearchProductos = "";
+      this.searchProductosText();
+    }
   }
 }

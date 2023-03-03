@@ -125,4 +125,10 @@ export class BuscarProveedorDialogComponent implements OnInit {
     });
   }
 
+  clearText(){
+    if(this.textSearchProveedores != ""){
+      this.textSearchProveedores = "";
+      this.searchProveedoresText();
+    }
+  }
 }

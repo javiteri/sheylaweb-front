@@ -501,7 +501,7 @@ export class PageVentasComponent implements OnInit{
 
   agregarProductoClick(){
 
-    const dialogRef = this.matDialog.open(BuscarProductoDialogComponent, {
+    this.matDialog.open(BuscarProductoDialogComponent, {
       width: '100%',
       closeOnNavigation: true,
       viewContainerRef: this.viewContainerRef

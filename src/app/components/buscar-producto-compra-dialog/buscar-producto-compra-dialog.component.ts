@@ -190,4 +190,11 @@ export class BuscarProductoCompraDialogComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  clearText(){
+    if(this.textSearchProductos != ""){
+      this.textSearchProductos = "";
+      this.searchProductosText();
+    }
+  }
 }

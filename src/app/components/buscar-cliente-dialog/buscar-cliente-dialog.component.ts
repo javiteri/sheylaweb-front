@@ -130,4 +130,11 @@ export class BuscarClienteDialogComponent implements OnInit {
     }
     this.matDialogRef.close(response);
   }
+
+  clearText(){
+    if(this.textSearchClientes != ""){
+      this.textSearchClientes = "";
+      this.searchClientesText();
+    }
+  }
 }
