@@ -132,6 +132,7 @@ export class PageVentasComponent implements OnInit{
           iva: producto.prod_iva_si_no
         }
 
+        console.log(this.configIvaIncluidoEnVenta);
         if(!this.configIvaIncluidoEnVenta){
           if(productItemAdd.iva == "1"){
             productItemAdd.precio = Number((productItemAdd.precio / Number(this.valorIvaDecimal)).toFixed(this.fixedNumDecimal));

@@ -6,5 +6,6 @@ export interface ProductCompra {
     precio: number,
     cantidad: number,
     descuento: number,
-    iva: string
+    iva: string,
+    utilidad?: string
 }

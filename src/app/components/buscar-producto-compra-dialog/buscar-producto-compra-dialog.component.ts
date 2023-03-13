@@ -146,7 +146,7 @@ export class BuscarProductoCompraDialogComponent implements OnInit, OnDestroy {
 
         const arrayWithDecimal = arrayProducts.map((producto: Producto) => {
 
-          producto.prod_costo = 
+          producto.prod_costo = //Number(producto.prod_costo).toFixed(this.fixedNumDecimal);
                 (producto.prod_iva_si_no == "1") ? (Number(producto.prod_costo) / 1.12).toFixed(this.fixedNumDecimal) : producto.prod_costo
           return producto;
         });

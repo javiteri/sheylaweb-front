@@ -24,7 +24,7 @@ import { ListCompraItemsService } from './services/list-compra-items.service';
 })
 export class PageComprasComponent implements OnInit, OnDestroy {
 
-  displayedColumns: string[] = [/*'#',*/ 'Codigo', 'Articulo', 'Cantidad', 'costo','descuento', 'P Total', 'actions'];
+  displayedColumns: string[] = ['Codigo', 'Articulo', 'Cantidad', 'costo','descuento', 'P Total', 'actions'];
   datasource = new MatTableDataSource<ProductCompra>();
 
   sendDatosFormCompra : FormGroup;
@@ -50,6 +50,7 @@ export class PageComprasComponent implements OnInit, OnDestroy {
   subtotalIva12: string = "00.0";
   Iva12: string = "00.0";
   
+  NAMES_CONFIG_COMPRA = ["COMPRA_NUMERODECIMALES", "COMPRA_REFRESCAR_PVP_SEGUN_ULTIMA_COMPRA"];
   listFormaPago = ['EFECTIVO', 'CHEQUE', 'TRANSFERENCIA', 'VOUCHER', 'CREDITO'];
   listTipoDocumento = ['01 Factura','02 Nota de Venta','03 Liquidación de compra de Bienes o Prestación de servicios', 
     '04 Nota de crédito','05 Nota de débito','08 Boletos o entradas a espectáculos públicos','09 Tiquetes o vales emitidos por máquinas registradoras'
@@ -81,6 +82,7 @@ export class PageComprasComponent implements OnInit, OnDestroy {
   cantItems = 0;
 
   fixedNumDecimal = 2;
+  isRefrescarPvpSegunUltimaCompra = false;
 
   proveedorFac: ProveedorFactura = new ProveedorFactura(0, '999999999', 'PROVEEDOR GENERICO', 'PROVEEDOR GENERICO','','0999999999');
 
@@ -137,14 +139,14 @@ export class PageComprasComponent implements OnInit, OnDestroy {
             cantidad: elemento.cantidad,
             descuento: elemento.descuento,
             iva: ((elemento.impuestos['impuesto']['codigoPorcentaje'] == '2') ||
-            (elemento.impuestos['impuesto']['codigoPorcentaje'] == '8')) ? "1" : "0"
+                (elemento.impuestos['impuesto']['codigoPorcentaje'] == '8')) ? "1" : "0"
           }
           
           data.push(productItemAdd);
 
         });
 
-        this.datasource.data = data;    
+        this.datasource.data = data;
         this.calculateTotalItems();
       }
 
@@ -206,6 +208,7 @@ export class PageComprasComponent implements OnInit, OnDestroy {
     })
     
     this.getConfigNumDecimalesIdEmp();
+    this.getConfigRefrescarPvpSegunCompra();
 
   }
 
@@ -221,7 +224,7 @@ export class PageComprasComponent implements OnInit, OnDestroy {
 
 
   private getConfigNumDecimalesIdEmp(){
-    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'COMPRA_NUMERODECIMALES', this.tokenValidate, this.nombreBd).subscribe({
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa, this.NAMES_CONFIG_COMPRA[0], this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
 
         if(data.data.length > 0){
@@ -238,7 +241,31 @@ export class PageComprasComponent implements OnInit, OnDestroy {
       }
     });
   }
-  
+  private getConfigRefrescarPvpSegunCompra(){
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa, this.NAMES_CONFIG_COMPRA[1], this.tokenValidate, this.nombreBd).subscribe({
+      next: (data: any) => {
+
+        if(data.data.length > 0){
+          const configReceive: ConfigReceive = data.data[0];
+
+          if(configReceive.con_valor == "0"){
+            this.isRefrescarPvpSegunUltimaCompra = false;
+          }else{
+            this.isRefrescarPvpSegunUltimaCompra = true;
+          }
+
+          console.log(this.isRefrescarPvpSegunUltimaCompra);
+        }
+
+      },
+      error: (error) => {
+        console.log('error get refrescar pvp ultima compra');
+        console.log(error);
+      }
+    });
+  }
+
+
   nuevoProveedorClick(){
 
     const dialogRef = this.matDialog.open(CrearProveedorDialogComponent, {
@@ -471,7 +498,8 @@ export class PageComprasComponent implements OnInit, OnDestroy {
       compraAutorizacionSri: this.sendDatosFormCompra.controls['numeroAutorizacionn'].value,
       compraDetalles: detallesCompra,
       compraNcId: 0,
-      nombreBd: this.nombreBd
+      nombreBd: this.nombreBd,
+      refrescarPvpSegunUltimaCompra: this.isRefrescarPvpSegunUltimaCompra
     }
 
     let overlayRef = this.loadingService.open();
