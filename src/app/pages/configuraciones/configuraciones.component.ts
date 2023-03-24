@@ -129,23 +129,23 @@ export class ConfiguracionesComponent implements OnInit {
           this.decimalesVentaSelect = "0.00";
         }
 
-        const ivaIncluidoVentasConfig = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[4]);
+        const ivaIncluidoVentasConfig = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[3]);
         if(ivaIncluidoVentasConfig){
           this.checkedIvaIncluidoVentas = (ivaIncluidoVentasConfig.con_valor == "1" ? true : false);
         }else{
           this.checkedIvaIncluidoVentas = false;
         }
-        const ingresarSinSecuenciaConfig = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[3]);
+        const ingresarSinSecuenciaConfig = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[2]);
         if(ingresarSinSecuenciaConfig){
           this.checkedVentasSinSecuencia = (ingresarSinSecuenciaConfig.con_valor == "1" ? true : false);
         }else{
           this.checkedVentasSinSecuencia = false
         }
-        const impresionDocumentosVentas = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[7]);
+        const impresionDocumentosVentas = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[4]);
         if(impresionDocumentosVentas){
           this.impresionDocumentosValue = impresionDocumentosVentas.con_valor;
         }
-        const autorizarVentaAlCrearConfig = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[10]);
+        const autorizarVentaAlCrearConfig = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[5]);
         if(autorizarVentaAlCrearConfig){
           this.checkedVentasEnviarAutorizar = (autorizarVentaAlCrearConfig.con_valor == "1" ? true : false);
         }else{
@@ -168,26 +168,26 @@ export class ConfiguracionesComponent implements OnInit {
 
 
         //PROFORMAS
-        const ingresarProformaSinSecuenciaConfig = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[8]);
+        const ingresarProformaSinSecuenciaConfig = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS_PROFORMAS[0]);
         if(ingresarProformaSinSecuenciaConfig){
           this.checkedProformasSinSecuencia = (ingresarProformaSinSecuenciaConfig.con_valor == "1" ? true : false);
         }else{
           this.checkedVentasSinSecuencia = false;
         }
 
-        const impresionDocumentosProformas = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[9]);
+        const impresionDocumentosProformas = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS_PROFORMAS[1]);
         if(impresionDocumentosProformas){
           this.impresionDocumentosProformaValue = impresionDocumentosProformas.con_valor;
         }
 
-        const cajaAllowCambiarFecha = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[5]);
+        const cajaAllowCambiarFecha = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS_CAJA[0]);
         if(cajaAllowCambiarFecha){
           this.checkedPermitirChangeFechaMovCaja = (cajaAllowCambiarFecha.con_valor == "1" ? true : false);
         }else{
           this.checkedPermitirChangeFechaMovCaja = false
         }
 
-        const cajaAllowCambiarUsuarioCuadre = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[6]);
+        const cajaAllowCambiarUsuarioCuadre = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS_CAJA[1]);
         if(cajaAllowCambiarUsuarioCuadre){
           this.checkedPermitirCambiarUsuarioCuadreCaja = (cajaAllowCambiarUsuarioCuadre.con_valor == "1" ? true : false);
         }else{
