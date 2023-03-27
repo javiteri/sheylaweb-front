@@ -1,9 +1,8 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MonedaCantidadItem } from '../models/MonedaCantidadModel';
-
 import {ListMonedaCantidad} from '../models/ListMonedaCantidadValues';
-import { ItemCuadreCajaMov, ItemCuadreCajaWithDetalle } from '../models/ItemCuadreCajaMov';
+import { ItemCuadreCajaWithDetalle } from '../models/ItemCuadreCajaMov';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
@@ -235,50 +234,50 @@ export class CuadrarCajaComponent implements OnInit {
           if(result){
             
             const actualDateHours = new Date();
-        const dateString = '' + actualDateHours.getFullYear() + '-' + ('0' + (actualDateHours.getMonth()+1)).slice(-2) + 
+            const dateString = '' + actualDateHours.getFullYear() + '-' + ('0' + (actualDateHours.getMonth()+1)).slice(-2) + 
                           '-' + ('0' + actualDateHours.getDate()).slice(-2) + ' ' + 
                           actualDateHours.getHours() + ':' + actualDateHours.getMinutes() + ':' + actualDateHours.getSeconds();
 
-        let valorConceptoPlus = 'Caja Cuadrada';
-        if(Number(this.totalResultadoValorArqueo) > 0){
-          valorConceptoPlus += ` Con Excedente de $ ${this.totalResultadoValorArqueo}`;
-        }
-        if(Number(this.totalResultadoValorArqueo) < 0){
-          valorConceptoPlus += ` Con Faltante de $ ${this.totalResultadoValorArqueo}`;
-        }
+            let valorConceptoPlus = 'Caja Cuadrada';
+            if(Number(this.totalResultadoValorArqueo) > 0){
+              valorConceptoPlus += ` Con Excedente de $ ${this.totalResultadoValorArqueo}`;
+            }
+            if(Number(this.totalResultadoValorArqueo) < 0){
+              valorConceptoPlus += ` Con Faltante de $ ${this.totalResultadoValorArqueo}`;
+            }
 
-        const valueSendBitacora = {
-          idEmp: this.idEmpresa,
-          fecha: dateString,
-          tipo: 'CUADRE CAJA',
-          concepto: valorConceptoPlus,
-          idUser: this.idUser,
-          grupo: 'CAJA CUADRADADA',
-          monto: this.totalResultadoValorArqueo,
-          nombreBd: this.nombreBd
-        }
+            const valueSendBitacora = {
+              idEmp: this.idEmpresa,
+              fecha: dateString,
+              tipo: 'CUADRE CAJA',
+              concepto: valorConceptoPlus,
+              idUser: this.idUser,
+              grupo: 'CAJA CUADRADADA',
+              monto: this.totalResultadoValorArqueo,
+              nombreBd: this.nombreBd
+            }
 
-        const dialogRef = this.loadingService.open();
-        this.coreService.insertCuadreCajaByIdEmp(valueSendBitacora,this.tokenValidate).subscribe({
-          next: (data: any) => {
-            dialogRef.close();
-            this.resetControls();
-            
-            this.toastr.success('Cuadre de Caja Realizado Correctamente', '', {
-              timeOut: 3000,
-              closeButton: true
+            const dialogRef = this.loadingService.open();
+            this.coreService.insertCuadreCajaByIdEmp(valueSendBitacora,this.tokenValidate).subscribe({
+              next: (data: any) => {
+                dialogRef.close();
+                this.resetControls();
+                
+                this.toastr.success('Cuadre de Caja Realizado Correctamente', '', {
+                  timeOut: 3000,
+                  closeButton: true
+                });
+
+              },
+              error: (exception) => {
+                dialogRef.close();
+                
+                this.toastr.success('Ocurrio un error reintente', '', {
+                  timeOut: 3000,
+                  closeButton: true
+                });
+              }
             });
-
-          },
-          error: (exception) => {
-            dialogRef.close();
-            
-            this.toastr.success('Ocurrio un error reintente', '', {
-              timeOut: 3000,
-              closeButton: true
-            });
-          }
-        });
 
     
           }

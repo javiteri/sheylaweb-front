@@ -275,8 +275,7 @@ export class ConfiguracionesComponent implements OnInit {
 
     this.coreService.insertListConfigsToBD(arrayConfig, this.tokenValidate).subscribe({
       next: (data: any) => {
-        console.log('inside todo ok');
-        console.log(data);
+        
       },
       error: (error) => {
         console.log('inside error');
@@ -359,9 +358,8 @@ export class ConfiguracionesComponent implements OnInit {
 
 
   onFileChange(file: any){
-    console.log(file);
+    
     if(file.length === 0){
-      console.log('el archivo es valido');
       return;
     }
 

@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { Producto } from 'src/app/interfaces/Productos';
@@ -8,6 +8,7 @@ import { ListCompraItemsService } from 'src/app/pages/page-compras/services/list
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
 import { BuscarProductoDialogComponent } from '../buscar-producto-dialog/buscar-producto-dialog.component';
+import { CantidadProductoDialogComponent } from '../cantidad-producto-dialog/cantidad-producto-dialog.component';
 
 
 export interface DialogData {
@@ -54,6 +55,7 @@ export class BuscarProductoCompraDialogComponent implements OnInit, OnDestroy {
     private loadingService: LoadingService,
     private ref: ChangeDetectorRef,
     private productService: ListCompraItemsService,
+    private matDialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public dialogData: DialogData
   ) { }
 
@@ -86,9 +88,7 @@ export class BuscarProductoCompraDialogComponent implements OnInit, OnDestroy {
     this.getConfigNumDecimalesIdEmp();
   }
 
-  ngOnDestroy(): void{
-
-  }
+  ngOnDestroy(): void{}
 
   searchProductosText(): void{
     clearTimeout(this.timeoutId);
@@ -165,7 +165,18 @@ export class BuscarProductoCompraDialogComponent implements OnInit, OnDestroy {
       this.matDialogRef.close(dataProducto);
       return;
     }
-    this.productService.setProduct(dataProducto);
+
+    const dialogRef = this.matDialog.open(CantidadProductoDialogComponent, {
+      closeOnNavigation: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        dataProducto['prodCantSelected'] = result.cantidad;
+        this.productService.setProduct(dataProducto);
+      }
+    });
+
     //this.matDialogRef.close(dataProducto);
   }
 

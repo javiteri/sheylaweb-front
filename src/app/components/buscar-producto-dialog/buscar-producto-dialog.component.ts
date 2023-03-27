@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { Producto } from 'src/app/interfaces/Productos';
@@ -7,6 +7,7 @@ import { ConfigReceive } from 'src/app/pages/configuraciones/models/ConfigReceiv
 import { ListVentaItemService } from 'src/app/pages/page-ventas/services/list-venta-items.service';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
+import { CantidadProductoDialogComponent } from '../cantidad-producto-dialog/cantidad-producto-dialog.component';
 
 @Component({
   selector: 'app-buscar-producto-dialog',
@@ -46,6 +47,7 @@ export class BuscarProductoDialogComponent implements OnInit, AfterViewInit {
     public matDialogRef: MatDialogRef<BuscarProductoDialogComponent>,
     private loadingService: LoadingService,
     private ref: ChangeDetectorRef,
+    private matDialog: MatDialog,
     private productVentaService: ListVentaItemService
     ) {}
 
@@ -154,7 +156,18 @@ export class BuscarProductoDialogComponent implements OnInit, AfterViewInit {
 
   clickSelectItem(dataProducto: any){
     //this.matDialogRef.close(dataProducto);
-    this.productVentaService.setProduct(dataProducto);
+    //this.productVentaService.setProduct(dataProducto);
+
+    const dialogRef = this.matDialog.open(CantidadProductoDialogComponent, {
+      closeOnNavigation: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        dataProducto['prodCantSelected'] = result.cantidad;
+        this.productVentaService.setProduct(dataProducto);
+      }
+    });
   }
 
   private getConfigNumDecimalesIdEmp(){

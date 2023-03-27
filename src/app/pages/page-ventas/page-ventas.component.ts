@@ -127,7 +127,7 @@ export class PageVentasComponent implements OnInit{
           codigo: producto.prod_codigo,
           nombre: producto.prod_nombre,
           precio: producto.prod_pvp,
-          cantidad: 1,
+          cantidad: producto.prodCantSelected,
           descuento: 0,
           iva: producto.prod_iva_si_no
         }

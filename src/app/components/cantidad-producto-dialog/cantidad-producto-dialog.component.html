@@ -1,0 +1,21 @@
+
+<div class="main-nuevo-ingreso">
+    <div class="dialog-header">
+       Cantidad Producto
+    </div>
+    <form [formGroup]="sendDatosFormCantidadProducto" >
+        <div class="container-form-fields">
+
+            <mat-form-field >
+                <mat-label>Cantidad</mat-label>
+                <input matInput #myInput type="number" formControlName="cantidad" (click)="myInput.select()" (focus)="myInput.select()">
+                <!--<span matPrefix>$&nbsp;</span>-->
+            </mat-form-field>
+
+            <button mat-button mat-raised-button color="btn-icon-accent" (click)="setMontoProducto(sendDatosFormCantidadProducto.value);">
+                    Aceptar
+            </button>
+                    
+        </div>
+    </form>
+</div>

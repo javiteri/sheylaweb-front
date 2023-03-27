@@ -29,8 +29,7 @@ export class NuevoIngresoCajaDialogComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private coreService: ApplicationProvider,
     private loadingService: LoadingService,
-    public matDialogRef: MatDialogRef<NuevoIngresoCajaDialogComponent>,
-    private toastr: ToastrService) { 
+    public matDialogRef: MatDialogRef<NuevoIngresoCajaDialogComponent>) { 
 
       this.sendDatosFormIngreso = this.formBuilder.group({
         fecha: ['', [Validators.required]],

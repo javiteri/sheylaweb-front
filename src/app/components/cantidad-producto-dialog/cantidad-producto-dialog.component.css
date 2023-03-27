@@ -27,7 +27,3 @@
 .mat-icon-accent{
     color: var(--accent-color);
 }
-
-textarea{
-    resize: none;
-}

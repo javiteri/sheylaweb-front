@@ -163,7 +163,7 @@ export class PageComprasComponent implements OnInit, OnDestroy {
           nombre: producto.prod_nombre,
           costo: producto.prod_costo,
           precio: producto.prod_pvp,
-          cantidad: 1,
+          cantidad: producto.prodCantSelected,
           descuento: 0,
           iva: producto.prod_iva_si_no
         }
@@ -254,7 +254,6 @@ export class PageComprasComponent implements OnInit, OnDestroy {
             this.isRefrescarPvpSegunUltimaCompra = true;
           }
 
-          console.log(this.isRefrescarPvpSegunUltimaCompra);
         }
 
       },
