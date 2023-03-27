@@ -206,6 +206,9 @@ export class BuscarProductoCompraDialogComponent implements OnInit, OnDestroy {
     if(this.textSearchProductos != ""){
       this.textSearchProductos = "";
       this.searchProductosText();
+
+      this.boxSearchInput.nativeElement.focus();
+      this.ref.detectChanges();
     }
   }
 }

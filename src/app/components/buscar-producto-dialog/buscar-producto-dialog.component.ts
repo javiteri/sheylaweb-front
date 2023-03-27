@@ -195,6 +195,9 @@ export class BuscarProductoDialogComponent implements OnInit, AfterViewInit {
     if(this.textSearchProductos != ""){
       this.textSearchProductos = "";
       this.searchProductosText();
+
+      this.boxSearchInput.nativeElement.focus();
+      this.ref.detectChanges();
     }
   }
 }
