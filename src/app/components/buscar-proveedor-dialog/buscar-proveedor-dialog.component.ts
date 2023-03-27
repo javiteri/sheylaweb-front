@@ -129,6 +129,9 @@ export class BuscarProveedorDialogComponent implements OnInit {
     if(this.textSearchProveedores != ""){
       this.textSearchProveedores = "";
       this.searchProveedoresText();
+
+      this.boxSearchInput.nativeElement.focus();
+      this.ref.detectChanges();
     }
   }
 }

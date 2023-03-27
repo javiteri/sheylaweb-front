@@ -135,6 +135,9 @@ export class BuscarClienteDialogComponent implements OnInit {
     if(this.textSearchClientes != ""){
       this.textSearchClientes = "";
       this.searchClientesText();
+
+      this.boxSearchInput.nativeElement.focus();
+      this.ref.detectChanges();
     }
   }
 }

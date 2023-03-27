@@ -27,7 +27,6 @@ export class SriBuscarDocumentoXmlComponent implements OnInit{
     const regexOnlyNumber = new RegExp(/^\d{49}$/);
     if(!regexOnlyNumber.test(this.claveAcceso)){
 
-      console.log('clave de acceso incorrecta');
       this.toastr.error('Clave Incorrecta', '', {
         timeOut: 3000,
         closeButton: true
