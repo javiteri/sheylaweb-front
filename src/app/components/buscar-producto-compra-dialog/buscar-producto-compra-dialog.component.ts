@@ -44,11 +44,12 @@ export class BuscarProductoCompraDialogComponent implements OnInit, OnDestroy {
 
   showPagination = false;
   showSinDatos = false;
-
   fixedNumDecimal = 2;
   
   selectInOneClick = false;
   timeoutId?: number = undefined;
+
+  isShowDialog: boolean = false;
 
   constructor(private coreService: ApplicationProvider,
     public matDialogRef: MatDialogRef<BuscarProductoDialogComponent>,
@@ -128,6 +129,12 @@ export class BuscarProductoCompraDialogComponent implements OnInit, OnDestroy {
         this.datasource.data = arrayWithDecimal;
         this.ref.detectChanges();
 
+        if(this.listaProductos.length == 1 && this.textSearchProductos.length > 0){
+          setTimeout(() => {
+            this.clickSelectItem(this.listaProductos[0]);
+          }, 300);
+        }
+
       },
       error: (error: any) => {
         dialogRef.close();
@@ -161,23 +168,31 @@ export class BuscarProductoCompraDialogComponent implements OnInit, OnDestroy {
   }
 
   clickSelectItem(dataProducto: any){
+
     if(this.selectInOneClick == true){
       this.matDialogRef.close(dataProducto);
       return;
     }
 
+    //Ya se esta mostrando el dialogo
+    if(this.isShowDialog){
+      return;
+    }
+
+    this.isShowDialog = true;
     const dialogRef = this.matDialog.open(CantidadProductoDialogComponent, {
       closeOnNavigation: true
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      this.isShowDialog = false;
+      this.boxSearchInput.nativeElement.select();
       if(result){
         dataProducto['prodCantSelected'] = result.cantidad;
         this.productService.setProduct(dataProducto);
       }
     });
 
-    //this.matDialogRef.close(dataProducto);
   }
 
 

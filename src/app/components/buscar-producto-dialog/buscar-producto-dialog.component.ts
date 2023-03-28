@@ -38,11 +38,11 @@ export class BuscarProductoDialogComponent implements OnInit, AfterViewInit {
 
   showPagination = false;
   showSinDatos = false;
-
   fixedNumDecimal = 2;
-
   timeoutId?: number = undefined;
   
+  isShowDialog: boolean = false;
+
   constructor(private coreService: ApplicationProvider,
     public matDialogRef: MatDialogRef<BuscarProductoDialogComponent>,
     private loadingService: LoadingService,
@@ -61,8 +61,6 @@ export class BuscarProductoDialogComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    //this.matDialogRef.disableClose = true;
-
     // GET INITIAL DATA 
     const localServiceResponseToken =  
           JSON.parse(sessionStorage.getItem('_valtok') ? sessionStorage.getItem('_valtok')! : '');
@@ -77,16 +75,14 @@ export class BuscarProductoDialogComponent implements OnInit, AfterViewInit {
     this.rucEmpresa = localServiceResponseUsr._ruc;
     this.nombreBd = localServiceResponseUsr._nombreBd;
 
-    //this.getListaProductosRefresh();
     this.getConfigNumDecimalesIdEmp();
   }
 
   searchProductosText(): void{
-
     clearTimeout(this.timeoutId);
     this.timeoutId = window.setTimeout(() => {
       this.callSearchApi();
-    }, 400);
+    }, 500);
 
   }
 
@@ -117,11 +113,10 @@ export class BuscarProductoDialogComponent implements OnInit, AfterViewInit {
         this.datasource.data = this.listaProductos;
         this.ref.detectChanges();
 
-        if(this.listaProductos.length == 1){
-          //this.tableproduct.nativeElement.focus();
-          /*console.log(this.tableproduct);
-          console.log(this.tableproduct.nativeElement);*/
-          //console.log(this.tablaProducto!!.);
+        if(this.listaProductos.length == 1 && this.textSearchProductos.length > 0){
+          setTimeout(() => {
+            this.clickSelectItem(this.listaProductos[0]);
+          }, 300);
         }
       },
       error: (error: any) => {
@@ -143,26 +138,31 @@ export class BuscarProductoDialogComponent implements OnInit, AfterViewInit {
           return producto;
         });
 
-        //this.listaProductos = data.data;
         this.listaProductos = arrayWithDecimal;
         this.datasource.data = this.listaProductos;
-        
       },
-      error: (error) => {
-      }
+      error: (error) => {}
     });
 
   }
 
   clickSelectItem(dataProducto: any){
-    //this.matDialogRef.close(dataProducto);
-    //this.productVentaService.setProduct(dataProducto);
+
+    //Ya se esta mostrando el dialogo
+    if(this.isShowDialog){
+      return;
+    }
+
+    this.isShowDialog = true;
 
     const dialogRef = this.matDialog.open(CantidadProductoDialogComponent, {
       closeOnNavigation: true
     });
 
     dialogRef.afterClosed().subscribe(result => {
+
+      this.isShowDialog = false;
+      this.boxSearchInput.nativeElement.select();
       if(result){
         dataProducto['prodCantSelected'] = result.cantidad;
         this.productVentaService.setProduct(dataProducto);
@@ -180,7 +180,6 @@ export class BuscarProductoDialogComponent implements OnInit, AfterViewInit {
           const splitValue = configReceive.con_valor.split('.');
           this.fixedNumDecimal = splitValue[1].length
         }
-
 
         this.getListaProductosRefresh();
       },
