@@ -11,12 +11,12 @@
   <mat-card-content>
       <div class="content-configs">
           <div>
-              <p class="margin-bottom-cero">Valor Iva:</p>
+              <p class="margin-bottom-cero">Valor Iva</p>
               <input matInput [(ngModel)]="ivaSelect" type="text"
               (blur)="changeValorIva();">
           </div>
           <div>
-              <p class="margin-bottom-cero">Decimales en Venta:</p>
+              <p class="margin-bottom-cero">Decimales en Venta</p>
               <mat-form-field appearance="fill" style="margin-bottom: -1.25em">
                   <mat-label>Decimales</mat-label>
                   <mat-select [(value)]="decimalesVentaSelect" (selectionChange)="changeToogle(NAMES_CONFIGS[1], decimalesVentaSelect)">
@@ -27,13 +27,13 @@
                 </mat-form-field>
           </div>
           <div>
-            <p class="margin-bottom-cero">Iva Incluido en Ventas:</p>
+            <p class="margin-bottom-cero">Iva Incluido en Ventas</p>
             <mat-slide-toggle [(ngModel)]="checkedIvaIncluidoVentas"
             (change)="changeToogle(NAMES_CONFIGS[3], checkedIvaIncluidoVentas)"></mat-slide-toggle>
           </div>
 
           <div>
-            <p class="margin-bottom-cero">Permitir Ingresar Ventas Sin Secuencia Correcta:</p>
+            <p class="margin-bottom-cero">Permitir Ingresar Ventas Sin Secuencia Correcta</p>
             <mat-slide-toggle [(ngModel)]="checkedVentasSinSecuencia"
             (change)="changeToogle(NAMES_CONFIGS[2], checkedVentasSinSecuencia)"></mat-slide-toggle>
           </div>
@@ -46,11 +46,15 @@
             </mat-radio-group>  
           </div>
           <div>
-            <p class="margin-bottom-cero">Autorizar Ventas al Crear:</p>
+            <p class="margin-bottom-cero">Autorizar Ventas al Crear</p>
             <mat-slide-toggle [(ngModel)]="checkedVentasEnviarAutorizar"
             (change)="changeToogle(NAMES_CONFIGS[5], checkedVentasEnviarAutorizar)"></mat-slide-toggle>
           </div>
-
+          <div>
+            <p class="margin-bottom-cero">Preguntar Cantidad al Seleccionar Producto</p>
+            <mat-slide-toggle [(ngModel)]="checkedVentasPreguntarCantidadSelecProd"
+            (change)="changeToogle(NAMES_CONFIGS[6], checkedVentasPreguntarCantidadSelecProd)"></mat-slide-toggle>
+          </div>
       </div>
 
   </mat-card-content>

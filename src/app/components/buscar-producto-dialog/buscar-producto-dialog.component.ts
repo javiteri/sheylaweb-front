@@ -1,6 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { Producto } from 'src/app/interfaces/Productos';
 import { ConfigReceive } from 'src/app/pages/configuraciones/models/ConfigReceive';
@@ -42,13 +43,15 @@ export class BuscarProductoDialogComponent implements OnInit, AfterViewInit {
   timeoutId?: number = undefined;
   
   isShowDialog: boolean = false;
+  isEstablecerCantidadInSelectProduct: boolean = true;
 
   constructor(private coreService: ApplicationProvider,
     public matDialogRef: MatDialogRef<BuscarProductoDialogComponent>,
     private loadingService: LoadingService,
     private ref: ChangeDetectorRef,
     private matDialog: MatDialog,
-    private productVentaService: ListVentaItemService
+    private productVentaService: ListVentaItemService,
+    private toastr: ToastrService
     ) {}
 
 
@@ -75,6 +78,7 @@ export class BuscarProductoDialogComponent implements OnInit, AfterViewInit {
     this.rucEmpresa = localServiceResponseUsr._ruc;
     this.nombreBd = localServiceResponseUsr._nombreBd;
 
+    this.getConfigEstablecerCantidadSelectProd();
     this.getConfigNumDecimalesIdEmp();
   }
 
@@ -153,8 +157,20 @@ export class BuscarProductoDialogComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.isShowDialog = true;
+    if(!this.isEstablecerCantidadInSelectProduct){
+        dataProducto['prodCantSelected'] = 1;
+        this.productVentaService.setProduct(dataProducto);
+        this.boxSearchInput.nativeElement.select();
+        
+        this.toastr.success('Producto Agregado', '', {
+          timeOut: 2000,
+          closeButton: true
+        });
 
+        return;
+    }
+
+    this.isShowDialog = true;    
     const dialogRef = this.matDialog.open(CantidadProductoDialogComponent, {
       closeOnNavigation: true
     });
@@ -166,6 +182,11 @@ export class BuscarProductoDialogComponent implements OnInit, AfterViewInit {
       if(result){
         dataProducto['prodCantSelected'] = result.cantidad;
         this.productVentaService.setProduct(dataProducto);
+
+        this.toastr.success('Producto Agregado', '', {
+          timeOut: 2000,
+          closeButton: true
+        });
       }
     });
   }
@@ -182,6 +203,22 @@ export class BuscarProductoDialogComponent implements OnInit, AfterViewInit {
         }
 
         this.getListaProductosRefresh();
+      },
+      error: (error) => {
+        console.log('error get num decimales');
+        console.log(error);
+      }
+    });
+  }
+
+  private getConfigEstablecerCantidadSelectProd(){
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_PREGUNTAR_CANTIDAD_PRODUCTO_SELECT', this.tokenValidate, this.nombreBd).subscribe({
+      next: (data: any) => {
+
+        if(data.data.length > 0){
+          this.isEstablecerCantidadInSelectProduct = (data.data[0].con_valor == "0") ? false : true;
+        }
+
       },
       error: (error) => {
         console.log('error get num decimales');

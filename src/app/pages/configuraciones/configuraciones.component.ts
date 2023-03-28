@@ -21,7 +21,8 @@ export class ConfiguracionesComponent implements OnInit {
   "VENTAS_PERMITIR_INGRESAR_SIN_SECUENCIA",
   "VENTAS_IVA_INCLUIDO_FACTURA",
   "VENTAS_IMPRESION_DOCUMENTOS",
-  "VENTAS_ENVIAR_FACTURA_AUTORIZAR"
+  "VENTAS_ENVIAR_FACTURA_AUTORIZAR",
+  "VENTAS_PREGUNTAR_CANTIDAD_PRODUCTO_SELECT"
   ]
 
   NAMES_CONFIGS_PROFORMAS = [
@@ -62,6 +63,7 @@ export class ConfiguracionesComponent implements OnInit {
   checkedIvaIncluidoVentas = false;
   checkedVentasSinSecuencia = false;
   checkedVentasEnviarAutorizar = false;
+  checkedVentasPreguntarCantidadSelecProd = true;
 
   checkedProformasSinSecuencia = false;
   impresionDocumentosProformaValue = '1';
@@ -150,6 +152,12 @@ export class ConfiguracionesComponent implements OnInit {
           this.checkedVentasEnviarAutorizar = (autorizarVentaAlCrearConfig.con_valor == "1" ? true : false);
         }else{
           this.checkedVentasEnviarAutorizar = false;
+        }
+        const preguntarCantSelectProductoVentaConfig = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[6]);
+        if(preguntarCantSelectProductoVentaConfig){
+          this.checkedVentasPreguntarCantidadSelecProd = (preguntarCantSelectProductoVentaConfig.con_valor == "1" ? true : false);
+        }else{
+          this.checkedVentasPreguntarCantidadSelecProd = true;
         }
 
         //COMPRA
@@ -354,7 +362,6 @@ export class ConfiguracionesComponent implements OnInit {
     })
 
   }
-
 
 
   onFileChange(file: any){

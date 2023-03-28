@@ -87,7 +87,6 @@ export class PageVentasComponent implements OnInit{
     private toastr: ToastrService,
     private coreService: ApplicationProvider,
     private loadingService: LoadingService,
-    private location: Location,
     private route: ActivatedRoute,
     private router: Router,
     public ref: ChangeDetectorRef,
