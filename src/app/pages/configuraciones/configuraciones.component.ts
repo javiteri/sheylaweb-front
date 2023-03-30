@@ -211,11 +211,13 @@ export class ConfiguracionesComponent implements OnInit {
   private getListDatosConfigNameFirmaElectronicaAndClave(){
     this.coreService.getListConfigsFirmaElectronicaByIdEmp(this.rucEmpresa, this.tokenValidate).subscribe({
       next: (datos: any) =>{
+
+        console.log(datos.data);
         if(datos.data.EMPRESA_RUTA_FIRMA && datos.data.EMPRESA_RUTA_FIRMA.length > 5){
           this.isUploadFirmaElectronica = true;
           this.textUploadFirmaElectronica = datos.data.EMPRESA_RUTA_FIRMA;//`(Registrada)`;
         }
-        if(datos.data.EMPRESA_CLAVE_FIRMA && datos.data.EMPRESA_CLAVE_FIRMA.length > 5){
+        if(datos.data.EMPRESA_CLAVE_FIRMA && datos.data.EMPRESA_CLAVE_FIRMA.length >= 5){
           this.claveFirmaElectronica = datos.data.EMPRESA_CLAVE_FIRMA;
         }
       },
