@@ -6,7 +6,6 @@ import { Router } from "@angular/router";
 @Injectable()
 export class EndPointProvider {
 
-
     constructor(private http: HttpClient,
                 private router: Router){}
 

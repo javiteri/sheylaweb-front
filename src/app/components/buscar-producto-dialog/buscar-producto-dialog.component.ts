@@ -1,12 +1,14 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { Producto } from 'src/app/interfaces/Productos';
 import { ConfigReceive } from 'src/app/pages/configuraciones/models/ConfigReceive';
 import { ListVentaItemService } from 'src/app/pages/page-ventas/services/list-venta-items.service';
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
+import { CantidadProductoDialogComponent } from '../cantidad-producto-dialog/cantidad-producto-dialog.component';
 
 @Component({
   selector: 'app-buscar-producto-dialog',
@@ -37,16 +39,19 @@ export class BuscarProductoDialogComponent implements OnInit, AfterViewInit {
 
   showPagination = false;
   showSinDatos = false;
-
   fixedNumDecimal = 2;
-
   timeoutId?: number = undefined;
   
+  isShowDialog: boolean = false;
+  isEstablecerCantidadInSelectProduct: boolean = true;
+
   constructor(private coreService: ApplicationProvider,
     public matDialogRef: MatDialogRef<BuscarProductoDialogComponent>,
     private loadingService: LoadingService,
     private ref: ChangeDetectorRef,
-    private productVentaService: ListVentaItemService
+    private matDialog: MatDialog,
+    private productVentaService: ListVentaItemService,
+    private toastr: ToastrService
     ) {}
 
 
@@ -58,8 +63,6 @@ export class BuscarProductoDialogComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-
-    //this.matDialogRef.disableClose = true;
 
     // GET INITIAL DATA 
     const localServiceResponseToken =  
@@ -75,12 +78,11 @@ export class BuscarProductoDialogComponent implements OnInit, AfterViewInit {
     this.rucEmpresa = localServiceResponseUsr._ruc;
     this.nombreBd = localServiceResponseUsr._nombreBd;
 
-    //this.getListaProductosRefresh();
+    this.getConfigEstablecerCantidadSelectProd();
     this.getConfigNumDecimalesIdEmp();
   }
 
   searchProductosText(): void{
-
     clearTimeout(this.timeoutId);
     this.timeoutId = window.setTimeout(() => {
       this.callSearchApi();
@@ -115,11 +117,10 @@ export class BuscarProductoDialogComponent implements OnInit, AfterViewInit {
         this.datasource.data = this.listaProductos;
         this.ref.detectChanges();
 
-        if(this.listaProductos.length == 1){
-          //this.tableproduct.nativeElement.focus();
-          /*console.log(this.tableproduct);
-          console.log(this.tableproduct.nativeElement);*/
-          //console.log(this.tablaProducto!!.);
+        if(this.listaProductos.length == 1 && this.textSearchProductos.length > 0){
+          setTimeout(() => {
+            this.clickSelectItem(this.listaProductos[0]);
+          }, 300);
         }
       },
       error: (error: any) => {
@@ -141,20 +142,53 @@ export class BuscarProductoDialogComponent implements OnInit, AfterViewInit {
           return producto;
         });
 
-        //this.listaProductos = data.data;
         this.listaProductos = arrayWithDecimal;
         this.datasource.data = this.listaProductos;
-        
       },
-      error: (error) => {
-      }
+      error: (error) => {}
     });
 
   }
 
   clickSelectItem(dataProducto: any){
-    //this.matDialogRef.close(dataProducto);
-    this.productVentaService.setProduct(dataProducto);
+
+    //Ya se esta mostrando el dialogo
+    if(this.isShowDialog){
+      return;
+    }
+
+    if(!this.isEstablecerCantidadInSelectProduct){
+        dataProducto['prodCantSelected'] = 1;
+        this.productVentaService.setProduct(dataProducto);
+        this.boxSearchInput.nativeElement.select();
+        
+        this.toastr.success('Producto Agregado', '', {
+          timeOut: 2000,
+          closeButton: true
+        });
+
+        return;
+    }
+
+    this.isShowDialog = true;    
+    const dialogRef = this.matDialog.open(CantidadProductoDialogComponent, {
+      closeOnNavigation: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      this.isShowDialog = false;
+      this.boxSearchInput.nativeElement.select();
+      if(result){
+        dataProducto['prodCantSelected'] = result.cantidad;
+        this.productVentaService.setProduct(dataProducto);
+
+        this.toastr.success('Producto Agregado', '', {
+          timeOut: 2000,
+          closeButton: true
+        });
+      }
+    });
   }
 
   private getConfigNumDecimalesIdEmp(){
@@ -168,7 +202,6 @@ export class BuscarProductoDialogComponent implements OnInit, AfterViewInit {
           this.fixedNumDecimal = splitValue[1].length
         }
 
-
         this.getListaProductosRefresh();
       },
       error: (error) => {
@@ -176,5 +209,31 @@ export class BuscarProductoDialogComponent implements OnInit, AfterViewInit {
         console.log(error);
       }
     });
+  }
+
+  private getConfigEstablecerCantidadSelectProd(){
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_PREGUNTAR_CANTIDAD_PRODUCTO_SELECT', this.tokenValidate, this.nombreBd).subscribe({
+      next: (data: any) => {
+
+        if(data.data.length > 0){
+          this.isEstablecerCantidadInSelectProduct = (data.data[0].con_valor == "0") ? false : true;
+        }
+
+      },
+      error: (error) => {
+        console.log('error get num decimales');
+        console.log(error);
+      }
+    });
+  }
+
+  clearText(){
+    if(this.textSearchProductos != ""){
+      this.textSearchProductos = "";
+      this.searchProductosText();
+
+      this.boxSearchInput.nativeElement.focus();
+      this.ref.detectChanges();
+    }
   }
 }

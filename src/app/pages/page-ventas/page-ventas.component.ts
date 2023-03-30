@@ -87,7 +87,6 @@ export class PageVentasComponent implements OnInit{
     private toastr: ToastrService,
     private coreService: ApplicationProvider,
     private loadingService: LoadingService,
-    private location: Location,
     private route: ActivatedRoute,
     private router: Router,
     public ref: ChangeDetectorRef,
@@ -127,7 +126,7 @@ export class PageVentasComponent implements OnInit{
           codigo: producto.prod_codigo,
           nombre: producto.prod_nombre,
           precio: producto.prod_pvp,
-          cantidad: 1,
+          cantidad: producto.prodCantSelected,
           descuento: 0,
           iva: producto.prod_iva_si_no
         }
@@ -501,7 +500,7 @@ export class PageVentasComponent implements OnInit{
 
   agregarProductoClick(){
 
-    const dialogRef = this.matDialog.open(BuscarProductoDialogComponent, {
+    this.matDialog.open(BuscarProductoDialogComponent, {
       width: '100%',
       closeOnNavigation: true,
       viewContainerRef: this.viewContainerRef
@@ -804,7 +803,7 @@ export class PageVentasComponent implements OnInit{
           console.log('Error, ya supero el número de documentos permitidos.');
         }
       }
-});
+    });
 
   }
 

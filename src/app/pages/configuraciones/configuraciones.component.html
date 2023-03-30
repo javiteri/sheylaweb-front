@@ -11,12 +11,12 @@
   <mat-card-content>
       <div class="content-configs">
           <div>
-              <p class="margin-bottom-cero">Valor Iva:</p>
+              <p class="margin-bottom-cero">Valor Iva</p>
               <input matInput [(ngModel)]="ivaSelect" type="text"
               (blur)="changeValorIva();">
           </div>
           <div>
-              <p class="margin-bottom-cero">Decimales en Venta:</p>
+              <p class="margin-bottom-cero">Decimales en Venta</p>
               <mat-form-field appearance="fill" style="margin-bottom: -1.25em">
                   <mat-label>Decimales</mat-label>
                   <mat-select [(value)]="decimalesVentaSelect" (selectionChange)="changeToogle(NAMES_CONFIGS[1], decimalesVentaSelect)">
@@ -27,31 +27,34 @@
                 </mat-form-field>
           </div>
           <div>
-            <p class="margin-bottom-cero">Iva Incluido en Ventas:</p>
+            <p class="margin-bottom-cero">Iva Incluido en Ventas</p>
             <mat-slide-toggle [(ngModel)]="checkedIvaIncluidoVentas"
-            (change)="changeToogle(NAMES_CONFIGS[4], checkedIvaIncluidoVentas)"></mat-slide-toggle>
+            (change)="changeToogle(NAMES_CONFIGS[3], checkedIvaIncluidoVentas)"></mat-slide-toggle>
           </div>
 
           <div>
-            <p class="margin-bottom-cero">Permitir Ingresar Ventas Sin Secuencia Correcta:</p>
+            <p class="margin-bottom-cero">Permitir Ingresar Ventas Sin Secuencia Correcta</p>
             <mat-slide-toggle [(ngModel)]="checkedVentasSinSecuencia"
-            (change)="changeToogle(NAMES_CONFIGS[3], checkedVentasSinSecuencia)"></mat-slide-toggle>
-          </div>  
+            (change)="changeToogle(NAMES_CONFIGS[2], checkedVentasSinSecuencia)"></mat-slide-toggle>
+          </div>
 
           <div>
             <p class="margin-bottom-cero">Impresion De Documentos</p>
             <mat-radio-group aria-label="Select an option" [(ngModel)]="impresionDocumentosValue" >
-              <mat-radio-button value="1" (change)="changeToogle(NAMES_CONFIGS[7], '1')">Mostrar PDF</mat-radio-button>
-              <mat-radio-button value="2" style="margin-left: 10px;" (change)="changeToogle(NAMES_CONFIGS[7], '2')">Impresion Rollo</mat-radio-button>
-            </mat-radio-group>
-            
+              <mat-radio-button value="1" (change)="changeToogle(NAMES_CONFIGS[4], '1')">Mostrar PDF</mat-radio-button>
+              <mat-radio-button value="2" style="margin-left: 10px;" (change)="changeToogle(NAMES_CONFIGS[4], '2')">Impresion Rollo</mat-radio-button>
+            </mat-radio-group>  
           </div>
           <div>
-            <p class="margin-bottom-cero">Autorizar Ventas al Crear:</p>
+            <p class="margin-bottom-cero">Autorizar Ventas al Crear</p>
             <mat-slide-toggle [(ngModel)]="checkedVentasEnviarAutorizar"
-            (change)="changeToogle(NAMES_CONFIGS[10], checkedVentasEnviarAutorizar)"></mat-slide-toggle>
+            (change)="changeToogle(NAMES_CONFIGS[5], checkedVentasEnviarAutorizar)"></mat-slide-toggle>
           </div>
-
+          <div>
+            <p class="margin-bottom-cero">Preguntar Cantidad al Seleccionar Producto</p>
+            <mat-slide-toggle [(ngModel)]="checkedVentasPreguntarCantidadSelecProd"
+            (change)="changeToogle(NAMES_CONFIGS[6], checkedVentasPreguntarCantidadSelecProd)"></mat-slide-toggle>
+          </div>
       </div>
 
   </mat-card-content>
@@ -68,14 +71,14 @@
           <div>
             <p class="margin-bottom-cero">PERMITIR INGRESAR PROFORMAS SIN SECUENCIA CORRECTA</p>
             <mat-slide-toggle [(ngModel)]="checkedProformasSinSecuencia"
-            (change)="changeToogle(NAMES_CONFIGS[8], checkedProformasSinSecuencia)"></mat-slide-toggle>
+            (change)="changeToogle(NAMES_CONFIGS_PROFORMAS[0], checkedProformasSinSecuencia)"></mat-slide-toggle>
           </div>  
 
           <div>
             <p class="margin-bottom-cero">IMPRESION DE DOCUMENTOS</p>
             <mat-radio-group aria-label="Select an option" [(ngModel)]="impresionDocumentosProformaValue">
-              <mat-radio-button value="1" (change)="changeToogle(NAMES_CONFIGS[9], '1')">Mostrar PDF</mat-radio-button>
-              <mat-radio-button value="2" style="margin-left: 10px;" (change)="changeToogle(NAMES_CONFIGS[9], '2')">Impresion Rollo</mat-radio-button>
+              <mat-radio-button value="1" (change)="changeToogle(NAMES_CONFIGS_PROFORMAS[1], '1')">Mostrar PDF</mat-radio-button>
+              <mat-radio-button value="2" style="margin-left: 10px;" (change)="changeToogle(NAMES_CONFIGS_PROFORMAS[1], '2')">Impresion Rollo</mat-radio-button>
             </mat-radio-group>
             
           </div>
@@ -97,14 +100,20 @@
               <p class="margin-bottom-cero">Decimales en Compra:</p>
               <mat-form-field appearance="fill" style="margin-bottom: -1.25em">
                   <mat-label>Decimales</mat-label>
-                  <mat-select [(value)]="decimalesCompraSelect" (selectionChange)="changeToogle(NAMES_CONFIGS[2], decimalesCompraSelect)">
+                  <mat-select [(value)]="decimalesCompraSelect" (selectionChange)="changeToogle(NAMES_CONFIGS_COMPRAS[0], decimalesCompraSelect)">
                     <mat-option *ngFor="let decimales of listDecimalesVenta" [value]="decimales">
                       {{decimales}}
                     </mat-option>
                   </mat-select>
-                </mat-form-field>
+              </mat-form-field>
           </div>
-        
+          
+          <div>
+            <p class="margin-bottom-cero">ACTUALIZAR PVP NORMAL de acuerdo al COSTO DE ULTIMA COMPRA</p>
+            <mat-slide-toggle [(ngModel)]="checkedRefrescarPvpSegunUltimaCompra"
+            (change)="changeToogle(NAMES_CONFIGS_COMPRAS[1], checkedRefrescarPvpSegunUltimaCompra)"></mat-slide-toggle>
+          </div>  
+
       </div>
 
   </mat-card-content>
@@ -122,12 +131,12 @@
           <div>
             <p class="margin-bottom-cero">PERMITIR CAMBIAR FECHA EN MOV. CAJA</p>
             <mat-slide-toggle [(ngModel)]="checkedPermitirChangeFechaMovCaja"
-            (change)="changeToogle(NAMES_CONFIGS[5], checkedPermitirChangeFechaMovCaja)"></mat-slide-toggle>
+            (change)="changeToogle(NAMES_CONFIGS_CAJA[0], checkedPermitirChangeFechaMovCaja)"></mat-slide-toggle>
           </div>
           <div>
             <p class="margin-bottom-cero">PERMITIR CAMBIAR USUARIO CUADRE DE CAJA</p>
             <mat-slide-toggle [(ngModel)]="checkedPermitirCambiarUsuarioCuadreCaja"
-            (change)="changeToogle(NAMES_CONFIGS[6], checkedPermitirCambiarUsuarioCuadreCaja)"></mat-slide-toggle>
+            (change)="changeToogle(NAMES_CONFIGS_CAJA[1], checkedPermitirCambiarUsuarioCuadreCaja)"></mat-slide-toggle>
           </div>
 
       </div>

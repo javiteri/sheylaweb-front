@@ -125,4 +125,13 @@ export class BuscarProveedorDialogComponent implements OnInit {
     });
   }
 
+  clearText(){
+    if(this.textSearchProveedores != ""){
+      this.textSearchProveedores = "";
+      this.searchProveedoresText();
+
+      this.boxSearchInput.nativeElement.focus();
+      this.ref.detectChanges();
+    }
+  }
 }

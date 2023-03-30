@@ -19,6 +19,7 @@ import { LayoutComponent } from './layout.component';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { BuscarClienteDialogComponent } from 'src/app/components/buscar-cliente-dialog/buscar-cliente-dialog.component';
 import { BuscarProductoDialogComponent } from 'src/app/components/buscar-producto-dialog/buscar-producto-dialog.component';
+import { CantidadProductoDialogComponent } from 'src/app/components/cantidad-producto-dialog/cantidad-producto-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CrearClienteDialogComponent } from 'src/app/components/crear-cliente-dialog/crear-cliente-dialog.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -46,6 +47,7 @@ import { FormPlanesComponent } from 'src/app/components/form-planes/form-planes.
     LayoutComponent,
     BuscarClienteDialogComponent,
     BuscarProductoDialogComponent,
+    CantidadProductoDialogComponent,
     CrearClienteDialogComponent,
     CrearNuevaEmpresaDialogComponent,
     CrearProveedorDialogComponent,

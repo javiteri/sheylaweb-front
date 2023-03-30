@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { Producto } from 'src/app/interfaces/Productos';
@@ -8,6 +8,7 @@ import { ListCompraItemsService } from 'src/app/pages/page-compras/services/list
 import { ApplicationProvider } from 'src/app/providers/provider';
 import { LoadingService } from 'src/app/services/Loading.service';
 import { BuscarProductoDialogComponent } from '../buscar-producto-dialog/buscar-producto-dialog.component';
+import { CantidadProductoDialogComponent } from '../cantidad-producto-dialog/cantidad-producto-dialog.component';
 
 
 export interface DialogData {
@@ -43,17 +44,19 @@ export class BuscarProductoCompraDialogComponent implements OnInit, OnDestroy {
 
   showPagination = false;
   showSinDatos = false;
-
   fixedNumDecimal = 2;
   
   selectInOneClick = false;
   timeoutId?: number = undefined;
+
+  isShowDialog: boolean = false;
 
   constructor(private coreService: ApplicationProvider,
     public matDialogRef: MatDialogRef<BuscarProductoDialogComponent>,
     private loadingService: LoadingService,
     private ref: ChangeDetectorRef,
     private productService: ListCompraItemsService,
+    private matDialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public dialogData: DialogData
   ) { }
 
@@ -86,9 +89,7 @@ export class BuscarProductoCompraDialogComponent implements OnInit, OnDestroy {
     this.getConfigNumDecimalesIdEmp();
   }
 
-  ngOnDestroy(): void{
-
-  }
+  ngOnDestroy(): void{}
 
   searchProductosText(): void{
     clearTimeout(this.timeoutId);
@@ -128,6 +129,12 @@ export class BuscarProductoCompraDialogComponent implements OnInit, OnDestroy {
         this.datasource.data = arrayWithDecimal;
         this.ref.detectChanges();
 
+        if(this.listaProductos.length == 1 && this.textSearchProductos.length > 0){
+          setTimeout(() => {
+            this.clickSelectItem(this.listaProductos[0]);
+          }, 300);
+        }
+
       },
       error: (error: any) => {
         dialogRef.close();
@@ -146,7 +153,7 @@ export class BuscarProductoCompraDialogComponent implements OnInit, OnDestroy {
 
         const arrayWithDecimal = arrayProducts.map((producto: Producto) => {
 
-          producto.prod_costo = 
+          producto.prod_costo = //Number(producto.prod_costo).toFixed(this.fixedNumDecimal);
                 (producto.prod_iva_si_no == "1") ? (Number(producto.prod_costo) / 1.12).toFixed(this.fixedNumDecimal) : producto.prod_costo
           return producto;
         });
@@ -161,12 +168,31 @@ export class BuscarProductoCompraDialogComponent implements OnInit, OnDestroy {
   }
 
   clickSelectItem(dataProducto: any){
+
     if(this.selectInOneClick == true){
       this.matDialogRef.close(dataProducto);
       return;
     }
-    this.productService.setProduct(dataProducto);
-    //this.matDialogRef.close(dataProducto);
+
+    //Ya se esta mostrando el dialogo
+    if(this.isShowDialog){
+      return;
+    }
+
+    this.isShowDialog = true;
+    const dialogRef = this.matDialog.open(CantidadProductoDialogComponent, {
+      closeOnNavigation: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.isShowDialog = false;
+      this.boxSearchInput.nativeElement.select();
+      if(result){
+        dataProducto['prodCantSelected'] = result.cantidad;
+        this.productService.setProduct(dataProducto);
+      }
+    });
+
   }
 
 
@@ -189,5 +215,15 @@ export class BuscarProductoCompraDialogComponent implements OnInit, OnDestroy {
         console.log(error);
       }
     });
+  }
+
+  clearText(){
+    if(this.textSearchProductos != ""){
+      this.textSearchProductos = "";
+      this.searchProductosText();
+
+      this.boxSearchInput.nativeElement.focus();
+      this.ref.detectChanges();
+    }
   }
 }

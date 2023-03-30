@@ -76,7 +76,8 @@ export class CrearEditarProductoComponent implements OnInit, AfterViewInit {
         activo: [true],
         observacion: ['']
       });
-    }
+  }
+  
   ngAfterViewInit(): void {
     this.codigoInput.nativeElement.focus();
     this.ref.detectChanges();

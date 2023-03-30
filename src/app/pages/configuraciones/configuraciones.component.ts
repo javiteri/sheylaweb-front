@@ -18,16 +18,28 @@ export class ConfiguracionesComponent implements OnInit {
 
   NAMES_CONFIGS = ["FACTURA_VALORIVA",
   "VENTA_NUMERODECIMALES",
-  "COMPRA_NUMERODECIMALES",
   "VENTAS_PERMITIR_INGRESAR_SIN_SECUENCIA",
   "VENTAS_IVA_INCLUIDO_FACTURA",
-  "CAJA_PERMITIR_CAMBIAR_FECHA",
-  "CAJA_PERMITIR_CAMBIAR_USUARIO",
   "VENTAS_IMPRESION_DOCUMENTOS",
-  "PROFORMAS_PERMITIR_INGRESAR_SIN_SECUENCIA",
-  "PROFORMAS_IMPRESION_DOCUMENTOS",
-  "VENTAS_ENVIAR_FACTURA_AUTORIZAR"
+  "VENTAS_ENVIAR_FACTURA_AUTORIZAR",
+  "VENTAS_PREGUNTAR_CANTIDAD_PRODUCTO_SELECT"
   ]
+
+  NAMES_CONFIGS_PROFORMAS = [
+    "PROFORMAS_PERMITIR_INGRESAR_SIN_SECUENCIA",
+    "PROFORMAS_IMPRESION_DOCUMENTOS",
+  ];
+
+  NAMES_CONFIGS_CAJA = [
+    "CAJA_PERMITIR_CAMBIAR_FECHA",
+    "CAJA_PERMITIR_CAMBIAR_USUARIO",
+  ];
+
+  NAMES_CONFIGS_COMPRAS = [
+    "COMPRA_NUMERODECIMALES",
+    "COMPRA_REFRESCAR_PVP_SEGUN_ULTIMA_COMPRA"
+  ]
+  checkedRefrescarPvpSegunUltimaCompra = false;
 
   NAMES_CONFIGS_VENTAS = [
     "FAC_ELECTRONICA_AGENTE_RETENCION",
@@ -51,6 +63,7 @@ export class ConfiguracionesComponent implements OnInit {
   checkedIvaIncluidoVentas = false;
   checkedVentasSinSecuencia = false;
   checkedVentasEnviarAutorizar = false;
+  checkedVentasPreguntarCantidadSelecProd = true;
 
   checkedProformasSinSecuencia = false;
   impresionDocumentosProformaValue = '1';
@@ -117,56 +130,72 @@ export class ConfiguracionesComponent implements OnInit {
         }else{
           this.decimalesVentaSelect = "0.00";
         }
-        const decimalesCompraConfig = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[2]);
-        if(decimalesCompraConfig){ 
-          this.decimalesCompraSelect = decimalesCompraConfig.con_valor;
-        }else{
-          this.decimalesCompraSelect = "0.00";
-        }
-        const ivaIncluidoVentasConfig = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[4]);
+
+        const ivaIncluidoVentasConfig = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[3]);
         if(ivaIncluidoVentasConfig){
           this.checkedIvaIncluidoVentas = (ivaIncluidoVentasConfig.con_valor == "1" ? true : false);
         }else{
           this.checkedIvaIncluidoVentas = false;
         }
-        const ingresarSinSecuenciaConfig = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[3]);
+        const ingresarSinSecuenciaConfig = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[2]);
         if(ingresarSinSecuenciaConfig){
           this.checkedVentasSinSecuencia = (ingresarSinSecuenciaConfig.con_valor == "1" ? true : false);
         }else{
           this.checkedVentasSinSecuencia = false
         }
-        const impresionDocumentosVentas = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[7]);
+        const impresionDocumentosVentas = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[4]);
         if(impresionDocumentosVentas){
           this.impresionDocumentosValue = impresionDocumentosVentas.con_valor;
         }
-        const autorizarVentaAlCrearConfig = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[10]);
+        const autorizarVentaAlCrearConfig = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[5]);
         if(autorizarVentaAlCrearConfig){
           this.checkedVentasEnviarAutorizar = (autorizarVentaAlCrearConfig.con_valor == "1" ? true : false);
         }else{
           this.checkedVentasEnviarAutorizar = false;
         }
+        const preguntarCantSelectProductoVentaConfig = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[6]);
+        if(preguntarCantSelectProductoVentaConfig){
+          this.checkedVentasPreguntarCantidadSelecProd = (preguntarCantSelectProductoVentaConfig.con_valor == "1" ? true : false);
+        }else{
+          this.checkedVentasPreguntarCantidadSelecProd = true;
+        }
+
+        //COMPRA
+        const decimalesCompraConfig = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS_COMPRAS[0]);
+        if(decimalesCompraConfig){ 
+          this.decimalesCompraSelect = decimalesCompraConfig.con_valor;
+        }else{
+          this.decimalesCompraSelect = "0.00";
+        }
+        const refrescarPvpSegunUltimaCompra = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS_COMPRAS[1]);
+        if(refrescarPvpSegunUltimaCompra){
+            this.checkedRefrescarPvpSegunUltimaCompra = (refrescarPvpSegunUltimaCompra.con_valor == "1"? true : false)
+        }else{
+          this.checkedRefrescarPvpSegunUltimaCompra = false;
+        }
+
 
         //PROFORMAS
-        const ingresarProformaSinSecuenciaConfig = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[8]);
+        const ingresarProformaSinSecuenciaConfig = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS_PROFORMAS[0]);
         if(ingresarProformaSinSecuenciaConfig){
           this.checkedProformasSinSecuencia = (ingresarProformaSinSecuenciaConfig.con_valor == "1" ? true : false);
         }else{
-          this.checkedVentasSinSecuencia = false
+          this.checkedVentasSinSecuencia = false;
         }
 
-        const impresionDocumentosProformas = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[9]);
+        const impresionDocumentosProformas = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS_PROFORMAS[1]);
         if(impresionDocumentosProformas){
           this.impresionDocumentosProformaValue = impresionDocumentosProformas.con_valor;
         }
 
-        const cajaAllowCambiarFecha = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[5]);
+        const cajaAllowCambiarFecha = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS_CAJA[0]);
         if(cajaAllowCambiarFecha){
           this.checkedPermitirChangeFechaMovCaja = (cajaAllowCambiarFecha.con_valor == "1" ? true : false);
         }else{
           this.checkedPermitirChangeFechaMovCaja = false
         }
 
-        const cajaAllowCambiarUsuarioCuadre = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[6]);
+        const cajaAllowCambiarUsuarioCuadre = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS_CAJA[1]);
         if(cajaAllowCambiarUsuarioCuadre){
           this.checkedPermitirCambiarUsuarioCuadreCaja = (cajaAllowCambiarUsuarioCuadre.con_valor == "1" ? true : false);
         }else{
@@ -256,8 +285,7 @@ export class ConfiguracionesComponent implements OnInit {
 
     this.coreService.insertListConfigsToBD(arrayConfig, this.tokenValidate).subscribe({
       next: (data: any) => {
-        console.log('inside todo ok');
-        console.log(data);
+        
       },
       error: (error) => {
         console.log('inside error');
@@ -338,11 +366,9 @@ export class ConfiguracionesComponent implements OnInit {
   }
 
 
-
   onFileChange(file: any){
-    console.log(file);
+    
     if(file.length === 0){
-      console.log('el archivo es valido');
       return;
     }
 
