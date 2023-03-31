@@ -154,8 +154,13 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
     if(this.xmlFacCompraFile){
       let r = new FileReader();
       r.onload = async (e: any) => {
-        let contenido = e.target.result;
-        const result = await this.parseXMLData(contenido);
+        let contenido = e.target.result as string;
+
+        let indexFirst = contenido.indexOf('<autorizacion>');
+        let indexLast = contenido.indexOf('</autorizacion>') + 15;
+
+        let nuevoContenidoXml = contenido.slice(indexFirst, indexLast);
+        const result = await this.parseXMLData(nuevoContenidoXml);
 
         //Set string in xml file
         this.xmlFacCompraString = contenido as any;
@@ -174,13 +179,14 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
   private async parseXMLData(data: string){
     return new Promise((resolve, reject) => {
       try{
-
+        
         let parser = new xml2js.Parser({
           trim: true,
           explicitArray: false
         });
+        
         parser.parseString(data, function(err, result) {
-
+          
           let json1 = JSON.stringify(result);
           let json = JSON.parse(json1);
           let comprobanteData = json['autorizacion']['comprobante'];
@@ -204,6 +210,7 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
         });
 
       }catch(exception: any){
+        console.log(exception);
         this.toastr.error('El archivo seleccionado es inválido', '', {
           timeOut: 3000,
           closeButton: true
