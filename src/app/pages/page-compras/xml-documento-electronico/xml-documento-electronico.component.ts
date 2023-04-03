@@ -12,6 +12,8 @@ import { ApplicationProvider } from 'src/app/providers/provider';
 import xml2js from 'xml2js';
 import { ItemCompraXml } from '../models/ItemCompraXml';
 import { ListCompraItemsService } from '../services/list-compra-items.service';
+const { XMLParser} = require("fast-xml-parser");
+
 
 @Component({
   selector: 'app-xml-documento-electronico',
@@ -163,7 +165,8 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
         const result = await this.parseXMLData(nuevoContenidoXml);
 
         //Set string in xml file
-        this.xmlFacCompraString = contenido as any;
+        this.xmlFacCompraString = contenido;
+        //this.xmlFacCompraString = nuevoContenidoXml ;
         this.isXmlFileLocal = true;
 
         this.setDataInForm(result);
@@ -180,7 +183,49 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
     return new Promise((resolve, reject) => {
       try{
         
-        let parser = new xml2js.Parser({
+        const options = {
+          attributeNamePrefix: '$',
+          ignoreAttributes: false, 
+          tagValueProcessor: (tagName: string, tagValue: any, jPath: any, hasAttributes: any, isLeaftNode: any) => {
+            if(tagName === "claveAcceso"){
+              console.log(tagValue);
+              return null;
+            }
+            return tagValue;
+          },
+          parseTrueNumberOnly : true,
+          numberParseOptions: {
+            leadingZeros: false,
+            hex: true,
+          },
+        };
+        const parser1 = new XMLParser(options);
+        let datosParse = parser1.parse(data);
+        console.log(datosParse);
+        //console.log(datosParse);
+        
+        let indexStart = datosParse['autorizacion']['comprobante'].indexOf('<factura');
+        let indexEnd = datosParse['autorizacion']['comprobante'].indexOf('</infoAdicional>') + 16;
+        let datosParse1 = parser1.parse(datosParse['autorizacion']['comprobante'].slice(indexStart, indexEnd) + "</factura>");
+        
+        console.log(datosParse1);
+        const dataProveeAndDocu = {
+          ci: datosParse1['factura']['infoTributaria'].ruc,
+          fecha: datosParse1['factura']['infoFactura'].fechaEmision,
+          proveedor: datosParse1['factura']['infoTributaria'].razonSocial.replace(/\uFFFD/g, ''),
+          numero: `${datosParse1['factura']['infoTributaria'].estab}-${datosParse1['factura']['infoTributaria'].ptoEmi}-${datosParse1['factura']['infoTributaria'].secuencial}`,
+          direccion: datosParse1['factura']['infoTributaria'].dirMatriz,
+          autorizacion: datosParse1['factura']['infoTributaria'].claveAcceso,
+          listDetalle: datosParse1['factura']['detalles'].detalle
+        }
+
+        resolve(dataProveeAndDocu);
+
+        //console.log(datosParse['autorizacion']['comprobante']);
+        /*let datosFacturaParse = parser1.parse(datosParse['autorizacion']['comprobante']);
+        console.log(datosFacturaParse);*/
+
+        /*let parser = new xml2js.Parser({
           trim: true,
           explicitArray: false
         });
@@ -194,6 +239,7 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
           //READ CDATA IN XML FILE
           parser.parseString(comprobanteData, function(err1, result1){
 
+            console.log(result1);
             const dataProveeAndDocu = {
               ci: result1['factura']['infoTributaria'].ruc,
               fecha: result1['factura']['infoFactura'].fechaEmision,
@@ -207,10 +253,9 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
             resolve(dataProveeAndDocu);
           });
 
-        });
+        });*/
 
       }catch(exception: any){
-        console.log(exception);
         this.toastr.error('El archivo seleccionado es inválido', '', {
           timeOut: 3000,
           closeButton: true
@@ -303,9 +348,7 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
         }
 
       },
-      error: (error: any) => {
-        
-      }
+      error: (error: any) => { }
     });
   }
 
@@ -513,9 +556,7 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
 
   async verRideClick(){
 
-    if(!this.xmlFacCompraString){
-      return;
-    }
+    if(!this.xmlFacCompraString){return;}
 
     if(this.isXmlFileLocal){
       const responseValues =  await this.getValuesFromXmlToPDF();
@@ -540,7 +581,13 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
           trim: true,
           explicitArray: false
         });
-        parser.parseString(this.xmlFacCompraString, function(err, result) {
+
+        let indexFirst = this.xmlFacCompraString.indexOf('<autorizacion>');
+        let indexLast = this.xmlFacCompraString.indexOf('</autorizacion>') + 15;
+
+        let nuevoContenidoXml = this.xmlFacCompraString.slice(indexFirst, indexLast);
+
+        parser.parseString(nuevoContenidoXml, function(err, result) {
           if(err){
             return;
           }
@@ -612,6 +659,8 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
 
   private generatePdfByXmlCompra(datosFactura: any){
 
+    console.log(datosFactura);
+    console.log(datosFactura['infoAdicional']);
     this.coreService.generatePdfXmlCompra(datosFactura, this.tokenValidate).subscribe({
       next: (data: any) => {
 
