@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatChip } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
@@ -262,6 +261,7 @@ export class PageVentasComponent implements OnInit{
               this.clientFac.telefono = data.data['clienteTele'];
               this.clientFac.direccion = data.data['clienteDir'];
               this.clientFac.email = data.data['clienteEmail'];
+              this.observacion = data.data['Observaciones'];
 
               this.formaPagoSelect = data.data['forma_pago'];
               const mDate = new Date(data.data['fechaHora']);
