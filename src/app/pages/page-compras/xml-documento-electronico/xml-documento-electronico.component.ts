@@ -156,6 +156,7 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
     if(this.xmlFacCompraFile){
       let r = new FileReader();
       r.onload = async (e: any) => {
+
         let contenido = e.target.result as string;
 
         let indexFirst = contenido.indexOf('<autorizacion>');
@@ -166,7 +167,6 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
 
         //Set string in xml file
         this.xmlFacCompraString = contenido;
-        //this.xmlFacCompraString = nuevoContenidoXml ;
         this.isXmlFileLocal = true;
 
         this.setDataInForm(result);
@@ -186,29 +186,23 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
         const options = {
           attributeNamePrefix: '$',
           ignoreAttributes: false, 
+          arrayMode: true,
           tagValueProcessor: (tagName: string, tagValue: any, jPath: any, hasAttributes: any, isLeaftNode: any) => {
             if(tagName === "claveAcceso"){
-              console.log(tagValue);
               return null;
             }
             return tagValue;
           },
-          parseTrueNumberOnly : true,
-          numberParseOptions: {
-            leadingZeros: false,
-            hex: true,
-          },
+          parseTrueNumberOnly : true
         };
         const parser1 = new XMLParser(options);
         let datosParse = parser1.parse(data);
-        console.log(datosParse);
-        //console.log(datosParse);
         
         let indexStart = datosParse['autorizacion']['comprobante'].indexOf('<factura');
         let indexEnd = datosParse['autorizacion']['comprobante'].indexOf('</infoAdicional>') + 16;
         let datosParse1 = parser1.parse(datosParse['autorizacion']['comprobante'].slice(indexStart, indexEnd) + "</factura>");
         
-        console.log(datosParse1);
+        
         const dataProveeAndDocu = {
           ci: datosParse1['factura']['infoTributaria'].ruc,
           fecha: datosParse1['factura']['infoFactura'].fechaEmision,
@@ -220,40 +214,6 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
         }
 
         resolve(dataProveeAndDocu);
-
-        //console.log(datosParse['autorizacion']['comprobante']);
-        /*let datosFacturaParse = parser1.parse(datosParse['autorizacion']['comprobante']);
-        console.log(datosFacturaParse);*/
-
-        /*let parser = new xml2js.Parser({
-          trim: true,
-          explicitArray: false
-        });
-        
-        parser.parseString(data, function(err, result) {
-          
-          let json1 = JSON.stringify(result);
-          let json = JSON.parse(json1);
-          let comprobanteData = json['autorizacion']['comprobante'];
-
-          //READ CDATA IN XML FILE
-          parser.parseString(comprobanteData, function(err1, result1){
-
-            console.log(result1);
-            const dataProveeAndDocu = {
-              ci: result1['factura']['infoTributaria'].ruc,
-              fecha: result1['factura']['infoFactura'].fechaEmision,
-              proveedor: result1['factura']['infoTributaria'].razonSocial.replace(/\uFFFD/g, ''),
-              numero: `${result1['factura']['infoTributaria'].estab}-${result1['factura']['infoTributaria'].ptoEmi}-${result1['factura']['infoTributaria'].secuencial}`,
-              direccion: result1['factura']['infoTributaria'].dirMatriz,
-              autorizacion: result1['factura']['infoTributaria'].claveAcceso,
-              listDetalle: result1['factura']['detalles'].detalle
-            }
-
-            resolve(dataProveeAndDocu);
-          });
-
-        });*/
 
       }catch(exception: any){
         this.toastr.error('El archivo seleccionado es inválido', '', {
@@ -328,7 +288,6 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
 
           this.coreService.insertProveedorToBD(proveedorInsert, this.tokenValidate).subscribe({
             next: (dataProvInsert: any) => {
-              console.log('dataProvInsert');
               if(dataProvInsert.code == 400){
                 return;
               }
@@ -365,8 +324,6 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
 
       this.coreService.getXmlSriByNumAutorizacion(result.claveAcceso, this.tokenValidate).subscribe({
         next: async (data: any) =>{
-
-
           if(!data.dataXml){
             console.log('error consultando servicio SRI');
             return;
@@ -659,8 +616,6 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
 
   private generatePdfByXmlCompra(datosFactura: any){
 
-    console.log(datosFactura);
-    console.log(datosFactura['infoAdicional']);
     this.coreService.generatePdfXmlCompra(datosFactura, this.tokenValidate).subscribe({
       next: (data: any) => {
 
