@@ -370,47 +370,35 @@ export class XmlDocumentoElectronicoComponent implements OnInit, AfterViewInit {
     return new Promise((resolve, reject) => {
       try{
 
-        let parser = new xml2js.Parser({
-          trim: true,
-          explicitArray: false
-        });
-        
-        let indexEnd = stringXml.indexOf('</infoAdicional>');
-        if(indexEnd == -1){
-          indexEnd = stringXml.indexOf('</detalles>');
-        }
-
-        let xmlFinal = stringXml.slice(0, indexEnd + 16);
-        
-        parser.parseString(`${xmlFinal}</factura>`.replace(/&gt;/g,">"), function(err, result) {
-          
-          try{
-            let json1 = JSON.stringify(result);
-            let json = JSON.parse(json1);
-            
-            const dataProveeAndDocu = {
-              ci: json['factura']['infoTributaria'].ruc,
-              fecha: json['factura']['infoFactura'].fechaEmision,
-              proveedor:  json['factura']['infoTributaria'].razonSocial.replace(/\uFFFD/g, ''),
-              numero: `${json['factura']['infoTributaria'].estab}-${json['factura']['infoTributaria'].ptoEmi}-${json['factura']['infoTributaria'].secuencial}`,
-              direccion: json['factura']['infoTributaria'].dirMatriz,
-              autorizacion: json['factura']['infoTributaria'].claveAcceso,
-              listDetalle: json['factura']['detalles'].detalle
+        const options = {
+          attributeNamePrefix: '$',
+          ignoreAttributes: false, 
+          arrayMode: true,
+          tagValueProcessor: (tagName: string, tagValue: any, jPath: any, hasAttributes: any, isLeaftNode: any) => {
+            if(tagName === "claveAcceso"){
+              return null;
             }
-            
-            
-            resolve(dataProveeAndDocu);
+            return tagValue;
+          },
+          parseTrueNumberOnly : true
+        };
 
-          }catch(errores){
-            console.log(errores);
-            resolve({
-              isSucces: false
-            });
-          }
-          
-        });
-  
+        const parser1 = new XMLParser(options);
+        let datosParse = parser1.parse(`${stringXml}`.replace(/&gt;/g,">"));
+
+        const dataProveeAndDocu = {
+          ci: datosParse['factura']['infoTributaria'].ruc,
+          fecha: datosParse['factura']['infoFactura'].fechaEmision,
+          proveedor:  datosParse['factura']['infoTributaria'].razonSocial.replace(/\uFFFD/g, ''),
+          numero: `${datosParse['factura']['infoTributaria'].estab}-${datosParse['factura']['infoTributaria'].ptoEmi}-${datosParse['factura']['infoTributaria'].secuencial}`,
+          direccion: datosParse['factura']['infoTributaria'].dirMatriz,
+          autorizacion: datosParse['factura']['infoTributaria'].claveAcceso,
+          listDetalle: datosParse['factura']['detalles'].detalle
+        }
+                
+        resolve(dataProveeAndDocu);
       }catch(exception: any){
+        console.log(exception);
         this.toastr.error('El archivo seleccionado es inválido', '', {
           timeOut: 3000,
           closeButton: true
