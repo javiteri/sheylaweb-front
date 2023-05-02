@@ -759,7 +759,7 @@ export class PageVentasComponent implements OnInit{
         }else{
           this.router.navigate([
             { outlets: {
-              'print': ['print','receipt',data.ventaid]
+              'print': ['print', 'receipt', data.ventaid, false]
               }
             }
           ]);

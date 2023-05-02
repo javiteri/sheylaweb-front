@@ -72,7 +72,7 @@ export class ReceiptComponent implements OnInit {
 
   textRouteBack = `/ventas/crearventa`;
 
-  private isReimpresion = false;
+  private isReimpresion = "false";
 
   constructor(route: ActivatedRoute,
     private router: Router,
@@ -80,8 +80,9 @@ export class ReceiptComponent implements OnInit {
     private ref: ChangeDetectorRef) { 
 
     this.idVenta = route.snapshot.params['id'];
-    this.isReimpresion = route.snapshot.params['reimpresion'] ? route.snapshot.params['reimpresion'] : false;
-    if(this.isReimpresion){
+    this.isReimpresion = route.snapshot.params['reimpresion'];
+    
+    if(this.isReimpresion == 'true'){
       this.textRouteBack = '/ventas/listaventas';
     }
     this.textFacturaElectronicaFooter += "www.misfacturas.efacturas.net";
