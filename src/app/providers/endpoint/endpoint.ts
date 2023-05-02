@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 import { Router } from "@angular/router";
 
 @Injectable()
-export class EndPointProvider {
+export class EndPointProvider { 
 
 
     constructor(private http: HttpClient,
