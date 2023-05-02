@@ -72,12 +72,18 @@ export class ReceiptComponent implements OnInit {
 
   textRouteBack = `/ventas/crearventa`;
 
+  private isReimpresion = false;
+
   constructor(route: ActivatedRoute,
     private router: Router,
     private coreService: ApplicationProvider,
     private ref: ChangeDetectorRef) { 
 
     this.idVenta = route.snapshot.params['id'];
+    this.isReimpresion = route.snapshot.params['reimpresion'] ? route.snapshot.params['reimpresion'] : false;
+    if(this.isReimpresion){
+      this.textRouteBack = '/ventas/listaventas';
+    }
     this.textFacturaElectronicaFooter += "www.misfacturas.efacturas.net";
    
   }

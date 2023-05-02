@@ -78,7 +78,7 @@ const routes: Routes = [
         outlet: 'print',
         component: PrintLayoutComponent,
         children: [
-          { path: 'receipt/:id', component: ReceiptComponent },
+          { path: 'receipt/:id/:reimpresion', component: ReceiptComponent },
           {path: 'receipt-proforma/:id', component: ReceiptProformaComponent}
         ]
       },

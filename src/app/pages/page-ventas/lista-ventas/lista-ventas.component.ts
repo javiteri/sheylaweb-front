@@ -433,4 +433,13 @@ export class ListaVentasComponent implements OnInit {
     });
   }
 
+  printFactura(idVenta: Number){
+    this.router.navigate([
+      { outlets: {
+        'print': ['print','receipt', idVenta, true]
+        }
+      }
+    ]);
+  }
+
 }

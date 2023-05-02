@@ -22,14 +22,8 @@ export class EndPointProvider {
 
     //SEARCH CLIENT BY CI OR RUC
     searchClientByCiRuc(ciRuc: any): Observable<string>{
-
       const header = this.getRequestHeaderSearchCliente();
-
       let paramsRequest = new HttpParams().set('ruc', ciRuc).set('actualizado', 'Y');
-      const httpOptions = {
-        headers: header,
-        params: ciRuc ? paramsRequest : {}
-      }
       
       return this.http.get(this.searchDatosClienteSri, {params: paramsRequest, responseType: 'text'});
     }

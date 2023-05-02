@@ -63,9 +63,7 @@
 .text-white{
     color: white;
 }
-table{
-    width: 100%;
-}
+
 .mat-icon-red{
     color: var(--red-bold);
 }
@@ -251,26 +249,28 @@ td.mat-footer-cell {
     width: 32px;
 }
 
-@media screen and (max-width: 1500px) {
+.mat-footer-row, .mat-header-row, .mat-row{
+    width: initial;
+}
+
+@media screen and (max-width: 1800px) {
     .btn-container button{
         width: 22px;
     }
 }
 
-@media screen and (max-width: 1300px){
+@media screen and (max-width: 1600px){
     .mat-table {
         overflow-x: auto;
         overflow-y: hidden;
     }
     .mat-cell, .mat-footer-cell, .mat-header-cell{
-        min-width: 90px;
+        min-width: 150px;
     }
     
-}
-
-@media screen and (max-width: 1086px){
     .mat-footer-row, .mat-header-row, .mat-row{
         width: fit-content;
     }
 }
+
 
