@@ -22,7 +22,8 @@ export class ConfiguracionesComponent implements OnInit {
   "VENTAS_IVA_INCLUIDO_FACTURA",
   "VENTAS_IMPRESION_DOCUMENTOS",
   "VENTAS_ENVIAR_FACTURA_AUTORIZAR",
-  "VENTAS_PREGUNTAR_CANTIDAD_PRODUCTO_SELECT"
+  "VENTAS_PREGUNTAR_CANTIDAD_PRODUCTO_SELECT",
+  "VENTAS_IMPRESION_MOSTRAR_LOGO"
   ]
 
   NAMES_CONFIGS_PROFORMAS = [
@@ -64,6 +65,7 @@ export class ConfiguracionesComponent implements OnInit {
   checkedVentasSinSecuencia = false;
   checkedVentasEnviarAutorizar = false;
   checkedVentasPreguntarCantidadSelecProd = true;
+  checkedVentasLogoImpresion = false;
 
   checkedProformasSinSecuencia = false;
   impresionDocumentosProformaValue = '1';
@@ -158,6 +160,13 @@ export class ConfiguracionesComponent implements OnInit {
           this.checkedVentasPreguntarCantidadSelecProd = (preguntarCantSelectProductoVentaConfig.con_valor == "1" ? true : false);
         }else{
           this.checkedVentasPreguntarCantidadSelecProd = true;
+        }
+
+        const checkShowLogoImpresion = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[6]);
+        if(checkShowLogoImpresion){
+          this.checkedVentasLogoImpresion = (checkShowLogoImpresion.con_valor == "1" ? true : false);
+        }else{
+          this.checkedVentasLogoImpresion = true;
         }
 
         //COMPRA

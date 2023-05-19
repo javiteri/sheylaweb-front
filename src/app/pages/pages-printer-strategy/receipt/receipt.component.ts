@@ -73,6 +73,7 @@ export class ReceiptComponent implements OnInit {
   textRouteBack = `/ventas/crearventa`;
 
   private isReimpresion = "false";
+  private showLogoPrint = "false"
 
   constructor(route: ActivatedRoute,
     private router: Router,
@@ -81,7 +82,8 @@ export class ReceiptComponent implements OnInit {
 
     this.idVenta = route.snapshot.params['id'];
     this.isReimpresion = route.snapshot.params['reimpresion'];
-    
+    this.showLogoPrint = route.snapshot.params['isLogo']
+
     if(this.isReimpresion == 'true'){
       this.textRouteBack = '/ventas/listaventas';
     }
@@ -120,9 +122,6 @@ export class ReceiptComponent implements OnInit {
 
     let $observableDatosVenta = this.coreService.getDataByIdVenta(this.idVenta, this.idEmpresa, this.rucEmpresa, this.tokenValidate, this.nombreBd);
     let $observableDatosConfigFacElec = this.coreService.getListConfigsByIdEmp(this.idEmpresa, this.tokenValidate, this.nombreBd);
-
-    let $observableDatosEmpresa = this.coreService.empresaByRucAndId(postDataGetEmp, this.tokenValidate);
-    let $observableDatosEstablecimiento = this.coreService.getEstablecimientoByIdEmpNumeroEst(this.idEmpresa,'', this.nombreBd,this.tokenValidate);
 
     $observableDatosVenta.pipe(
       combineLatestWith($observableDatosConfigFacElec)

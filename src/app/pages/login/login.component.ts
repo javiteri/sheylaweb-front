@@ -63,10 +63,8 @@ export class LoginComponent implements OnInit {
   private inicioSesionApi(sendFormData: any){
 
     let overlayRef = this.loadingService.open();
-
     this.coreService.login(sendFormData).subscribe({
-      next: (response: any) => {
-                
+      next: (response: any) => {   
         overlayRef.close();
 
         if(response.sinLicencia == true){

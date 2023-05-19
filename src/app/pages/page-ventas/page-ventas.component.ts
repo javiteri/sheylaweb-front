@@ -69,6 +69,7 @@ export class PageVentasComponent implements OnInit{
   configIvaIncluidoEnVenta = false;
   configImpresionDocumentos = "1";
   configAutorizarVentaAlCrear = false;
+  configImprimirLogo = false;
 
   configValorIva = "12.00";
   valorIvaDecimal = "1.12";
@@ -152,6 +153,7 @@ export class PageVentasComponent implements OnInit{
     this.getConfigVentaSinSecuencia();
     this.getConfigIvaIncluidoEnVenta();
     this.getConfigImpresionDocumentosVenta();
+    this.getConfigLogoImpresionVenta();
     
   }
 
@@ -480,7 +482,7 @@ export class PageVentasComponent implements OnInit{
       viewContainerRef: this.viewContainerRef
     });
 
-  dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(result => {
     if(result){
 
       if(result.redirectNewClient){
@@ -495,7 +497,7 @@ export class PageVentasComponent implements OnInit{
       this.clientFac.email = result['cli_email'];
       this.clientFac.telefono = `${result['cli_celular']}  ${result['cli_teleono'] ? '-' : ''} ${result['cli_teleono']}`; 
     }
-  });
+    });
   }
 
   agregarProductoClick(){
@@ -759,7 +761,7 @@ export class PageVentasComponent implements OnInit{
         }else{
           this.router.navigate([
             { outlets: {
-              'print': ['print', 'receipt', data.ventaid, false]
+              'print': ['print', 'receipt', data.ventaid, false, this.configImprimirLogo]
               }
             }
           ]);
@@ -985,6 +987,18 @@ export class PageVentasComponent implements OnInit{
       });
   }
 
+  private getConfigLogoImpresionVenta(){
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_IMPRESION_MOSTRAR_LOGO', this.tokenValidate, this.nombreBd).subscribe({
+      next: (data: any) => {
+        if(data.data && data.data.length > 0){
+          const configReceive: ConfigReceive = data.data[0];
+          this.configImprimirLogo = configReceive.con_valor == "false" ? false : true;  
+        }
+      },
+      error: (error) => {}
+    });
+  }
+
   private getConfigAutorizarVentaAlCrear(){
     this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_ENVIAR_FACTURA_AUTORIZAR', this.tokenValidate, this.nombreBd).subscribe({
       next: (data: any) => {
@@ -998,6 +1012,5 @@ export class PageVentasComponent implements OnInit{
         console.log(error);
       }
     });
-}
-
+  }
 }

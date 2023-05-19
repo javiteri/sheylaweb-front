@@ -46,6 +46,11 @@
             </mat-radio-group>  
           </div>
           <div>
+            <p class="margin-bottom-cero">Mostrar Logo en Impresión</p>
+            <mat-slide-toggle [(ngModel)]="checkedVentasLogoImpresion"
+            (change)="changeToogle(NAMES_CONFIGS[7], checkedVentasLogoImpresion)"></mat-slide-toggle> 
+          </div>
+          <div>
             <p class="margin-bottom-cero">Autorizar Ventas al Crear</p>
             <mat-slide-toggle [(ngModel)]="checkedVentasEnviarAutorizar"
             (change)="changeToogle(NAMES_CONFIGS[5], checkedVentasEnviarAutorizar)"></mat-slide-toggle>
