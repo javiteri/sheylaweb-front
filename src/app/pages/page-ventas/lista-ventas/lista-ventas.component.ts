@@ -48,6 +48,8 @@ export class ListaVentasComponent implements OnInit {
   file: File | null = null;
   arrayBuffer: any
 
+  private configImprimirLogo = false;
+
   constructor(private coreService: ApplicationProvider,
     private loadingService: LoadingService,
     private ref: ChangeDetectorRef,
@@ -74,6 +76,7 @@ export class ListaVentasComponent implements OnInit {
 
     //this.searchListaVentasWithFilter();
     this.getConfigNumDecimalesIdEmp();
+    this.getConfigLogoImpresionVenta();
   }
 
 
@@ -205,6 +208,18 @@ export class ListaVentasComponent implements OnInit {
         console.log('error get num decimales');
         console.log(error);
       }
+    });
+  }
+
+  private getConfigLogoImpresionVenta(){
+    this.coreService.getConfigByNameIdEmp(this.idEmpresa,'VENTAS_IMPRESION_MOSTRAR_LOGO', this.tokenValidate, this.nombreBd).subscribe({
+      next: (data: any) => {
+        if(data.data && data.data.length > 0){
+          const configReceive: ConfigReceive = data.data[0];
+          this.configImprimirLogo = configReceive.con_valor == "false" ? false : true;  
+        }
+      },
+      error: (error) => {}
     });
   }
 
@@ -436,7 +451,7 @@ export class ListaVentasComponent implements OnInit {
   printFactura(idVenta: Number){
     this.router.navigate([
       { outlets: {
-        'print': ['print','receipt', idVenta, true]
+        'print': ['print','receipt', idVenta, true, this.configImprimirLogo]
         }
       }
     ]);
