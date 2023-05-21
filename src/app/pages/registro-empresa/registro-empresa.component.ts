@@ -170,7 +170,7 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
 
         let objectURL = URL.createObjectURL(data);       
         this.imgURL = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-
+        console.log(this.imgURL);
       },
       error: (error : any) => {
         console.log('inside error logo');

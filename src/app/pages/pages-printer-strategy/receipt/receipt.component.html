@@ -1,5 +1,9 @@
 <div [ngClass]="{'font-8-px': isMobileDevice === true, 'font-12-px': isMobileDevice == false}">
 
+    <article >
+        <img style="display: block;margin:auto" [src]="imgURL" height="65" *ngIf="imgURL">
+    </article>
+
     <div class="header">
         <div>
           <p class="text-center">**{{nombreEmpresa}}**</p>
