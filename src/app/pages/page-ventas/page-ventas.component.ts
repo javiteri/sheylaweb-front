@@ -992,7 +992,7 @@ export class PageVentasComponent implements OnInit{
       next: (data: any) => {
         if(data.data && data.data.length > 0){
           const configReceive: ConfigReceive = data.data[0];
-          this.configImprimirLogo = configReceive.con_valor == "false" ? false : true;  
+          this.configImprimirLogo = configReceive.con_valor == "0" ? false : true;  
         }
       },
       error: (error) => {}

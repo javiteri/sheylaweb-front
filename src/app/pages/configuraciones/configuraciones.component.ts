@@ -162,7 +162,7 @@ export class ConfiguracionesComponent implements OnInit {
           this.checkedVentasPreguntarCantidadSelecProd = true;
         }
 
-        const checkShowLogoImpresion = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[6]);
+        const checkShowLogoImpresion = dataArray.find(configReceive => configReceive.con_nombre_config == this.NAMES_CONFIGS[7]);
         if(checkShowLogoImpresion){
           this.checkedVentasLogoImpresion = (checkShowLogoImpresion.con_valor == "1" ? true : false);
         }else{
@@ -250,7 +250,6 @@ export class ConfiguracionesComponent implements OnInit {
     this.coreService.getListConfigsFirmaElectronicaByIdEmp(this.rucEmpresa, this.tokenValidate).subscribe({
       next: (datos: any) =>{
 
-        console.log(datos.data);
         if(datos.data.EMPRESA_RUTA_FIRMA && datos.data.EMPRESA_RUTA_FIRMA.length > 5){
           this.isUploadFirmaElectronica = true;
           this.textUploadFirmaElectronica = datos.data.EMPRESA_RUTA_FIRMA;//`(Registrada)`;
