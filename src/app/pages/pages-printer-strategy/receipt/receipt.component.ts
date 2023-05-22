@@ -89,7 +89,6 @@ export class ReceiptComponent implements OnInit {
     this.isReimpresion = route.snapshot.params['reimpresion'];
     this.showLogoPrint = route.snapshot.params['isLogo'];
 
-    console.log(this.showLogoPrint);
     if(this.isReimpresion == 'true'){
       this.textRouteBack = '/ventas/listaventas';
     }
@@ -138,9 +137,15 @@ export class ReceiptComponent implements OnInit {
             this.coreService.getEstablecimientoByIdEmpNumeroEst(this.idEmpresa, result1.data['venta001'], this.nombreBd, this.tokenValidate).subscribe({
               next: (respEstablecimiento: any) =>{
                 
-                console.log(this.showLogoPrint);
                 if(this.showLogoPrint == 'true'){
-                  this.coreService.getImagenLogoByRucEmp(this.rucEmpresa, this.tokenValidate).subscribe({
+
+                  let datosEstablecimiento = respEstablecimiento.data;
+                  let imagenLogoNombre = this.rucEmpresa;
+                  if(datosEstablecimiento != undefined && datosEstablecimiento != null && datosEstablecimiento[0]){
+                    imagenLogoNombre = imagenLogoNombre + datosEstablecimiento[0].cone_establecimiento;
+                  }
+
+                  this.coreService.getImagenLogoByRucEmp(imagenLogoNombre, this.tokenValidate).subscribe({
                     next: (data: any) => {
                       overlayRef.close();
 
@@ -149,7 +154,10 @@ export class ReceiptComponent implements OnInit {
                       
                       this.setDatosPrint(respEstablecimiento, dataEmp, result2, result1);
                     },
-                    error: (error : any) => { console.log('inside error logo'); }
+                    error: (error : any) => {
+                      overlayRef.close();
+                      this.setDatosPrint(respEstablecimiento, dataEmp, result2, result1);
+                    }
                   });
                 }else{
                   overlayRef.close();
@@ -172,7 +180,6 @@ export class ReceiptComponent implements OnInit {
      let datosEstablecimiento = respEstablecimiento.data;
      let empresaData = dataEmp.data[0];
 
-     console.log(datosEstablecimiento);
      if(datosEstablecimiento != undefined && datosEstablecimiento != null && datosEstablecimiento[0]){
        this.nombreEmpresa = datosEstablecimiento[0].cone_nombre_establecimiento;
      }else{

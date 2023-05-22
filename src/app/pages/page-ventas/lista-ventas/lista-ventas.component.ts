@@ -261,8 +261,6 @@ export class ListaVentasComponent implements OnInit {
       },
       error: (error: any) => {
         dialogRef.close();
-        console.log('inside error');
-        console.log(error);
       }
     });
   }

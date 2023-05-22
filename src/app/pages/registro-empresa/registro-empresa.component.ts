@@ -110,7 +110,6 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
         dialogRef.close();
 
         if(result.error){
-          console.log(result.error);
           return;
         }
 
@@ -167,10 +166,8 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
   private getLogoEmpresa(): void{
     this.coreService.getImagenLogoByRucEmp(this.rucEmpresa, this.tokenValidate).subscribe({
       next: (data: any) => {
-
         let objectURL = URL.createObjectURL(data);       
         this.imgURL = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-        console.log(this.imgURL);
       },
       error: (error : any) => {
         console.log('inside error logo');
@@ -217,8 +214,6 @@ export class RegistroEmpresaComponent implements OnInit, AfterViewInit {
         this.loading = false;
       },
       error: (error) => {
-        console.log(error);
-
         this.toastr.error('error al actualizar', '', {
           timeOut: 3000,
           closeButton: true
