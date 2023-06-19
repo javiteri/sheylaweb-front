@@ -1,6 +1,6 @@
 import { Overlay, OverlayConfig, OverlayRef } from "@angular/cdk/overlay";
 import { ComponentPortal} from "@angular/cdk/portal";
-import { ComponentRef, Injectable, Injector } from "@angular/core";
+import { ComponentRef, Injectable} from "@angular/core";
 import { LoadingComponent } from "../components/loading/loading.component";
 
 
@@ -23,7 +23,6 @@ export class LoadingService{
     open(): LoadingOverlayRef {
         const overlayRef = this.createOverlay();
         const dialogRef = new LoadingOverlayRef(overlayRef);
-        const overlayComponent = this.attachDialogContainer(overlayRef, dialogRef);
 
         return dialogRef;
     }
@@ -39,7 +38,7 @@ export class LoadingService{
             hasBackdrop: true,
             scrollStrategy: this.overlay.scrollStrategies.block(),
             positionStrategy
-        });     
+        });
         
         return this.overlay.create(overlayConfig);
     }
