@@ -23,7 +23,8 @@ export class LoadingService{
     open(): LoadingOverlayRef {
         const overlayRef = this.createOverlay();
         const dialogRef = new LoadingOverlayRef(overlayRef);
-
+        this.attachDialogContainer(overlayRef, dialogRef);
+        
         return dialogRef;
     }
 

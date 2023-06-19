@@ -5,7 +5,7 @@ import { NavigationEnd, Router, RouterLink} from '@angular/router';
 import { Menu, TokenValidate } from 'src/app/interfaces/IWebData';
 import { DataStoreService } from 'src/app/services/DataStore.Service';
 import { filter } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { FormPlanesComponent } from 'src/app/components/form-planes/form-planes.component';
 
 

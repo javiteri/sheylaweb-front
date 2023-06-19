@@ -7,13 +7,13 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon'
 import {MatDividerModule} from '@angular/material/divider'
-import {MatButtonModule} from '@angular/material/button'
-import {MatCardModule} from '@angular/material/card'
-import { MatListModule } from '@angular/material/list';
-import {MatTableModule} from '@angular/material/table';
-import { MatDialogModule } from '@angular/material/dialog';
+import {MatLegacyButtonModule as MatButtonModule} from '@angular/material/legacy-button'
+import {MatLegacyCardModule as MatCardModule} from '@angular/material/legacy-card'
+import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
+import {MatLegacyTableModule as MatTableModule} from '@angular/material/legacy-table';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatLegacySlideToggleModule as MatSlideToggleModule} from '@angular/material/legacy-slide-toggle';
 
 import { LayoutComponent } from './layout.component';
 import { LayoutRoutingModule } from './layout-routing.module';
@@ -22,11 +22,11 @@ import { BuscarProductoDialogComponent } from 'src/app/components/buscar-product
 import { CantidadProductoDialogComponent } from 'src/app/components/cantidad-producto-dialog/cantidad-producto-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CrearClienteDialogComponent } from 'src/app/components/crear-cliente-dialog/crear-cliente-dialog.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS } from '@angular/material/core';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { CrearProveedorDialogComponent } from 'src/app/components/crear-proveedor-dialog/crear-proveedor-dialog.component';
 import { BuscarProveedorDialogComponent } from 'src/app/components/buscar-proveedor-dialog/buscar-proveedor-dialog.component';
 import { NuevoIngresoCajaDialogComponent } from 'src/app/components/nuevo-ingreso-caja-dialog/nuevo-ingreso-caja-dialog.component';
@@ -38,7 +38,7 @@ import { RecuperarCuentaDialogComponent } from 'src/app/components/recuperar-cue
 import { PrintLayoutComponent } from '../pages-printer-strategy/print-layout/print-layout.component';
 import { ReceiptComponent } from '../pages-printer-strategy/receipt/receipt.component';
 import { ReceiptProformaComponent } from '../pages-printer-strategy/receipt-proforma/receipt-proforma.component';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 import { FormPlanesComponent } from 'src/app/components/form-planes/form-planes.component';
 
 

@@ -1,18 +1,18 @@
 import { NgModule} from "@angular/core";
 import { CommonModule } from "@angular/common";
 
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatCardModule } from '@angular/material/card';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
-import { MatSelectModule } from "@angular/material/select";
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatPaginatorIntl } from '@angular/material/paginator';
+import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
+import { MatLegacySelectModule as MatSelectModule } from "@angular/material/legacy-select";
+import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
+import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
+import { MatLegacyPaginatorIntl as MatPaginatorIntl } from '@angular/material/legacy-paginator';
 import { CustomPaginator } from 'src/app/pages/page-clientes/CustomPaginator';
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button'
+import { MatLegacyFormFieldModule as MatFormFieldModule } from "@angular/material/legacy-form-field";
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button'
 import { MatDatepickerModule} from '@angular/material/datepicker'
 import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS } from "@angular/material/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -24,12 +24,12 @@ import { ProveedoresComponent } from "./proveedores/proveedores.component";
 import { CreateEditProveedorComponent } from "./create-edit-proveedor/create-edit-proveedor.component";
 import { ProveedoresRoutingModule } from "./proveedores.routing.module";
 import { ImportarProveedoresDialogComponent } from './dialogs/importar-proveedores-dialog/importar-proveedores-dialog.component';
-import { MatDialogModule } from "@angular/material/dialog";
-import { MatMenuModule } from "@angular/material/menu";
+import { MatLegacyDialogModule as MatDialogModule } from "@angular/material/legacy-dialog";
+import { MatLegacyMenuModule as MatMenuModule } from "@angular/material/legacy-menu";
 import { ListaProformasComponent } from './lista-proformas/lista-proformas.component';
 import { CrearproformaComponent } from './crearproforma/crearproforma.component';
 import { PickDateAdapter, PICK_FORMATS } from "../page-ventas/adapter/DatePickerAdapter";
-import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from "@angular/material/legacy-progress-spinner";
 import { ListCompraItemsService } from "../page-compras/services/list-compra-items.service";
 
 @NgModule({

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApplicationProvider } from '../../providers/provider';
 import { LoadingService } from '../../services/Loading.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { CrearNuevaEmpresaDialogComponent } from 'src/app/components/crear-nueva-empresa-dialog/crear-nueva-empresa-dialog.component';
 import { RecuperarCuentaDialogComponent } from 'src/app/components/recuperar-cuenta-dialog/recuperar-cuenta-dialog.component';
 
@@ -129,7 +129,7 @@ export class LoginComponent implements OnInit {
         }
 
       },
-      error: (error) => {
+      error: (error: any) => {
         this.loading = false;
 
         overlayRef.close();

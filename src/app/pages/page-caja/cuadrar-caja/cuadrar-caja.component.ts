@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { MonedaCantidadItem } from '../models/MonedaCantidadModel';
 import {ListMonedaCantidad} from '../models/ListMonedaCantidadValues';
 import { ItemCuadreCajaWithDetalle } from '../models/ItemCuadreCajaMov';
@@ -8,7 +8,7 @@ import { ApplicationProvider } from 'src/app/providers/provider';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { LoadingService } from 'src/app/services/Loading.service';
 import { ToastrService } from 'ngx-toastr';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ConfirmDeleteDialogComponent } from 'src/app/components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { ConfigReceive } from '../../configuraciones/models/ConfigReceive';
 
