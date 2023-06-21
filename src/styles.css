@@ -144,7 +144,7 @@ th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:la
   #toast-container{
     display: none !important;
   }
-  app-layout > *{
+  app-layout > * {
     display: none !important;
   }
   app-root app-print-layout { display: block !important;}
@@ -157,10 +157,6 @@ th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:la
 
 .my-import-cliente-dialog {
   outline: 2px solid purple;
-}
-.my-import-cliente-dialog .mat-dialog-container{
-  /*padding-left: 8px;
-  padding-right: 8px;*/
 }
 
 .mat-dialog-container{ padding-top: 10px !important}
