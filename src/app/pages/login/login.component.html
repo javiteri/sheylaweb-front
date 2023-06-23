@@ -73,6 +73,18 @@
     <div class="container-message-info-error" [ngClass]="showTextMessageInfo ? 'opacity-one' : 'opacity-zero' ">
       <p class="text-message">{{textMessage}}</p>
     </div>
+
+    <nav class="terminos-servicios-box">
+      <ul class="lista-items">
+        <li class="item"><a>© 2023</a></li>
+        <li class="item-separador">|</li>
+        <li class="item terminos-color"><a href="javascript: void(0)" (click)="clickPoliticas()">Políticas de Privacidad</a></li>
+        <li class="item-separador">|</li>
+        <li class="item terminos-color"><a href="javascript: void(0)"  (click)="clickTerminos()">Términos y Condiciones</a></li>
+        <li class="item-separador">|</li>
+        <li class="item"><a >Contacto</a></li>
+      </ul>
+    </nav>
   </div>
 </div>
 

@@ -19,7 +19,6 @@ export class LoadingService{
 
     constructor(private overlay: Overlay){}
 
-
     open(): LoadingOverlayRef {
         const overlayRef = this.createOverlay();
         const dialogRef = new LoadingOverlayRef(overlayRef);

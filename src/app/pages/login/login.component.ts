@@ -6,6 +6,8 @@ import { LoadingService } from '../../services/Loading.service';
 import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { CrearNuevaEmpresaDialogComponent } from 'src/app/components/crear-nueva-empresa-dialog/crear-nueva-empresa-dialog.component';
 import { RecuperarCuentaDialogComponent } from 'src/app/components/recuperar-cuenta-dialog/recuperar-cuenta-dialog.component';
+import { DialogPoliticasPrivacidadComponent } from 'src/app/components/dialogs/dialog-politicas-privacidad/dialog-politicas-privacidad.component';
+import { DialogTerminosCondicionesComponent } from 'src/app/components/dialogs/dialog-terminos-condiciones/dialog-terminos-condiciones.component';
 
 @Component({
   selector: 'app-login',
@@ -216,5 +218,25 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  clickPoliticas(){
+    this.matDialog.open(DialogPoliticasPrivacidadComponent, {
+      width: '60vw',
+      
+    });
+  }
+  clickTerminos(){
+    const dialogRef = this.matDialog.open(DialogTerminosCondicionesComponent, {
+      width: '60vw'
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        if(result.clickPolitica){
+
+          this.clickPoliticas();
+        }
+      }
+    });
+
+  }
 }
