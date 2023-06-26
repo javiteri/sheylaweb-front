@@ -1,0 +1,91 @@
+<div class="titulo">
+    <p>{{titlePage}}</p>
+</div>
+
+<form ngNoForm action="{{baseUrl}}" method="POST"
+    target="_blank" class="paymentWidgets" data-brands="VISA MASTER DINERS DISCOVER AMEX">
+</form>
+
+<div class="main-container">
+<div class="checkout-container">
+    
+        
+    <div class="product-container">
+        <!-- Contenido del producto -->
+        <div class="product-details">
+          <header class="product-header">
+    
+            <div class="product-info">
+              <span class="product-title">PLAN ELEJIDO</span>
+              <h1 class="product-subtitle ">Básico</h1>
+            </div>
+          </header>
+    
+          <ul class="product-features">
+            <li class="product-feature">
+                <div>
+                    <mat-icon class="uil uil-check card__list-icon">check</mat-icon>
+                    <p class="product-feature-description">50 Documentos</p>
+                </div>
+            </li>
+            <li class="product-feature">
+             <div>
+                <mat-icon class="uil uil-check card__list-icon">check</mat-icon>
+              <p class="product-feature-description">Usuarios Ilimitados</p>
+             </div>
+              
+            </li>
+            <li class="product-feature">
+                <div>
+                    <mat-icon class="uil uil-check card__list-icon">check</mat-icon>
+                    <p class="product-feature-description">Soporte Técnico Gratuito</p>
+                </div>
+            </li>
+          </ul>
+        </div>
+    </div>
+      
+
+    <div class="summary-container">
+        <!-- Lado derecho con los detalles de valor subtotal y métodos de pago -->
+        <div class="summary-content">
+          <h2>Resumen</h2>
+          <ul class="summary-list">
+            <li>
+              <span>Subtotal:</span>
+              <span>$XX.XX</span> <!-- Aquí muestra el valor subtotal calculado dinámicamente -->
+            </li>
+            <li>
+              <span>Impuestos:</span>
+              <span>$XX.XX</span> <!-- Aquí muestra los impuestos calculados dinámicamente -->
+            </li>
+            <li>
+              <span>Total:</span>
+              <span>$XX.XX</span> <!-- Aquí muestra el total calculado dinámicamente -->
+            </li>
+          </ul>
+      
+          <!-- Métodos de pago -->
+          <h3>Métodos de Pago</h3>
+          <ul class="payment-methods">
+            <li>
+              <input type="radio" id="cash-on-delivery" name="payment-method" value="cash-on-delivery">
+              <label for="cash-on-delivery">Tarjeta de Crédito (DataFast)</label>
+            </li>
+            <!-- Agrega aquí cualquier otro método de pago necesario -->
+          </ul>
+      
+          <div class="container-terminos">
+            <span>Al finalizar la compra, estas aceptando nuestros<a href="javascript: void(0)"> Términos y Condiciones</a></span>
+          </div>
+          <!-- Botón de finalizar compra -->
+          <div class="checkout-button-container">
+            <input type="submit" value="Finalizar compra" class="checkout-button">
+          </div>
+        </div>
+    </div>
+      
+      
+</div>
+</div>
+

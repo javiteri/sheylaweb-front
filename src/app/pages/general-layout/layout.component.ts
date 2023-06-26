@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 import {BreakpointObserver} from '@angular/cdk/layout'
-import { NavigationEnd, Router, RouterLink} from '@angular/router';
+import { Event, NavigationEnd, NavigationStart, Router, RouterLink} from '@angular/router';
 import { Menu, TokenValidate } from 'src/app/interfaces/IWebData';
 import { DataStoreService } from 'src/app/services/DataStore.Service';
 import { filter } from 'rxjs';
@@ -166,6 +166,23 @@ export class LayoutComponent implements OnInit {
       this.ref.detectChanges();
 
     });
+
+    /*this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationStart) {
+        // Show progress spinner or progress bar
+        console.log('Route change detected');
+        console.log(event);
+        if(event.url.includes('checkout')){
+          this.sidenav.mode = 'over';
+          this.sidenav.close();
+          this.closeDrawer = true;
+        }else{
+          this.sidenav.mode = 'side';
+          this.sidenav.open();
+          this.closeDrawer = false;
+        }
+      }
+    });*/
   }
 
 

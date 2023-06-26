@@ -40,7 +40,7 @@ import { ReceiptComponent } from '../pages-printer-strategy/receipt/receipt.comp
 import { ReceiptProformaComponent } from '../pages-printer-strategy/receipt-proforma/receipt-proforma.component';
 import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 import { FormPlanesComponent } from 'src/app/components/form-planes/form-planes.component';
-
+import { PageCheckoutComponent } from '../page-checkout/page-checkout.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +59,8 @@ import { FormPlanesComponent } from 'src/app/components/form-planes/form-planes.
     FormPlanesComponent,
     PrintLayoutComponent,
     ReceiptComponent,
-    ReceiptProformaComponent
+    ReceiptProformaComponent,
+    PageCheckoutComponent
   ],
   imports: [
     CommonModule,

@@ -7,6 +7,7 @@ import { AuthGuard } from 'src/app/shared/guard/auth.guard';
 import { PrintLayoutComponent } from '../pages-printer-strategy/print-layout/print-layout.component';
 import { ReceiptComponent } from '../pages-printer-strategy/receipt/receipt.component';
 import { ReceiptProformaComponent } from '../pages-printer-strategy/receipt-proforma/receipt-proforma.component';
+import { PageCheckoutComponent } from '../page-checkout/page-checkout.component';
 
 const routes: Routes = [
   {
@@ -73,6 +74,10 @@ const routes: Routes = [
       {
         path: 'establecimientos',
         loadChildren: () => import('../puntos-emision/puntosEmision.module').then((m) => m.PuntosEmisionModule)
+      },
+      {
+        path: 'checkout/:planselect',
+        component: PageCheckoutComponent
       },
       { path: 'print',
         outlet: 'print',
