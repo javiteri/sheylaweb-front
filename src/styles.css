@@ -161,3 +161,10 @@ th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:la
 
 .mat-dialog-container{ padding-top: 10px !important}
 
+.wpwl-form{
+  max-width: 40em;
+}
+/* FORM PAYMENT */
+.wpwl-container > div {
+  font-size: 14px;
+}

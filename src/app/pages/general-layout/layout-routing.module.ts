@@ -8,6 +8,7 @@ import { PrintLayoutComponent } from '../pages-printer-strategy/print-layout/pri
 import { ReceiptComponent } from '../pages-printer-strategy/receipt/receipt.component';
 import { ReceiptProformaComponent } from '../pages-printer-strategy/receipt-proforma/receipt-proforma.component';
 import { PageCheckoutComponent } from '../page-checkout/page-checkout.component';
+import { RedirectCheckoutComponent } from '../page-checkout/redirect-checkout/redirect-checkout.component';
 
 const routes: Routes = [
   {
@@ -78,6 +79,10 @@ const routes: Routes = [
       {
         path: 'checkout/:planselect',
         component: PageCheckoutComponent
+      },
+      {
+        path: 'payment/final',
+        component: RedirectCheckoutComponent
       },
       { path: 'print',
         outlet: 'print',

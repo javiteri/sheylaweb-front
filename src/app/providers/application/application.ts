@@ -6,6 +6,21 @@ export class ApplicationProvider {
 
   constructor(private coreEndPoint: EndPointProvider){}
 
+  //PAYMENT METHODS 
+  getCheckoutId(accessToken: any, monto: String){
+    const postData = {
+      amount: monto
+    };
+    return this.coreEndPoint.getCheckoutId(accessToken, postData);
+  }
+
+  getTransactionStatus(accessToken: any, id: string, resourcePath: string){
+    return this.coreEndPoint.getTransactionStatus(accessToken, id, resourcePath);
+  }
+  getIpClient(accessToken: any){
+    return this.coreEndPoint.getIpClient(accessToken);
+  }
+
   listaClientes(accesToken: any){
     return this.coreEndPoint.getListClienets(accesToken)
   }

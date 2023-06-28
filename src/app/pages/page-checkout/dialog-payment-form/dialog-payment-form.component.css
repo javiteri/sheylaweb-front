@@ -1,0 +1,13 @@
+h2,h3, p{
+    margin: 0;
+}
+.wrapper-close{
+    display: flex;
+    justify-content: flex-end;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+}
+.mat-dialog-content{
+    margin-top: 4.5em;
+}

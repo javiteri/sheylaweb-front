@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
-import { ToastrService } from 'ngx-toastr';
-import { ignoreElements } from 'rxjs';
 import { TokenValidate } from 'src/app/interfaces/IWebData';
 import { ConfigReceive } from 'src/app/pages/configuraciones/models/ConfigReceive';
 import { ApplicationProvider } from 'src/app/providers/provider';

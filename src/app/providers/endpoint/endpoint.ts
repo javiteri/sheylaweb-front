@@ -19,6 +19,50 @@ export class EndPointProvider {
     //private readonly searchDatosClienteSri = 'http://sheyla2.dyndns.info/SRI/SRI.php';
     //private readonly searchDatosClienteSriLocal = 'http://localhost:4200/SRI';
 
+    //PAYMENTS SERVICE PLAN SHEYLAWEB
+    private readonly _getCheckoutId: string = 'payments/getCheckoutId'
+    private get checkoutIdUrl(){
+      return this.apiUrl + this._getCheckoutId;
+    }
+    getCheckoutId<T>(accesToken: any, postData: any): Observable<T>{
+      const endpointUrl = this.checkoutIdUrl;
+      return this.http.post<T>(endpointUrl, postData, this.getRequestHeader(accesToken));
+    }
+
+    private readonly _getTransactionStatus: string = 'payments/getTransactionStatus'
+    private get transactionStatusUrl(){
+      return this.apiUrl + this._getTransactionStatus;
+    }
+    getTransactionStatus<T>(accesToken: any, id: string, resourcePath: string): Observable<T>{
+      const endpointUrl = this.transactionStatusUrl;
+      const header = this.getRequestHeaderClientes(accesToken);
+
+      let paramsRequest = new HttpParams().set('id', id).set('resourcePath', resourcePath);
+      const httpOptions = {
+        headers: header,
+        params: paramsRequest
+      }
+
+      console.log(httpOptions);
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+    private readonly _getIpClient: string = 'payments/getIp'
+    private get ipClientURL(){
+      return this.apiUrl + this._getIpClient;
+    }
+    getIpClient<T>(accesToken: any): Observable<T>{
+      const endpointUrl = this.ipClientURL;
+      const header = this.getRequestHeaderClientes(accesToken);
+
+      const httpOptions = {
+        headers: header
+      }
+
+      return this.http.get<T>(endpointUrl, httpOptions);
+    }
+
+
+
     //SEARCH CLIENT BY CI OR RUC
     searchClientByCiRuc(ciRuc: any): Observable<string>{
       const header = this.getRequestHeaderSearchCliente();

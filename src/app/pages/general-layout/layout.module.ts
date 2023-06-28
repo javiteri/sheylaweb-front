@@ -12,7 +12,7 @@ import {MatLegacyCardModule as MatCardModule} from '@angular/material/legacy-car
 import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
 import {MatLegacyTableModule as MatTableModule} from '@angular/material/legacy-table';
 import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
-
+import { MatStepperModule } from '@angular/material/stepper';
 import {MatLegacySlideToggleModule as MatSlideToggleModule} from '@angular/material/legacy-slide-toggle';
 
 import { LayoutComponent } from './layout.component';
@@ -41,6 +41,8 @@ import { ReceiptProformaComponent } from '../pages-printer-strategy/receipt-prof
 import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 import { FormPlanesComponent } from 'src/app/components/form-planes/form-planes.component';
 import { PageCheckoutComponent } from '../page-checkout/page-checkout.component';
+import { RedirectCheckoutComponent } from '../page-checkout/redirect-checkout/redirect-checkout.component';
+import { DialogPaymentFormComponent } from '../page-checkout/dialog-payment-form/dialog-payment-form.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,9 @@ import { PageCheckoutComponent } from '../page-checkout/page-checkout.component'
     PrintLayoutComponent,
     ReceiptComponent,
     ReceiptProformaComponent,
-    PageCheckoutComponent
+    PageCheckoutComponent,
+    RedirectCheckoutComponent,
+    DialogPaymentFormComponent
   ],
   imports: [
     CommonModule,
@@ -84,7 +88,8 @@ import { PageCheckoutComponent } from '../page-checkout/page-checkout.component'
     HttpClientModule,
     MatListModule,
     FormsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatStepperModule
   ],providers: [
     {provide: MAT_DATE_FORMATS, useValue: PICK_FORMATS},
     {provide: DateAdapter, useClass: PickDateAdapter}]

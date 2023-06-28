@@ -1,0 +1,2 @@
+export const VALORIVADECIMAL = 12.00;
+export const VALORIVAPERCENTFORMAT = 1.12;
